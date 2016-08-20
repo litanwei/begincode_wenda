@@ -1,6 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<modules>
+		<module>begincode-core</module>
+		<module>begincode-common</module>
+		<module>begincode-web</module>
+	</modules>
+
+
 	<groupId>net.begincode</groupId>
 	<artifactId>begincode_wenda</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -195,7 +203,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>begincode_wenda</finalName>
 		<plugins>
 			<!-- 资源文件拷贝插件 -->
 			<plugin>
@@ -218,38 +226,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!-- 配置Tomcat插件 -->
-				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<configuration>
-						<port>8080</port>
-						<path>/</path>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${mvnplugin.surefire.version}</version>
-					<configuration>
-				       	 <includes>
-				          <include>**/*Test.java</include>
-				        </includes>
-				        <excludes>
-				          <exclude>**/*ServiceTest.java</exclude>
-				          <exclude>**/ServiceTest*.java</exclude>
-				        </excludes>
-				    </configuration>
-				</plugin>
-				
-			</plugins>
-		</pluginManagement>
+
 	</build>
-	<modules>
-		<module>begincode-core</module>
-		<module>begincode-common</module>
-		<module>begincode-web</module>
-	</modules>
+
 </project>
