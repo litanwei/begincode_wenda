@@ -16,7 +16,7 @@
 
 	<context:component-scan base-package="net.begincode.*" />
 	<context:property-placeholder location="classpath*:*.properties"/>
-	<util:properties id="config" location="classpath:config.properties"/>
+	<!--<util:properties id="config" location="classpath:config.properties"/>-->
 	<tx:annotation-driven />
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->

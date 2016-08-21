@@ -26,9 +26,6 @@
     <!-- 启用spring mvc 注解 -->
     <context:component-scan base-package="net.begincode"/>
 
-    <aop:aspectj-autoproxy/>
-
-
     <!-- 资源文件 定义，不拦截 -->
     <mvc:resources mapping="/**" location="/"/>
 
