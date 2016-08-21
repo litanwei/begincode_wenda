@@ -10,8 +10,8 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	 <link href="css/qu.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
+	 <link href="${ctx}/css/qu.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -104,12 +104,12 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="${ctx}/js/bootstrap.js"></script>
 	
-	<link href="summernote/summernote.css" rel="stylesheet">
-<script src="summernote/summernote.js"></script>
+	<link href="${ctx}/summernote/summernote.css" rel="stylesheet">
+<script src="${ctx}/summernote/summernote.js"></script>
 
   <script>
     $(document).ready(function() {

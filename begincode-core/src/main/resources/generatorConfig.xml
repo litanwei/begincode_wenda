@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <classPathEntry location="D:/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar" />
+    <classPathEntry location="D:/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"/>
     <!-- 选择core模块， 执行maven命令 mybatis-generator:generate 自动生成相应文件  -->
     <context id="context">
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
-        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>
 
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
@@ -17,20 +17,57 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/begincode?characterEncoding=UTF8"
                         userId="root"
-                        password="root" />
+                        password="root"/>
 
         <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <javaModelGenerator targetPackage="net.begincode.core.model" targetProject="src/main/java"></javaModelGenerator>
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"></sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="net.begincode.core.mapper" targetProject="src/main/java"></javaClientGenerator>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="net.begincode.core.mapper"
+                             targetProject="src/main/java"></javaClientGenerator>
 
         <table tableName="demo_user" domainObjectName="Demo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <!--<columnOverride column="sign_flag" javaType="java.lang.Integer"/>-->
 
+        </table>
+        <table tableName="answer">
+            <generatedKey column="answer_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="adopt" javaType="java.lang.Integer"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer"/>
+            <columnOverride column="feedback" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="ans_agree">
+            <generatedKey column="ans_agree_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="agree" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="label">
+            <generatedKey column="label_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="level" javaType="java.lang.Integer"/>
+            <columnOverride column="parent_id" javaType="java.lang.Integer"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="message">
+            <generatedKey column="message_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="problem">
+            <generatedKey column="problem_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="solve" javaType="java.lang.Integer"/>
+            <columnOverride column="delete_flag" javaType="java.lang.Integer"/>
+            <columnOverride column="feedback" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="problem_label">
+            <generatedKey column="pro_label_id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="pro_attention">
+            <generatedKey column="pro_attention_id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="vote" javaType="java.lang.Integer"/>
+            <columnOverride column="collect" javaType="java.lang.Integer"/>
+        </table>
+        <table tableName="begincode_user">
+            <generatedKey column="begincode_user_id" sqlStatement="MySql" identity="true"/>
         </table>
 
     </context>
