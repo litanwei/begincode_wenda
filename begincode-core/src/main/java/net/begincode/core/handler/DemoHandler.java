@@ -1,7 +1,6 @@
 package net.begincode.core.handler;
 
 import net.begincode.core.model.Demo;
-import net.begincode.core.model.DemoExample;
 import net.begincode.core.service.DemoService;
 import org.springframework.stereotype.Component;
 
