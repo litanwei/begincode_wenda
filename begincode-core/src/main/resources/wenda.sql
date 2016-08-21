@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `begincode_user` (
   `user_source_id` int(11) DEFAULT NULL,
   `delete_flag` char(1) DEFAULT NULL,
   `invite_code` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`begincode_user_id`),
+  PRIMARY KEY (`begincode_user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  begincode.begincode_user 的数据：~5 rows (大约)
