@@ -325,9 +325,10 @@
                 <a href="#" class="list-group-item disabled">
                     最活跃用户
                 </a>
-                <a href="#" class="list-group-item">冷水源</a>
-                <a href="#" class="list-group-item">芝麻谷</a>
-
+                <c:forEach items="${list }" var="user">
+                <a href="#" class="list-group-item" onclick="${user.begincodeUserId}">${user.nickname }</a>
+                
+				</c:forEach>
             </div>
         </div>
 
