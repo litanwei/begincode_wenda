@@ -97,6 +97,14 @@ public class DemoController {
 		return "list";
 	}
 	
-	
+	/**
+	 * 登录
+	 * @param model
+	 * @return
+	 */
+	public String loginForAdmin(Model model)
+	{
+		return "list";
+	}
 	
 }
