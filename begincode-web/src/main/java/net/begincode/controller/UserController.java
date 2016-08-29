@@ -1,5 +1,6 @@
 package net.begincode.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
@@ -37,5 +40,24 @@ public class UserController {
 		model.addAttribute("list",list);
 		return "index";
 	}
+
+	/**
+	 * summernote @提示获取后台用户
+	 * @return 后台用户的nickname的list集合json
+	 */
+	@RequestMapping(value="/users",method= RequestMethod.POST)
+	@ResponseBody
+	public List findUserList()
+	{
+		List<String> nameList = new ArrayList<>();
+		List<BegincodeUser> list = userHandler.selectAll();
+		for(BegincodeUser user : list)
+		{
+			nameList.add(user.getNickname());
+		}
+		return nameList;
+	}
+
+
 	
 }

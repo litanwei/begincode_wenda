@@ -29,21 +29,26 @@
 	<div class="col-md-12 col-sm-12 col-xs-12"">
 		
 
-<form>
+<form id="questionForm"  methond="post">
   <div class="form-group">
-     
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入标题">
+    <input type="hidden" name="begincodeUserId" value="1"/>
+    <input type="hidden" name="userName" value="yang"/>
+    <label ><span class="labelinfoblue"></span>问题标题</label>
+    <input type="text" class="form-control" name="title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
-
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入关键字，逗号分隔">
+    <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔)</label>
+    <input type="text" class="form-control" name="labelName"  placeholder="请输入关键字，逗号分隔">
   </div>
-   <div id="summernote" ><p>Hello Summernote</p></div>
+  <input type="hidden" name="">
+  <label><span class="labelinfoblue"></span>问题正文</label>
+  <input type="hidden" name="content" id="content" value=""/>
+   <div id="summernote"><p></p></div>
   
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid align-center">
 	
-        <button type="submit" class="btn btn-primary martop10">提交问题</button>
+        <button type="button" id="questionSend" class="btn btn-primary martop10">提交问题</button>
       
   </div>
 </nav>
@@ -54,53 +59,14 @@
 </div>
 
 
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="${ctx}/js/bootstrap.js"></script>
+  <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
+  <script src="${ctx}/summernote/summernote.js"></script>
+  <script src="${ctx}/js/problemAdd.js"></script>
+  <script src="${ctx}/js/summernoteInit.js"></script>
 
-
-
-
-
- 
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${ctx}/js/bootstrap.js"></script>
-	
-	<link href="${ctx}/summernote/summernote.css" rel="stylesheet">
-<script src="${ctx}/summernote/summernote.js"></script>
-
-  <script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-  toolbar: [
-    // [groupName, [list of button]]
-    ['style', ['bold', 'italic', 'underline', 'clear']],
-    ['insert', ['picture', 'link', 'table', 'hr']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']],
-	['musc', ['codeview']],
-  ],
-   height: 300,
-     hint: {
-    mentions: ['jayden', 'sam', 'alvin', 'david'],
-    match: /\B@(\w*)$/,
-    search: function (keyword, callback) {
-      callback($.grep(this.mentions, function (item) {
-        return item.indexOf(keyword) == 0;
-      }));
-    },
-    content: function (item) {
-      return '@' + item;
-    }    
-  }
-});
-    
-	
-});
-
-  </script>
   </body>
 </html>
