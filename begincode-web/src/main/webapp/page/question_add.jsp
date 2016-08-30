@@ -31,18 +31,18 @@
 
 <form id="questionForm"  methond="post">
   <div class="form-group">
-    <input type="hidden" name="begincodeUserId" value="1"/>
-    <input type="hidden" name="userName" value="yang"/>
+    <input type="hidden" name="problem.begincodeUserId" value="1"/>
+    <input type="hidden" name="problem.userName" value="yang"/>
     <label ><span class="labelinfoblue"></span>问题标题</label>
-    <input type="text" class="form-control" name="title" placeholder="请输入标题">
+    <input type="text" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
     <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔)</label>
-    <input type="text" class="form-control" name="labelName"  placeholder="请输入关键字，逗号分隔">
+    <input type="text" class="form-control" name="label.labelName"  placeholder="请输入关键字，逗号分隔">
   </div>
   <input type="hidden" name="">
   <label><span class="labelinfoblue"></span>问题正文</label>
-  <input type="hidden" name="content" id="content" value=""/>
+  <input type="hidden" name="problem.content" id="content" value=""/>
    <div id="summernote"><p></p></div>
   
 <nav class="navbar navbar-default navbar-fixed-bottom">

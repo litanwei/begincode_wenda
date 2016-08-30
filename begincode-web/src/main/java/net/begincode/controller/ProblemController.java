@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
@@ -38,20 +39,25 @@ public class ProblemController {
      */
     @RequestMapping(value="/addProblem",method= RequestMethod.POST)
     @ResponseBody
-    public void addProblem(Problem problem,Label label)
+    public void addProblem(ProblemLableParam problemLableParam)
     {
-        ProblemLableParam problemLableParam = new ProblemLableParam(problem,label);
-        List<String> list = problemLableParam.setLabelName(label.getLabelName());
-        for(String labelName:list) {
+        Problem problem = problemLableParam.getProblem();
+        Label label = problemLableParam.getLabel();
+        //标签开始
+        //切割标签
+        Set<String> set = problemLableParam.splitLabelName(label.getLabelName());
+        for(String labelName:set) {
             if(labelHandler.selectByLabelName(labelName)) {
                 continue;
-            } else if(problemLableParam.CheckLabelName(labelName))
+            } else if(problemLableParam.CheckLabelName(labelName)) //检验标签是否有特殊字符
             {
-                    problemLableParam.setLabelName(labelName);
-                    labelHandler.addLabel(label);
+                label.setLabelName(labelName);
+                labelHandler.addLabel(label);
             }
         }
-        //问题创建时间 自动赋值
-        problemLableParam.setProblemCreateTime();
+        //问题开始
+        problem.setCreateTime(new Date()); //问题创建时间
+        Set<String> stringSet = problemLableParam.filterContent(problem.getContent());  //过滤@后面的用户名
+
     }
 }

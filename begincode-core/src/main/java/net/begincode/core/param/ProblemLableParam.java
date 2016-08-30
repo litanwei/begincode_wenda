@@ -11,34 +11,36 @@ import java.util.regex.Pattern;
  * Created by Stay on 2016/8/28  21:22.
  */
 public class ProblemLableParam {
-    private Problem problem = new Problem();
-    private Label label = new Label();
+    private Problem problem;
+    private Label label;
 
-    public ProblemLableParam(Problem problem, Label label) {
+    public Problem getProblem() {
+        return problem;
+    }
+
+    public void setProblem(Problem problem) {
         this.problem = problem;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
         this.label = label;
     }
 
-    public void setProblemContent(String content)
+   /* public void setProblemContent(String content)
     {
-        /*Set<String> set = filterContent(content);
+        Set<String> set = filterContent(content);
         for(String name : set)
         {
             problem.setContent(problem.getContent().replace(name,"<a href='#'>"+name+"</a>"));
-        }*/
+        }
 
-    }
+    }*/
 
 
-    /**
-     * 赋值时间
-     * 数据库是datetime类型 会自动转换格式
-     */
-    public void setProblemCreateTime()
-    {
-          Date date = new Date();
-          problem.setCreateTime(date);
-    }
 
     /**
      * 过滤问题中@后面的用户名 不允许有重复的名进入
@@ -64,16 +66,16 @@ public class ProblemLableParam {
      * @param name 传入的标签名是逗号分隔
      * @return  返回逗号分隔开的标签名集合
      */
-    public List<String> setLabelName(String name)
+    public Set<String> splitLabelName(String name)
     {
-        List<String> list = new ArrayList<String>();
+        HashSet<String> set = new HashSet<String>();
         //前台传入标签名 这里开始切割 替换中文逗号
         String[] labelName = name.replace("，",",").split(",");
         for(int i=0;i<labelName.length;i++)
         {
-            list.add(labelName[i]);
+            set.add(labelName[i]);
         }
-        return list;
+        return set;
     }
 
     /**
