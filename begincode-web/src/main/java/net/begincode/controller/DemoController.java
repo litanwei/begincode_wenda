@@ -5,6 +5,7 @@ import java.util.List;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.model.Demo;
 import net.begincode.core.param.DemoAddParam;
+import net.begincode.support.AuthPassport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ public class DemoController {
 	 * @param id
 	 * @return
 	 */
+	@AuthPassport
 	@RequestMapping(value="/delete",method=RequestMethod.GET)
 	public String deleteAdmin(@RequestParam(value="id") Integer id)
 	{
@@ -74,6 +76,7 @@ public class DemoController {
 	 * @param admin
 	 * @return
 	 */
+
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	public String addAdmin(DemoAddParam admin)
 	{
