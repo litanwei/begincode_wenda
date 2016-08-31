@@ -20,23 +20,19 @@ public class LabelHandler {
      */
     public void addLabel(Label label)
     {
-        labelService.addLabel(label);
+        labelService.createLabel(label);
     }
 
 
     /**
-     * 根据标签名查找标签
-     * @param labelName  传入的标签名
-     * @return 如果存在返回true  不存在返回 false
+     * 用标签名查看是否存在相同数据
+     * @param labelName 传入的标签名
+     * @return
      */
-    public boolean selectByLabelName(String labelName)
+    public Label selectByLabelName(String labelName)
     {
         Label label = labelService.selectByName(labelName);
-        if(label == null)
-        {
-            return false;
-        }
-        return  true;
+        return label;
     }
 
 

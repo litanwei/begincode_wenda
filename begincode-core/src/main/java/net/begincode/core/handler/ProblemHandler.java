@@ -5,6 +5,7 @@ import net.begincode.core.service.ProblemService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Stay on 2016/8/26  21:41.
@@ -20,6 +21,16 @@ public class ProblemHandler {
      */
     public void addProblem(Problem problem)
     {
-        problemService.addProblem(problem);
+        problemService.createProblem(problem);
     }
+
+    /**
+     * 查找问题集合
+     * @return
+     */
+    public List<Problem> selectAllProblem()
+    {
+        return problemService.findAllProblem();
+    }
+
 }

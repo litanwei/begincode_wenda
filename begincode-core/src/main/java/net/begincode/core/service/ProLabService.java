@@ -7,18 +7,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * Created by Stay on 2016/8/26  20:24.
+ * Created by Stay on 2016/8/31  20:09.
  */
 @Service
 public class ProLabService {
     @Resource
     private ProblemLabelMapper problemLabelMapper;
 
-    /**
-     * 新增标签对应的问题
-     * @param problemLabel
-     */
-    public void addProLab(ProblemLabel problemLabel)
+    public void createProLab(ProblemLabel problemLabel)
     {
         problemLabelMapper.insertSelective(problemLabel);
     }

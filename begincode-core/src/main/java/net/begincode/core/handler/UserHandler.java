@@ -62,4 +62,11 @@ public class UserHandler {
     public BegincodeUser selectById(Integer id){
         return begincodeUserService.selectById(id);
     }
+
+    /**
+     * 根据nickName查找用户id
+     * @param nickName
+     * @return
+     */
+    public int selectByNickName(String nickName){return begincodeUserService.selectByNickName(nickName);}
 }

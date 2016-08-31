@@ -17,14 +17,14 @@ import net.begincode.core.model.BegincodeUserExample;
 @Service
 public class BegincodeUserService {
     @Resource
-    private BegincodeUserMapper BegincodeUserMapper;
+    private BegincodeUserMapper begincodeUserMapper;
 
     /**
      * 新增BegincodeUser
      * @param user
      */
     public void addBegincodeUser(BegincodeUser user){
-        BegincodeUserMapper.insertSelective(user);
+        begincodeUserMapper.insertSelective(user);
     }
 
     /**
@@ -32,7 +32,7 @@ public class BegincodeUserService {
      * @parm user
      */
     public void updateBegincodeUserById(BegincodeUser user){
-        BegincodeUserMapper.updateByPrimaryKey(user);
+        begincodeUserMapper.updateByPrimaryKey(user);
     }
 
     /**
@@ -40,7 +40,7 @@ public class BegincodeUserService {
      * @param id  BegincodeUser标识
      */
     public void delBegincodeUserById(Integer id){
-        BegincodeUserMapper.deleteByPrimaryKey(id);
+        begincodeUserMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -48,7 +48,7 @@ public class BegincodeUserService {
      */
     public List<BegincodeUser> selectAll(){
         BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
-        return BegincodeUserMapper.selectByExample(begincodeUserExample);
+        return begincodeUserMapper.selectByExample(begincodeUserExample);
     }
 
     /**
@@ -57,7 +57,7 @@ public class BegincodeUserService {
      * @return
      */
     public BegincodeUser selectById(Integer id){
-        return BegincodeUserMapper.selectByPrimaryKey(id);
+        return begincodeUserMapper.selectByPrimaryKey(id);
     }
     
     /**
@@ -68,6 +68,19 @@ public class BegincodeUserService {
         BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
         begincodeUserExample.setOrderByClause("begincode_user_id ASC LIMIT 5");
         
-        return BegincodeUserMapper.selectByExample(begincodeUserExample);
+        return begincodeUserMapper.selectByExample(begincodeUserExample);
+    }
+
+    /**
+     * 根据nickName查找BegincodeUserId
+     * @param nickName
+     * @return    返回用户id
+     */
+    public int selectByNickName(String nickName){
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andNicknameEqualTo(nickName);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.get(0).getBegincodeUserId();
     }
 }

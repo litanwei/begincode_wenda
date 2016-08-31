@@ -30,20 +30,11 @@ public class ProblemLableParam {
         this.label = label;
     }
 
-   /* public void setProblemContent(String content)
-    {
-        Set<String> set = filterContent(content);
-        for(String name : set)
-        {
-            problem.setContent(problem.getContent().replace(name,"<a href='#'>"+name+"</a>"));
-        }
-
-    }*/
 
 
 
     /**
-     * 过滤问题中@后面的用户名 不允许有重复的名进入
+     * 过滤问题中@后面的用户名 不允许有重复的名进入 把html标签去掉
      * @param content  传入问题的内容
      * @return 用户名集合
      */
@@ -51,15 +42,13 @@ public class ProblemLableParam {
     {
         Set<String> set = new HashSet<String>();
         String pt = "@[^\\\\@ ]{1,20}";
-        Matcher matcher = Pattern.compile(pt).matcher(content.trim().replace("@",""));
+        Matcher matcher = Pattern.compile(pt).matcher(content.trim().replaceAll("</?[^>]+>","").replace("&nbsp;",""));
         while(matcher.find())
         {
-            set.add(matcher.group().trim());
+            set.add(matcher.group().trim().replace("@",""));
         }
         return set;
     }
-
-
 
     /**
      *
@@ -83,7 +72,7 @@ public class ProblemLableParam {
      * @param name 传入标签名
      * @return 符合返回true 不符合返回false
      */
-    public boolean CheckLabelName(String name)
+    public boolean checkLabelName(String name)
     {
         //标签 正则表达式 只能匹配数字 字母 下划线 中文
         String pt = "^[\\u4e00-\\u9fa5_a-zA-Z0-9]+$";

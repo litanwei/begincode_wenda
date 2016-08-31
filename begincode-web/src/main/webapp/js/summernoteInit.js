@@ -24,7 +24,6 @@ $(document).ready(function() {
             }
         }
     });
-
     //查询需要@的用户名
     function mentionsinit() {
         var result;

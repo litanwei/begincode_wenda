@@ -29,7 +29,7 @@
 	<div class="col-md-12 col-sm-12 col-xs-12"">
 		
 
-<form id="questionForm"  methond="post">
+<form id="problemForm"  methond="post">
   <div class="form-group">
     <input type="hidden" name="problem.begincodeUserId" value="1"/>
     <input type="hidden" name="problem.userName" value="yang"/>
@@ -48,7 +48,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid align-center">
 	
-        <button type="button" id="questionSend" class="btn btn-primary martop10">提交问题</button>
+        <button type="button" id="problemSend" class="btn btn-primary martop10">提交问题</button>
       
   </div>
 </nav>
@@ -65,7 +65,7 @@
   <script src="${ctx}/js/bootstrap.js"></script>
   <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
   <script src="${ctx}/summernote/summernote.js"></script>
-  <script src="${ctx}/js/problemAdd.js"></script>
+  <script src="${ctx}/js/problem/problemAdd.js"></script>
   <script src="${ctx}/js/summernoteInit.js"></script>
 
   </body>

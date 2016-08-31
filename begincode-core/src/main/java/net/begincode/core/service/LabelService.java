@@ -21,7 +21,7 @@ public class LabelService {
      * 新增标签
      * @param label
      */
-    public void addLabel(Label label)
+    public void createLabel(Label label)
     {
         labelMapper.insertSelective(label);
     }
