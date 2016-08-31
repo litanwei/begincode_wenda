@@ -42,7 +42,7 @@ public class ProblemLableParam {
     {
         Set<String> set = new HashSet<String>();
         String pt = "@[^\\\\@ ]{1,20}";
-        Matcher matcher = Pattern.compile(pt).matcher(content.trim().replaceAll("</?[^>]+>","").replace("&nbsp;",""));
+        Matcher matcher = Pattern.compile(pt).matcher(content.trim().replaceAll("</?[^>]+>"," ").replace("&nbsp;"," "));
         while(matcher.find())
         {
             set.add(matcher.group().trim().replace("@",""));
