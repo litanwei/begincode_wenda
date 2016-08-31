@@ -64,7 +64,7 @@ public class ProblemController {
         if(stringSet!=null && stringSet.size()>0){
             for(String nickName : stringSet){
                 //消息
-                message.setBegincodeUserId(problem.getBegincodeUserId());
+                message.setBegincodeUserId(userHandler.selectByNickName(nickName));
                 message.setProId(problem.getProblemId());
                 messageHandler.addMessage(message);
             }
