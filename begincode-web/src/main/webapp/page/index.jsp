@@ -12,6 +12,7 @@
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/qu.css" rel="stylesheet">
+    <link href="../css/pagination.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -287,21 +288,12 @@
                 </div>
 
             </div>
+            
+		<div class="content" style="margin-bottom:100px">
+			<div class="pagination"><div id="page">
+		</div></div></div>
 
-            <nav style="text-align: center">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-                    </li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                </ul>
-            </nav>
-
-
+        
         </div>
 
         <div class="col-md-3">
@@ -313,22 +305,16 @@
                     <h3 class="panel-title">热门标签</h3>
                 </div>
                 <div class="panel-body">
-    <span class="tag-list">
-        <a href="" target="_blank" class="list-tag">java</a><a href="" target="_blank" class="list-tag">基础类型</a>
-		<a href="" target="_blank" class="list-tag">接口</a><a href="" target="_blank" class="list-tag">面向对象</a>
-		<a href="" target="_blank" class="list-tag">框架</a><a href="" target="_blank" class="list-tag">SSM</a>
-	</span>
+				    <span class="tag-list">
+				        <a href="" target="_blank" class="list-tag">java</a><a href="" target="_blank" class="list-tag">基础类型</a>
+						<a href="" target="_blank" class="list-tag">接口</a><a href="" target="_blank" class="list-tag">面向对象</a>
+						<a href="" target="_blank" class="list-tag">框架</a><a href="" target="_blank" class="list-tag">SSM</a>
+					</span>
                 </div>
             </div>
 
             <div class="list-group">
-                <a href="#" class="list-group-item disabled">
-                    最活跃用户
-                </a>
-                <c:forEach items="${list }" var="user">
-                <a href="#" class="list-group-item" onclick="${user.begincodeUserId}">${user.nickname }</a>
-                
-				</c:forEach>
+                <a class='list-group-item disabled'>最活跃用户<label style="float: right;" onclick="getActivers();">【刷新】</label></a>
             </div>
         </div>
 
@@ -340,5 +326,11 @@
 <script src="../js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../js/bootstrap.js"></script>
+
+<!-- 获取活跃用户 -->
+<script type="text/javascript" src="../js/getActivers.js"></script>
+<!-- 分页插件 -->
+<script src="../js/jquery.paginate.js"></script>
+<script type="text/javascript" src="../js/pagination.js"></script>
 </body>
 </html>

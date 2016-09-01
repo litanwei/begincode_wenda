@@ -491,4 +491,48 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+   <select id="getActiverUser" resultMap="BaseResultMap" >
+    SELECT
+	u.begincode_user_id,
+	login_name,
+	pwd,
+	nickname,
+	cdate,
+	sex,
+	tel_phone,
+	email,
+	receive_email,
+	pic,
+	check_flag,
+	gag,
+	course,
+	open_id,
+	access_token,
+	user_source_id,
+	u.delete_flag,
+	invite_code
+	FROM
+	begincode_user AS u
+	INNER JOIN problem AS p ON u.begincode_user_id = p.begincode_user_id
+	INNER JOIN answer AS a ON u.begincode_user_id=a.begincode_user_id
+	WHERE
+	update_time > (
+		SELECT
+			date_add(NOW(), INTERVAL - 1 MONTH)
+	)
+	AND 
+	a.create_time > (
+		SELECT
+		date_add(NOW(), INTERVAL - 1 MONTH)
+	)
+	GROUP BY
+	u.begincode_user_id
+	ORDER BY
+	(
+		COUNT(p.begincode_user_id) + COUNT(a.begincode_user_id)
+	) DESC
+	LIMIT 10
+    
+  </select>
 </mapper>
