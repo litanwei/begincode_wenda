@@ -1,4 +1,6 @@
-/*登录弹窗*/
+/*	--------------------------------------------------
+	Reveal Modals
+	-------------------------------------------------- */
 		
 	.reveal-modal-bg { 
 		position: fixed; 
@@ -17,7 +19,7 @@
 		top: 100px; 
 		left: 50%;
 		margin-left: -300px;
-		width: 450px;
+		width: 520px;
 		background: #eee  no-repeat -200px -80px;
 		position: absolute;
 		z-index: 101;

@@ -93,14 +93,7 @@ public class CookieOperation {
 
 		int exist = 0;
 		Map<String,String> cookieMap = new HashMap();
-	//测试使用
-//		cookieMap.put("accessToken",  "234234");
-//		cookieMap.put("openId",  "123123213");
-//		cookieMap.put("check",  "1");
-//		cookieMap.put("userId",  "3");
-//		return cookieMap;
-		
-		//临时注释
+
 		Cookie[] cookies = request.getCookies();//获取cookie
 		if(cookies != null){
 			for(Cookie cookie : cookies){
@@ -127,6 +120,6 @@ public class CookieOperation {
 		}else{
 			return null;
 		}
-		
+
 	}
 }

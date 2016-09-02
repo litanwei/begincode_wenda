@@ -76,7 +76,7 @@ public class DemoController {
 	 * @param admin
 	 * @return
 	 */
-
+	@AuthPassport
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	public String addAdmin(DemoAddParam admin)
 	{

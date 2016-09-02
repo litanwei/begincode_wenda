@@ -71,7 +71,7 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="http://www.begincode.net"><img
-				alt="初学者社区" src="${ctx}/images/navlogo.gif" style="height: 30px;"></a>
+					alt="初学者社区" src="${ctx}/images/navlogo.gif" style="height: 30px;"></a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -102,4 +102,3 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-
