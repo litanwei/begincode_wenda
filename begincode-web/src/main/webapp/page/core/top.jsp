@@ -48,7 +48,7 @@
 	function regUser(nickName,figureurl,gender,province,city,year,openId,accessToken){
 		jQuery.ajax({
 			type : "POST",
-			url : ctx + "/user/",
+			url :  "/user/",
 			data : "nickname="+nickName+"&pic="+figureurl+"&sex="+gender+"&openId="+openId+"&accessToken="+accessToken,
 			dataType : "json" ,
 			success : function(codes) {

@@ -306,7 +306,7 @@
 
         <div class="col-md-3">
             <p>
-                <button type="button" class="btn btn-primary btn-lg btn-block">我要提问</button>
+                <button type="button" href="#" class="btn btn-primary btn-lg btn-block">我要提问</button>
             </p>
             <div class="panel panel-default">
                 <div class="panel-heading">

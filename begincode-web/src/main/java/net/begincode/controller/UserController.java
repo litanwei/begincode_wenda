@@ -18,46 +18,45 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
+ *
  * @author kangliang
- *@date 2016年8月25日
+ * @date 2016年8月25日
  */
 @RequestMapping("/user")
 @Controller
 public class UserController {
 
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
-	
-	@Resource
-	UserHandler userHandler;
-	
-	/**
-	 * 活跃用户
-	 */
-	@RequestMapping("activer")
-	public String activeUser(Model model){
-		logger.debug("用户查找");
-		List<BegincodeUser> list = userHandler.selectActiveUser();
-		model.addAttribute("list",list);
-		return "index";
-	}
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	/**
-	 * summernote @提示获取后台用户
-	 * @return 后台用户的nickname的list集合json
-	 */
-	@RequestMapping(value="/users",method= RequestMethod.POST)
-	@ResponseBody
-	public List findUserList()
-	{
-		List<String> nameList = new ArrayList<>();
-		List<BegincodeUser> list = userHandler.selectAll();
-		for(BegincodeUser user : list)
-		{
-			nameList.add(user.getNickname());
-		}
-		return nameList;
-	}
+    @Resource
+    UserHandler userHandler;
+
+    /**
+     * 活跃用户
+     */
+    @RequestMapping("activer")
+    public String activeUser(Model model) {
+        logger.debug("用户查找");
+        List<BegincodeUser> list = userHandler.selectActiveUser();
+        model.addAttribute("list", list);
+        return "index";
+    }
+
+    /**
+     * summernote @提示获取后台用户
+     *
+     * @return 后台用户的nickname的list集合json
+     */
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @ResponseBody
+    public List findUserList() {
+        List<String> nameList = new ArrayList<>();
+        List<BegincodeUser> list = userHandler.selectAll();
+        for (BegincodeUser user : list) {
+            nameList.add(user.getNickname());
+        }
+        return nameList;
+    }
 
 
-	
 }

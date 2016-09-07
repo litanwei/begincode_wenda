@@ -1,6 +1,10 @@
 package net.begincode.core.handler;
 
+import net.begincode.core.model.Label;
+import net.begincode.core.model.Message;
 import net.begincode.core.model.Problem;
+import net.begincode.core.service.LabelService;
+import net.begincode.core.service.MessageService;
 import net.begincode.core.service.ProblemService;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +18,11 @@ import java.util.List;
 public class ProblemHandler {
     @Resource
     private ProblemService problemService;
+    @Resource
+    private LabelService labelService;
+    @Resource
+    private MessageService messageService;
+
 
     /**
      * 新增问题
@@ -32,5 +41,37 @@ public class ProblemHandler {
     {
         return problemService.findAllProblem();
     }
+
+    /**
+     * 新增标签
+     * @param label
+     */
+    public void addLabel(Label label)
+    {
+        labelService.createLabel(label);
+    }
+
+
+    /**
+     * 用标签名查看是否存在相同数据
+     * @param labelName 传入的标签名
+     * @return
+     */
+    public Label selectByLabelName(String labelName)
+    {
+        Label label = labelService.selectByName(labelName);
+        return label;
+    }
+
+    /**
+     * 添加消息
+     * @param message
+     */
+    public void addMessage(Message message)
+    {
+        messageService.createMessage(message);
+    }
+
+
 
 }
