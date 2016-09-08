@@ -1,4 +1,4 @@
-package net.begincode.cookie;
+package net.begincode.core.cookie;
 
 import net.begincode.core.model.BegincodeUser;
 

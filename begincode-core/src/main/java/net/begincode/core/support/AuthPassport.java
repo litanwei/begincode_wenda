@@ -1,4 +1,4 @@
-package net.begincode.support;
+package net.begincode.core.support;
 
 import java.lang.annotation.*;
 

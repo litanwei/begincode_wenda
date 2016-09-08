@@ -5,7 +5,7 @@ import java.util.List;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.model.Demo;
 import net.begincode.core.param.DemoAddParam;
-import net.begincode.support.AuthPassport;
+import net.begincode.core.support.AuthPassport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
