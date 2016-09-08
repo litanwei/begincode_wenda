@@ -8,22 +8,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-/** 
-* @ClassName: CookieOperation 
-* @Description: cookie操作
-* @author yangsj 
-* @date 2015年8月4日 下午11:13:16 
-*  
-*/
+/**
+ * @ClassName: CookieOperation
+ * @Description: cookie操作
+ * @author yangsj
+ * @date 2015年8月4日 下午11:13:16
+ *
+ */
 public class CookieOperation {
-	
-	/** 
-	* @Title: addCookie 
-	* @Description: 新增cookie，保存用户信息
-	* @param response
-	* @param user void   
-	* @throws 
-	*/
+
+	/**
+	 * @Title: addCookie
+	 * @Description: 新增cookie，保存用户信息
+	 * @param response
+	 * @param user void
+	 * @throws
+	 */
 	public static void addCookie(HttpServletResponse response, BegincodeUser user){
 		Cookie accessToken = new Cookie("accessToken",user.getAccessToken());
 		Cookie openId = new Cookie("openId",user.getOpenId());
@@ -37,14 +37,16 @@ public class CookieOperation {
 		response.addCookie(openId);
 		response.addCookie(check);
 		response.addCookie(userId);
+
 	}
-	/** 
-	* @Title: delCookie 
-	* @Description: 删除cookie,设置立刻超时
-	* @param response void   
-	* @throws 
-	*/
+	/**
+	 * @Title: delCookie
+	 * @Description: 删除cookie,设置立刻超时
+	 * @param response void
+	 * @throws
+	 */
 	public static void delCookie(HttpServletResponse response){
+
 		Cookie accessToken = new Cookie("accessToken", null);
 		Cookie openId = new Cookie("openId",null);
 		Cookie check = new Cookie("check",null);
@@ -82,13 +84,13 @@ public class CookieOperation {
 		}
 	}
 
-	/** 
-	* @Title: getCookie 
-	* @Description: 获取cookie并返回map
-	* @param request
-	* @return Map<String,String>   
-	* @throws 
-	*/
+	/**
+	 * @Title: getCookie
+	 * @Description: 获取cookie并返回map
+	 * @param request
+	 * @return Map<String,String>
+	 * @throws
+	 */
 	public static Map<String,String> getCookie(HttpServletRequest request){
 
 		int exist = 0;
