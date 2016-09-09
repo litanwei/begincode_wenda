@@ -29,15 +29,12 @@ public class CookieOperation {
 		Cookie accessToken = new Cookie("accessToken",user.getAccessToken());
 		Cookie openId = new Cookie("openId",user.getOpenId());
 		Cookie check = new Cookie("check",user.getCheckFlag());
-		Cookie userId = new Cookie("userId",user.getBegincodeUserId()+"");
 		accessToken.setPath("/");
 		openId.setPath("/");
 		check.setPath("/");
-		userId.setPath("/");
 		response.addCookie(accessToken);
 		response.addCookie(openId);
 		response.addCookie(check);
-		response.addCookie(userId);
 	}
 	/**
 	 * @Title: delCookie
@@ -50,19 +47,15 @@ public class CookieOperation {
 		Cookie accessToken = new Cookie("accessToken", null);
 		Cookie openId = new Cookie("openId",null);
 		Cookie check = new Cookie("check",null);
-		Cookie userId = new Cookie("userId",null);
 		accessToken.setMaxAge(0);
 		openId.setMaxAge(0);
 		check.setMaxAge(0);
-		userId.setMaxAge(0);
 		accessToken.setPath("/");
 		openId.setPath("/");
 		check.setPath("/");
-		userId.setPath("/");
 		response.addCookie(accessToken);
 		response.addCookie(openId);
 		response.addCookie(check);
-		response.addCookie(userId);
 	}
 
 
@@ -75,9 +68,9 @@ public class CookieOperation {
 	 */
 	public static BegincodeUser getUser(HttpServletRequest request){
 		Map<String,String> map = getCookie(request);
-		if(map != null && !map.get("userId").equals("")){
+		if(map != null && !map.get("openId").equals("")){
 			BegincodeUser user = new BegincodeUser();
-			user.setBegincodeUserId(Integer.valueOf(map.get("userId")));
+			user.setOpenId(map.get("openId"));
 			return user;
 		}else{
 			return null;
@@ -106,9 +99,6 @@ public class CookieOperation {
 				if(cookie.getName().equals("openId")){
 					cookieMap.put("openId", cookie.getValue());
 					exist++;
-				}
-				if(cookie.getName().equals("userId")){
-					cookieMap.put("userId", cookie.getValue());
 				}
 				if(cookie.getName().equals("check")){
 					cookieMap.put("check", cookie.getValue());

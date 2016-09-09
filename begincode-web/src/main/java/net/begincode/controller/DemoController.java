@@ -2,6 +2,7 @@ package net.begincode.controller;
 
 import java.util.List;
 
+import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.model.Demo;
 import net.begincode.core.param.DemoAddParam;
@@ -67,6 +68,7 @@ public class DemoController {
 	@RequestMapping(value="/delete",method=RequestMethod.GET)
 	public String deleteAdmin(@RequestParam(value="id") Integer id, HttpServletRequest request)
 	{
+//		System.out.println(AccountContext.getCurrentUser(request));
 		demoHandler.delDemo(id);
 		logger.warn("删除用户"+id);
 		return "redirect:/test/list.htm";
