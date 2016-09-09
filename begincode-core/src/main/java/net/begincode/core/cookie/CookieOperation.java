@@ -1,6 +1,7 @@
 package net.begincode.core.cookie;
 
 import net.begincode.core.model.BegincodeUser;
+import net.begincode.core.service.BegincodeUserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -123,4 +124,5 @@ public class CookieOperation {
 		}
 
 	}
+
 }

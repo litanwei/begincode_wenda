@@ -52,5 +52,4 @@ public class UserController {
 		user = userHandler.createUser(user);
 		CookieOperation.addCookie(response, user);
 	}
-
 }

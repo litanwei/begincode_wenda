@@ -1,13 +1,14 @@
 package net.begincode.core.handler;
 
+
+import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class UserHandler {
 
     private Logger logger = LoggerFactory.getLogger(UserHandler.class);
     @Resource
-
     private BegincodeUserService begincodeUserService;
 
     /**
@@ -86,5 +86,19 @@ public class UserHandler {
             begincodeUserService.addBegincodeUser(user);
             return user;
         }
+    }
+    /**
+     * 根据request查询user
+     * @param request
+     */
+    public static BegincodeUser selUserAll(HttpServletRequest request){
+        BegincodeUser begincodeUser = CookieOperation.getUser(request);
+        BegincodeUserService userService = new BegincodeUserService();
+        if(begincodeUser != null){
+            return userService.selectById(begincodeUser.getBegincodeUserId());
+        }else{
+            return null;
+        }
+
     }
 }
