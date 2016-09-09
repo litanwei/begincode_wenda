@@ -3,7 +3,9 @@ package net.begincode.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
+import net.begincode.core.cookie.CookieOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
@@ -23,10 +27,10 @@ import net.begincode.core.model.BegincodeUser;
 public class UserController {
 
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Resource
 	UserHandler userHandler;
-	
+
 	/**
 	 * 活跃用户
 	 */
@@ -37,5 +41,15 @@ public class UserController {
 		model.addAttribute("list",list);
 		return "index";
 	}
-	
+	/**
+	 * qq查找或注册用户
+	 */
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@ResponseBody
+	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
+		user.setUserSourceId(1);
+		user.setDeleteFlag("1");
+		user = userHandler.createUser(user);
+		CookieOperation.addCookie(response, user);
+	}
 }

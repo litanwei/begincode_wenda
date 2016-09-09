@@ -1,11 +1,13 @@
 package net.begincode.core.handler;
 
+
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Component
 public class UserHandler {
+
+    private Logger logger = LoggerFactory.getLogger(UserHandler.class);
     @Resource
     private BegincodeUserService begincodeUserService;
 
@@ -22,7 +26,7 @@ public class UserHandler {
      * @param begincodeUser
      */
     public void addUser(BegincodeUser begincodeUser){
-    	begincodeUserService.addBegincodeUser(begincodeUser);
+        begincodeUserService.addBegincodeUser(begincodeUser);
     }
 
     /**
@@ -30,7 +34,7 @@ public class UserHandler {
      * @parm begincodeUser
      */
     public void updateBegincodeUserById(BegincodeUser begincodeUser){
-    	begincodeUserService.updateBegincodeUserById(begincodeUser);
+        begincodeUserService.updateBegincodeUserById(begincodeUser);
     }
 
     /**
@@ -38,7 +42,7 @@ public class UserHandler {
      * @param id  begincodeUser标识
      */
     public void delUser(Integer id){
-    	begincodeUserService.delBegincodeUserById(id);
+        begincodeUserService.delBegincodeUserById(id);
     }
 
     /**
@@ -47,7 +51,7 @@ public class UserHandler {
     public List<BegincodeUser> selectAll(){
         return begincodeUserService.selectAll();
     }
-    
+
     /**
      * 查询活跃用户
      */
@@ -62,4 +66,24 @@ public class UserHandler {
     public BegincodeUser selectById(Integer id){
         return begincodeUserService.selectById(id);
     }
+
+    public BegincodeUser createUser(BegincodeUser user) {
+        if (user == null) {
+            logger.error("注册用户，参数不能为 null");
+            throw new IllegalArgumentException("注册用户，参数不能为 null");
+        }
+        BegincodeUser begincodeUser = begincodeUserService.findUserByOpenId(user.getOpenId());
+        if(begincodeUser != null){
+            return begincodeUser;
+        }else{
+            user.setLoginName("");
+            user.setPwd("");
+            user.setCdate(new Date());
+            user.setGag("1");
+            user.setCheckFlag("0");
+            begincodeUserService.addBegincodeUser(user);
+            return user;
+        }
+    }
+
 }
