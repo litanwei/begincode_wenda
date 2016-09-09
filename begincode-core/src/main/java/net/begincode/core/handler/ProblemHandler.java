@@ -35,48 +35,58 @@ public class ProblemHandler {
 
     /**
      * 添加问题
+     * 一个问题关联着   标签表(传入标签名集合)    消息表(如果传入的userId不为空 则存入消息表中)
+     * 问题和标签对应的表
      *
      * @param problem       前台传入的问题
-     * @param labelNameList 传入的标签名集合
-     * @param userId        如果问题内容中有@的人 则传入对应的id集合
+     * @param labelNameList 传入的标签名集合  用于标签表的新增
+     * @param userId        传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Set<String> labelNameList, Integer[] userId) {
         ProblemLabel problemLabel = new ProblemLabel();
         Label label = new Label();
         Message message = new Message();
+        //判断问题标题是否为空
         if (problem.getTitle().trim() == "") {
             throw new ProblemException("问题插入失败！");
         }
+        //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
             throw new ProblemException("问题插入失败！");
         }
+        //拆解标签集合
         if (labelNameList != null && labelNameList.size() > 0) {
             for (String labelName : labelNameList) {
                 Label seleLabel = labelService.selectByName(labelName);
+                //查询标签重名
                 if (seleLabel == null) {
                     label.setLabelName(labelName);
                     labelService.createLabel(label);
                     problemLabel.setLabelId(label.getLabelId());
                     problemLabel.setProblemId(problem.getProblemId());
+                    proLabService.createProLab(problemLabel);           //标签和问题对应 存入数据库
                 } else {
                     problemLabel.setProblemId(problem.getProblemId());
                     problemLabel.setLabelId(seleLabel.getLabelId());
-                    proLabService.createProLab(problemLabel);
+                    proLabService.createProLab(problemLabel);      //标签和问题对应 存入数据库
                 }
             }
         }
-        if (userId != null && userId.length > 0) {
-            for (int i = 0; i < userId.length - 1; i++) {
+        if(userId != null && userId.length ==1)
+        {
+            message.setBegincodeUserId(userId[0]);
+            message.setProId(problem.getProblemId());
+            messageService.createMessage(message);
+        }else if (userId != null && userId.length > 1) {
+            for (int i = 0; i < userId.length; i++) {
                 //消息添加
                 message.setBegincodeUserId(userId[i]);
                 message.setProId(problem.getProblemId());
                 messageService.createMessage(message);
             }
         }
-
-
     }
 
     /**
@@ -86,36 +96,6 @@ public class ProblemHandler {
      */
     public List<Problem> selectAllProblem() {
         return problemService.findAllProblem();
-    }
-
-    /**
-     * 新增标签
-     *
-     * @param label
-     */
-    public void addLabel(Label label) {
-        labelService.createLabel(label);
-    }
-
-
-    /**
-     * 用标签名查看是否存在相同数据
-     *
-     * @param labelName 传入的标签名
-     * @return
-     */
-    public Label selectByLabelName(String labelName) {
-        Label label = labelService.selectByName(labelName);
-        return label;
-    }
-
-    /**
-     * 添加消息
-     *
-     * @param message
-     */
-    public void addMessage(Message message) {
-        messageService.createMessage(message);
     }
 
 
