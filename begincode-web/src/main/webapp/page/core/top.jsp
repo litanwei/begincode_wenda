@@ -40,8 +40,8 @@
 					regUser(reqd.nickname,reqd.figureurl,reqd.gender,reqd.province,reqd.city,reqd.year,openId,accessToken);
 				});
 			}, function(opts){//注销成功
-				alert('QQ登录 注销成功'),
-				$.cookie('openId', null);
+				alert('QQ登录 注销成功');
+
 			}
 	);
 
