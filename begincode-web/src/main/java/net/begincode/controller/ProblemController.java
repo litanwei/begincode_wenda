@@ -1,6 +1,8 @@
 package net.begincode.controller;
 
-import net.begincode.core.handler.*;
+import net.begincode.core.handler.ProLabHandler;
+import net.begincode.core.handler.ProblemHandler;
+import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLableParam;
 import net.begincode.utils.PatternUtil;
@@ -16,8 +18,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import static com.sun.webpane.platform.ConfigManager.log;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
@@ -54,37 +54,12 @@ public class ProblemController {
         //问题
         problem.setCreateTime(new Date()); //问题创建时间
         problem.setUpdateTime(new Date());  //问题修改时间
-        problemHandler.addProblem(problem);
-        map.put("msg", "提交成功");
         //标签
-        //切割标签 返回被切割的标签集合
-        Set<String> set = problemLableParam.splitLabelName(label.getLabelName());
-        for (String labelName : set) {
-            if (problemHandler.selectByLabelName(labelName) != null) {  //检验是否是重名标签
-                //问题和标签对应传入数据库
-                problemLabel.setLabelId(problemHandler.selectByLabelName(labelName).getLabelId());
-                problemLabel.setProblemId(problem.getProblemId());
-                proLabHandler.addProLab(problemLabel);
-            } else if (PatternUtil.checkStr(labelName)) {  //检验标签是否有特殊字符
-                label.setLabelName(labelName);
-                problemHandler.addLabel(label);
-                //问题和标签对应传入数据库
-                problemLabel.setLabelId(label.getLabelId());
-                problemLabel.setProblemId(problem.getProblemId());
-                proLabHandler.addProLab(problemLabel);
-            }
-        }
+        Set<String> set = problemLableParam.splitLabelName(label.getLabelName());  //切割标签 返回被切割的标签集合
         //过滤@后面的用户名 把html标签去掉
         Integer[] userId = contentFilter(problem.getContent());
-        if (userId != null && userId.length > 0) {
-            for (int i = 0; i < userId.length - 1; i++) {
-                //消息添加
-                message.setBegincodeUserId(userId[i]);
-                message.setProId(problem.getProblemId());
-                problemHandler.addMessage(message);
-
-            }
-        }
+        problemHandler.addProblem(problem,set,userId);
+        map.put("msg","提交成功");
         return map;
     }
 

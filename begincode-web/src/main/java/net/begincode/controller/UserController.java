@@ -58,5 +58,12 @@ public class UserController {
         return nameList;
     }
 
+    @RequestMapping(value = "/",method = RequestMethod.POST)
+    @ResponseBody
+    public void CreateUser(BegincodeUser begincodeUser)
+    {
+        System.out.print(begincodeUser.getBegincodeUserId());
+    }
+
 
 }

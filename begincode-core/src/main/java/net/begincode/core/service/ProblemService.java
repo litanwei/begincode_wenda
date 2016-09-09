@@ -20,9 +20,9 @@ public class ProblemService {
      * 创建新问题
      * @param problem
      */
-    public void createProblem(Problem problem)
+    public int createProblem(Problem problem)
     {
-        problemMapper.insertSelective(problem);
+        return problemMapper.insertSelective(problem);
     }
 
     /**

@@ -17,7 +17,7 @@
 	<context:component-scan base-package="net.begincode.*" />
 	<context:property-placeholder location="classpath*:*.properties"/>
 	<!--<util:properties id="config" location="classpath:config.properties"/>-->
-	<tx:annotation-driven />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -42,20 +42,7 @@
 		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<!-- 传播行为 -->
-			<tx:method name="save*" propagation="REQUIRED" />
-			<tx:method name="insert*" propagation="REQUIRED" />
-			<tx:method name="add*" propagation="REQUIRED" />
-			<tx:method name="create*" propagation="REQUIRED" />
-			<tx:method name="delete*" propagation="REQUIRED" />
-			<tx:method name="update*" propagation="REQUIRED" />
-			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
-		</tx:attributes>
-	</tx:advice>
+
 </beans>
 
 

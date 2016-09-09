@@ -25,7 +25,6 @@ public class PatternUtil {
 
     /**
      * 过滤内容中@后面的用户名 不允许有重复的名进入 把html标签去掉
-     *
      * @param content
      * @return
      */

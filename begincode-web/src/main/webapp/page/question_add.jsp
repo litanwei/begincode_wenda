@@ -34,11 +34,11 @@
     <input type="hidden" name="problem.begincodeUserId" value="1"/>
     <input type="hidden" name="problem.userName" value="yang"/>
     <label ><span class="labelinfoblue"></span>问题标题</label>
-    <input type="text" class="form-control" name="problem.title" placeholder="请输入标题">
+    <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
     <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔)</label>
-    <input type="text" class="form-control" name="label.labelName"  placeholder="请输入关键字，逗号分隔">
+    <input type="text" id="labelName" class="form-control" name="label.labelName"  placeholder="请输入关键字，逗号分隔">
   </div>
   <input type="hidden" name="">
   <label><span class="labelinfoblue"></span>问题正文</label>
