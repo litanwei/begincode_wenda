@@ -3,10 +3,10 @@ package net.begincode.core.handler.tools;
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -19,8 +19,9 @@ public class UserAccountTool {
      *
      * @param request
      */
-    @Autowired
+    @Resource
     BegincodeUserService begincodeUserService;
+
     private static UserAccountTool userAccountTool;
 
     @PostConstruct
