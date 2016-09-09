@@ -2,7 +2,6 @@ package net.begincode.core.support;
 
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.service.BegincodeUserService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

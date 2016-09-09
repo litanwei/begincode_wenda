@@ -3,8 +3,10 @@ package net.begincode.controller;
 import java.util.List;
 
 import net.begincode.core.handler.DemoHandler;
+import net.begincode.core.handler.tools.UserAccountTool;
 import net.begincode.core.model.Demo;
 import net.begincode.core.param.DemoAddParam;
+import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.support.AuthPassport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName:AdminController.java
@@ -28,18 +32,18 @@ import javax.annotation.Resource;
 public class DemoController {
 
 	private Logger logger = LoggerFactory.getLogger(DemoController.class);
-	
+
 	@Resource
 	DemoHandler demoHandler;
-	
+
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
 	public String modify(DemoAddParam admin)
 	{
 		demoHandler.updateDemoById(admin);
 		return "redirect:/test/list.htm";
 	}
-	
-	
+
+
 	/**
 	 * 修改用户跳转
 	 * @param id
@@ -56,7 +60,7 @@ public class DemoController {
 		model.addAttribute("admin", demo);
 		return "/modify";
 	}
-	
+
 	/**
 	 * 测试删除
 	 * @param id
@@ -64,13 +68,14 @@ public class DemoController {
 	 */
 	@AuthPassport
 	@RequestMapping(value="/delete",method=RequestMethod.GET)
-	public String deleteAdmin(@RequestParam(value="id") Integer id)
+	public String deleteAdmin(@RequestParam(value="id") Integer id, HttpServletRequest request)
 	{
 		demoHandler.delDemo(id);
 		logger.warn("删除用户"+id);
 		return "redirect:/test/list.htm";
+
 	}
-	
+
 	/**
 	 * 测试增加
 	 * @param admin
@@ -83,9 +88,9 @@ public class DemoController {
 		demoHandler.addDemo(admin);
 		return "redirect:/test/list.htm";
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 测试查找集合
 	 * @param model
@@ -98,7 +103,7 @@ public class DemoController {
 		model.addAttribute("list", list);
 		return "list";
 	}
-	
+
 	/**
 	 * 登录
 	 * @param model
@@ -108,5 +113,5 @@ public class DemoController {
 	{
 		return "list";
 	}
-	
+
 }
