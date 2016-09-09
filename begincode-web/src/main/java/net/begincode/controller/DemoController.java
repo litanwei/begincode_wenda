@@ -3,10 +3,8 @@ package net.begincode.controller;
 import java.util.List;
 
 import net.begincode.core.handler.DemoHandler;
-import net.begincode.core.handler.tools.UserAccountTool;
 import net.begincode.core.model.Demo;
 import net.begincode.core.param.DemoAddParam;
-import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.support.AuthPassport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
 import javax.annotation.Resource;
