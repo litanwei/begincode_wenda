@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Stay on 2016/8/28  21:22.
  */
-public class ProblemLableParam {
+public class ProblemLableParam{
     private Problem problem;
     private Label label;
 

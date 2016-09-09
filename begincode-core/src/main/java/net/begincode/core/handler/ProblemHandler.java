@@ -1,6 +1,7 @@
 package net.begincode.core.handler;
 
-import net.begincode.core.exception.ProblemException;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Message;
 import net.begincode.core.model.Problem;
@@ -16,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-
-import static javafx.scene.input.KeyCode.R;
 
 /**
  * Created by Stay on 2016/8/26  21:41.
@@ -49,12 +48,12 @@ public class ProblemHandler {
         Message message = new Message();
         //判断问题标题是否为空
         if (problem.getTitle().trim() == "") {
-            throw new ProblemException("问题插入失败！");
+            throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
-            throw new ProblemException("问题插入失败！");
+            throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         //拆解标签集合
         if (labelNameList != null && labelNameList.size() > 0) {
