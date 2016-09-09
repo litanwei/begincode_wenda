@@ -37,7 +37,6 @@ public class CookieOperation {
 		response.addCookie(openId);
 		response.addCookie(check);
 		response.addCookie(userId);
-
 	}
 	/**
 	 * @Title: delCookie

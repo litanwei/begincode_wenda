@@ -44,7 +44,7 @@ public class UserController {
 	/**
 	 * qq查找或注册用户
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
 	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
 		user.setUserSourceId(1);
