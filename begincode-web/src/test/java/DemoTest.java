@@ -1,5 +1,4 @@
 import net.begincode.core.handler.DemoHandler;
-import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.Demo;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,9 +18,31 @@ import java.util.List;
 public class DemoTest  extends AbstractJUnit4SpringContextTests {
     @Resource
     private DemoHandler demoHandler;
+    @Resource
+    private UserHandler userHandler;
+    // 模拟request,response
+    private MockHttpServletRequest request;
+    private MockHttpServletResponse response;
+
+    // 注入loginController
+    @Autowired
+    private UserController userController ;
+
+    // 执行测试方法之前初始化模拟request,response
 
 
+    @Test
+    public void testCreateUser(){
+        BegincodeUser user = new BegincodeUser();
+        user.setAccessToken("2");
+        user.setOpenId("2");
+        user.setCheckFlag("2");
+        user.setBegincodeUserId(2);
+        user.setNickname("2");
+        BegincodeUser begincodeUser = userHandler.createUser(user);
+        Assert.assertTrue(begincodeUser != null);
 
+    }
     @Test
     public void addDemoTest(){
         Demo demo = new Demo();
@@ -35,6 +56,28 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
         List<Demo> demoList = demoHandler.selectAll();
         Assert.assertTrue(demoList.size() > 0);
 
+    }
+
+    /**
+     *
+     * @Title：testFindOrCreateUser
+     * @Description: 测试用户登录
+     */
+    @Test
+    public void testLogin() {
+        response = new MockHttpServletResponse();
+        BegincodeUser user;
+        try {
+            user = new BegincodeUser();
+            user.setAccessToken("3");
+            user.setOpenId("3");
+            user.setCheckFlag("3");
+            user.setBegincodeUserId(3);
+            user.setNickname("3");
+            userController.findOrCreateUser(response,user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

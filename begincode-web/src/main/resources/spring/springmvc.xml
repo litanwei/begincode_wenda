@@ -22,6 +22,11 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task.xsd ">
+    <!-- 启用自定义AuthPassport 注解 -->
+    <mvc:interceptors>
+        <!-- 如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
+        <bean class="net.begincode.core.support.AuthInterceptor"></bean>
+    </mvc:interceptors>
 
     <!-- 启用spring mvc 注解 -->
     <context:component-scan base-package="net.begincode"/>
