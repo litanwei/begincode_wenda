@@ -41,7 +41,6 @@
 				});
 			}, function(opts){//注销成功
 				alert('QQ登录 注销成功');
-
 			}
 	);
 

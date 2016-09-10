@@ -491,13 +491,4 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByTokenIdAndOpenId" resultMap="BaseResultMap" parameterType="net.begincode.core.model.BegincodeUser">
-    select 'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from begincode_user
-    where  open_id =  #{openId,jdbcType=INTEGER}
-    <if test="accessToken != null" >
-      and  access_token = #{accessToken,jdbcType=INTEGER}
-    </if>
-  </select>
 </mapper>
