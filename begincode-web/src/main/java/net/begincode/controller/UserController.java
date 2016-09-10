@@ -52,4 +52,12 @@ public class UserController {
 		user = userHandler.createUser(user);
 		CookieOperation.addCookie(response, user);
 	}
+	/**
+	 * qq注销用户
+	 */
+	@RequestMapping(value = "loginClean",method = RequestMethod.POST)
+	@ResponseBody
+	public void cleanUser(HttpServletResponse response){
+		CookieOperation.delCookie(response);
+	}
 }
