@@ -1,5 +1,6 @@
 package net.begincode.controller;
 
+import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.handler.ProLabHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
@@ -11,12 +12,16 @@ import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+
+import static net.begincode.core.cookie.CookieOperation.getCookie;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
@@ -34,6 +39,24 @@ public class ProblemController {
     @Resource
     private ProLabHandler proLabHandler;
 
+    @RequestMapping("/create")
+    public String problemSkip(Model model, HttpServletRequest request)
+    {
+        BegincodeUser begincodeUser = CookieOperation.getUser(request);
+        if(begincodeUser == null)
+        {
+            model.addAttribute("createPtoblemError","<div class=\"alert alert-warning\">\n" +
+                    "\t<a href=\"#\" class=\"close\" data-dismiss=\"alert\">\n" +
+                    "\t</a>\n" +
+                    "\t<strong>通知！</strong>登录后才能开始提问。\n" +
+                    "</div>");
+            return "index";
+        }
+        return "question_add";
+    }
+
+
+
     /**
      * 添加问题
      * 关键字的保存(以逗号分隔)
@@ -48,13 +71,8 @@ public class ProblemController {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
-        //问题
-        problem.setCreateTime(new Date()); //问题创建时间
-        problem.setUpdateTime(new Date());  //问题修改时间
-        //标签
-        Set<String> set = splitLabelName(label.getLabelName());  //切割标签 返回被切割的标签集合
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
-        problemHandler.addProblem(problem, set, userId);
+        problemHandler.addProblem(problem, label, userId);
         map.put("msg", "提交成功");
         return map;
     }

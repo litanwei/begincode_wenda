@@ -38,5 +38,29 @@ public class PatternUtil {
         return set;
     }
 
+    /**
+     * 以逗号切割传入字符串
+     *
+     * @param name 传入的内容
+     * @return 返回包含标签名的set集合(不允许重复)
+     */
+    public static Set<String> splitName(String name) {
+        HashSet<String> set = new HashSet<String>();
+        //前台传入标签名 这里开始切割 替换中文逗号
+        String[] labelNames = name.replace("，", ",").split(",");
+        for (int i = 0; i < labelNames.length; i++) {
+            set.add(labelNames[i]);
+        }
+        for (String labelName : set) {
+            //判断是否符合只有数字 字母 下划线 中文
+            if (checkStr(labelName)) {
+                continue;
+            } else {
+                set.remove(labelName);
+            }
+        }
+        return set;
+    }
+
 
 }

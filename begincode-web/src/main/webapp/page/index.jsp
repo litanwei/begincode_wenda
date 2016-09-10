@@ -304,8 +304,13 @@
         </div>
 
         <div class="col-md-3">
+            <c:choose>
+                <c:when test="${createPtoblemError != null}">
+                    ${createPtoblemError}
+                </c:when>
+            </c:choose>
             <p>
-                <button type="button" href="#" class="btn btn-primary btn-lg btn-block">我要提问</button>
+                <a href="${ctx}/problem/create.htm" class="btn btn-primary btn-lg btn-block">我要提问</a>
             </p>
             <div class="panel panel-default">
                 <div class="panel-heading">

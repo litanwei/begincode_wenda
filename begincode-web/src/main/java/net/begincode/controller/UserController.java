@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.begincode.core.cookie.CookieOperation;
@@ -77,4 +78,17 @@ public class UserController {
 		user = userHandler.createUser(user);
 		CookieOperation.addCookie(response, user);
 	}
+
+    /**
+     * 根据 openId查找用户
+     * @param request
+     * @return
+     */
+	@RequestMapping(value = "/openId",method = RequestMethod.POST)
+    @ResponseBody
+	public BegincodeUser findByOpenId(HttpServletRequest request)
+    {
+        String openIdValue = request.getParameter("openId");
+        return userHandler.selectByOpenId(openIdValue);
+    }
 }

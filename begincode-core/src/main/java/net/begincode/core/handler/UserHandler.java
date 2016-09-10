@@ -100,4 +100,14 @@ public class UserHandler {
     public BegincodeUser selectByNickName(String nickName) {
         return begincodeUserService.selectByNickName(nickName);
     }
+
+    /**
+     * 根据openId查找用户
+     * @param openId
+     * @return
+     */
+    public BegincodeUser selectByOpenId(String openId)
+    {
+        return begincodeUserService.findUserByOpenId(openId);
+    }
 }

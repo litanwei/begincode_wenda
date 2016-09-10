@@ -30,14 +30,15 @@
 		
 
 <form id="problemForm"  methond="post">
+  <div id="warning"></div>
   <div class="form-group">
-    <input type="hidden" name="problem.begincodeUserId" value="1"/>
-    <input type="hidden" name="problem.userName" value="yang"/>
-    <label ><span class="labelinfoblue"></span>问题标题</label>
+    <input type="hidden" id="begincodeUserId" name="problem.begincodeUserId" value=""/>
+    <input type="hidden" id="userName" name="problem.userName" value=""  />
+    <label ><span class="labelinfoblue"></span>问题标题<div id="titleWarning"></div></label>
     <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
-    <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔)</label>
+    <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔,输入关键字能更快得到答案!)</label>
     <input type="text" id="labelName" class="form-control" name="label.labelName"  placeholder="请输入关键字，逗号分隔">
   </div>
   <input type="hidden" name="">
@@ -65,7 +66,7 @@
   <script src="${ctx}/js/bootstrap.js"></script>
   <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
   <script src="${ctx}/summernote/summernote.js"></script>
-  <script src="${ctx}/js/problem/problemAdd.js"></script>
+  <script src="${ctx}/js/problem/problemCreate.js"></script>
   <script src="${ctx}/js/summernoteInit.js"></script>
 
   </body>

@@ -10,11 +10,13 @@ import net.begincode.core.service.LabelService;
 import net.begincode.core.service.MessageService;
 import net.begincode.core.service.ProLabService;
 import net.begincode.core.service.ProblemService;
+import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -38,14 +40,15 @@ public class ProblemHandler {
      * 问题和标签对应的表
      *
      * @param problem       前台传入的问题
-     * @param labelNameList 传入的标签名集合  用于标签表的新增
+     * @param llabel 传入的标签对象  用于标签表的新增
      * @param userId        传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addProblem(Problem problem, Set<String> labelNameList, Integer[] userId) {
+    public void addProblem(Problem problem, Label label, Integer[] userId) {
         ProblemLabel problemLabel = new ProblemLabel();
-        Label label = new Label();
         Message message = new Message();
+        problem.setCreateTime(new Date()); //问题创建时间
+        problem.setUpdateTime(new Date());  //问题修改时间
         //判断问题标题是否为空
         if (problem.getTitle().trim() == "") {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
@@ -55,6 +58,8 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
+
+        Set<String> labelNameList = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合
         if (labelNameList != null && labelNameList.size() > 0) {
             for (String labelName : labelNameList) {
@@ -73,12 +78,11 @@ public class ProblemHandler {
                 }
             }
         }
-        if(userId != null && userId.length ==1)
-        {
+        if (userId != null && userId.length == 1) {
             message.setBegincodeUserId(userId[0]);
             message.setProId(problem.getProblemId());
             messageService.createMessage(message);
-        }else if (userId != null && userId.length > 1) {
+        } else if (userId != null && userId.length > 1) {
             for (int i = 0; i < userId.length; i++) {
                 //消息添加
                 message.setBegincodeUserId(userId[i]);
