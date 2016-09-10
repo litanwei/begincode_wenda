@@ -3,9 +3,12 @@ package net.begincode.core.handler;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,54 +17,58 @@ import java.util.List;
  */
 @Component
 public class UserHandler {
-
     private Logger logger = LoggerFactory.getLogger(UserHandler.class);
+
     @Resource
     private BegincodeUserService begincodeUserService;
 
     /**
      * 新增User
+     *
      * @param begincodeUser
      */
-    public void addUser(BegincodeUser begincodeUser){
-    	begincodeUserService.addBegincodeUser(begincodeUser);
+    public void addUser(BegincodeUser begincodeUser) {
+        begincodeUserService.addBegincodeUser(begincodeUser);
     }
 
     /**
      * Id修改修改user
+     *
      * @parm begincodeUser
      */
-    public void updateBegincodeUserById(BegincodeUser begincodeUser){
-    	begincodeUserService.updateBegincodeUserById(begincodeUser);
+    public void updateBegincodeUserById(BegincodeUser begincodeUser) {
+        begincodeUserService.updateBegincodeUserById(begincodeUser);
     }
 
     /**
      * 根据标识删除user
-     * @param id  begincodeUser标识
+     *
+     * @param id begincodeUser标识
      */
-    public void delUser(Integer id){
-    	begincodeUserService.delBegincodeUserById(id);
+    public void delUser(Integer id) {
+        begincodeUserService.delBegincodeUserById(id);
     }
 
     /**
-     *  查询所有user列表
+     * 查询所有user列表
      */
-    public List<BegincodeUser> selectAll(){
+    public List<BegincodeUser> selectAll() {
         return begincodeUserService.selectAll();
     }
-    
+
     /**
      * 查询活跃用户
      */
-    public List<BegincodeUser> selectActiveUser(){
+    public List<BegincodeUser> selectActiveUser() {
         return begincodeUserService.selectActiveUser();
     }
 
     /**
      * 根据标识查询user
+     *
      * @param id
      */
-    public BegincodeUser selectById(Integer id){
+    public BegincodeUser selectById(Integer id) {
         return begincodeUserService.selectById(id);
     }
 
