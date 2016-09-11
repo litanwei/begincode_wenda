@@ -40,12 +40,10 @@ public class ProblemController {
     private ProLabHandler proLabHandler;
 
     @RequestMapping("/create")
-    public String problemSkip(Model model, HttpServletRequest request)
-    {
+    public String problemSkip(Model model, HttpServletRequest request) {
         BegincodeUser begincodeUser = CookieOperation.getUser(request);
-        if(begincodeUser == null)
-        {
-            model.addAttribute("createPtoblemError","<div class=\"alert alert-warning\">\n" +
+        if (begincodeUser == null) {
+            model.addAttribute("createPtoblemError", "<div class=\"alert alert-warning\">\n" +
                     "\t<a href=\"#\" class=\"close\" data-dismiss=\"alert\">\n" +
                     "\t</a>\n" +
                     "\t<strong>通知！</strong>登录后才能开始提问。\n" +
@@ -54,7 +52,6 @@ public class ProblemController {
         }
         return "question_add";
     }
-
 
 
     /**
@@ -67,13 +64,15 @@ public class ProblemController {
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLableParam problemLableParam) {
+    public Map addProblem(ProblemLableParam problemLableParam, HttpServletRequest request) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
-        problemHandler.addProblem(problem, label, userId);
-        map.put("msg", "提交成功");
+        if (CookieOperation.getCookie(request) != null) {
+            problemHandler.addProblem(problem, label, userId);
+            map.put("msg", "提交成功");
+        }
         return map;
     }
 
