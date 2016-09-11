@@ -40,9 +40,9 @@
 					regUser(reqd.nickname,reqd.figureurl,reqd.gender,reqd.province,reqd.city,reqd.year,openId,accessToken);
 				});
 			}, function(opts){//注销成功
-				var exp = new Date();
+				/*var exp = new Date();
 				exp.setTime(exp.getDate() - 1);
-				document.cookie = "openId = 1;expires="+exp;  //退出后销毁cookie 名字为 openId
+				document.cookie = "openId = 1;expires="+exp;  //退出后销毁cookie 名字为 openId*/
 				alert('QQ登录 注销成功');
 
 			}

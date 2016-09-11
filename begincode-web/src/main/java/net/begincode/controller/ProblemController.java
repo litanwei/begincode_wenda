@@ -8,6 +8,7 @@ import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
 import net.begincode.core.param.ProblemLableParam;
+import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,17 +40,9 @@ public class ProblemController {
     @Resource
     private ProLabHandler proLabHandler;
 
+    @AuthPassport
     @RequestMapping("/create")
-    public String problemSkip(Model model, HttpServletRequest request) {
-        BegincodeUser begincodeUser = CookieOperation.getUser(request);
-        if (begincodeUser == null) {
-            model.addAttribute("createPtoblemError", "<div class=\"alert alert-warning\">\n" +
-                    "\t<a href=\"#\" class=\"close\" data-dismiss=\"alert\">\n" +
-                    "\t</a>\n" +
-                    "\t<strong>通知！</strong>登录后才能开始提问。\n" +
-                    "</div>");
-            return "index";
-        }
+    public String problemSkip(HttpServletRequest request) {
         return "question_add";
     }
 
@@ -62,6 +55,7 @@ public class ProblemController {
      * @param problemLableParam
      * @return
      */
+    @AuthPassport
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public Map addProblem(ProblemLableParam problemLableParam, HttpServletRequest request) {
@@ -69,10 +63,9 @@ public class ProblemController {
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
-        if (CookieOperation.getCookie(request) != null) {
-            problemHandler.addProblem(problem, label, userId);
-            map.put("msg", "提交成功");
-        }
+        problemHandler.addProblem(problem, label, userId);
+        map.put("msg", "提交成功");
+
         return map;
     }
 
