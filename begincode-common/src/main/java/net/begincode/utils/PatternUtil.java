@@ -24,7 +24,7 @@ public class PatternUtil {
     }
 
     /**
-     * 过滤内容中@后面的用户名 不允许有重复的名进入 把html标签去掉
+     * 过滤内容中@后面的用户名 不允许有重复的名进入 把html标签去掉  比如: @yang
      * @param content
      * @return
      */
@@ -33,13 +33,16 @@ public class PatternUtil {
         String pt = "@[^\\\\@ ]{1,20}";
         Matcher matcher = Pattern.compile(pt).matcher(content.trim().replaceAll("</?[^>]+>", " ").replace("&nbsp;", " "));
         while (matcher.find()) {
-            set.add(matcher.group().trim().replace("@", ""));
+            set.add(matcher.group().trim());
         }
         return set;
     }
 
+
+
+
     /**
-     * 以逗号切割传入字符串
+     * 以逗号切割传入字符串  里面调用了此工具类的checkStr() 方法
      *
      * @param name 传入的内容
      * @return 返回包含标签名的set集合(不允许重复)

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static net.begincode.core.cookie.CookieOperation.getCookie;
+import static net.begincode.utils.PatternUtil.filterNickName;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
@@ -58,14 +59,13 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLableParam problemLableParam, HttpServletRequest request) {
+    public Map addProblem(ProblemLableParam problemLableParam) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
         map.put("msg", "提交成功");
-
         return map;
     }
 
@@ -101,12 +101,12 @@ public class ProblemController {
      * @return 用户id数组
      */
     private Integer[] contentFilter(String content) {
-        Set<String> stringSet = PatternUtil.filterNickName(content);
+        Set<String> stringSet = filterNickName(content);
         int i = 0;
         Integer[] userId = new Integer[stringSet.size()];
         if (stringSet != null && stringSet.size() > 0) {
             for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName);
+                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@",""));
                 if (begincodeUser == null) {
                     continue;
                 } else {

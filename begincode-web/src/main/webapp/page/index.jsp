@@ -11,8 +11,8 @@
     <%@ include file="commons/meta.jsp"%>
     <title>Bootstrap 101 Template</title>
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/qu.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
+    <link href="${ctx}/css/qu.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -304,11 +304,6 @@
         </div>
 
         <div class="col-md-3">
-            <c:choose>
-                <c:when test="${createPtoblemError != null}">
-                    ${createPtoblemError}
-                </c:when>
-            </c:choose>
             <p>
                 <a href="${ctx}/problem/create.htm" class="btn btn-primary btn-lg btn-block">我要提问</a>
             </p>

@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("#problemSend").click(function () {
-        // if (QC.Login.check()) {
             if (checkProblemForm()) {
                 $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
                 $("#problemSend").attr("disabled", "disabled");
@@ -17,20 +16,12 @@ $(document).ready(function () {
                             window.location.href = "/";
                         }
                     },
-                    error: function (data) {
+                   error: function (data) {
                         alert(data.msg);
                         $("#problemSend").removeAttr("disabled");
                     }
                 });
             }
-        // } else {
-        //     //如果检测到没登录 则提示用户
-        //     if ($("#warn").length) {
-        //     } else {
-        //         $("#warning").append('<div id="warn" class="alert alert-warning"> <a href="#" class="close" data-dismiss="alert">  </a> ' +
-        //             '<strong>通知！</strong>登录后才能开始提问。 </div>');
-        //     }
-        // }
     })
     //把用户id和nickName赋给对应的隐藏域中
     var openId = {openId: getCookie("openId")};

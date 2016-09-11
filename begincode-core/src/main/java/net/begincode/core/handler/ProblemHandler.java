@@ -58,7 +58,6 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
-
         Set<String> labelNameList = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合
         if (labelNameList != null && labelNameList.size() > 0) {
