@@ -13,9 +13,9 @@ function getActivers(){
 	$.ajax({
 		type: 'POST',
 		url: "user/activer.htm" ,
-		success: function(data){
-			if(data != null && data != ""){
-				var list = data.list;
+		success: function(list){
+			if(list != null && list != ""){
+				
 				for (var i = 0; i < list.length; i++) {
 					$(".list-group").append("<a class='list-group-item'>"+list[i].nickname+"</a>");
 				}

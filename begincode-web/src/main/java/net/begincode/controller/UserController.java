@@ -1,8 +1,6 @@
 package net.begincode.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,7 +10,6 @@ import net.begincode.core.model.BegincodeUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,12 +31,10 @@ public class UserController {
 	 * 活跃用户
 	 */
 	@RequestMapping("activer")
-	public @ResponseBody Map<String,Object> activeUser(Model model){
-		Map<String,Object> map = new HashMap<String,Object>();
+	public @ResponseBody List<BegincodeUser> activeUser(){
 		logger.debug("用户查找");
 		List<BegincodeUser> list = userHandler.selectActiveUser();
-		map.put("list",list);
-		return map;
+		return list;
 	}
 	
 }

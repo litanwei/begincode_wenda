@@ -1,14 +1,16 @@
 package net.begincode.core.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
-
 import net.begincode.core.mapper.BegincodeUserMapper;
+import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+
+import org.springframework.stereotype.Service;
 
 /**
  * @author kangLiang
@@ -18,6 +20,9 @@ import net.begincode.core.model.BegincodeUserExample;
 public class BegincodeUserService {
     @Resource
     private BegincodeUserMapper begincodeUserMapper;
+    
+    @Resource
+    private BizBegincodeUserMapper bizBegincodeUserMapper;
 
     /**
      * 新增BegincodeUser
@@ -65,7 +70,10 @@ public class BegincodeUserService {
      * @return
      */
     public List<BegincodeUser> selectActiveUser(){
-        
-        return begincodeUserMapper.getActiverUser();
+    	
+    	/** --查询参数，取当前时间的前一个月的时间-- **/
+    	Date dateBefore = new Date(new Date().getTime()+(1000*3600*24*30));
+    	
+        return bizBegincodeUserMapper.getActiverUser(dateBefore);
     }
 }

@@ -1,8 +1,10 @@
 package net.begincode.core.mapper;
 
 import java.util.List;
+
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
@@ -102,8 +104,5 @@ public interface BegincodeUserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(BegincodeUser record);
-    /**
-     * 获取活跃用户，一个月内提问和回复的总数，排序，取前10
-     */
-    public List<BegincodeUser> getActiverUser();
+    
 }
