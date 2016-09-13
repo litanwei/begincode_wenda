@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.begincode.common.BizException;
+import net.begincode.core.enums.OpenIdResponseEnum;
+import net.begincode.core.enums.UserResponseEnum;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -95,7 +98,7 @@ public class BegincodeUserService {
             }
         }else{
             logger.error(" accessToken ,openId  不能为空 ");
-            throw new IllegalArgumentException("accessToken,openId 不能为空 ");
+            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
 
         }
 
@@ -116,7 +119,7 @@ public class BegincodeUserService {
             }
         }else{
             logger.error(" accessToken ,openId  不能为空 ");
-            throw new IllegalArgumentException("accessToken,openId 不能为空 ");
+            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
 
         }
 

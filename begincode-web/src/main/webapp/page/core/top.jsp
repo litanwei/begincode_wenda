@@ -41,6 +41,7 @@
 				});
 			}, function(opts){//注销成功
 				alert('QQ登录 注销成功');
+				delUser(reqd.nickname);
 			}
 	);
 
@@ -50,6 +51,18 @@
 			type : "POST",
 			url : "/user/login.htm",
 			data : "nickname="+nickName+"&pic="+figureurl+"&sex="+gender+"&openId="+openId+"&accessToken="+accessToken,
+			dataType : "json" ,
+			success : function(codes) {
+				alert(codes);
+
+			}
+		});
+	}
+	function delUser(nickName){
+		jQuery.ajax({
+			type : "POST",
+			url : "/user/loginClean.htm",
+			data : "nickname="+nickName,
 			dataType : "json" ,
 			success : function(codes) {
 				alert(codes);

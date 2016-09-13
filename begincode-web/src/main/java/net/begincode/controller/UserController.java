@@ -49,7 +49,7 @@ public class UserController {
 	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
 		user.setUserSourceId(1);
 		user.setDeleteFlag("1");
-		user = userHandler.createUser(user);
+		user = userHandler.createUserAndFind(user);
 		CookieOperation.addCookie(response, user);
 	}
 	/**
