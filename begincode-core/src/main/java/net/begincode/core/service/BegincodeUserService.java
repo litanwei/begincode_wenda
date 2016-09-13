@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.begincode.core.mapper.BizBegincodeUserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,8 @@ public class BegincodeUserService {
 
     @Resource
     private BegincodeUserMapper begincodeUserMapper;
+    @Resource
+    private BizBegincodeUserMapper bizBegincodeUserMapper;
 
     /**
      * 新增BegincodeUser
@@ -84,7 +87,7 @@ public class BegincodeUserService {
             BegincodeUser begincodeUser = new BegincodeUser();
             begincodeUser.setOpenId(openId);
             begincodeUser.setAccessToken(accessToken);
-            begincodeUser = begincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
+            begincodeUser = bizBegincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
             if(begincodeUser != null){
                 return begincodeUser;
             }else{
@@ -105,7 +108,7 @@ public class BegincodeUserService {
         if(StringUtils.isNotEmpty(openId)){
             BegincodeUser begincodeUser = new BegincodeUser();
             begincodeUser.setOpenId(openId);
-            begincodeUser = begincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
+            begincodeUser = bizBegincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
             if(begincodeUser != null){
                 return begincodeUser;
             }else{
