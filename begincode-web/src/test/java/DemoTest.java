@@ -45,7 +45,7 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
         user.setCheckFlag("2");
         user.setBegincodeUserId(2);
         user.setNickname("2");
-        BegincodeUser begincodeUser = userHandler.createUser(user);
+        BegincodeUser begincodeUser = userHandler.createUserAndFind(user);
         Assert.assertTrue(begincodeUser != null);
 
     }
