@@ -1,27 +1,29 @@
 $(document).ready(function () {
     $("#problemSend").click(function () {
-            if (checkProblemForm()) {
-                $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
-                $("#problemSend").attr("disabled", "disabled");
-                $("#problemSend").attr("value", "正在提交");
-                $.ajax({
-                    data: $("#problemForm").serializeArray(),
-                    type: "POST",
-                    url: "/problem.htm",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data != null) {
-                            alert(data.msg);
-                            $("#problemSend").removeAttr("disabled");
-                            window.location.href = "/";
-                        }
-                    },
-                   error: function (data) {
-                        alert(data.msg);
+        if (checkProblemForm()) {
+            $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
+            $("#problemSend").attr("disabled", "disabled");
+            $("#problemSend").attr("value", "正在提交");
+            $.ajax({
+                data: $("#problemForm").serializeArray(),
+                type: "POST",
+                url: "/problem/store.htm",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success != null) {
+                        alert(data.success);
                         $("#problemSend").removeAttr("disabled");
+                        window.location.href = "/";
+                    } else if (data.msg != null) {
+                        $("#myModal").modal("show");
                     }
-                });
-            }
+                },
+                error: function (data) {
+                    alert("请检查输入,或者网络连接!");
+                    $("#problemSend").removeAttr("disabled");
+                }
+            });
+        }
     })
     //把用户id和nickName赋给对应的隐藏域中
     var openId = {openId: getCookie("openId")};
@@ -41,6 +43,8 @@ $(document).ready(function () {
     });
 
 });
+
+
 /**
  * 根据cookieName查找对应的值
  * @param cookieName
@@ -58,10 +62,18 @@ function getCookie(cookieName) {
     return "";
 }
 
-
+/**
+ * 提问表单验证
+ * @returns {boolean} 通过返回true 失败返回false
+ */
 function checkProblemForm() {
-    if ($("#title").val().trim() == "") {
-        $("#titleWarning").html('<p><font size="3" face="arial" color="red">标题不能为空</font></p>');
+    if ($("#title").val().trim() == "" || $("#title").val().trim().length > 100) {
+        $("#valueValidate").html("标题为空,或者字数大于100");
+        $("#valueModal").modal("show");
+        return false;
+    } else if ($("#labelName").val().trim() == "") {
+        $("#valueValidate").html("标签为空,请输入一个标签!");
+        $("#valueModal").modal("show");
         return false;
     }
     return true;

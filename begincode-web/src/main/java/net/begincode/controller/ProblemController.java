@@ -1,19 +1,17 @@
 package net.begincode.controller;
 
-import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.handler.ProLabHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
-import net.begincode.core.param.ProblemLableParam;
+import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static net.begincode.core.cookie.CookieOperation.getCookie;
 import static net.begincode.utils.PatternUtil.filterNickName;
 
 /**
@@ -57,15 +54,15 @@ public class ProblemController {
      * @return
      */
     @AuthPassport
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLableParam problemLableParam) {
+    public Map addProblem(ProblemLabelParam problemLableParam) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
-        map.put("msg", "提交成功");
+        map.put("success", "提交成功");
         return map;
     }
 

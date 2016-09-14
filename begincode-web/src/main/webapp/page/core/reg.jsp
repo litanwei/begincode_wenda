@@ -115,7 +115,7 @@
 	<jsp:include page="/page/core/foot.jsp" />
 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="${ctx}/js/bootstrap.min.js"></script>
+	<script src="${ctx}/js/bootstrap/bootstrap.min.js"></script>
 	<script src="${ctx}/js/md5.js"></script>
 </body>
 </html>

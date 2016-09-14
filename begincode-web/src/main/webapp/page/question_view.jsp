@@ -242,9 +242,9 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
+    <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${ctx}/js/bootstrap.js"></script>
+    <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 	
 	<link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>

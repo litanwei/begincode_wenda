@@ -40,19 +40,13 @@ public class ProblemHandler {
      * 问题和标签对应的表
      *
      * @param problem       前台传入的问题
-     * @param llabel 传入的标签对象  用于标签表的新增
+     * @param label 传入的标签对象  用于标签表的新增
      * @param userId        传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label, Integer[] userId) {
         ProblemLabel problemLabel = new ProblemLabel();
         Message message = new Message();
-        problem.setCreateTime(new Date()); //问题创建时间
-        problem.setUpdateTime(new Date());  //问题修改时间
-        //判断问题标题是否为空
-        if (problem.getTitle().trim() == "") {
-            throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
-        }
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {

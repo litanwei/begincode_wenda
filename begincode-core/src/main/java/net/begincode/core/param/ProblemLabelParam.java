@@ -1,5 +1,7 @@
 package net.begincode.core.param;
 
+import net.begincode.bean.Param;
+import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
 
@@ -10,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Stay on 2016/8/28  21:22.
  */
-public class ProblemLableParam{
+public class ProblemLabelParam extends Param{
     private Problem problem;
     private Label label;
 
@@ -48,5 +50,12 @@ public class ProblemLableParam{
     }
 
 
-
+    @Override
+    public void check() {
+        problem.setCreateTime(new Date());
+        checkNotEmpty(problem.getBegincodeUserId().toString(), ProblemResponseEnum.PROBLEM_ADD_ERROR);
+        checkNotEmpty(problem.getContent(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
+        checkNotEmpty(problem.getTitle(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
+        checkNotEmpty(problem.getUserName(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
+    }
 }

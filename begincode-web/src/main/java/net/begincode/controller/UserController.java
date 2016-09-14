@@ -71,7 +71,6 @@ public class UserController {
 	 * qq查找或注册用户
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	@ResponseBody
 	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
 		user.setUserSourceId(1);
 		user.setDeleteFlag("1");
@@ -82,7 +81,6 @@ public class UserController {
 	 * qq注销用户
 	 */
 	@RequestMapping(value = "loginClean",method = RequestMethod.POST)
-	@ResponseBody
 	public void cleanUser(HttpServletResponse response){
 		CookieOperation.delCookie(response);
 	}

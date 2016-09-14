@@ -26,7 +26,7 @@
 
 <div class="container-fluid">
 <div class="row ">
-	<div class="col-md-12 col-sm-12 col-xs-12"">
+	<div class="col-md-12 col-sm-12 col-xs-12">
 		
 
 <form id="problemForm"  methond="post">
@@ -34,7 +34,7 @@
   <div class="form-group">
     <input type="hidden" id="begincodeUserId" name="problem.begincodeUserId" value=""/>
     <input type="hidden" id="userName" name="problem.userName" value=""  />
-    <label ><span class="labelinfoblue"></span>问题标题<div id="titleWarning"></div></label>
+    <label><span class="labelinfoblue"></span>问题标题</label>
     <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
@@ -59,15 +59,54 @@
 
 </div>
 
+  <!-- 模态框（Modal） -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      警告
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  请检查是否登录！
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+  </div>
+  <div class="modal fade" id="valueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      警告
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  <div id="valueValidate"></div>
+              </div>
+              <div class="modal-footer">
+                  <a type="button" class="btn btn-primary" data-dismiss="modal">关闭</a>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+  </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
+  <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="${ctx}/js/bootstrap.js"></script>
+  <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
   <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
   <script src="${ctx}/summernote/summernote.js"></script>
   <script src="${ctx}/js/problem/problemCreate.js"></script>
-  <script src="${ctx}/js/summernoteInit.js"></script>
+  <script src="${ctx}/js/summernotePlugin.js"></script>
 
   </body>
 </html>
