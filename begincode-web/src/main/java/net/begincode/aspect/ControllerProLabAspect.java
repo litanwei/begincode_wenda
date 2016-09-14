@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class ProblemStoreAspect {
-    @Pointcut("execution(* net.begincode.controller.ProblemController.addProblem(..))")
+public class ControllerProLabAspect {
+    @Pointcut("execution(* net.begincode.controller.*.*(..))")
     public void pointCut_() {
     }
 

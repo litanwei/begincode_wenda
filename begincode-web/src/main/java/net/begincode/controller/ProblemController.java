@@ -60,6 +60,7 @@ public class ProblemController {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         Label label = problemLableParam.getLabel();
+        problem.setCreateTime(new Date());
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
         map.put("success", "提交成功");
