@@ -24,9 +24,6 @@ public class Result {
     }
 
     public boolean isSuccess() {
-        if ("0".equals(code) || "0000".equals(code)) {
-            return true;
-        }
-        return false;
+        return "0".equals(code) || "0000".equals(code);
     }
 }

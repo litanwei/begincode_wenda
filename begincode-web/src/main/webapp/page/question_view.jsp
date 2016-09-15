@@ -1,5 +1,7 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="commons/taglibs.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -19,6 +21,7 @@
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
 
 <jsp:include page="/page/core/top.jsp" />
@@ -32,16 +35,16 @@
 
                     <div class="post-topheader__info">
                         <h1 class="h3 post-topheader__info--title" id="questionTitle" data-id="1010000006602336">
-                            <a href="/q/1010000006602336">求面向对象问题</a>
+                            <a href="/q/1010000006602336">${problem.title}</a>
                         </h1>
 
                         <span class="keyword-list "> 
 										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank" class="list-tag">css</a>
 								</span>
-
+                        <span id="problemId" extra="${problem.problemId}" class="hidden"></span>
                         <div class="question-author">
-                            <a href="/u/ikobe" class="mr5"><strong>ikobe</strong></a>
-                            17 分钟前提问 </span>
+                            <a href="#" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
+                            ${problemTime}提问 </span>
                         </div>
                     </div>
                 </div>
@@ -52,14 +55,14 @@
                                     data-id="1010000006602336" data-do="follow" data-type="question"
                                     data-toggle="tooltip" data-placement="right" title="关注后将获得更新提醒">关注
                             </button>
-                            <strong>0</strong> 关注
+                            <strong>1</strong> 关注
                         </li>
                         <li>
                             <button type="button" id="sideBookmark" class="btn btn-default btn-sm"
                                     data-id="1010000006602336" data-type="question">收藏
                             </button>
-                            <strong id="sideBookmarked">0</strong> 收藏，<strong
-                                class="no-stress">22</strong> 浏览
+                            <strong id="sideBookmarked">${problem.collectCount}</strong> 收藏，<strong
+                                class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
                 </div>
@@ -76,8 +79,7 @@
 
             <p class="lead">正文显示</p>
             <blockquote>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                ${problem.content}
             </blockquote>
 
             <h6>h6. Bootstrap heading <small>Secondary text</small></h6>
@@ -85,95 +87,53 @@
 
             <center>
                 <button type="button" class="btn btn-primary">点击投票(12)</button>
-
             </center>
 
-            <hr>
 
-            <div class="post-offset">
-                <div class="qa-rank">
-                    <div class="answers">
-                        <small>已采纳</small>
+            <div></div>
+            <c:forEach items="${answerList}" var="answer" varStatus="temp">
+                <hr>
+                <div class="post-offset">
+                    <c:if test="${answer.adopt == 1}">
+                        <div class="qa-rank">
+                            <div class="answers">
+                                <small>已采纳</small>
+                            </div>
+                        </div>
+                    </c:if>
+                    <div class="answer fmt" data-id="1020000006591589" >
+                        <p> ${answer.content}</p>
+                    </div>
+                    <div class="row answer__info--row">
+                        <div class="post-opt col-md-8 col-sm-8 col-xs-10">
+                            <ul class="list-inline mb0">
+                                <li><a href="#"><td>${newTime[temp.count-1]}</td></a>
+                                    <span class="text-muted"></span></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
+                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">反馈</a>
+                                </li>
+                                <li><a href="javascript:void(0);" class="comments" data-id="1020000006591589"
+                                       data-target="#comment-1020000006591589">
+                                    评论</a></li>
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b
+                                            class="caret"></b></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
+                        </div>
+                        <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
+                            <div class=" answer__info--author-warp">
+                                <a class="answer__info--author-name" title="${answer.userName}"
+                                   href="/u/fishenal">${answer.userName}</a><span
+                                    class="answer__info--author-rank"></span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="answer fmt" data-id="1020000006591589">
-                    <p>不明白这个需求的产生，如果在login之前需要进行check，那完全可以在methods层面做，你这样增加了数据和展现的耦合。<br>而且dologin和check之间看起来是有顺序关系的，有必要在js做控制啊</p>
-                </div>
+            </c:forEach>
 
 
-
-                <div class="row answer__info--row">
-                    <div class="post-opt col-md-8 col-sm-8 col-xs-10">
-                        <ul class="list-inline mb0">
-
-                            <li><a href="/q/1010000006591181/a-1020000006591589"> 5 小时前回答</a> <span class="text-muted">
-
-                    </span></li>
-                            <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check"><a href="javascript:;">编辑</a>
-                            </li>
-
-                            <li><a href="javascript:void(0);" class="comments" data-id="1020000006591589"
-                                   data-target="#comment-1020000006591589">
-                                评论</a></li>
-
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b
-                                        class="caret"></b></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
-                    </div>
-                    <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
-                        <div class=" answer__info--author-warp">
-                            <a class="answer__info--author-name" title="fishenal"
-                               href="/u/fishenal">fishenal</a><span
-                                class="answer__info--author-rank"></span></div>
-                    </div>
-                </div>
-            </div>
-            <hr>
-
-            <div class="post-offset">
-                <div class="answer fmt" data-id="1020000006591589">
-                    <p>不明白这个需求的产生，如果在login之前需要进行check，那完全可以在methods层面做，你这样增加了数据和展现的耦合。<br>而且dologin和check之间看起来是有顺序关系的，有必要在js做控制啊</p>
-                </div>
-
-
-
-                <div class="row answer__info--row">
-                    <div class="post-opt col-md-8 col-sm-8 col-xs-10">
-                        <ul class="list-inline mb0">
-
-                            <li><a href="/q/1010000006591181/a-1020000006591589"> 5 小时前回答</a> <span class="text-muted">
-
-                    </span></li>
-                            <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check"><a href="javascript:;">编辑</a>
-                            </li>
-
-                            <li><a href="javascript:void(0);" class="comments" data-id="1020000006591589"
-                                   data-target="#comment-1020000006591589">
-                                评论</a></li>
-
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">举报<b
-                                        class="caret"></b></a>
-
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
-
-                    </div>
-                    <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
-                        <div class=" answer__info--author-warp">
-                            <a class="answer__info--author-name" title="fishenal"
-                               href="/u/fishenal">fishenal</a><span
-                                class="answer__info--author-rank"></span></div>
-                    </div>
-                </div>
-            </div>
             <p>
             <hr>
             <div id="summernote"></div>
@@ -213,54 +173,7 @@
 
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>
+<script src="${ctx}/js/answer/answer.js"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            height: 150,
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['insert', ['picture', 'link', 'table', 'hr']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['musc', ['codeview']],
-            ],
-            hint: {
-                mentions: ['jayden', 'sam', 'alvin', 'david'],
-                match: /\B@(\w*)$/,
-                search: function (keyword, callback) {
-                    callback($.grep(this.mentions, function (item) {
-                        return item.indexOf(keyword) == 0;
-                    }));
-                },
-                content: function (item) {
-                    return '@' + item;
-                }
-            }
-        });
-    });
-
-    $(document).ready(function () {
-        $("#answerSend").click(function () {
-            var content = $('#summernote').summernote('code');
-            var answer = new FormData();
-            answer.append("content", content);
-            $.ajax({
-                data: answer,
-                type: "POST",
-                url: "/answer/reply.htm",
-                dataType: "json",
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                },
-            });
-        })
-    })
-</script>
 </body>
 </html>

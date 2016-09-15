@@ -1,6 +1,8 @@
 import net.begincode.controller.UserController;
+import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Demo;
 import org.junit.Assert;
@@ -22,6 +24,9 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring/dataSource.xml", "classpath*:spring/applicationContext-core.xml","classpath*:mybatis.xml"})
 public class DemoTest  extends AbstractJUnit4SpringContextTests {
+
+    @Resource
+    private AnswerHandler answerHandler;
     @Resource
     private DemoHandler demoHandler;
     @Resource
@@ -49,6 +54,17 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
         Assert.assertTrue(begincodeUser != null);
 
     }
+    @Test
+    public void selAnswer(){
+        Answer answer = new Answer();
+        answer.setProblemId(1);
+        List<Answer> answers = answerHandler.selectAllByExample(answer);
+        for(Answer answer1:answers){
+            System.out.println(answer1.getUserName());
+        }
+    }
+
+
     @Test
     public void addDemoTest(){
         Demo demo = new Demo();

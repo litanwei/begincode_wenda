@@ -70,7 +70,7 @@
                                             分钟前提问</a>
                                     </li>
                                 </ul>
-			<span class="keyword-list ">
+                                <span class="keyword-list ">
             <h2 class="title l"><a href="/q/1010000006241941">可以用代码去触发一个元素的css:active状态吗？</a></h2>
                       
 										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
@@ -103,8 +103,8 @@
                                         <a href="/q/1010000006240373/a-1020000006241989">6 分钟前回答</a>
                                     </li>
                                 </ul>
-            
-                        <span class="keyword-list ">
+
+                                <span class="keyword-list ">
 						<h2 class="title l"><a href="/q/1010000006240373">在DOM树种，给出任意2个node，如何找出两者之间所有的node？在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？</a></h2>
@@ -151,7 +151,7 @@
                                             分钟前提问</a>
                                     </li>
                                 </ul>
-			<span class="keyword-list ">
+                                <span class="keyword-list ">
             <h2 class="title l"><a href="/q/1010000006241941">可以用代码去触发一个元素的css:active状态吗？</a></h2>
                       
 										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
@@ -184,8 +184,8 @@
                                         <a href="/q/1010000006240373/a-1020000006241989">6 分钟前回答</a>
                                     </li>
                                 </ul>
-            
-                        <span class="keyword-list ">
+
+                                <span class="keyword-list ">
 						<h2 class="title l"><a href="/q/1010000006240373">在DOM树种，给出任意2个node，如何找出两者之间所有的node？在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？</a></h2>
@@ -231,7 +231,7 @@
                                             分钟前提问</a>
                                     </li>
                                 </ul>
-			<span class="keyword-list ">
+                                <span class="keyword-list ">
             <h2 class="title l"><a href="/q/1010000006241941">可以用代码去触发一个元素的css:active状态吗？</a></h2>
                       
 										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
@@ -264,8 +264,8 @@
                                         <a href="/q/1010000006240373/a-1020000006241989">6 分钟前回答</a>
                                     </li>
                                 </ul>
-            
-                        <span class="keyword-list ">
+
+                                <span class="keyword-list ">
 						<h2 class="title l"><a href="/q/1010000006240373">在DOM树种，给出任意2个node，如何找出两者之间所有的node？在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？
                             在DOM树种，给出任意2个node，如何找出两者之间所有的node？</a></h2>
@@ -325,9 +325,9 @@
                     最活跃用户
                 </a>
                 <c:forEach items="${list }" var="user">
-                <a href="#" class="list-group-item" onclick="${user.begincodeUserId}">${user.nickname }</a>
-                
-				</c:forEach>
+                    <a href="#" class="list-group-item" onclick="${user.begincodeUserId}">${user.nickname }</a>
+
+                </c:forEach>
             </div>
         </div>
 
@@ -357,7 +357,7 @@
                 ${msg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="history.back(-1);">关闭</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
