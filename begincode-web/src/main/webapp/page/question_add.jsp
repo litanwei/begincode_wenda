@@ -29,21 +29,27 @@
 	<div class="col-md-12 col-sm-12 col-xs-12">
 		
 
-<form>
+<form id="problemForm"  methond="post">
+  <div id="warning"></div>
   <div class="form-group">
-     
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入标题">
+    <input type="hidden" id="begincodeUserId" name="problem.begincodeUserId" value=""/>
+    <input type="hidden" id="userName" name="problem.userName" value=""  />
+    <label><span class="labelinfoblue"></span>问题标题</label>
+    <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
   <div class="form-group ">
-
-    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="请输入关键字，逗号分隔">
+    <label><span class="labelinfoblue"></span>问题关键字(以逗号分隔,输入关键字能更快得到答案!)</label>
+    <input type="text" id="labelName" class="form-control" name="label.labelName"  placeholder="请输入关键字，逗号分隔">
   </div>
-   <div id="summernote" ><p>Hello Summernote</p></div>
+  <input type="hidden" name="">
+  <label><span class="labelinfoblue"></span>问题正文</label>
+  <input type="hidden" name="problem.content" id="content" value=""/>
+   <div id="summernote"><p></p></div>
   
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid align-center">
 	
-        <button type="submit" class="btn btn-primary martop10">提交问题</button>
+        <button type="button" id="problemSend" class="btn btn-primary martop10">提交问题</button>
       
   </div>
 </nav>
@@ -53,54 +59,54 @@
 
 </div>
 
+  <!-- 模态框（Modal） -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      警告
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  请检查是否登录！
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+  </div>
+  <div class="modal fade" id="valueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      警告
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  <div id="valueValidate"></div>
+              </div>
+              <div class="modal-footer">
+                  <a type="button" class="btn btn-primary" data-dismiss="modal">关闭</a>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+  </div>
 
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
+  <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
+  <script src="${ctx}/summernote/summernote.js"></script>
+  <script src="${ctx}/js/problem/problemCreate.js"></script>
+  <script src="${ctx}/js/summernotePlugin.js"></script>
 
-
-
-
-
- 
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${ctx}/js/jquery-3.1.0.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="${ctx}/js/bootstrap.js"></script>
-	
-	<link href="${ctx}/summernote/summernote.css" rel="stylesheet">
-<script src="${ctx}/summernote/summernote.js"></script>
-
-  <script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-  toolbar: [
-    // [groupName, [list of button]]
-    ['style', ['bold', 'italic', 'underline', 'clear']],
-    ['insert', ['picture', 'link', 'table', 'hr']],
-    ['fontsize', ['fontsize']],
-    ['color', ['color']],
-    ['para', ['ul', 'ol', 'paragraph']],
-    ['height', ['height']],
-	['musc', ['codeview']],
-  ],
-   height: 300,
-     hint: {
-    mentions: ['jayden', 'sam', 'alvin', 'david'],
-    match: /\B@(\w*)$/,
-    search: function (keyword, callback) {
-      callback($.grep(this.mentions, function (item) {
-        return item.indexOf(keyword) == 0;
-      }));
-    },
-    content: function (item) {
-      return '@' + item;
-    }    
-  }
-});
-    
-	
-});
-
-  </script>
   </body>
 </html>

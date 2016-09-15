@@ -4,7 +4,7 @@
 <html>
 <head>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../js/jquery-3.1.0.min.js"></script>
+    <script src="../js/jquery/jquery-3.1.0.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>查询所有联系人</title>
     <style type="text/css">
@@ -52,7 +52,7 @@
     </tr>
 </table>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../js/bootstrap.js"></script>
+<script src="../js/bootstrap/bootstrap.js"></script>
 </body>
 </html>
 
