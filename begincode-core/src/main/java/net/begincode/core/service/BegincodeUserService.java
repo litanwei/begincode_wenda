@@ -80,6 +80,18 @@ public class BegincodeUserService {
         return begincodeUserMapper.selectByExample(begincodeUserExample);
     }
     /**
+     * 根据nickName查找BegincodeUser
+     * @param nickName
+     * @return 不存在返回空 存在就返回此对象
+     */
+    public BegincodeUser selectByNickName(String nickName) {
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andNicknameEqualTo(nickName);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.size()>0?list.get(0):null;
+    }
+    /**
      * accessToken,openId查找用户
      * @return BegincodeUser
      */

@@ -37,7 +37,7 @@
                             <a href="/q/1010000006602336">${problem.title}</a>
                         </h1>
 
-                        <span class="keyword-list "> 
+                        <span class="keyword-list ">
 										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank" class="list-tag">css</a>
 								</span>
                         <span id="problemId" extra="${problem.problemId}" class="hidden"></span>
@@ -166,13 +166,15 @@
     </div>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="${ctx}/js/jquery-3.1.0.min.js"></script>
+<script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="${ctx}/js/bootstrap.js"></script>
+<script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
+<script src="${ctx}/js/summernotePlugin.js"></script>
+
 
 </body>
 </html>

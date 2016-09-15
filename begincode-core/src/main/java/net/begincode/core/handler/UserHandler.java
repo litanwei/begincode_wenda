@@ -1,5 +1,7 @@
 package net.begincode.core.handler;
 
+import net.begincode.common.BizException;
+import net.begincode.core.enums.UserResponseEnum;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
 
@@ -71,7 +73,7 @@ public class UserHandler {
         return begincodeUserService.selectById(id);
     }
 
-    public BegincodeUser createUser(BegincodeUser user) {
+    public BegincodeUser createUserAndFind(BegincodeUser user) {
         if (user == null) {
             logger.error("注册用户，参数不能为 null");
             throw new BizException(UserResponseEnum.USER_ADD_ERROR);

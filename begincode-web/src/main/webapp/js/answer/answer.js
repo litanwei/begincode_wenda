@@ -18,34 +18,7 @@ function sendFeedback(answerId) {
         },
     })
 }
-// summernote初始化
-$(document).ready(function() {
-    $('#summernote').summernote({
-        height: 150,
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['insert', ['picture', 'link', 'table', 'hr']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['height', ['height']],
-            ['musc', ['codeview']],
-        ],
-        hint: {
-            mentions: ['jayden', 'sam', 'alvin', 'david'],
-            match: /\B@(\w*)$/,
-            search: function (keyword, callback) {
-                callback($.grep(this.mentions, function (item) {
-                    return item.indexOf(keyword) == 0;
-                }));
-            },
-            content: function (item) {
-                return '@' + item;
-            }
-        }
-    });
-});
+
 // 回复 绑定回复内容 问题id
 $(document).ready(function () {
     $("#answerSend").click(function () {
