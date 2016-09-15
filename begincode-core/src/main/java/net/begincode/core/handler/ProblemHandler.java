@@ -46,7 +46,6 @@ public class ProblemHandler {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label, Integer[] userId) {
-        ProblemLabel problemLabel = new ProblemLabel();
         Message message = new Message();
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
@@ -54,13 +53,8 @@ public class ProblemHandler {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
-        //拆解标签集合
-        List<Label> list = operateLabelNameSet(labelNameSet);
-        for (Label lb : list) {
-            problemLabel.setLabelId(lb.getLabelId());
-            problemLabel.setProblemId(problem.getProblemId());
-            proLabService.createProLab(problemLabel);
-        }
+        //拆解标签集合,并把对应的参数传入相关表中
+        operateLabelNameSet(labelNameSet,problem);
         if (userId != null && userId.length == 1) {
             message.setBegincodeUserId(userId[0]);
             message.setProId(problem.getProblemId());
@@ -86,29 +80,30 @@ public class ProblemHandler {
 
 
     /**
-     * 传入的labelName集合 判断是否有存在
-     * 如果存在加入集合
-     * 不存在先加入数据库 再加入集合
-     *
-     * @param labelNameSet
-     * @return 集合标签
+     *  传入标签名和问题对象
+     *  把标签名和标签问题对应插入对应的表中
+     * @param labelNameSet    分割后的标签名
+     * @param problem  问题
      */
-    private List<Label> operateLabelNameSet(Set<String> labelNameSet) {
-        ArrayList<Label> list = new ArrayList<Label>();
+    private void operateLabelNameSet(Set<String> labelNameSet,Problem problem) {
         Label label = new Label();
+        ProblemLabel problemLabel = new ProblemLabel();
         if (labelNameSet != null && labelNameSet.size() > 0) {
             for (String labelName : labelNameSet) {
                 Label seleLabel = labelService.selectByName(labelName);
                 if (seleLabel != null) {
-                    list.add(seleLabel);
+                    problemLabel.setLabelId(seleLabel.getLabelId());
+                    problemLabel.setProblemId(problem.getProblemId());
+                    proLabService.createProLab(problemLabel);
                 } else {
                     label.setLabelName(labelName);
                     labelService.createLabel(label);
-                    list.add(label);
+                    problemLabel.setLabelId(label.getLabelId());
+                    problemLabel.setProblemId(problem.getProblemId());
+                    proLabService.createProLab(problemLabel);
                 }
             }
         }
-        return list;
     }
 
 }
