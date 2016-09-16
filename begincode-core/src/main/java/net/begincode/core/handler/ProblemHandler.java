@@ -109,7 +109,7 @@ public class ProblemHandler {
      * 根据id查询问题
      */
     public Problem selectById(int answerId){
-        return problemService.selectByPrimaryKey(answerId);
+        return problemService.selProblemById(answerId);
     }
 
 }

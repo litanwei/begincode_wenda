@@ -42,7 +42,6 @@ $(document).ready(function () {
                 if(data!=null)
                 {
                     alert(data.msg);
-                    window.location.reload();
                     $("#answerSend").removeAttr("disabled");//按钮可用
                 }
             }, error:function(){

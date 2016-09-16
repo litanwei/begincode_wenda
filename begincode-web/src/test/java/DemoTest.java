@@ -5,6 +5,7 @@ import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Demo;
+import net.begincode.core.service.BegincodeUserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,8 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     private DemoHandler demoHandler;
     @Resource
     private UserHandler userHandler;
+    @Resource
+    private BegincodeUserService begincodeUserService;
     // 模拟request,response
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -43,22 +46,10 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
 
 
     @Test
-    public void testCreateUser(){
-        BegincodeUser user = new BegincodeUser();
-        user.setAccessToken("2");
-        user.setOpenId("2");
-        user.setCheckFlag("2");
-        user.setBegincodeUserId(2);
-        user.setNickname("2");
-        BegincodeUser begincodeUser = userHandler.createUserAndFind(user);
-        Assert.assertTrue(begincodeUser != null);
-
-    }
-    @Test
     public void selAnswer(){
         Answer answer = new Answer();
         answer.setProblemId(1);
-        List<Answer> answers = answerHandler.selectAllByExample(answer);
+        List<Answer> answers = answerHandler.selAllAnswerByExample(answer);
         for(Answer answer1:answers){
             System.out.println(answer1.getUserName());
         }

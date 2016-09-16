@@ -66,7 +66,7 @@ public class AnswerController {
     public String selectAllAnswer(Model model,@PathVariable("problemid") int problemid){
      Answer answer = new Answer();
         answer.setProblemId(problemid);
-        List<Answer> answerList = answerHandler.selectAllByExample(answer);
+        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
         List<String> newTime = new ArrayList<>();
         for(int a = 0 ; a < answerList.size(); a++) {
             newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
@@ -90,7 +90,7 @@ public class AnswerController {
     @ResponseBody
     public Map feedback(Answer answer){
         Map map = new HashMap();
-        answerHandler.feedback(answer.getAnswerId());
+        answerHandler.answerFeedback(answer.getAnswerId());
         map.put("msg", "感谢您的反馈。");
         return map;
     }

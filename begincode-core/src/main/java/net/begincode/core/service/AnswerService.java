@@ -24,7 +24,7 @@ public class AnswerService {
      *@param：answer
      *@return：int
      */
-    public int insertSelective(Answer record){
+    public int insertAnswer(Answer record){
         return answerMapper.insertSelective(record);
     }
     /**
@@ -32,7 +32,7 @@ public class AnswerService {
      *@param：answer
      *@return：List<Answer>
      */
-    public List<Answer> selectByExample(Answer answer){
+    public List<Answer> selectAllAnswer(Answer answer){
         AnswerExample answerExample = new AnswerExample();
         answerExample.createCriteria()
                 .andProblemIdEqualTo(answer.getProblemId())
@@ -45,7 +45,7 @@ public class AnswerService {
      *@param：answerId
      *@return：Answer
      */
-    public Answer selectByPrimaryKey(Integer answerId){
+    public Answer selAnswerByAnswerId(Integer answerId){
         return answerMapper.selectByPrimaryKey(answerId);
     }
     /**
@@ -53,7 +53,7 @@ public class AnswerService {
      *@param：
      *@return：
      */
-    public int updateByPrimaryKeySelective(Answer record){
+    public int updateAnswer(Answer record){
         return answerMapper.updateByPrimaryKeySelective(record);
     }
 

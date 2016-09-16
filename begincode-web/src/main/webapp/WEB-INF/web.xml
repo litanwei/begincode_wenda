@@ -42,7 +42,7 @@
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>page/list.jsp</welcome-file>
+		<welcome-file>page/question_view.jsp</welcome-file>
 	</welcome-file-list>
 	<!--<error-page>-->
 		<!--<error-code>404</error-code>-->

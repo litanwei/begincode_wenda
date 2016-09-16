@@ -40,7 +40,7 @@ public class ProblemService {
      * @param problemId
      * @return Problem
      */
-    public Problem selectByPrimaryKey(Integer problemId){
+    public Problem selProblemById(Integer problemId){
         return problemMapper.selectByPrimaryKey(problemId);
     }
 

@@ -29,7 +29,7 @@ public class AnswerHandler {
         if (answer.getContent().trim() == "") {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
-        int answerNum = answerService.insertSelective(answer);
+        int answerNum = answerService.insertAnswer(answer);
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
@@ -39,18 +39,18 @@ public class AnswerHandler {
     /**
      * 回答反馈
      */
-    public void feedback(int answerId) {
-        Answer ans = answerService.selectByPrimaryKey(answerId);
+    public void answerFeedback(int answerId) {
+        Answer ans = answerService.selAnswerByAnswerId(answerId);
         if (ans.getFeedback() == 0) {
             ans.setFeedback(AnswerEnum.IS_FEED_BACK.getIntVlue());
-            answerService.updateByPrimaryKeySelective(ans);
+            answerService.updateAnswer(ans);
         }
     }
 
     /**
      * 获取所有回答
      */
-    public List<Answer> selectAllByExample(Answer answer){
-        return answerService.selectByExample(answer);
+    public List<Answer> selAllAnswerByExample(Answer answer){
+        return answerService.selectAllAnswer(answer);
     }
 }

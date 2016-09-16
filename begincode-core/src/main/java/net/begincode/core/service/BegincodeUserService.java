@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
-import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
 
@@ -26,8 +25,6 @@ public class BegincodeUserService {
 
     @Resource
     private BegincodeUserMapper begincodeUserMapper;
-    @Resource
-    private BizBegincodeUserMapper bizBegincodeUserMapper;
 
     /**
      * 新增BegincodeUser
@@ -91,28 +88,7 @@ public class BegincodeUserService {
         List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
         return list.size()>0?list.get(0):null;
     }
-    /**
-     * accessToken,openId查找用户
-     * @return BegincodeUser
-     */
-    public BegincodeUser findUserByTokenIdAndOpenId(String accessToken,String openId) {
-        if(StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(openId)){
-            BegincodeUser begincodeUser = new BegincodeUser();
-            begincodeUser.setOpenId(openId);
-            begincodeUser.setAccessToken(accessToken);
-            begincodeUser = bizBegincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
-            if(begincodeUser != null){
-                return begincodeUser;
-            }else{
-                return null;
-            }
-        }else{
-            logger.error(" accessToken ,openId  不能为空 ");
-            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
 
-        }
-
-    }
     /**
      * openId查找用户
      * @return BegincodeUser
@@ -120,9 +96,13 @@ public class BegincodeUserService {
     public BegincodeUser findUserByOpenId(String openId) {
         if(StringUtils.isNotEmpty(openId)){
             BegincodeUser begincodeUser = new BegincodeUser();
-            begincodeUser.setOpenId(openId);
-            begincodeUser = bizBegincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
-            if(begincodeUser != null){
+            BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+            begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
+            List<BegincodeUser> begincodeUserList = begincodeUserMapper.selectByExample(begincodeUserExample);
+            for(int a = 0 ; a <begincodeUserList.size() ; a++ ){
+                begincodeUser = begincodeUserList.get(a);
+            }
+            if(begincodeUser.getAccessToken() != null){
                 return begincodeUser;
             }else{
                 return null;
