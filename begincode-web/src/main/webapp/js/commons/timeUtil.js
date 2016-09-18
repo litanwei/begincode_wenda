@@ -1,0 +1,43 @@
+/**
+ * Created by Stay on 2016/9/17.
+ */
+function formatTime(problemAuthorName,size,answer,time){
+    var date = new Date(time);
+    var dateNow = new Date();
+    var diffTime = (dateNow.getTime() - date.getTime())/1000;
+    if(size == 0){
+        if (diffTime < 60) {
+            return problemAuthorName+" "+Math.ceil(diffTime)+"秒前提问";
+        }
+        else if(diffTime>60 && diffTime<3600){
+            return problemAuthorName+" "+Math.ceil(diffTime/60)+"分钟前提问";
+        }
+        else if(diffTime>3600 && diffTime<86400){
+            return problemAuthorName+" "+Math.ceil(diffTime/60/60)+"小时前提问";
+        }else if(diffTime>86400 && diffTime<259000){
+            return problemAuthorName+" "+Math.ceil(diffTime/60/60/24)+"天前提问";
+        }else if(diffTime>259000){
+            return problemAuthorName+" "+Math.ceil(diffTime/60/60/24)+"天"+"前提问";
+        }else{
+            return problemAuthorName+" "+(date.getMonth()+1)+"月"+date.getDate()+"日"+"前回答";
+        }
+    }else{
+        if (diffTime < 60) {
+            return answer.userName+" "+Math.ceil(diffTime)+"秒前回答";
+        }
+        else if(diffTime>60 && diffTime<3600){
+            return answer.userName+" "+Math.ceil(diffTime/60)+"分钟前回答";
+        }
+        else if(diffTime>3600 && diffTime<86400){
+            return answer.userName+" "+Math.ceil(diffTime/60/60)+"小时前回答";
+        }else if(diffTime>86400 && diffTime<259000){
+            return answer.userName+" "+Math.ceil(diffTime/60/60/24)+"天前回答";
+        }else if(diffTime>259000){
+            return answer.userName+" "+Math.ceil(diffTime/60/60/24)+"天"+"前回答";
+        }else{
+            return answer.userName+" "+(date.getMonth()+1)+"月"+date.getDate()+"日"+"前回答";
+        }
+    }
+
+
+}

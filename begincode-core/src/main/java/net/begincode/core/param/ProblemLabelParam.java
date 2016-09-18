@@ -52,9 +52,7 @@ public class ProblemLabelParam extends Param{
 
     @Override
     public void check() {
-        checkNotEmpty(problem.getBegincodeUserId().toString(), ProblemResponseEnum.PROBLEM_ADD_ERROR);
         checkNotEmpty(problem.getContent(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
         checkNotEmpty(problem.getTitle(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
-        checkNotEmpty(problem.getUserName(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
     }
 }

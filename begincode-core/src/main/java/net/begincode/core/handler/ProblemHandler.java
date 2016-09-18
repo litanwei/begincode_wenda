@@ -2,24 +2,15 @@ package net.begincode.core.handler;
 
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
-import net.begincode.core.model.Label;
-import net.begincode.core.model.Message;
-import net.begincode.core.model.Problem;
-import net.begincode.core.model.ProblemLabel;
-import net.begincode.core.service.LabelService;
-import net.begincode.core.service.MessageService;
-import net.begincode.core.service.ProLabService;
-import net.begincode.core.service.ProblemService;
+import net.begincode.core.model.*;
+import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Stay on 2016/8/26  21:41.
@@ -34,6 +25,8 @@ public class ProblemHandler {
     private MessageService messageService;
     @Resource
     private ProLabService proLabService;
+    @Resource
+    private AnswerService answerService;
 
     /**
      * 添加问题
@@ -54,13 +47,8 @@ public class ProblemHandler {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
-        //拆解标签集合
-        List<Label> list = operateLabelNameSet(labelNameSet);
-        for (Label lb : list) {
-            problemLabel.setLabelId(lb.getLabelId());
-            problemLabel.setProblemId(problem.getProblemId());
-            proLabService.createProLab(problemLabel);
-        }
+        //拆解标签集合,并把对应的参数传入相关表中
+        operateLabelNameSet(labelNameSet, problem);
         if (userId != null && userId.length == 1) {
             message.setBegincodeUserId(userId[0]);
             message.setProId(problem.getProblemId());
@@ -76,12 +64,94 @@ public class ProblemHandler {
     }
 
     /**
+     * 传入问题集合 返回一个map
+     * map里面有对应的问题id 和一个list数组  数组里面有问题id所对应的标签名
+     * 如:  当问题号为1时 对应的value是(spring,springmvc,框架)
+     *
+     * @param list
+     * @return
+     */
+    public Map problemToLabel(List<Problem> list) {
+        Map<Integer, ArrayList<String>> map = new HashMap<>();
+        for (Problem problem : list) {
+            ArrayList<String> array = new ArrayList<>();
+            List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());
+            for (ProblemLabel problemLabel : lt) {
+                array.add(labelService.selectById(problemLabel.getLabelId()).getLabelName());
+            }
+            map.put(problem.getProblemId(), array);
+        }
+        return map;
+    }
+
+    /**
+     * 传入问题集合 返回对应的问题数集合
+     *
+     * @param list
+     * @return
+     */
+    public List<Integer> problemToAnswerSize(List<Problem> list) {
+        ArrayList<Integer> lt = new ArrayList<>();
+        for (Problem problem : list) {
+            lt.add(answerService.findByProblemId(problem.getProblemId()).size());
+        }
+        return lt;
+    }
+
+
+    /**
+     * 查找后15条问题记录
+     *
+     * @return
+     */
+    public List<Problem> selectNewProblems() {
+        return problemService.findNewProblem();
+    }
+
+    /**
+     * 根据用户名查找问题
+     *
+     * @param userName
+     * @return 返回问题集合
+     */
+    public List<Problem> selectMyProblems(String userName) {
+        return problemService.findMyProblem(userName);
+    }
+
+    /**
+     * 查找创建时间最近的15条问题集合
+     *
+     * @return
+     */
+    public List<Problem> selectHotProblems() {
+        return problemService.findHotProblem();
+    }
+
+    /**
      * 查找问题集合
      *
      * @return
      */
     public List<Problem> selectAllProblem() {
         return problemService.findAllProblem();
+    }
+
+    /**
+     * 根据传入的问题集合查找对应的回答 并排序 取创建时间最近的回答
+     * 依次加入集合
+     * @param list
+     * @return
+     */
+    public List<Answer> selectOrderByProblemId(List<Problem> list) {
+        List<Answer> answerList = new ArrayList<Answer>();
+        for(Problem problem : list){
+            answerList.add(answerService.findOrderByProblemId(problem.getProblemId()));
+        }
+        return answerList;
+    }
+
+    public List<Problem> selectNoAnswerProblems(){
+        return problemService.findNoAnswerProblem();
     }
 
 
@@ -93,22 +163,26 @@ public class ProblemHandler {
      * @param labelNameSet
      * @return 集合标签
      */
-    private List<Label> operateLabelNameSet(Set<String> labelNameSet) {
-        ArrayList<Label> list = new ArrayList<Label>();
+    private void operateLabelNameSet(Set<String> labelNameSet, Problem problem) {
         Label label = new Label();
+        ProblemLabel problemLabel = new ProblemLabel();
         if (labelNameSet != null && labelNameSet.size() > 0) {
             for (String labelName : labelNameSet) {
                 Label seleLabel = labelService.selectByName(labelName);
                 if (seleLabel != null) {
-                    list.add(seleLabel);
+                    problemLabel.setLabelId(seleLabel.getLabelId());
+                    problemLabel.setProblemId(problem.getProblemId());
+                    proLabService.createProLab(problemLabel);
                 } else {
                     label.setLabelName(labelName);
                     labelService.createLabel(label);
-                    list.add(label);
+                    problemLabel.setLabelId(label.getLabelId());
+                    problemLabel.setProblemId(problem.getProblemId());
+                    proLabService.createProLab(problemLabel);
                 }
             }
         }
-        return list;
     }
+
 
 }

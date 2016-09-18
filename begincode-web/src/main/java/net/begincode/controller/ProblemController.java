@@ -1,8 +1,9 @@
 package net.begincode.controller;
 
-import net.begincode.core.handler.ProLabHandler;
+import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
@@ -36,13 +37,62 @@ public class ProblemController {
     @Resource
     private ProblemHandler problemHandler;
     @Resource
-    private ProLabHandler proLabHandler;
+    private AccountContext accountContext;
 
     @AuthPassport
     @RequestMapping("/create")
-    public String problemSkip(HttpServletRequest request) {
+    public String problemSkip() {
         return "question_add";
     }
+
+    /**
+     * 主页新问题列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Map findNewProblem() {
+        Map map = new HashMap();
+        List<Problem> list = problemHandler.selectNewProblems();
+        map.put("problems", list);
+        putForProblems(map, list);
+        return map;
+    }
+
+    /**
+     * 热门的问题列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Map findHotProblem() {
+        Map map = new HashMap();
+        List<Problem> list = problemHandler.selectHotProblems();
+        map.put("problems", list);
+        putForProblems(map, list);
+        return map;
+    }
+
+    /**
+     * 我的问题列表
+     *
+     * @param request
+     * @return
+     */
+    @AuthPassport
+    @RequestMapping(value = "/myProblems", method = RequestMethod.POST)
+    @ResponseBody
+    public Map findMyProblem(HttpServletRequest request) {
+        Map map = new HashMap();
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        List<Problem> list = problemHandler.selectMyProblems(begincodeUser.getNickname());
+        map.put("problems", list);
+        putForProblems(map, list);
+        return map;
+    }
+
 
 
     /**
@@ -56,16 +106,20 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLabelParam problemLableParam) {
+    public Map addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
-        Label label = problemLableParam.getLabel();
+        BegincodeUser user = accountContext.getCurrentUser(request);
+        problem.setUserName(user.getNickname());
+        problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
+        Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
         map.put("success", "提交成功");
         return map;
     }
+
 
     /**
      * 以逗号切割传入标签名
@@ -104,7 +158,7 @@ public class ProblemController {
         Integer[] userId = new Integer[stringSet.size()];
         if (stringSet != null && stringSet.size() > 0) {
             for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@",""));
+                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@", ""));
                 if (begincodeUser == null) {
                     continue;
                 } else {
@@ -114,6 +168,18 @@ public class ProblemController {
             }
         }
         return userId;
+    }
+
+    /**
+     * 要获取问题列表的话 只要调用这个方法 传入一个map 和 你要展示的问题集合
+     *
+     * @param map  一个普通的Map对象
+     * @param list 要展示的问题集合
+     */
+    private void putForProblems(Map map, List<Problem> list) {
+        map.put("answerSize", problemHandler.problemToAnswerSize(list));
+        map.put("labelName", problemHandler.problemToLabel(list));
+        map.put("answer",problemHandler.selectOrderByProblemId(list));
     }
 
 }

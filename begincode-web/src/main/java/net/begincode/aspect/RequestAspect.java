@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-public class ControllerProLabAspect {
+public class RequestAspect {
     @Pointcut("execution(* net.begincode.controller.*.*(..))")
     public void pointCut_() {
     }

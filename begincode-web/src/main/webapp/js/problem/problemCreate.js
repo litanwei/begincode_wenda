@@ -25,42 +25,9 @@ $(document).ready(function () {
             });
         }
     })
-    //把用户id和nickName赋给对应的隐藏域中
-    var openId = {openId: getCookie("openId")};
-    $.ajax({
-        data: openId,
-        type: "POST",
-        dataType: "json",
-        url: "/user/openId.htm",
-        success: function (begincodeUser) {
-            $("#begincodeUserId").attr("value", begincodeUser.begincodeUserId);
-            $("#userName").attr("value", begincodeUser.nickname);
-        },
-        error: function () {
-            alert("系统异常！,请重新提问");
-            window.location.href = "/";
-        }
-    });
 
 });
 
-
-/**
- * 根据cookieName查找对应的值
- * @param cookieName
- * @returns {*}
- */
-function getCookie(cookieName) {
-    var strCookie = document.cookie;
-    var arrCookie = strCookie.split("; ");
-    for (var i = 0; i < arrCookie.length; i++) {
-        var arr = arrCookie[i].split("=");
-        if (cookieName == arr[0]) {
-            return arr[1];
-        }
-    }
-    return "";
-}
 
 /**
  * 提问表单验证
