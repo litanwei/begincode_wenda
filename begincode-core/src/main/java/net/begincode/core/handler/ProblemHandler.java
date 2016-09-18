@@ -73,13 +73,16 @@ public class ProblemHandler {
      */
     public Map problemToLabel(List<Problem> list) {
         Map<Integer, ArrayList<String>> map = new HashMap<>();
+        int i = 1;
         for (Problem problem : list) {
             ArrayList<String> array = new ArrayList<>();
+            //按顺序解析传进来了的问题 得到问题对应的问题标签集合
             List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());
             for (ProblemLabel problemLabel : lt) {
                 array.add(labelService.selectById(problemLabel.getLabelId()).getLabelName());
             }
-            map.put(problem.getProblemId(), array);
+            map.put(i, array);
+            i++;
         }
         return map;
     }

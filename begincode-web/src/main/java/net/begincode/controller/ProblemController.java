@@ -203,8 +203,8 @@ public class ProblemController {
      * @param list 要展示的问题集合
      */
     private void putForProblems(Map map, List<Problem> list) {
-        map.put("answerSize", problemHandler.problemToAnswerSize(list));
         map.put("labelName", problemHandler.problemToLabel(list));
+        map.put("answerSize", problemHandler.problemToAnswerSize(list));
         map.put("answer", problemHandler.selectOrderByProblemId(list));
     }
 

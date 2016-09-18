@@ -43,7 +43,6 @@ function getProblems(map, id) {
         } else {
             solve = '<div class="answers solved">' + size[i] + '<small>解决</small></div>';
         }
-        var labelSize = labelDiv.length;
         var problemList = '<section class="stream-list__item">'
             + '<div class="qa-rank">'
             + '<div class="votes plus hidden-xs">'
@@ -70,7 +69,7 @@ function getProblems(map, id) {
             + '">'
             + map.problems[i].title
             + '</a></h2>'
-            + labelDiv[labelSize - i - 1]
+            + labelDiv[i+1]
             + '</span></div></section>';
         $("#" + id).append(problemList);
     });
