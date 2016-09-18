@@ -7,12 +7,12 @@
  * map必须有的key: answerSize value:调用Problemhandler里面的problemToAnswerSize方法  (问题对应的回答数)
  *                 labelName  value:调用Problemhandler里面的problemToLabel方法    (对应的标签名)
  *                 problems     value:调用Problemhandler对应你要查找的问题集合
+ *                 answer     value: 调用Problemhandler selectOrderByProblemId的方法
  * @param map
  * @param id    要在div后添加问题列表 的id号
  */
-function getProblems(map,id){
-    $("#"+id).empty();
-    console.log(map.answer);
+function getProblems(map, id) {
+    $("#" + id).empty();
     var size = new Array();
     var answer = new Array();
     var labelDiv = new Array();
@@ -20,7 +20,7 @@ function getProblems(map,id){
     $.each(map.answerSize, function (i) {
         size[i] = map.answerSize[i];
     });
-    $.each(map.answer,function (i) {
+    $.each(map.answer, function (i) {
         answer[i] = map.answer[i];
     });
     $.each(map.labelName, function (i) {
@@ -38,10 +38,10 @@ function getProblems(map,id){
     });
     $.each(map.problems, function (i) {
         var solve = "";
-        if(map.problems[i].solve == 0){
-            solve = '<div class="answers answered">'+size[i]+'<small>回答</small></div>';
-        }else{
-            solve = '<div class="answers solved">'+size[i]+'<small>解决</small></div>';
+        if (map.problems[i].solve == 0) {
+            solve = '<div class="answers answered">' + size[i] + '<small>回答</small></div>';
+        } else {
+            solve = '<div class="answers solved">' + size[i] + '<small>解决</small></div>';
         }
         var labelSize = labelDiv.length;
         var problemList = '<section class="stream-list__item">'
@@ -60,8 +60,8 @@ function getProblems(map,id){
             + '<ul class="author list-inline ">'
             + '<li>'
             + '<a style="text-decoration:none;">'
-            + formatTime(map.problems[i].userName,size[i],answer[i],map.problems[i].createTime)
-            +'</a>'
+            + formatTime(map.problems[i].userName, size[i], answer[i], map.problems[i].createTime)
+            + '</a>'
             + '</li>'
             + '</ul>'
             + '<span class="keyword-list ">'
@@ -72,6 +72,6 @@ function getProblems(map,id){
             + '</a></h2>'
             + labelDiv[labelSize - i - 1]
             + '</span></div></section>';
-        $("#"+id).append(problemList);
+        $("#" + id).append(problemList);
     });
 }

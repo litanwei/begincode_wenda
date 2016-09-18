@@ -43,6 +43,7 @@ public class ProblemService {
         return problemMapper.selectByExample(problemExample);
     }
 
+
     /**
      * 倒序查找后15条记录
      *
@@ -84,7 +85,7 @@ public class ProblemService {
         try {
             Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - HotProblemDate.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
                     + " 00:00:00");
-            criteria.andCreateTimeGreaterThanOrEqualTo(date);
+            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
             return problemMapper.selectByExample(problemExample);
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,9 +93,23 @@ public class ProblemService {
         }
     }
 
+    /**
+     * 查找没有答案的问题集合
+     *
+     * @return
+     */
     public List<Problem> findNoAnswerProblem() {
         return bizProblemMapper.selectProblemWithNoAnswer();
     }
 
+    /**
+     * 传入问题id  返回@我的问题列表
+     *
+     * @param problemId
+     * @return
+     */
+    public List<Problem> selectByUserIdWithMessage(Integer userId) {
+        return bizProblemMapper.selectByUserIdWithMessage(userId);
+    }
 
 }

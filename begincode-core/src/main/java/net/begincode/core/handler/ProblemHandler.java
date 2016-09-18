@@ -93,7 +93,7 @@ public class ProblemHandler {
     public List<Integer> problemToAnswerSize(List<Problem> list) {
         ArrayList<Integer> lt = new ArrayList<>();
         for (Problem problem : list) {
-            lt.add(answerService.findByProblemId(problem.getProblemId()).size());
+            lt.add(answerService.findByProblemIdNum(problem.getProblemId()));
         }
         return lt;
     }
@@ -139,21 +139,36 @@ public class ProblemHandler {
     /**
      * 根据传入的问题集合查找对应的回答 并排序 取创建时间最近的回答
      * 依次加入集合
+     *
      * @param list
      * @return
      */
     public List<Answer> selectOrderByProblemId(List<Problem> list) {
         List<Answer> answerList = new ArrayList<Answer>();
-        for(Problem problem : list){
+        for (Problem problem : list) {
             answerList.add(answerService.findOrderByProblemId(problem.getProblemId()));
         }
         return answerList;
     }
 
-    public List<Problem> selectNoAnswerProblems(){
+    /**
+     * 查找未回答的问题集合
+     *
+     * @return
+     */
+    public List<Problem> selectNoAnswerProblems() {
         return problemService.findNoAnswerProblem();
     }
 
+    /**
+     * 通过userId 查找@该用户的问题
+     *
+     * @param userId
+     * @return
+     */
+    public List<Problem> selectByUserIdWithMessage(Integer userId) {
+        return problemService.selectByUserIdWithMessage(userId);
+    }
 
     /**
      * 传入的labelName集合 判断是否有存在

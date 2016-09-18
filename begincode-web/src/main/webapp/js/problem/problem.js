@@ -17,7 +17,7 @@ $(document).ready(function () {
             url: "/problem/hotProblems.htm",
             dataType: "json",
             success: function (data) {
-                getProblems(data,"hotProblem");
+                getProblems(data, "hotProblem");
             }
         });
     });
@@ -37,18 +37,35 @@ $(document).ready(function () {
             }
         });
     });
-   /* $("#noAnswerProblems").click(function () {
-        $("#noAnswerProblems").empty();
+    $("#noAnswerProblemId").click(function () {
+        $("#noAnswerProblem").empty();
         $.ajax({
-            type : "GET",
-            url : "/problem/noAnswerProblems.htm",
-            dataType : "json",
+            type: "GET",
+            url: "/problem/noAnswerProblems.htm",
+            dataType: "json",
             success: function (data) {
-                // getProblems(data,"noAnserProblem");
+                getProblems(data, "noAnswerProblem");
             }
         });
 
-    });*/
+    });
+    $("#messageId").click(function () {
+        $("#message").empty();
+        $.ajax({
+            type: "POST",
+            url: "/problem/problemWithMessage.htm",
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != null) {
+                    $("#errorMessage").html(data.msg);
+                    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
+                } else {
+                    getProblems(data, "message");
+                }
+            }
+        });
+
+    });
 
 
 });

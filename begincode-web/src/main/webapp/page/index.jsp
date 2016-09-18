@@ -34,14 +34,14 @@
                 <li role="presentation"><a href="#hotProblems" id="hotProblemId" aria-controls="profile" role="tab"
                                            data-toggle="tab">热门的</a>
                 </li>
-                <li role="presentation"><a id="noAnswerProblems" href="#noAnswerProblems" aria-controls="messages" role="tab"
+                <li role="presentation"><a id="noAnswerProblemId" href="#noAnswerProblems" aria-controls="messages"
+                                           role="tab"
                                            data-toggle="tab">未回答的</a></li>
                 <li role="presentation"><a id="myProblemId" href="#myProblems" aria-controls="messages" role="tab"
                                            data-toggle="tab">我的问题</a></li>
-                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab"
+                <li role="presentation"><a id="messageId" href="#messages" aria-controls="messages" role="tab"
                                            data-toggle="tab">@我的</a></li>
             </ul>
-
 
 
             <div class="tab-content">
@@ -57,12 +57,16 @@
                 </div>
                 <!--未回答的问题-->
                 <div role="tabpanel" class="tab-pane" id="noAnswerProblems">
-                    <div id="noAnserProblem" class="container-fluid">
+                    <div id="noAnswerProblem" class="container-fluid">
                     </div>
                 </div>
                 <!--我的问题-->
                 <div role="tabpanel" class="tab-pane" id="myProblems">
                     <div id="myProblem" class="container-fluid">
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="messages">
+                    <div id="message" class="container-fluid">
                     </div>
                 </div>
 

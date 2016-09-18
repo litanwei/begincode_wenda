@@ -3,7 +3,6 @@ package net.begincode.controller;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
@@ -76,6 +75,22 @@ public class ProblemController {
     }
 
     /**
+     * 未回答问题列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/noAnswerProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Map findNoAnswerProblem() {
+        Map map = new HashMap();
+        List<Problem> list = problemHandler.selectNoAnswerProblems();
+        map.put("problems", list);
+        putForProblems(map, list);
+        return map;
+    }
+
+
+    /**
      * 我的问题列表
      *
      * @param request
@@ -93,7 +108,17 @@ public class ProblemController {
         return map;
     }
 
-
+    @AuthPassport
+    @RequestMapping(value = "/problemWithMessage", method = RequestMethod.POST)
+    @ResponseBody
+    public Map findByUserIdWithMessage(HttpServletRequest request) {
+        Map map = new HashMap();
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        List<Problem> list = problemHandler.selectByUserIdWithMessage(begincodeUser.getBegincodeUserId());
+        map.put("problems", list);
+        putForProblems(map, list);
+        return map;
+    }
 
     /**
      * 添加问题
@@ -171,7 +196,8 @@ public class ProblemController {
     }
 
     /**
-     * 要获取问题列表的话 只要调用这个方法 传入一个map 和 你要展示的问题集合
+     * 要获取问题列表 使用这个方法 结合js :  getProblems.js  使用
+     * 只要调用这个方法 传入一个map 和 你要展示的问题集合
      *
      * @param map  一个普通的Map对象
      * @param list 要展示的问题集合
@@ -179,7 +205,7 @@ public class ProblemController {
     private void putForProblems(Map map, List<Problem> list) {
         map.put("answerSize", problemHandler.problemToAnswerSize(list));
         map.put("labelName", problemHandler.problemToLabel(list));
-        map.put("answer",problemHandler.selectOrderByProblemId(list));
+        map.put("answer", problemHandler.selectOrderByProblemId(list));
     }
 
 }

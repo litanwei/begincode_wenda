@@ -22,6 +22,19 @@ public class AnswerService {
 
 
     /**
+     * 传入问题id 返回对应的回答数
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer findByProblemIdNum(Integer problemId) {
+        AnswerExample answerExample = new AnswerExample();
+        AnswerExample.Criteria criteria = answerExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        return answerMapper.countByExample(answerExample);
+    }
+
+    /**
      * 根据problemId查找回答集合
      *
      * @param problemId
@@ -36,17 +49,18 @@ public class AnswerService {
 
     /**
      * 根据problemId查找回答 并排序 取创建时间最近的回答
+     *
      * @param problemId
-     * @return  单个回答实体
+     * @return 单个回答实体
      */
     public Answer findOrderByProblemId(Integer problemId) {
-        if(findByProblemId(problemId).size()>0){
+        if (findByProblemId(problemId).size() > 0) {
             AnswerExample answerExample = new AnswerExample();
             answerExample.setOrderByClause("create_time desc limit 1");
             AnswerExample.Criteria criteria = answerExample.createCriteria();
             criteria.andProblemIdEqualTo(problemId);
             return answerMapper.selectByExample(answerExample).get(0);
-        }else{
+        } else {
             return null;
         }
     }

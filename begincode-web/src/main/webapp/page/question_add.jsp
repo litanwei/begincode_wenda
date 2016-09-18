@@ -32,8 +32,6 @@
 <form id="problemForm"  methond="post">
   <div id="warning"></div>
   <div class="form-group">
-    <%--<input type="hidden" id="begincodeUserId" name="problem.begincodeUserId" value=""/>--%>
-    <%--<input type="hidden" id="userName" name="problem.userName" value=""  />--%>
     <label><span class="labelinfoblue"></span>问题标题</label>
     <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
