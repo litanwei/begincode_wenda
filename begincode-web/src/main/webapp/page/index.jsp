@@ -3,15 +3,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../js/jquery/jquery-3.1.0.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%@ include file="commons/meta.jsp"%>
     <title>Bootstrap 101 Template</title>
-
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/qu.css" rel="stylesheet">
+    <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
+    <link href="${ctx}/css/qu.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -22,8 +23,6 @@
 <body>
 
 <jsp:include page="/page/core/top.jsp" />
-
-
 <div class="container-fluid">
 
     <div class="row">
@@ -306,7 +305,7 @@
 
         <div class="col-md-3">
             <p>
-                <button type="button" class="btn btn-primary btn-lg btn-block">我要提问</button>
+                <a href="${ctx}/problem/create.htm" class="btn btn-primary btn-lg btn-block">我要提问</a>
             </p>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -336,10 +335,36 @@
 
 </div>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../js/jquery-3.1.0.min.js"></script>
+<c:if test="${!empty msg}" var="condition" scope="request">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#myModal").modal("show");
+        });
+    </script>
+</c:if>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    警告
+                </h4>
+            </div>
+            <div class="modal-body">
+                ${msg}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../js/bootstrap.js"></script>
-<script src="../js/messageremind.js"></script>
+<script src="../js/bootstrap/bootstrap.js"></script>
 </body>
 </html>

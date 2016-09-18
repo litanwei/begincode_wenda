@@ -1,26 +1,22 @@
 package net.begincode.core.service;
 
-import java.util.List;
+import net.begincode.core.mapper.MessageMapper;
+import net.begincode.core.model.Message;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Service;
-
-import net.begincode.core.mapper.MessageMapper;
-import net.begincode.core.model.MessageRemind;
-
+/**
+ * Created by Stay on 2016/8/30  22:57.
+ */
 @Service
 public class MessageService {
-	@Resource
-	private MessageMapper messageMapper;
-	
-	/**
-	 * 查询提醒信息
-	 * @param begincode_user_id
-	 * @param nowpage
-	 * @param pagesize
-	 */
-	public List<MessageRemind> selectByMessageRemind(Integer begincode_user_id,Integer nowpage,Integer pagesize){
-		return messageMapper.selectByMessageRemind(begincode_user_id, nowpage, pagesize);
-	}
+    @Resource
+    private MessageMapper messageMapper;
+
+    public void createMessage(Message message)
+    {
+        messageMapper.insertSelective(message);
+    }
+
 }
