@@ -4,7 +4,8 @@
 <html lang="zh-CN">
 <head>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../js/jquery/jquery-3.1.0.min.js"></script>
+    <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
+    <script src="${ctx}/js/jquery/jqPaginator.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,15 +74,7 @@
             </div>
 
             <nav style="text-align: center">
-                <ul class="pagination">
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-                    </li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <ul id="paginationId" class="pagination">
                 </ul>
             </nav>
 

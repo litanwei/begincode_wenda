@@ -3,6 +3,7 @@ package net.begincode.core.handler;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.*;
+import net.begincode.core.param.PageParam;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
@@ -103,12 +104,12 @@ public class ProblemHandler {
 
 
     /**
-     * 查找后15条问题记录
+     * 查找新问题记录
      *
      * @return
      */
-    public List<Problem> selectNewProblems() {
-        return problemService.findNewProblem();
+    public void selectNewProblems(PageParam<Problem> pageParam) {
+        problemService.findNewProblem(pageParam);
     }
 
     /**

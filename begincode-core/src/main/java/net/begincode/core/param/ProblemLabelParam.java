@@ -5,9 +5,8 @@ import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Stay on 2016/8/28  21:22.

@@ -36,9 +36,9 @@ function getProblems(map, id) {
         labelDiv[i] = lbName;
         lbName = "";
     });
-    $.each(map.problems, function (i) {
+    $.each(map.problems.page.data, function (i) {
         var solve = "";
-        if (map.problems[i].solve == 0) {
+        if (map.problems.page.data[i].solve == 0) {
             solve = '<div class="answers answered">' + size[i] + '<small>回答</small></div>';
         } else {
             solve = '<div class="answers solved">' + size[i] + '<small>解决</small></div>';
@@ -46,12 +46,12 @@ function getProblems(map, id) {
         var problemList = '<section class="stream-list__item">'
             + '<div class="qa-rank">'
             + '<div class="votes plus hidden-xs">'
-            + map.problems[i].voteCount
+            + map.problems.page.data[i].voteCount
             + '<small>投票</small>'
             + '</div>'
             + solve
             + '<div class="views hidden-xs">'
-            + map.problems[i].viewCount
+            + map.problems.page.data[i].viewCount
             + '<small>浏览</small>'
             + '</div>'
             + '</div>'
@@ -59,15 +59,15 @@ function getProblems(map, id) {
             + '<ul class="author list-inline ">'
             + '<li>'
             + '<a style="text-decoration:none;">'
-            + formatTime(map.problems[i].userName, size[i], answer[i], map.problems[i].createTime)
+            + formatTime(map.problems.page.data[i].userName, size[i], answer[i], map.problems.page.data[i].createTime)
             + '</a>'
             + '</li>'
             + '</ul>'
             + '<span class="keyword-list ">'
             + '<h2 class="title l"><a href="/problem/'
-            + map.problems[i].problemId + ".htm"
+            + map.problems.page.data[i].problemId + ".htm"
             + '">'
-            + map.problems[i].title
+            + map.problems.page.data[i].title
             + '</a></h2>'
             + labelDiv[i+1]
             + '</span></div></section>';

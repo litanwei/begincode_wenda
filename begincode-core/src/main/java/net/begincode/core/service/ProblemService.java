@@ -1,10 +1,13 @@
 package net.begincode.core.service;
 
-import net.begincode.common.HotProblemDate;
+import net.begincode.bean.Page;
+import net.begincode.common.BeginCodeConstant;
 import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
+import net.begincode.core.param.PageParam;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,14 +48,20 @@ public class ProblemService {
 
 
     /**
-     * 倒序查找后15条记录
+     * 新问题查询
      *
      * @return
      */
-    public List<Problem> findNewProblem() {
+    public void findNewProblem(PageParam<Problem> pageParam) {
+        Page<Problem> page = pageParam.getPage();
+        page.setPageCount(this.findAllProblem().size());
+        int currentPage = page.getPageNum();
+        int index = (currentPage - 1) * page.getPageSize();   //分页起始位置
+        int count = page.getPageSize() * currentPage;         //分页结束位置
         ProblemExample problemExample = new ProblemExample();
-        problemExample.setOrderByClause("problem_id desc limit 15");
-        return problemMapper.selectByExample(problemExample);
+        problemExample.setOrderByClause("problem_id desc");
+        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds(index, count));
+        page.setData(list);
     }
 
     /**
@@ -83,7 +92,7 @@ public class ProblemService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         try {
-            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - HotProblemDate.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
+            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
                     + " 00:00:00");
             criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
             return problemMapper.selectByExample(problemExample);
@@ -105,11 +114,12 @@ public class ProblemService {
     /**
      * 传入问题id  返回@我的问题列表
      *
-     * @param problemId
+     * @param userId
      * @return
      */
     public List<Problem> selectByUserIdWithMessage(Integer userId) {
         return bizProblemMapper.selectByUserIdWithMessage(userId);
     }
+
 
 }

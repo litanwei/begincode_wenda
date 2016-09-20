@@ -8,6 +8,24 @@ $(document).ready(function () {
         dataType: "json",
         success: function (data) {
             getProblems(data, "newProblem");
+            $("#paginationId").jqPaginator({
+                totalCounts: data.problems.page.pageCount,
+                pageSize: data.problems.page.pageSize,
+                visiblePages: 4,
+                activeClass: 'active',
+                onPageChange: function (currentPage, type) {
+                    if (type == "change") {
+                        $.ajax({
+                            type: "GET",
+                            url: "/problem/newProblems.htm?page="+currentPage,
+                            dataType: "json",
+                            success: function (data) {
+                                getProblems(data, "newProblem");
+                            }
+                        });
+                    }
+                }
+            })
         }
     });
     $("#hotProblemId").click(function () {

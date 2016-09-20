@@ -6,6 +6,7 @@ import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
+import net.begincode.core.param.PageParam;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.PatternUtil;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -51,11 +53,12 @@ public class ProblemController {
      */
     @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Map findNewProblem() {
+    public Map findNewProblem(@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
-        List<Problem> list = problemHandler.selectNewProblems();
-        map.put("problems", list);
-        putForProblems(map, list);
+        PageParam<Problem> pageParam = new PageParam<>(page);
+        problemHandler.selectNewProblems(pageParam);
+        map.put("problems", pageParam);
+        putForProblems(map, pageParam.getPage().getData());
         return map;
     }
 
