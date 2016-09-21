@@ -1,8 +1,10 @@
 package net.begincode.aspect;
 
-import net.begincode.core.param.ProblemLabelParam;
+import net.begincode.bean.Param;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,9 +22,9 @@ public class RequestAspect {
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object[] objects = proceedingJoinPoint.getArgs();
         for (int i = 0; i < objects.length; i++) {
-            if (objects[i] instanceof ProblemLabelParam) {
-                ProblemLabelParam problemLabelParam = (ProblemLabelParam) objects[i];
-                problemLabelParam.check();
+            if (objects[i] instanceof Param) {
+                Param param = (Param) objects[i];
+                param.check();
             }
         }
         return proceedingJoinPoint.proceed();
