@@ -1,8 +1,14 @@
 import net.begincode.controller.UserController;
 import net.begincode.core.handler.DemoHandler;
+import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.handler.UserHandler;
+import net.begincode.core.mapper.Biz_MessageMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Demo;
+import net.begincode.core.model.MessageExample;
+import net.begincode.core.model.MessageRemind;
+import net.begincode.core.service.MessageService;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,6 +90,16 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Resource
+    private MessageHandler messageHandler;
+    @Test
+    public void one(){
+    	System.out.println("到这");
+    	List<MessageRemind> ls=messageHandler.selectByMessageRemind(1, 1, 15);
+    	for(MessageRemind m:ls){
+    		System.out.println(m);
+    	}
     }
 
 }

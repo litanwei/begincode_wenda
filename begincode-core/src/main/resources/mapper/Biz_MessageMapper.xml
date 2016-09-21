@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.begincode.core.mapper.Biz_MessageMapper" >
+ <resultMap id="RemindResultMap" type="net.begincode.core.model.MessageRemind" >
+    <!--
+      	映射MessageRemind类
+    -->
+    <result column="vote_count" property="vote_count" jdbcType="INTEGER" />
+    <result column="answer_count" property="answer_count" jdbcType="VARCHAR"  />
+    <result column="view_count" property="view_count" jdbcType="INTEGER" />
+    <result column="answer_username" property="answer_username" jdbcType="VARCHAR" />
+    <result column="answer_userid" property="answer_userid" jdbcType="INTEGER" />
+    <result column="label_name" property="label_name" jdbcType="VARCHAR"  />
+    <result column="answer_content" property="answer_content" jdbcType="LONGVARCHAR"  />
+    <result column="create_time" property="create_date" jdbcType="DATE"  />
+  </resultMap>
+  <select id="selectByMessageRemind" resultMap="RemindResultMap">
+  	<!--一条获得关联 message,problem,problem_label,label,answer表的信息  -->
+	SELECT	pr.`vote_count`,an2.answer_count,pr.`view_count`,an.`user_name` answer_username,an.`begincode_user_id` answer_userid,prla.label_name,an.`content` answer_content,an.`create_time` 
+	FROM message ms 
+	LEFT JOIN problem pr ON (ms.`pro_id`=pr.`problem_id` )
+	LEFT JOIN answer an ON (an.`answer_id`=ms.answer_id AND an.`problem_id`=ms.pro_id )
+	LEFT JOIN (SELECT prl.`problem_id`,GROUP_CONCAT(lb.`label_name`) label_name FROM problem_label prl
+	   	LEFT JOIN label lb ON prl.`label_id`=lb.`label_id` GROUP BY prl.`problem_id`)prla ON prla.problem_id=ms.`pro_id`
+	LEFT JOIN (SELECT COUNT(*) AS answer_count,answer.`problem_id` FROM answer GROUP BY answer.`problem_id`) an2 ON an2.problem_id=pr.`problem_id`
+	WHERE ms.`begincode_user_id`=pr.`begincode_user_id`  
+	AND (ms.`begincode_user_id`=#{id}) GROUP BY ms.`message_id` limit #{nowpage},#{pagesize}	
+  </select>
+  <select id="countByMessageRemind" resultType="java.lang.Integer">
+  	select count(*) from message
+  </select>
+</mapper>

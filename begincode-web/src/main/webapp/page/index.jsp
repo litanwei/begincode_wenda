@@ -366,5 +366,6 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../js/bootstrap/bootstrap.js"></script>
+<script src="../js/message/messageremind.js"></script>
 </body>
 </html>
