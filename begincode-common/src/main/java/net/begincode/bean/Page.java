@@ -11,18 +11,18 @@ import java.util.List;
 public class Page<T> {
     private int totalPage;  //总页数
     private List<T> data = new ArrayList<>();
-    private int pageNum;   //当前页数
-    private int pageSize = BeginCodeConstant.PAGESIZE;  //每页显示的行数
-    private int pageCount;  //总记录数
+    private int currentNum;   //当前页数
+    private int pageEachSize = BeginCodeConstant.PAGESIZE;  //每页显示的行数
+    private int totalNum;  //总记录数
 
     public Page(){
     }
 
     public int getTotalPage() {
-        if (pageCount % pageCount == 0) {
-            totalPage = pageCount / pageSize;
-        } else {
-            totalPage = pageCount / pageSize + 1;
+        if(totalNum % pageEachSize == 0){
+            totalPage = totalNum / pageEachSize;
+        }else{
+            totalPage = totalNum / pageEachSize +1;
         }
         return totalPage;
     }
@@ -39,27 +39,27 @@ public class Page<T> {
         this.data = data;
     }
 
-    public int getPageNum() {
-        return pageNum;
+    public int getCurrentNum() {
+        return currentNum;
     }
 
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
+    public void setCurrentNum(int currentNum) {
+        this.currentNum = currentNum;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getPageEachSize() {
+        return pageEachSize;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setPageEachSize(int pageEachSize) {
+        this.pageEachSize = pageEachSize;
     }
 
-    public int getPageCount() {
-        return pageCount;
+    public int getTotalNum() {
+        return totalNum;
     }
 
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
+    public void setTotalNum(int totalNum) {
+        this.totalNum = totalNum;
     }
 }

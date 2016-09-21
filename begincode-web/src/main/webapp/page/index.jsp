@@ -30,7 +30,7 @@
         <div class="col-md-9">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                <li role="presentation" class="active"><a id="newProblemId" href="#home" aria-controls="home" role="tab"
                                                           data-toggle="tab">最新的</a></li>
                 <li role="presentation"><a href="#hotProblems" id="hotProblemId" aria-controls="profile" role="tab"
                                            data-toggle="tab">热门的</a>
@@ -166,6 +166,7 @@
 <script src="../js/bootstrap/bootstrap.js"></script>
 <script src="${ctx}/js/commons/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
+<script src="${ctx}/js/commons/jqpagination.js"></script>
 <script src="${ctx}/js/problem/problem.js"></script>
 </body>
 </html>

@@ -16,14 +16,14 @@ public class PageParam<T> extends Param {
     @Override
     public void check() {
         if(pageNum <= 0 ){
-            page.setPageNum(1);      //把当前页设为1
-        }else if(page.getPageNum() > page.getPageCount()){
-            page.setPageNum(page.getTotalPage());    //把当前页设置为最大值
+            page.setCurrentNum(1);      //把当前页设为1
+        }else if(page.getCurrentNum() > page.getTotalPage()){
+            page.setCurrentNum(page.getTotalPage());    //把当前页设置为最大值
         }
     }
 
     public PageParam(int pageNum) {
-        page.setPageNum(pageNum);
+        page.setCurrentNum(pageNum);
         this.pageNum = pageNum;
     }
 

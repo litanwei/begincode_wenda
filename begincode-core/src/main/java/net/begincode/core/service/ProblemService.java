@@ -46,23 +46,17 @@ public class ProblemService {
         return problemMapper.selectByExample(problemExample);
     }
 
-
     /**
-     * 新问题查询
+     * 查找总问题数
      *
      * @return
      */
-    public void findNewProblem(PageParam<Problem> pageParam) {
-        Page<Problem> page = pageParam.getPage();
-        page.setPageCount(this.findAllProblem().size());
-        int currentPage = page.getPageNum();
-        int index = (currentPage - 1) * page.getPageSize();   //分页起始位置
-        int count = page.getPageSize() * currentPage;         //分页结束位置
+    public Integer findProblemsSize() {
         ProblemExample problemExample = new ProblemExample();
-        problemExample.setOrderByClause("problem_id desc");
-        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds(index, count));
-        page.setData(list);
+        return problemMapper.countByExample(problemExample);
     }
+
+
 
     /**
      * 根据用户名查找对应的后15条问题记录
@@ -70,36 +64,41 @@ public class ProblemService {
      * @param userName
      * @return
      */
-    public List<Problem> findMyProblem(String userName) {
+    public void findMyProblem(String userName,Page<Problem> page) {
+        Page<Problem> pg = myProblemPageSet(page,userName);
         ProblemExample problemExample = new ProblemExample();
-        problemExample.setOrderByClause("problem_id desc limit 15");
+        problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
-        return problemMapper.selectByExample(problemExample);
+        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
+                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
+        page.setData(list);
+    }
+    /**
+     * 传入问题id  返回@我的问题列表
+     *
+     * @param userId
+     * @return
+     */
+    public void selectByUserIdWithMessage(Integer userId,Page<Problem> page) {
+        Page<Problem> pg = problemWithMsgPageSet(page,userId);
+        List<Problem> list = bizProblemMapper.selectByUserIdWithMessageRowbounds(userId,
+                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
+        page.setData(list);
     }
 
     /**
-     * 查找问题
-     * 按照浏览人数大小排序
-     * 并且大于或等于指定时间的15条问题集合
+     * 新问题查询
      *
      * @return
      */
-    public List<Problem> findHotProblem() {
+    public void findNewProblem(Page<Problem> page) {
+        Page<Problem> pg = hotOrNewPageSet(page);
         ProblemExample problemExample = new ProblemExample();
-        problemExample.setOrderByClause("view_count desc limit 15");
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        try {
-            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
-                    + " 00:00:00");
-            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
-            return problemMapper.selectByExample(problemExample);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+        problemExample.setOrderByClause("create_time desc");
+        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
+                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
+        page.setData(list);
     }
 
     /**
@@ -107,19 +106,98 @@ public class ProblemService {
      *
      * @return
      */
-    public List<Problem> findNoAnswerProblem() {
-        return bizProblemMapper.selectProblemWithNoAnswer();
+    public void findNoAnswerProblem(Page<Problem> page) {
+        page.setTotalNum(findNoAnswerSize());
+        ProblemExample problemExample = new ProblemExample();
+        problemExample.setOrderByClause("create_time desc");
+        List<Problem> list = bizProblemMapper.selectProblemWithNoAnswerRowbounds(new RowBounds((page.getCurrentNum() - 1) * page.getPageEachSize(),
+                page.getPageEachSize() * page.getCurrentNum()));
+        page.setData(list);
     }
 
     /**
-     * 传入问题id  返回@我的问题列表
+     * 查找问题
+     * 按照浏览人数大小排序
+     * 并且大于或等于指定时间的问题集合
+     * @param page
+     */
+    public void findHotProblem(Page<Problem> page) {
+        Page<Problem> pg = hotOrNewPageSet(page);
+        ProblemExample problemExample = new ProblemExample();
+        problemExample.setOrderByClause("view_count desc");
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
+                    + " 00:00:00");
+            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
+            List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
+                    new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
+            page.setData(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    /**
+     *  查找未回答问题总数
+     * @return
+     */
+    public Integer findNoAnswerSize(){
+        return bizProblemMapper.selectNoAnswerSize();
+    }
+
+    /**
+     * 根据userName返回问题大小
+     * @param userName
+     * @return
+     */
+    public Integer findMyProblemSize(String userName){
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andUserNameEqualTo(userName);
+        return problemMapper.countByExample(problemExample);
+    }
+
+    public Integer problemWithMsgSize(Integer userId){
+        return bizProblemMapper.selectByUserIdWithMsgSize(userId);
+    }
+
+
+
+    /**
+     * 新问题和热点问题分页设置
      *
+     * @param page
+     * @return
+     */
+    private Page<Problem> hotOrNewPageSet(Page<Problem> page) {
+        page.setTotalNum(findProblemsSize());    //设置问题总数
+        return page;
+    }
+
+    /**
+     * 根据userName 的分页设置
+     * @param page
+     * @param userName
+     * @return
+     */
+    private  Page<Problem> myProblemPageSet(Page<Problem> page,String userName){
+        page.setTotalNum(findMyProblemSize(userName));
+        return page;
+    }
+
+    /**
+     * @ 我的问题分页设置
+     * @param page
      * @param userId
      * @return
      */
-    public List<Problem> selectByUserIdWithMessage(Integer userId) {
-        return bizProblemMapper.selectByUserIdWithMessage(userId);
+    private Page<Problem> problemWithMsgPageSet(Page<Problem> page,Integer userId){
+        page.setTotalNum(problemWithMsgSize(userId));
+        return page;
     }
-
 
 }

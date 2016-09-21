@@ -15,7 +15,7 @@ function formatTime(problemAuthorName, size, answer, time) {
     var diffTime = (dateNow.getTime() - date.getTime()) / 1000;
     if (size == 0) {
         if (diffTime < 60) {
-            return problemAuthorName + " " + Math.ceil(diffTime) + "秒前提问";
+            return "刚刚提问";
         }
         else if (diffTime > 60 && diffTime < 3600) {
             return problemAuthorName + " " + Math.ceil(diffTime / 60) + "分钟前提问";
@@ -31,7 +31,7 @@ function formatTime(problemAuthorName, size, answer, time) {
         }
     } else {
         if (diffTime < 60) {
-            return answer.userName + " " + Math.ceil(diffTime) + "秒前回答";
+            return "刚刚提问";
         }
         else if (diffTime > 60 && diffTime < 3600) {
             return answer.userName + " " + Math.ceil(diffTime / 60) + "分钟前回答";

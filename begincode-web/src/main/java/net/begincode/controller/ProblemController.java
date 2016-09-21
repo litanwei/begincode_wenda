@@ -1,5 +1,6 @@
 package net.begincode.controller;
 
+import net.begincode.bean.Page;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
@@ -56,9 +57,9 @@ public class ProblemController {
     public Map findNewProblem(@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
         PageParam<Problem> pageParam = new PageParam<>(page);
-        problemHandler.selectNewProblems(pageParam);
+        Page<Problem> pg = problemHandler.selectNewProblems(pageParam.getPage());
         map.put("problems", pageParam);
-        putForProblems(map, pageParam.getPage().getData());
+        putForProblems(map, pg.getData());
         return map;
     }
 
@@ -69,11 +70,12 @@ public class ProblemController {
      */
     @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Map findHotProblem() {
+    public Map findHotProblem(@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
-        List<Problem> list = problemHandler.selectHotProblems();
-        map.put("problems", list);
-        putForProblems(map, list);
+        PageParam<Problem> pageParam = new PageParam<>(page);
+        Page<Problem> pg = problemHandler.selectHotProblems(pageParam.getPage());
+        map.put("problems", pageParam);
+        putForProblems(map, pg.getData());
         return map;
     }
 
@@ -84,11 +86,12 @@ public class ProblemController {
      */
     @RequestMapping(value = "/noAnswerProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Map findNoAnswerProblem() {
+    public Map findNoAnswerProblem(@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
-        List<Problem> list = problemHandler.selectNoAnswerProblems();
-        map.put("problems", list);
-        putForProblems(map, list);
+        PageParam<Problem> pageParam = new PageParam<>(page);
+        Page<Problem> pg = problemHandler.selectNoAnswerProblems(pageParam.getPage());
+        map.put("problems", pageParam);
+        putForProblems(map, pg.getData());
         return map;
     }
 
@@ -102,24 +105,26 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/myProblems", method = RequestMethod.POST)
     @ResponseBody
-    public Map findMyProblem(HttpServletRequest request) {
+    public Map findMyProblem(HttpServletRequest request,@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
+        PageParam<Problem> pageParam = new PageParam<>(page);
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        List<Problem> list = problemHandler.selectMyProblems(begincodeUser.getNickname());
-        map.put("problems", list);
-        putForProblems(map, list);
+        Page<Problem> pg = problemHandler.selectMyProblems(begincodeUser.getNickname(),pageParam.getPage());
+        map.put("problems", pageParam);
+        putForProblems(map, pg.getData());
         return map;
     }
 
     @AuthPassport
     @RequestMapping(value = "/problemWithMessage", method = RequestMethod.POST)
     @ResponseBody
-    public Map findByUserIdWithMessage(HttpServletRequest request) {
+    public Map findByUserIdWithMessage(HttpServletRequest request,@RequestParam(value = "page", defaultValue = "1") int page) {
         Map map = new HashMap();
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        List<Problem> list = problemHandler.selectByUserIdWithMessage(begincodeUser.getBegincodeUserId());
-        map.put("problems", list);
-        putForProblems(map, list);
+        PageParam<Problem> pageParam = new PageParam<>(page);
+        Page<Problem> pg = problemHandler.selectByUserIdWithMessage(begincodeUser.getBegincodeUserId(),pageParam.getPage());
+        map.put("problems", pageParam);
+        putForProblems(map, pg.getData());
         return map;
     }
 

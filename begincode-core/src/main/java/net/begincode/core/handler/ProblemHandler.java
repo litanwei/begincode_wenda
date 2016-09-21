@@ -1,5 +1,6 @@
 package net.begincode.core.handler;
 
+import net.begincode.bean.Page;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.*;
@@ -89,7 +90,7 @@ public class ProblemHandler {
     }
 
     /**
-     * 传入问题集合 返回对应的问题数集合
+     * 传入问题集合 返回对应的回答数集合
      *
      * @param list
      * @return
@@ -108,18 +109,33 @@ public class ProblemHandler {
      *
      * @return
      */
-    public void selectNewProblems(PageParam<Problem> pageParam) {
-        problemService.findNewProblem(pageParam);
+    public Page<Problem> selectNewProblems(Page<Problem> page) {
+        problemService.findNewProblem(page);
+        return page;
     }
 
     /**
      * 根据用户名查找问题
      *
      * @param userName
-     * @return 返回问题集合
+     * @param page     分页
+     * @return
      */
-    public List<Problem> selectMyProblems(String userName) {
-        return problemService.findMyProblem(userName);
+    public Page<Problem> selectMyProblems(String userName, Page<Problem> page) {
+        problemService.findMyProblem(userName, page);
+        return page;
+    }
+
+    /**
+     * 通过userId 查找@该用户的问题
+     *
+     * @param userId
+     * @param page   分页参数
+     * @return
+     */
+    public Page<Problem> selectByUserIdWithMessage(Integer userId, Page<Problem> page) {
+        problemService.selectByUserIdWithMessage(userId, page);
+        return page;
     }
 
     /**
@@ -127,8 +143,19 @@ public class ProblemHandler {
      *
      * @return
      */
-    public List<Problem> selectHotProblems() {
-        return problemService.findHotProblem();
+    public Page<Problem> selectHotProblems(Page<Problem> page) {
+        problemService.findHotProblem(page);
+        return page;
+    }
+
+    /**
+     * 查找未回答的问题集合
+     *
+     * @return
+     */
+    public Page<Problem> selectNoAnswerProblems(Page<Problem> page) {
+        problemService.findNoAnswerProblem(page);
+        return page;
     }
 
     /**
@@ -155,24 +182,7 @@ public class ProblemHandler {
         return answerList;
     }
 
-    /**
-     * 查找未回答的问题集合
-     *
-     * @return
-     */
-    public List<Problem> selectNoAnswerProblems() {
-        return problemService.findNoAnswerProblem();
-    }
 
-    /**
-     * 通过userId 查找@该用户的问题
-     *
-     * @param userId
-     * @return
-     */
-    public List<Problem> selectByUserIdWithMessage(Integer userId) {
-        return problemService.selectByUserIdWithMessage(userId);
-    }
 
     /**
      * 传入的labelName集合 判断是否有存在
