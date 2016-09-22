@@ -15,7 +15,7 @@ function formatTime(problemAuthorName, size, answer, time) {
     var diffTime = (dateNow.getTime() - date.getTime()) / 1000;
     if (size == 0) {
         if (diffTime < 60) {
-            return "刚刚提问";
+            return problemAuthorName+" 刚刚提问";
         }
         else if (diffTime > 60 && diffTime < 3600) {
             return problemAuthorName + " " + Math.ceil(diffTime / 60) + "分钟前提问";
@@ -31,7 +31,7 @@ function formatTime(problemAuthorName, size, answer, time) {
         }
     } else {
         if (diffTime < 60) {
-            return "刚刚提问";
+            return answer.userName+" 刚刚回答";
         }
         else if (diffTime > 60 && diffTime < 3600) {
             return answer.userName + " " + Math.ceil(diffTime / 60) + "分钟前回答";
@@ -46,6 +46,17 @@ function formatTime(problemAuthorName, size, answer, time) {
             return answer.userName + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
         }
     }
-
-
+}
+/**
+ * 大于1000的显示1.xk
+ * 例如:1232    返回  1.2k
+ * @param num
+ * @returns {*}
+ */
+function numFormat(num) {
+    if (num > 1000) {
+        return (num / 1000).toFixed(1) + "k";
+    } else {
+        return num;
+    }
 }

@@ -98,7 +98,7 @@ public class ProblemHandler {
     public List<Integer> problemToAnswerSize(List<Problem> list) {
         ArrayList<Integer> lt = new ArrayList<>();
         for (Problem problem : list) {
-            lt.add(answerService.findByProblemIdNum(problem.getProblemId()));
+            lt.add(problemService.findProblemAnswerSize(problem.getProblemId()));
         }
         return lt;
     }
@@ -126,17 +126,6 @@ public class ProblemHandler {
         return page;
     }
 
-    /**
-     * 通过userId 查找@该用户的问题
-     *
-     * @param userId
-     * @param page   分页参数
-     * @return
-     */
-    public Page<Problem> selectByUserIdWithMessage(Integer userId, Page<Problem> page) {
-        problemService.selectByUserIdWithMessage(userId, page);
-        return page;
-    }
 
     /**
      * 查找创建时间最近的15条问题集合

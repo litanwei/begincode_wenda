@@ -115,18 +115,6 @@ public class ProblemController {
         return map;
     }
 
-    @AuthPassport
-    @RequestMapping(value = "/problemWithMessage", method = RequestMethod.POST)
-    @ResponseBody
-    public Map findByUserIdWithMessage(HttpServletRequest request,@RequestParam(value = "page", defaultValue = "1") int page) {
-        Map map = new HashMap();
-        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        PageParam<Problem> pageParam = new PageParam<>(page);
-        Page<Problem> pg = problemHandler.selectByUserIdWithMessage(begincodeUser.getBegincodeUserId(),pageParam.getPage());
-        map.put("problems", pageParam);
-        putForProblems(map, pg.getData());
-        return map;
-    }
 
     /**
      * 添加问题

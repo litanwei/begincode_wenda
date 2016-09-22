@@ -29,10 +29,10 @@
     <div class="row">
         <div class="col-md-9">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs" role="tablist" id="myTab">
                 <li role="presentation" class="active"><a id="newProblemId" href="#home" aria-controls="home" role="tab"
                                                           data-toggle="tab">最新的</a></li>
-                <li role="presentation"><a href="#hotProblems" id="hotProblemId" aria-controls="profile" role="tab"
+                <li role="presentation"><a href="#hotProblems" tabindex="-1" id="hotProblemId" aria-controls="profile" role="tab"
                                            data-toggle="tab">热门的</a>
                 </li>
                 <li role="presentation"><a id="noAnswerProblemId" href="#noAnswerProblems" aria-controls="messages"
@@ -47,12 +47,12 @@
 
             <div class="tab-content">
                 <!-- 最新的问题 -->
-                <div role="tabpanel" class="tab-pane active" id="home">
+                <div role="tabpanel" class="tab-pane fade in active" id="home">
                     <div id="newProblem" class="container-fluid">
                     </div>
                 </div>
                 <!--热门的问题-->
-                <div role="tabpanel" class="tab-pane" id="hotProblems">
+                <div role="tabpanel" class="tab-pane fade" class="tab-pane" id="hotProblems">
                     <div id="hotProblem" class="container-fluid">
                     </div>
                 </div>
@@ -73,6 +73,7 @@
 
             </div>
 
+            <!--分页栏-->
             <nav style="text-align: center">
                 <ul id="paginationId" class="pagination">
                 </ul>

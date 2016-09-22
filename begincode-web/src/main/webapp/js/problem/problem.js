@@ -8,20 +8,20 @@ $(document).ready(function () {
         dataType: "json",
         success: function (data) {
             getProblems(data, "newProblem");
-            pagination(data,"newProblems","newProblem","GET");
+            pagination(data, "newProblems", "newProblem", "GET");
         }
     });
-    $("newProblemId").click(function () {
+    $('#myTab a:first').click(function () {
         $.ajax({
             type: "GET",
             url: "/problem/newProblems.htm",
             dataType: "json",
             success: function (data) {
                 getProblems(data, "newProblem");
-                pagination(data,"newProblems","newProblem","GET");
+                pagination(data, "newProblems", "newProblem", "GET");
             }
         });
-    });
+    })
 
     $("#hotProblemId").click(function () {
         $("#hotProblem").empty();
@@ -31,7 +31,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 getProblems(data, "hotProblem");
-                pagination(data,"hotProblems","hotProblem","GET");
+                pagination(data, "hotProblems", "hotProblem", "GET");
             }
         });
     });
@@ -47,7 +47,7 @@ $(document).ready(function () {
                     $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
                 } else {
                     getProblems(data, "myProblem");
-                    pagination(data,"myProblems","myProblem","POST");
+                    pagination(data, "myProblems", "myProblem", "POST");
                 }
             }
         });
@@ -60,25 +60,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 getProblems(data, "noAnswerProblem");
-                pagination(data,"noAnswerProblems","noAnswerProblem","GET");
-            }
-        });
-
-    });
-    $("#messageId").click(function () {
-        $("#message").empty();
-        $.ajax({
-            type: "POST",
-            url: "/problem/problemWithMessage.htm",
-            dataType: "json",
-            success: function (data) {
-                if (data.msg != null) {
-                    $("#errorMessage").html(data.msg);
-                    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
-                } else {
-                    getProblems(data, "message");
-                    pagination(data,"problemWithMessage","message","POST");
-                }
+                pagination(data, "noAnswerProblems", "noAnswerProblem", "GET");
             }
         });
 
@@ -112,7 +94,6 @@ $(document).ready(function () {
         }
     })
 });
-
 
 
 /**

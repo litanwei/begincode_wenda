@@ -6,7 +6,6 @@ import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
-import net.begincode.core.param.PageParam;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
@@ -57,15 +56,14 @@ public class ProblemService {
     }
 
 
-
     /**
      * 根据用户名查找对应的后15条问题记录
      *
      * @param userName
      * @return
      */
-    public void findMyProblem(String userName,Page<Problem> page) {
-        Page<Problem> pg = myProblemPageSet(page,userName);
+    public void findMyProblem(String userName, Page<Problem> page) {
+        Page<Problem> pg = myProblemPageSet(page, userName);
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
@@ -74,18 +72,7 @@ public class ProblemService {
                 new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
         page.setData(list);
     }
-    /**
-     * 传入问题id  返回@我的问题列表
-     *
-     * @param userId
-     * @return
-     */
-    public void selectByUserIdWithMessage(Integer userId,Page<Problem> page) {
-        Page<Problem> pg = problemWithMsgPageSet(page,userId);
-        List<Problem> list = bizProblemMapper.selectByUserIdWithMessageRowbounds(userId,
-                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
-        page.setData(list);
-    }
+
 
     /**
      * 新问题查询
@@ -110,7 +97,9 @@ public class ProblemService {
         page.setTotalNum(findNoAnswerSize());
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
-        List<Problem> list = bizProblemMapper.selectProblemWithNoAnswerRowbounds(new RowBounds((page.getCurrentNum() - 1) * page.getPageEachSize(),
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andAnswerCountEqualTo(0);
+        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((page.getCurrentNum() - 1) * page.getPageEachSize(),
                 page.getPageEachSize() * page.getCurrentNum()));
         page.setData(list);
     }
@@ -119,6 +108,7 @@ public class ProblemService {
      * 查找问题
      * 按照浏览人数大小排序
      * 并且大于或等于指定时间的问题集合
+     *
      * @param page
      */
     public void findHotProblem(Page<Problem> page) {
@@ -142,29 +132,43 @@ public class ProblemService {
     }
 
     /**
-     *  查找未回答问题总数
+     * 根据问题号查找回答数
+     *
+     * @param problemId
      * @return
      */
-    public Integer findNoAnswerSize(){
-        return bizProblemMapper.selectNoAnswerSize();
+    public Integer findProblemAnswerSize(Integer problemId) {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        return problemMapper.selectByExample(problemExample).get(0).getAnswerCount();
+
+    }
+
+    /**
+     * 查找未回答问题总数
+     *
+     * @return
+     */
+    public Integer findNoAnswerSize() {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andAnswerCountEqualTo(0);
+        return problemMapper.countByExample(problemExample);
     }
 
     /**
      * 根据userName返回问题大小
+     *
      * @param userName
      * @return
      */
-    public Integer findMyProblemSize(String userName){
+    public Integer findMyProblemSize(String userName) {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
         return problemMapper.countByExample(problemExample);
     }
-
-    public Integer problemWithMsgSize(Integer userId){
-        return bizProblemMapper.selectByUserIdWithMsgSize(userId);
-    }
-
 
 
     /**
@@ -180,24 +184,15 @@ public class ProblemService {
 
     /**
      * 根据userName 的分页设置
+     *
      * @param page
      * @param userName
      * @return
      */
-    private  Page<Problem> myProblemPageSet(Page<Problem> page,String userName){
+    private Page<Problem> myProblemPageSet(Page<Problem> page, String userName) {
         page.setTotalNum(findMyProblemSize(userName));
         return page;
     }
 
-    /**
-     * @ 我的问题分页设置
-     * @param page
-     * @param userId
-     * @return
-     */
-    private Page<Problem> problemWithMsgPageSet(Page<Problem> page,Integer userId){
-        page.setTotalNum(problemWithMsgSize(userId));
-        return page;
-    }
 
 }

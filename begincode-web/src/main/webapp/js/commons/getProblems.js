@@ -39,19 +39,19 @@ function getProblems(map, id) {
     $.each(map.problems.page.data, function (i) {
         var solve = "";
         if (map.problems.page.data[i].solve == 0) {
-            solve = '<div class="answers answered">' + size[i] + '<small>回答</small></div>';
+            solve = '<div class="answers answered">' +  numFormat(size[i]) + '<small>回答</small></div>';
         } else {
-            solve = '<div class="answers solved">' + size[i] + '<small>解决</small></div>';
+            solve = '<div class="answers solved">' +  numFormat(size[i]) + '<small>解决</small></div>';
         }
         var problemList = '<section class="stream-list__item">'
             + '<div class="qa-rank">'
             + '<div class="votes plus hidden-xs">'
-            + map.problems.page.data[i].voteCount
+            + numFormat(map.problems.page.data[i].voteCount)
             + '<small>投票</small>'
             + '</div>'
             + solve
             + '<div class="views hidden-xs">'
-            + map.problems.page.data[i].viewCount
+            + numFormat(map.problems.page.data[i].viewCount)
             + '<small>浏览</small>'
             + '</div>'
             + '</div>'
