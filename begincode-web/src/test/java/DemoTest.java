@@ -1,3 +1,4 @@
+import net.begincode.controller.AnswerController;
 import net.begincode.controller.UserController;
 import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.DemoHandler;
@@ -42,6 +43,9 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     @Autowired
     private UserController userController ;
 
+    @Autowired
+    private AnswerController answerController;
+
     // 执行测试方法之前初始化模拟request,response
 
 
@@ -54,7 +58,6 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
             System.out.println(answer1.getUserName());
         }
     }
-
 
     @Test
     public void addDemoTest(){

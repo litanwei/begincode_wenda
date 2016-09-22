@@ -1,6 +1,7 @@
 package net.begincode.core.cookie;
 
 import net.begincode.core.model.BegincodeUser;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,17 +60,16 @@ public class CookieOperation {
 
 	/**
 	 * @Title: getUser
-	 * @Description: 获取登录人的信息
+	 * @Description: cookie获取登录人部分信息来验证
 	 * @param request
 	 * @return BegincodeUser
 	 * @throws
 	 */
-	public static BegincodeUser getUser(HttpServletRequest request){
+	public static String getUser(HttpServletRequest request){
 		Map<String,String> map = getCookie(request);
 		if(map != null && !map.get("openId").equals("")){
-			BegincodeUser user = new BegincodeUser();
-			user.setOpenId(map.get("openId"));
-			return user;
+			String openId = map.get("openId");
+			return openId;
 		}else{
 			return null;
 		}

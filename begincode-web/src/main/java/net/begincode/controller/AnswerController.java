@@ -60,11 +60,11 @@ public class AnswerController {
     /**
      * 查询问题和所有回复
      *@param：answer,model
-     *@return：S
+     *@return：String
      */
     @RequestMapping(value = "/{problemid}",method = RequestMethod.GET)
     public String selectAllAnswer(Model model,@PathVariable("problemid") int problemid){
-     Answer answer = new Answer();
+        Answer answer = new Answer();
         answer.setProblemId(problemid);
         List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
         List<String> newTime = new ArrayList<>();

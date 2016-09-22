@@ -1,22 +1,20 @@
 package net.begincode.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-
 import net.begincode.core.cookie.CookieOperation;
+import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.BegincodeUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.BegincodeUser;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户
@@ -38,7 +36,6 @@ public class UserController {
 	 * @return 后台用户的nickname的list集合json
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	@ResponseBody
 	public List findUserList() {
 		List<String> nameList = new ArrayList<>();
 		List<BegincodeUser> list = userHandler.selectAll();
@@ -49,7 +46,6 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/",method = RequestMethod.POST)
-	@ResponseBody
 	public void CreateUser(BegincodeUser begincodeUser)
 	{
 		System.out.print(begincodeUser.getBegincodeUserId());
@@ -69,7 +65,6 @@ public class UserController {
 	 * qq查找或注册用户
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	@ResponseBody
 	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
 		user.setUserSourceId(1);
 		user.setDeleteFlag("1");

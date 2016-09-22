@@ -1,7 +1,7 @@
 package net.begincode.core.support;
 
 import net.begincode.core.cookie.CookieOperation;
-import net.begincode.core.model.BegincodeUser;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -28,8 +28,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
             //cookie验证账户权限
-            BegincodeUser begincodeUser = CookieOperation.getUser(request);
-            if (begincodeUser != null){
+            String openId = CookieOperation.getUser(request);
+            if (openId != null){
                 return true;
             }
             //跳转到首页

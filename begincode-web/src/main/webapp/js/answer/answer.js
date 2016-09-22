@@ -1,7 +1,7 @@
 // 回复反馈
 function sendFeedback(answerId) {
     var answer = new FormData();
-    answer.append("answerId", answerId);
+    answer.append("content", answerId);
     $.ajax({
         data: answer,
         type: "POST",

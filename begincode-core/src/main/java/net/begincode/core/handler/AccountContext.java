@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AccountContext {
   /**
-     * 根据request查询user
-     *
-     * @param request
-     */
-    @Resource
-    BegincodeUserService begincodeUserService;
+   * 根据request查询user
+   *
+   * @param request
+   */
+  @Resource
+  BegincodeUserService begincodeUserService;
 
-    public BegincodeUser getCurrentUser(HttpServletRequest request) {
+  public BegincodeUser getCurrentUser(HttpServletRequest request) {
 
-        return begincodeUserService.findUserByOpenId(CookieOperation.getUser(request).getOpenId());
-    }
+    return begincodeUserService.findUserByOpenId(CookieOperation.getUser(request));
+  }
 }

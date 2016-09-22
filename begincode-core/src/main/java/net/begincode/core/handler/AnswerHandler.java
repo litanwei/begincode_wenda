@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Component
-public class AnswerHandler {
+public class AnswerHandler{
 
     @Resource
     private AnswerService answerService;
@@ -24,7 +24,7 @@ public class AnswerHandler {
     /**
      * 创建回答
      */
-    public void creatAnswer(Answer answer) {
+    public void creatAnswer(Answer answer){
         answer.setCreateTime(new Date());
         if (answer.getContent().trim() == "") {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
