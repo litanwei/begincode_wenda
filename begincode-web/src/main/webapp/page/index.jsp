@@ -329,8 +329,5 @@
 
 <!-- 获取活跃用户 -->
 <script type="text/javascript" src="../js/getActivers.js"></script>
-<!-- 分页插件 -->
-<script src="../js/jquery.paginate.js"></script>
-<script type="text/javascript" src="../js/pagination.js"></script>
 </body>
 </html>

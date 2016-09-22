@@ -32,8 +32,10 @@ public class UserController {
 	 */
 	@RequestMapping("activer")
 	public @ResponseBody List<BegincodeUser> activeUser(){
-		logger.debug("用户查找");
-		List<BegincodeUser> list = userHandler.selectActiveUser();
+		
+			logger.debug("");
+			List<BegincodeUser> list = userHandler.selectActiveUser();
+			
 		return list;
 	}
 	
