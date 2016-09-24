@@ -1,8 +1,6 @@
 package net.begincode.core.service;
 
-import net.begincode.bean.Page;
 import net.begincode.common.BeginCodeConstant;
-import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
@@ -23,8 +21,6 @@ import java.util.List;
 public class ProblemService {
     @Resource
     private ProblemMapper problemMapper;
-    @Resource
-    private BizProblemMapper bizProblemMapper;
 
     /**
      * 创建新问题
@@ -35,15 +31,6 @@ public class ProblemService {
         return problemMapper.insertSelective(problem);
     }
 
-    /**
-     * 查找问题列表
-     *
-     * @return
-     */
-    public List<Problem> findAllProblem() {
-        ProblemExample problemExample = new ProblemExample();
-        return problemMapper.selectByExample(problemExample);
-    }
 
     /**
      * 查找总问题数
@@ -57,51 +44,52 @@ public class ProblemService {
 
 
     /**
-     * 根据用户名查找对应的后15条问题记录
+     * 我的问题分页
      *
      * @param userName
+     * @param currentNum
+     * @param eachSize
      * @return
      */
-    public void findMyProblem(String userName, Page<Problem> page) {
-        Page<Problem> pg = myProblemPageSet(page, userName);
+    public List<Problem> findMyProblem(String userName, Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
-        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
-                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
-        page.setData(list);
+        return problemMapper.selectByExampleWithRowbounds(problemExample,
+                new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
+
     }
 
 
     /**
      * 新问题查询
      *
+     * @param currentNum
+     * @param eachSize
      * @return
      */
-    public void findNewProblem(Page<Problem> page) {
-        Page<Problem> pg = hotOrNewPageSet(page);
+    public List<Problem> findNewProblem(Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
-        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
-                new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
-        page.setData(list);
+        return problemMapper.selectByExampleWithRowbounds(problemExample,
+                new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
     }
 
     /**
      * 查找没有答案的问题集合
      *
+     * @param currentNum
+     * @param eachSize
      * @return
      */
-    public void findNoAnswerProblem(Page<Problem> page) {
-        page.setTotalNum(findNoAnswerSize());
+    public List<Problem> findNoAnswerProblem(Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andAnswerCountEqualTo(0);
-        List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((page.getCurrentNum() - 1) * page.getPageEachSize(),
-                page.getPageEachSize() * page.getCurrentNum()));
-        page.setData(list);
+        return problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((currentNum - 1) * eachSize,
+                eachSize * currentNum));
     }
 
     /**
@@ -109,10 +97,11 @@ public class ProblemService {
      * 按照浏览人数大小排序
      * 并且大于或等于指定时间的问题集合
      *
-     * @param page
+     * @param currentNum
+     * @param eachSize
+     * @return
      */
-    public void findHotProblem(Page<Problem> page) {
-        Page<Problem> pg = hotOrNewPageSet(page);
+    public List<Problem> findHotProblem(Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("view_count desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
@@ -123,27 +112,14 @@ public class ProblemService {
                     + " 00:00:00");
             criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
             List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
-                    new RowBounds((pg.getCurrentNum() - 1) * pg.getPageEachSize(), pg.getPageEachSize() * pg.getCurrentNum()));
-            page.setData(list);
+                    new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    /**
-     * 根据问题号查找回答数
-     *
-     * @param problemId
-     * @return
-     */
-    public Integer findProblemAnswerSize(Integer problemId) {
-        ProblemExample problemExample = new ProblemExample();
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.selectByExample(problemExample).get(0).getAnswerCount();
-
-    }
 
     /**
      * 查找未回答问题总数
@@ -168,30 +144,6 @@ public class ProblemService {
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
         return problemMapper.countByExample(problemExample);
-    }
-
-
-    /**
-     * 新问题和热点问题分页设置
-     *
-     * @param page
-     * @return
-     */
-    private Page<Problem> hotOrNewPageSet(Page<Problem> page) {
-        page.setTotalNum(findProblemsSize());    //设置问题总数
-        return page;
-    }
-
-    /**
-     * 根据userName 的分页设置
-     *
-     * @param page
-     * @param userName
-     * @return
-     */
-    private Page<Problem> myProblemPageSet(Page<Problem> page, String userName) {
-        page.setTotalNum(findMyProblemSize(userName));
-        return page;
     }
 
 

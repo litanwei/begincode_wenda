@@ -4,7 +4,6 @@ import net.begincode.bean.Page;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.*;
-import net.begincode.core.param.PageParam;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
@@ -41,7 +40,6 @@ public class ProblemHandler {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label, Integer[] userId) {
-        ProblemLabel problemLabel = new ProblemLabel();
         Message message = new Message();
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
@@ -65,42 +63,20 @@ public class ProblemHandler {
         }
     }
 
-    /**
-     * 传入问题集合 返回一个map
-     * map里面有对应的问题id 和一个list数组  数组里面有问题id所对应的标签名
-     * 如:  当问题号为1时 对应的value是(spring,springmvc,框架)
-     *
-     * @param list
-     * @return
-     */
-    public Map problemToLabel(List<Problem> list) {
-        Map<Integer, ArrayList<String>> map = new HashMap<>();
-        int i = 1;
-        for (Problem problem : list) {
-            ArrayList<String> array = new ArrayList<>();
-            //按顺序解析传进来了的问题 得到问题对应的问题标签集合
-            List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());
-            for (ProblemLabel problemLabel : lt) {
-                array.add(labelService.selectById(problemLabel.getLabelId()).getLabelName());
-            }
-            map.put(i, array);
-            i++;
-        }
-        return map;
-    }
 
     /**
-     * 传入问题集合 返回对应的回答数集合
+     * 传入问题得到对应的标签名集合
      *
-     * @param list
+     * @param problem
      * @return
      */
-    public List<Integer> problemToAnswerSize(List<Problem> list) {
-        ArrayList<Integer> lt = new ArrayList<>();
-        for (Problem problem : list) {
-            lt.add(problemService.findProblemAnswerSize(problem.getProblemId()));
+    private List problemToLabel(Problem problem) {
+        List<String> list = new ArrayList<>();
+        List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());
+        for (ProblemLabel problemLabel : lt) {
+            list.add(labelService.selectById(problemLabel.getLabelId()).getLabelName());
         }
-        return lt;
+        return list;
     }
 
 
@@ -109,32 +85,35 @@ public class ProblemHandler {
      *
      * @return
      */
-    public Page<Problem> selectNewProblems(Page<Problem> page) {
-        problemService.findNewProblem(page);
-        return page;
+    public void selectNewProblems(Page<BizFrontProblem> page) {
+        page.setTotalNum(problemService.findProblemsSize());    //问题总数
+        List<Problem> problemList = problemService.findNewProblem(page.getCurrentNum(), page.getPageEachSize());
+        page.setData(operatePage(problemList));
     }
 
     /**
-     * 根据用户名查找问题
+     * 查找我的问题列表
      *
      * @param userName
-     * @param page     分页
-     * @return
+     * @param page
      */
-    public Page<Problem> selectMyProblems(String userName, Page<Problem> page) {
-        problemService.findMyProblem(userName, page);
-        return page;
+    public void selectMyProblems(String userName, Page<BizFrontProblem> page) {
+        page.setTotalNum(problemService.findMyProblemSize(userName));    //问题总数
+        List<Problem> list = problemService.findMyProblem(userName, page.getCurrentNum(), page.getPageEachSize());
+        page.setData(operatePage(list));
     }
 
 
     /**
-     * 查找创建时间最近的15条问题集合
+     * 查找热点问题
      *
+     * @param page
      * @return
      */
-    public Page<Problem> selectHotProblems(Page<Problem> page) {
-        problemService.findHotProblem(page);
-        return page;
+    public void selectHotProblems(Page<BizFrontProblem> page) {
+        page.setTotalNum(problemService.findProblemsSize());    //问题总数
+        List<Problem> problemList = problemService.findHotProblem(page.getCurrentNum(), page.getPageEachSize());
+        page.setData(operatePage(problemList));
     }
 
     /**
@@ -142,35 +121,27 @@ public class ProblemHandler {
      *
      * @return
      */
-    public Page<Problem> selectNoAnswerProblems(Page<Problem> page) {
-        problemService.findNoAnswerProblem(page);
-        return page;
+    public void selectNoAnswerProblems(Page<BizFrontProblem> page) {
+        page.setTotalNum(problemService.findNoAnswerSize());    //问题总数
+        List<Problem> problemList = problemService.findNoAnswerProblem(page.getCurrentNum(), page.getPageEachSize());
+        page.setData(operatePage(problemList));
     }
 
-    /**
-     * 查找问题集合
-     *
-     * @return
-     */
-    public List<Problem> selectAllProblem() {
-        return problemService.findAllProblem();
-    }
 
     /**
-     * 根据传入的问题集合查找对应的回答 并排序 取创建时间最近的回答
-     * 依次加入集合
+     * 根据传入的问题实体 查找是否有回答的人名字
      *
-     * @param list
+     * @param problem
      * @return
      */
-    public List<Answer> selectOrderByProblemId(List<Problem> list) {
-        List<Answer> answerList = new ArrayList<Answer>();
-        for (Problem problem : list) {
-            answerList.add(answerService.findOrderByProblemId(problem.getProblemId()));
+    public String selectOrderByProblemId(Problem problem) {
+        Answer answer = answerService.findOrderByProblemId(problem.getProblemId());
+        if (answer == null) {
+            return "null";
+        } else {
+            return answer.getUserName();
         }
-        return answerList;
     }
-
 
 
     /**
@@ -200,6 +171,24 @@ public class ProblemHandler {
                 }
             }
         }
+    }
+
+    /**
+     * 传入一个问题列表返回一个分页 List 数据包
+     *
+     * @param problemList
+     * @return
+     */
+    private List<BizFrontProblem> operatePage(List<Problem> problemList) {
+        List<BizFrontProblem> list = new ArrayList<>();
+        for (Problem problem : problemList) {
+            BizFrontProblem bizFrontProblem = new BizFrontProblem();
+            bizFrontProblem.setAnswerName(selectOrderByProblemId(problem));
+            bizFrontProblem.setProblem(problem);
+            bizFrontProblem.setLabelNameList(problemToLabel(problem));
+            list.add(bizFrontProblem);
+        }
+        return list;
     }
 
 

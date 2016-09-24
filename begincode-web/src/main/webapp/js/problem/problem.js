@@ -4,7 +4,7 @@
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: "/problem/newProblems.htm",
+        url: "/problem/newProblems.htm?page=1",
         dataType: "json",
         success: function (data) {
             getProblems(data, "newProblem");
@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('#myTab a:first').click(function () {
         $.ajax({
             type: "GET",
-            url: "/problem/newProblems.htm",
+            url: "/problem/newProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 getProblems(data, "newProblem");
@@ -27,7 +27,7 @@ $(document).ready(function () {
         $("#hotProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/hotProblems.htm",
+            url: "/problem/hotProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 getProblems(data, "hotProblem");
@@ -35,11 +35,24 @@ $(document).ready(function () {
             }
         });
     });
+    $("#noAnswerProblemId").click(function () {
+        $("#noAnswerProblem").empty();
+        $.ajax({
+            type: "GET",
+            url: "/problem/noAnswerProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                getProblems(data, "noAnswerProblem");
+                pagination(data, "noAnswerProblems", "noAnswerProblem", "GET");
+            }
+        });
+
+    });
     $("#myProblemId").click(function () {
         $("#myProblem").empty();
         $.ajax({
             type: "POST",
-            url: "/problem/myProblems.htm",
+            url: "/problem/myProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if (data.msg != null) {
@@ -51,19 +64,6 @@ $(document).ready(function () {
                 }
             }
         });
-    });
-    $("#noAnswerProblemId").click(function () {
-        $("#noAnswerProblem").empty();
-        $.ajax({
-            type: "GET",
-            url: "/problem/noAnswerProblems.htm",
-            dataType: "json",
-            success: function (data) {
-                getProblems(data, "noAnswerProblem");
-                pagination(data, "noAnswerProblems", "noAnswerProblem", "GET");
-            }
-        });
-
     });
 
     //提交问题点击事件

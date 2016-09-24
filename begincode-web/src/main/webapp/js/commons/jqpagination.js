@@ -4,8 +4,8 @@
 function pagination(data,url,id,method) {
     $("#paginationId").empty();
     $("#paginationId").jqPaginator({
-        totalCounts: data.problems.page.totalNum,
-        pageSize: data.problems.page.pageEachSize,
+        totalCounts: data.totalNum,
+        pageSize: data.pageEachSize,
         visiblePages: 4,
         first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
         prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
