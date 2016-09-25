@@ -5,6 +5,7 @@ import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.begincode.core.enums.AnswerEnum;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +17,6 @@ import java.util.List;
 @Service
 public class AnswerService {
     private Logger logger = LoggerFactory.getLogger(AnswerService.class);
-
     @Resource
     private AnswerMapper answerMapper;
 
@@ -63,6 +63,43 @@ public class AnswerService {
         } else {
             return null;
         }
+    }
+    /**
+     * 插入回答
+     *@param：answer
+     *@return：int
+     */
+    public int insertAnswer(Answer record){
+        return answerMapper.insertSelective(record);
+    }
+    /**
+     * 获取所有回答
+     *@param：answer
+     *@return：List<Answer>
+     */
+    public List<Answer> selectAllAnswer(Answer answer){
+        AnswerExample answerExample = new AnswerExample();
+        answerExample.createCriteria()
+                .andProblemIdEqualTo(answer.getProblemId())
+                .andFeedbackNotEqualTo(AnswerEnum.FEED_BACK.getIntVlue());
+        return answerMapper.selectByExampleWithBLOBs(answerExample);
+    }
+
+    /**
+     * 查询回答
+     *@param：answerId
+     *@return：Answer
+     */
+    public Answer selAnswerByAnswerId(Integer answerId){
+        return answerMapper.selectByPrimaryKey(answerId);
+    }
+    /**
+     * 添加回复更新
+     *@param：
+     *@return：
+     */
+    public int updateAnswer(Answer record){
+        return answerMapper.updateByPrimaryKeySelective(record);
     }
 
 }

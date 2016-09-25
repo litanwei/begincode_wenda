@@ -142,6 +142,14 @@ public class ProblemService {
         }
     }
 
+    /**
+     * 查找问题
+     * @param problemId
+     * @return Problem
+     */
+    public Problem selProblemById(Integer problemId){
+        return problemMapper.selectByPrimaryKey(problemId);
+    }
 
     /**
      * 查找未回答问题总数

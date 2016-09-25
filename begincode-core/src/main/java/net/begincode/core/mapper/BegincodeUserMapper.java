@@ -105,5 +105,5 @@ public interface BegincodeUserMapper {
      */
     int updateByPrimaryKey(BegincodeUser record);
 
-    BegincodeUser selectByTokenIdAndOpenId(BegincodeUser record);
+
 }

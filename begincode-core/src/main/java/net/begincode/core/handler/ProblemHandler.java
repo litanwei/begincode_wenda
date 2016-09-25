@@ -172,6 +172,12 @@ public class ProblemHandler {
             }
         }
     }
+    /**
+     * 根据id查询问题
+     */
+    public Problem selectById(int answerId){
+        return problemService.selProblemById(answerId);
+    }
 
     /**
      * 传入一个问题列表返回一个分页 List 数据包

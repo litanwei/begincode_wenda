@@ -136,7 +136,7 @@
                 ${msg}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="history.back(-1);">关闭</button>
             </div>
         </div>
     </div>

@@ -1,12 +1,13 @@
 package net.begincode.core.handler;
 
+import net.begincode.common.BizException;
+import net.begincode.core.enums.UserResponseEnum;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 @Component
 public class UserHandler {
-    private Logger logger = LoggerFactory.getLogger(UserHandler.class);
 
+    private Logger logger = LoggerFactory.getLogger(UserHandler.class);
     @Resource
     private BegincodeUserService begincodeUserService;
 
@@ -72,10 +73,10 @@ public class UserHandler {
         return begincodeUserService.selectById(id);
     }
 
-    public BegincodeUser createUser(BegincodeUser user) {
+    public BegincodeUser createUserAndFind(BegincodeUser user) {
         if (user == null) {
             logger.error("注册用户，参数不能为 null");
-            throw new IllegalArgumentException("注册用户，参数不能为 null");
+            throw new BizException(UserResponseEnum.USER_ADD_ERROR);
         }
         BegincodeUser begincodeUser = begincodeUserService.findUserByOpenId(user.getOpenId());
         if(begincodeUser != null){

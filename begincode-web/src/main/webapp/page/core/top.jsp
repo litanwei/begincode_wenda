@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ include file="../commons/taglibs.jsp" %>
+         pageEncoding="UTF-8"%>
+<%@ include file="../commons/taglibs.jsp"%>
 <script type="text/javascript"
         src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js"
         data-appid="101230380"
@@ -12,13 +12,13 @@
     //调用QC.Login方法，指定btnId参数将按钮绑定在容器节点中
     QC.Login({
                 //btnId：插入按钮的节点id，必选
-                btnId: "qqLoginBtn",
+                btnId:"qqLoginBtn",
                 //用户需要确认的scope授权项，可选，默认all
-                scope: "get_user_info,upload_pic,get_user_cbinfo",//展示授权，全部可用授权可填 all
+                scope : "get_user_info,upload_pic,get_user_cbinfo",//展示授权，全部可用授权可填 all
                 //按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
                 size: "B_M",
-                display: "pc"//应用场景，可选
-            }, function (reqData, opts) {//登录成功
+                display : "pc"//应用场景，可选
+            }, function(reqData, opts){//登录成功
                 reqd = reqData;
 
                 //根据返回数据，更换按钮显示状态方法
