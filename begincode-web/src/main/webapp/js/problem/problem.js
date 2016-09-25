@@ -1,4 +1,72 @@
+/**
+ * Created by Stay on 2016/9/15.
+ */
 $(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: "/problem/newProblems.htm?page=1",
+        dataType: "json",
+        success: function (data) {
+            getProblems(data, "newProblem");
+            pagination(data, "newProblems", "newProblem", "GET");
+        }
+    });
+    $('#myTab a:first').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/problem/newProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                getProblems(data, "newProblem");
+                pagination(data, "newProblems", "newProblem", "GET");
+            }
+        });
+    })
+
+    $("#hotProblemId").click(function () {
+        $("#hotProblem").empty();
+        $.ajax({
+            type: "GET",
+            url: "/problem/hotProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                getProblems(data, "hotProblem");
+                pagination(data, "hotProblems", "hotProblem", "GET");
+            }
+        });
+    });
+    $("#noAnswerProblemId").click(function () {
+        $("#noAnswerProblem").empty();
+        $.ajax({
+            type: "GET",
+            url: "/problem/noAnswerProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                getProblems(data, "noAnswerProblem");
+                pagination(data, "noAnswerProblems", "noAnswerProblem", "GET");
+            }
+        });
+
+    });
+    $("#myProblemId").click(function () {
+        $("#myProblem").empty();
+        $.ajax({
+            type: "POST",
+            url: "/problem/myProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                if (data.msg != null) {
+                    $("#errorMessage").html(data.msg);
+                    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
+                } else {
+                    getProblems(data, "myProblem");
+                    pagination(data, "myProblems", "myProblem", "POST");
+                }
+            }
+        });
+    });
+
+    //提交问题点击事件
     $("#problemSend").click(function () {
         if (checkProblemForm()) {
             $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
@@ -25,42 +93,8 @@ $(document).ready(function () {
             });
         }
     })
-    //把用户id和nickName赋给对应的隐藏域中
-    var openId = {openId: getCookie("openId")};
-    $.ajax({
-        data: openId,
-        type: "POST",
-        dataType: "json",
-        url: "/user/openId.htm",
-        success: function (begincodeUser) {
-            $("#begincodeUserId").attr("value", begincodeUser.begincodeUserId);
-            $("#userName").attr("value", begincodeUser.nickname);
-        },
-        error: function () {
-            alert("系统异常！,请重新提问");
-            window.location.href = "/";
-        }
-    });
-
 });
 
-
-/**
- * 根据cookieName查找对应的值
- * @param cookieName
- * @returns {*}
- */
-function getCookie(cookieName) {
-    var strCookie = document.cookie;
-    var arrCookie = strCookie.split("; ");
-    for (var i = 0; i < arrCookie.length; i++) {
-        var arr = arrCookie[i].split("=");
-        if (cookieName == arr[0]) {
-            return arr[1];
-        }
-    }
-    return "";
-}
 
 /**
  * 提问表单验证
@@ -102,6 +136,7 @@ function checkLabel(labelId) {
     }
     return true;
 }
+
 
 
 

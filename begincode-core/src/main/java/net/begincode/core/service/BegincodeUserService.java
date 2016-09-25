@@ -72,7 +72,6 @@ public class BegincodeUserService {
     public List<BegincodeUser> selectActiveUser(){
         BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
         begincodeUserExample.setOrderByClause("begincode_user_id ASC LIMIT 5");
-
         return begincodeUserMapper.selectByExample(begincodeUserExample);
     }
 

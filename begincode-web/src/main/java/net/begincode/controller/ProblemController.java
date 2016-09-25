@@ -1,14 +1,15 @@
 package net.begincode.controller;
 
-import net.begincode.core.handler.ProLabHandler;
+import net.begincode.bean.Page;
+import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
+import net.begincode.core.model.BizFrontProblem;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
-import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,12 +37,74 @@ public class ProblemController {
     @Resource
     private ProblemHandler problemHandler;
     @Resource
-    private ProLabHandler proLabHandler;
+    private AccountContext accountContext;
 
     @AuthPassport
     @RequestMapping("/create")
-    public String problemSkip(HttpServletRequest request) {
+    public String problemSkip() {
         return "question_add";
+    }
+
+    /**
+     * 主页新问题列表
+     *
+     * @param bizFrontProblem
+     * @return
+     */
+    @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Page findNewProblem(BizFrontProblem bizFrontProblem) {
+        Page<BizFrontProblem> page = new Page<BizFrontProblem>();
+        page.setCurrentNum(bizFrontProblem.getPage());
+        problemHandler.selectNewProblems(page);
+        return page;
+    }
+
+    /**
+     * 热门问题列表
+     *
+     * @param bizFrontProblem
+     * @return
+     */
+    @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Page findHotProblem(BizFrontProblem bizFrontProblem) {
+        Page<BizFrontProblem> page = new Page<BizFrontProblem>();
+        page.setCurrentNum(bizFrontProblem.getPage());
+        problemHandler.selectHotProblems(page);
+        return page;
+    }
+
+    /**
+     * 查找未回答的问题列表
+     *
+     * @param bizFrontProblem
+     * @return
+     */
+    @RequestMapping(value = "/noAnswerProblems", method = RequestMethod.GET)
+    @ResponseBody
+    public Page findNoAnswerProblem(BizFrontProblem bizFrontProblem) {
+        Page<BizFrontProblem> page = new Page<BizFrontProblem>();
+        page.setCurrentNum(bizFrontProblem.getPage());
+        problemHandler.selectNoAnswerProblems(page);
+        return page;
+    }
+
+    /**
+     * 查找"我"的问题列表
+     *
+     * @param bizFrontProblem
+     * @return
+     */
+    @AuthPassport
+    @RequestMapping(value = "/myProblems", method = RequestMethod.POST)
+    @ResponseBody
+    public Page findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
+        Page<BizFrontProblem> page = new Page<BizFrontProblem>();
+        BegincodeUser user = accountContext.getCurrentUser(request);
+        page.setCurrentNum(bizFrontProblem.getPage());
+        problemHandler.selectMyProblems(user.getNickname(), page);
+        return page;
     }
 
 
@@ -56,39 +119,18 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLabelParam problemLableParam) {
+    public Map addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
-        Label label = problemLableParam.getLabel();
+        BegincodeUser user = accountContext.getCurrentUser(request);
+        problem.setUserName(user.getNickname());
+        problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
+        Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
         map.put("success", "提交成功");
         return map;
-    }
-
-    /**
-     * 以逗号切割传入标签名
-     *
-     * @param name 传入的内容
-     * @return 返回包含标签名的set集合
-     */
-    private Set<String> splitLabelName(String name) {
-        HashSet<String> set = new HashSet<String>();
-        //前台传入标签名 这里开始切割 替换中文逗号
-        String[] labelNames = name.replace("，", ",").split(",");
-        for (int i = 0; i < labelNames.length; i++) {
-            set.add(labelNames[i]);
-        }
-        for (String labelName : set) {
-            //判断是否符合只有数字 字母 下划线 中文
-            if (PatternUtil.checkStr(labelName)) {
-                continue;
-            } else {
-                set.remove(labelName);
-            }
-        }
-        return set;
     }
 
 
@@ -104,7 +146,7 @@ public class ProblemController {
         Integer[] userId = new Integer[stringSet.size()];
         if (stringSet != null && stringSet.size() > 0) {
             for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@",""));
+                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@", ""));
                 if (begincodeUser == null) {
                     continue;
                 } else {
@@ -115,5 +157,6 @@ public class ProblemController {
         }
         return userId;
     }
+
 
 }
