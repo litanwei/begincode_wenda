@@ -120,6 +120,28 @@ public class ProblemService {
         }
     }
 
+    /**
+     * 未回答的问题总数
+     *
+     * @return
+     */
+    public Integer findHotProSize() {
+        ProblemExample problemExample = new ProblemExample();
+        problemExample.setOrderByClause("view_count desc");
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
+                    + " 00:00:00");
+            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
+            return problemMapper.countByExample(problemExample);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
 
     /**
      * 查找未回答问题总数
