@@ -1,9 +1,3 @@
-/*!
- * Bootstrap v3.3.5 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under the MIT license
- */
-
 $(function(){
 		$(".col-md-9 a[aria-controls='messages']").on('click',function(){
 			messageremind()
@@ -12,16 +6,16 @@ $(function(){
 	function messageremind() {
 		$.ajax({
 			type: "POST",
-			data:"nowpage=1&userid=1",
+			data:"nowpage=1",
 			dataType:"json",
 			url : "/message/messageremind.htm",
 			error:function(data){
 				alert("失败了");
 			},
 			success : function(data) {
-				var jsonarry =data.data;
+				var jsonarry =data;
 				jsontext="";
-				if(jsonarry!=null){
+				if(jsonarry!=null&&jsonarry!=""){
 					$.each(jsonarry,function(key, value){
 						labelcontent=labelswitching(value.label_name);
 						var time=createtime(value.create_date);
@@ -31,7 +25,7 @@ $(function(){
 						"<div class=\"views hidden-xs\">"+value.view_count+"<small>浏览</small></div></div>"+	
 						"<div class=\"summary\">"+"<ul class=\"author list-inline\"><li><a href=\"#\">"+value.answer_username+"</a><span class=\"split\"></span><a href=\"#\" class=\"askDate\" data-created=\"1470910517\">"+
 						time+"提问</a></li></ul>"+
-						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a href=\"#\">"+value.answer_content+"</a></h2>"+
+						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a href=\""+"/problem/"+value.problem_id+".htm\">"+value.answer_content+"</a></h2>"+
 						labelcontent+
 						"</span></div></section>";
 					})
@@ -84,3 +78,5 @@ $(function(){
 		});
 		return labelcontent;
 	}
+
+	

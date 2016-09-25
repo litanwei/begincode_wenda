@@ -34,4 +34,11 @@ public class MessageHandler {
 		}
 		return messageService.selectByMessageRemind(begincode_user_id, nowpage, pagesize);
 	}
+	 /**
+     * 修改message已读状态
+     * @param message_id
+     */
+	public void updatemessagedelete(Integer message_id){
+		messageService.updatemessagedelete(message_id);
+	}
 }

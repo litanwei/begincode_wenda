@@ -34,5 +34,13 @@ public class MessageService {
 	public List<MessageRemind> selectByMessageRemind(Integer begincode_user_id,Integer nowpage,Integer pagesize){
 		return biz_MessageMapper.selectByMessageRemind(begincode_user_id, nowpage, pagesize);
 	}
+	
+	 /**
+     * 修改message已读状态
+     * @param message_id
+     */
+	public void updatemessagedelete(Integer message_id){
+		biz_MessageMapper.updatemessagedelete(message_id);
+	}
 
 }

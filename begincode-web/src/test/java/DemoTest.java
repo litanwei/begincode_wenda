@@ -96,10 +96,12 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     @Test
     public void one(){
     	System.out.println("到这");
+    	messageHandler.updatemessagedelete(5);
     	List<MessageRemind> ls=messageHandler.selectByMessageRemind(1, 1, 15);
     	for(MessageRemind m:ls){
     		System.out.println(m);
     	}
     }
+    
 
 }

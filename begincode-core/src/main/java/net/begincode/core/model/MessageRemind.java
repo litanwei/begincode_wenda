@@ -39,6 +39,29 @@ public class MessageRemind {
 	 * 回答的时间
 	 */
 	private Timestamp create_date;
+	/**
+	 * 问题id
+	 */
+	private int problem_id;
+	/**
+	 * 提醒信息id
+	 * @return
+	 */
+	private int message_id;
+	
+	
+	public int getMessage_id() {
+		return message_id;
+	}
+	public void setMessage_id(int message_id) {
+		this.message_id = message_id;
+	}
+	public int getProblem_id() {
+		return problem_id;
+	}
+	public void setProblem_id(int problem_id) {
+		this.problem_id = problem_id;
+	}
 	public MessageRemind() {
 	}
 	public int getVote_count() {
@@ -95,8 +118,9 @@ public class MessageRemind {
 		return "MessageRemind [vote_count=" + vote_count + ", answer_count=" + answer_count + ", view_count="
 				+ view_count + ", answer_username=" + answer_username + ", answer_userid=" + answer_userid
 				+ ", label_name=" + label_name + ", answer_content=" + answer_content + ", create_date=" + create_date
-				+ "]";
+				+ ", problem_id=" + problem_id + "]";
 	}
+	
 	
 	
 }

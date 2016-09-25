@@ -20,4 +20,9 @@ public interface Biz_MessageMapper extends MessageMapper {
      * @return
      */
     int countByMessageRemind();
+    /**
+     * 修改message已读状态
+     * @param message_id
+     */
+    void updatemessagedelete(Integer message_id);
 }
