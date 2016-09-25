@@ -32,8 +32,6 @@
 <form id="problemForm"  methond="post">
   <div id="warning"></div>
   <div class="form-group">
-    <input type="hidden" id="begincodeUserId" name="problem.begincodeUserId" value=""/>
-    <input type="hidden" id="userName" name="problem.userName" value=""  />
     <label><span class="labelinfoblue"></span>问题标题</label>
     <input type="text" id="title" class="form-control" name="problem.title" placeholder="请输入标题">
   </div>
@@ -103,9 +101,9 @@
   <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
+  <script src="${ctx}/js/problem/problem.js"></script>
   <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
   <script src="${ctx}/summernote/summernote.js"></script>
-  <script src="${ctx}/js/problem/problemCreate.js"></script>
   <script src="${ctx}/js/summernotePlugin.js"></script>
 
   </body>

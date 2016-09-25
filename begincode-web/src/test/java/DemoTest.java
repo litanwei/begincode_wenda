@@ -1,14 +1,13 @@
 import net.begincode.controller.UserController;
+import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.handler.UserHandler;
-import net.begincode.core.mapper.Biz_MessageMapper;
+import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Demo;
-import net.begincode.core.model.MessageExample;
 import net.begincode.core.model.MessageRemind;
-import net.begincode.core.service.MessageService;
-
+import net.begincode.core.service.BegincodeUserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,10 +27,15 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:spring/dataSource.xml", "classpath*:spring/applicationContext-core.xml","classpath*:mybatis.xml"})
 public class DemoTest  extends AbstractJUnit4SpringContextTests {
+
+    @Resource
+    private AnswerHandler answerHandler;
     @Resource
     private DemoHandler demoHandler;
     @Resource
     private UserHandler userHandler;
+    @Resource
+    private BegincodeUserService begincodeUserService;
     // 模拟request,response
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -44,17 +48,16 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
 
 
     @Test
-    public void testCreateUser(){
-        BegincodeUser user = new BegincodeUser();
-        user.setAccessToken("2");
-        user.setOpenId("2");
-        user.setCheckFlag("2");
-        user.setBegincodeUserId(2);
-        user.setNickname("2");
-        BegincodeUser begincodeUser = userHandler.createUser(user);
-        Assert.assertTrue(begincodeUser != null);
-
+    public void selAnswer(){
+        Answer answer = new Answer();
+        answer.setProblemId(1);
+        List<Answer> answers = answerHandler.selAllAnswerByExample(answer);
+        for(Answer answer1:answers){
+            System.out.println(answer1.getUserName());
+        }
     }
+
+
     @Test
     public void addDemoTest(){
         Demo demo = new Demo();
@@ -91,7 +94,7 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
             e.printStackTrace();
         }
     }
-    @Resource
+     @Resource
     private MessageHandler messageHandler;
     @Test
     public void one(){
@@ -102,6 +105,5 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     		System.out.println(m);
     	}
     }
-    
 
 }

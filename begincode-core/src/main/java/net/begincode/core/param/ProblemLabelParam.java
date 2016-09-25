@@ -5,9 +5,8 @@ import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Stay on 2016/8/28  21:22.
@@ -52,9 +51,7 @@ public class ProblemLabelParam extends Param{
 
     @Override
     public void check() {
-        checkNotEmpty(problem.getBegincodeUserId().toString(), ProblemResponseEnum.PROBLEM_ADD_ERROR);
         checkNotEmpty(problem.getContent(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
         checkNotEmpty(problem.getTitle(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
-        checkNotEmpty(problem.getUserName(),ProblemResponseEnum.PROBLEM_ADD_ERROR);
     }
 }

@@ -8,7 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
+import net.begincode.common.BizException;
+import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
@@ -72,10 +73,8 @@ public class BegincodeUserService {
     public List<BegincodeUser> selectActiveUser(){
         BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
         begincodeUserExample.setOrderByClause("begincode_user_id ASC LIMIT 5");
-
         return begincodeUserMapper.selectByExample(begincodeUserExample);
     }
-
     /**
      * 根据nickName查找BegincodeUser
      * @param nickName
@@ -88,45 +87,28 @@ public class BegincodeUserService {
         List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
         return list.size()>0?list.get(0):null;
     }
-    /**
-     * accessToken,openId查找用户
-     * @return
-     */
-    public BegincodeUser findUserByTokenIdAndOpenId(String accessToken,String openId) {
-        if(StringUtils.isNotEmpty(accessToken) && StringUtils.isNotEmpty(openId)){
-            BegincodeUser begincodeUser = new BegincodeUser();
-            begincodeUser.setOpenId(openId);
-            begincodeUser.setAccessToken(accessToken);
-            begincodeUser = begincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
-            if(begincodeUser != null){
-                return begincodeUser;
-            }else{
-                return null;
-            }
-        }else{
-            logger.error(" accessToken ,openId  不能为空 ");
-            throw new IllegalArgumentException("accessToken,openId 不能为空 ");
 
-        }
-
-    }
     /**
      * openId查找用户
-     * @return
+     * @return BegincodeUser
      */
     public BegincodeUser findUserByOpenId(String openId) {
         if(StringUtils.isNotEmpty(openId)){
             BegincodeUser begincodeUser = new BegincodeUser();
-            begincodeUser.setOpenId(openId);
-            begincodeUser = begincodeUserMapper.selectByTokenIdAndOpenId(begincodeUser);
-            if(begincodeUser != null){
+            BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+            begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
+            List<BegincodeUser> begincodeUserList = begincodeUserMapper.selectByExample(begincodeUserExample);
+            for(int a = 0 ; a <begincodeUserList.size() ; a++ ){
+                begincodeUser = begincodeUserList.get(a);
+            }
+            if(begincodeUser.getAccessToken() != null){
                 return begincodeUser;
             }else{
                 return null;
             }
         }else{
             logger.error(" accessToken ,openId  不能为空 ");
-            throw new IllegalArgumentException("accessToken,openId 不能为空 ");
+            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
 
         }
 
