@@ -5,7 +5,7 @@ function sendFeedback(answerId) {
     $.ajax({
         data: answer,
         type: "POST",
-        url: "/problem/feedback.htm",
+        url: "/answer/feedback.htm",
         dataType: "json",
         contentType: false,
         processData: false,
@@ -32,7 +32,7 @@ $(document).ready(function () {
         $.ajax({
             data: answer,
             type: "POST",
-            url: "/problem/reply.htm",
+            url: "/answer/reply.htm",
             dataType: "json",
             cache: false,
             async: false,
