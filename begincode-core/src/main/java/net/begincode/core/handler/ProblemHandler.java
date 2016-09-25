@@ -111,7 +111,7 @@ public class ProblemHandler {
      * @return
      */
     public void selectHotProblems(Page<BizFrontProblem> page) {
-        page.setTotalNum(problemService.findProblemsSize());    //问题总数
+        page.setTotalNum(problemService.findHotProSize());    //问题总数
         List<Problem> problemList = problemService.findHotProblem(page.getCurrentNum(), page.getPageEachSize());
         page.setData(operatePage(problemList));
     }
