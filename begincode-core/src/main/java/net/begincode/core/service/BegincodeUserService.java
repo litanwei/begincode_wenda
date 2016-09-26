@@ -1,5 +1,6 @@
 package net.begincode.core.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,11 +70,14 @@ public class BegincodeUserService {
      * 获取活跃用户列表
      * @return
      */
+    
     public List<BegincodeUser> selectActiveUser(){
     	
-    	/** --查询参数，取当前时间的前一个月的时间-- **/
-    	Date dateBefore = new Date(new Date().getTime()+(1000*3600*24*30));
     	
+    	/** --查询参数，取当前时间的前一个月的时间-- **/
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.add(Calendar.MONTH, -1);
+    	Date dateBefore = calendar.getTime();
         return bizBegincodeUserMapper.getActiverUser(dateBefore);
     }
 }
