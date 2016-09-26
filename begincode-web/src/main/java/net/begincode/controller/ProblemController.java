@@ -2,17 +2,18 @@ package net.begincode.controller;
 
 import net.begincode.bean.Page;
 import net.begincode.core.handler.AccountContext;
+import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.model.BizFrontProblem;
-import net.begincode.core.model.Label;
-import net.begincode.core.model.Problem;
+import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
+import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +33,8 @@ public class ProblemController {
 
     private Logger logger = LoggerFactory.getLogger(ProblemController.class);
 
+    @Resource
+    private AnswerHandler answerHandler;
     @Resource
     private UserHandler userHandler;
     @Resource
@@ -108,6 +111,7 @@ public class ProblemController {
     }
 
 
+
     /**
      * 添加问题
      * 关键字的保存(以逗号分隔)
@@ -134,6 +138,9 @@ public class ProblemController {
     }
 
 
+
+
+
     /**
      * 传进的问题过滤出@ 后面的nickName 返回该用户的id
      *
@@ -158,5 +165,28 @@ public class ProblemController {
         return userId;
     }
     
+
+    /**
+     * 查询问题和所有回复
+     *@param：answer,model
+     *@return：S
+     */
+    @RequestMapping(value = "/{problemid}",method = RequestMethod.GET)
+    public String selectAllAnswer(Model model, @PathVariable("problemid") int problemid){
+        Answer answer = new Answer();
+        answer.setProblemId(problemid);
+        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
+        List<String> newTime = new ArrayList<>();
+        for(int a = 0 ; a < answerList.size(); a++) {
+            newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
+        }
+        Problem problem  = problemHandler.selectById(problemid);
+        String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
+        model.addAttribute("answerList", answerList);
+        model.addAttribute("newTime", newTime);
+        model.addAttribute("problem",problem);
+        model.addAttribute("problemTime",problemTime);
+        return "question_view";
+    }
 
 }

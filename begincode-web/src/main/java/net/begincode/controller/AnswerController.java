@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * Created by saber on 2016/9/11.
  */
-@RequestMapping("/problem")
+@RequestMapping("/answer")
 @Controller
 public class AnswerController {
 
@@ -57,28 +57,7 @@ public class AnswerController {
     }
 
 
-    /**
-     * 查询问题和所有回复
-     *@param：answer,model
-     *@return：S
-     */
-    @RequestMapping(value = "/{problemid}",method = RequestMethod.GET)
-    public String selectAllAnswer(Model model,@PathVariable("problemid") int problemid){
-     Answer answer = new Answer();
-        answer.setProblemId(problemid);
-        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
-        List<String> newTime = new ArrayList<>();
-        for(int a = 0 ; a < answerList.size(); a++) {
-            newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
-        }
-        Problem problem  = problemHandler.selectById(problemid);
-        String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
-        model.addAttribute("answerList", answerList);
-        model.addAttribute("newTime", newTime);
-        model.addAttribute("problem",problem);
-        model.addAttribute("problemTime",problemTime);
-        return "question_view";
-    }
+
 
     /**
      * 回复反馈
