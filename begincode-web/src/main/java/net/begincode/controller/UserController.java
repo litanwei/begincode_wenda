@@ -15,28 +15,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
+ * 
  * @author kangliang
- *@date 2016年8月25日
+ * @date 2016年8月25日
  */
 @RequestMapping("/user")
 @Controller
 public class UserController {
 
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Resource
 	UserHandler userHandler;
-	
+
 	/**
 	 * 活跃用户
 	 */
 	@RequestMapping("activer")
-	public @ResponseBody List<BegincodeUser> activeUser(){
-		
-			logger.debug("");
-			List<BegincodeUser> list = userHandler.selectActiveUser();
-			
+	public @ResponseBody
+	List<BegincodeUser> activeUser() {
+
+		logger.info("开始查找活跃用户");
+		List<BegincodeUser> list = userHandler.selectActiveUser();
+		logger.info("查找活跃用户完毕");
+
 		return list;
 	}
-	
+
 }
