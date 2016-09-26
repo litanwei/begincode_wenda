@@ -118,8 +118,9 @@ public class MessageRemind {
 		return "MessageRemind [vote_count=" + vote_count + ", answer_count=" + answer_count + ", view_count="
 				+ view_count + ", answer_username=" + answer_username + ", answer_userid=" + answer_userid
 				+ ", label_name=" + label_name + ", answer_content=" + answer_content + ", create_date=" + create_date
-				+ ", problem_id=" + problem_id + "]";
+				+ ", problem_id=" + problem_id + ", message_id=" + message_id + "]";
 	}
+	
 	
 	
 	

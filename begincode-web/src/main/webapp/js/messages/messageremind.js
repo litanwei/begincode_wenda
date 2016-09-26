@@ -25,7 +25,7 @@ $(function(){
 						"<div class=\"views hidden-xs\">"+value.view_count+"<small>浏览</small></div></div>"+	
 						"<div class=\"summary\">"+"<ul class=\"author list-inline\"><li><a href=\"#\">"+value.answer_username+"</a><span class=\"split\"></span><a href=\"#\" class=\"askDate\" data-created=\"1470910517\">"+
 						time+"提问</a></li></ul>"+
-						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a href=\""+"/problem/"+value.problem_id+".htm\">"+value.answer_content+"</a></h2>"+
+						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a id="+value.message_id+" href=\""+"/problem/"+value.problem_id+".htm\" onclick=\"monitoringMessageClick(this)\" >"+value.answer_content+"</a></h2>"+
 						labelcontent+
 						"</span></div></section>";
 					})
@@ -77,6 +77,14 @@ $(function(){
 			labelcontent=labelcontent+"<a href=\"#\" target=\"_blank\" class=\"list-tag\">"+value+"</a>"
 		});
 		return labelcontent;
+	}
+	//监控message信息的点击事件
+	//用途-->改变message表的已读状态
+	var monitoringMessageClick=function(message){
+		$.ajax({
+			type: "POST",
+			url : "/message/"+message.id+".htm",
+		});
 	}
 
 	
