@@ -14,6 +14,7 @@
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
+    <link href="${ctx}/css/pagination.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -72,14 +73,16 @@
                 </div>
 
             </div>
+            
+		<div class="content" style="margin-bottom:100px">
+			<div class="pagination"><div id="page">
+		</div></div></div>
 
             <!--分页栏-->
             <nav style="text-align: center">
                 <ul id="paginationId" class="pagination">
                 </ul>
             </nav>
-
-
         </div>
 
         <div class="col-md-3">
@@ -91,22 +94,14 @@
                     <h3 class="panel-title">热门标签</h3>
                 </div>
                 <div class="panel-body">
-    <span class="tag-list">
-        <a href="" target="_blank" class="list-tag">java</a><a href="" target="_blank" class="list-tag">基础类型</a>
-		<a href="" target="_blank" class="list-tag">接口</a><a href="" target="_blank" class="list-tag">面向对象</a>
-		<a href="" target="_blank" class="list-tag">框架</a><a href="" target="_blank" class="list-tag">SSM</a>
-	</span>
+				    <span class="tag-list">
+				        
+					</span>
                 </div>
             </div>
 
             <div class="list-group">
-                <a href="#" class="list-group-item disabled">
-                    最活跃用户
-                </a>
-                <c:forEach items="${list }" var="user">
-                    <a href="#" class="list-group-item" onclick="${user.begincodeUserId}">${user.nickname }</a>
-
-                </c:forEach>
+                <a class='list-group-item disabled'>最活跃用户<label style="float: right;" onclick="getActivers();">【刷新】</label></a>
             </div>
         </div>
 
@@ -164,11 +159,16 @@
 
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../js/bootstrap/bootstrap.js"></script>
-<script src="../js/messages/messageremind.js"></script>
+<script src="${ctx}/js/bootstrap/bootstrap.js"></script>
+<script src="${ctx}/js/messages/messageremind.js"></script>
 <script src="${ctx}/js/commons/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>
 <script src="${ctx}/js/problem/problem.js"></script>
+
+<!-- 获取活跃用户 -->
+<script type="text/javascript" src="${ctx}/js/getActivers.js"></script>
+<!-- 获取热门标签 、查询标签-->
+<script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 用户事务层
  * @author kangliang
  * @date 2016年8月25日
  */

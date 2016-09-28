@@ -1,5 +1,7 @@
 package net.begincode.core.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
+import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
 
@@ -25,13 +28,15 @@ public class BegincodeUserService {
 
     @Resource
     private BegincodeUserMapper begincodeUserMapper;
+    @Resource
+    private BizBegincodeUserMapper bizBegincodeUserMapper;
 
     /**
      * 新增BegincodeUser
      * @param user
      */
     public void addBegincodeUser(BegincodeUser user){
-        begincodeUserMapper.insertSelective(user);
+    	begincodeUserMapper.insertSelective(user);
     }
 
     /**
@@ -46,7 +51,8 @@ public class BegincodeUserService {
      * 根据标识删除BegincodeUser
      * @param id  BegincodeUser标识
      */
-    public void delBegincodeUserById(Integer id){begincodeUserMapper.deleteByPrimaryKey(id);
+    public void delBegincodeUserById(Integer id){
+        begincodeUserMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -70,10 +76,13 @@ public class BegincodeUserService {
      * 获取活跃用户列表
      * @return
      */
+    
     public List<BegincodeUser> selectActiveUser(){
-        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
-        begincodeUserExample.setOrderByClause("begincode_user_id ASC LIMIT 5");
-        return begincodeUserMapper.selectByExample(begincodeUserExample);
+        /** --查询参数，取当前时间的前一个月的时间-- **/
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date dateBefore = calendar.getTime();
+        return bizBegincodeUserMapper.getActiverUser(dateBefore);
     }
     /**
      * 根据nickName查找BegincodeUser
@@ -86,6 +95,7 @@ public class BegincodeUserService {
         criteria.andNicknameEqualTo(nickName);
         List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
         return list.size()>0?list.get(0):null;
+
     }
 
     /**

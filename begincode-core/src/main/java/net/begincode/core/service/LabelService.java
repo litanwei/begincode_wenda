@@ -1,5 +1,6 @@
 package net.begincode.core.service;
 
+import net.begincode.core.mapper.BizLabelMapper;
 import net.begincode.core.mapper.LabelMapper;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.LabelExample;
@@ -16,6 +17,9 @@ public class LabelService {
 
     @Resource
     private LabelMapper labelMapper;
+
+    @Resource
+    private BizLabelMapper bizLabelMapper;
 
     /**
      * 新增标签
@@ -62,4 +66,14 @@ public class LabelService {
         return labelMapper.selectByExample(example);
     }
 
+
+    /**
+     * 查询所有标签
+     *
+     * @return
+     */
+    public List<Label> selectAllLabel() {
+
+        return bizLabelMapper.selectHotLabel();
+    }
 }
