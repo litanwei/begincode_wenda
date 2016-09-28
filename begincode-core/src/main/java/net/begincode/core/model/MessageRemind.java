@@ -49,7 +49,6 @@ public class MessageRemind {
 	 */
 	private int message_id;
 	
-	
 	public int getMessage_id() {
 		return message_id;
 	}
