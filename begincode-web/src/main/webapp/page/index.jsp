@@ -73,11 +73,7 @@
                 </div>
 
             </div>
-            
-		<div class="content" style="margin-bottom:100px">
-			<div class="pagination"><div id="page">
-		</div></div></div>
-
+       
             <!--分页栏-->
             <nav style="text-align: center">
                 <ul id="paginationId" class="pagination">

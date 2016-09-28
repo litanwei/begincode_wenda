@@ -76,18 +76,11 @@
     <div class="row">
         <div class="col-md-9">
 
-            <p class="lead">正文显示</p>
-            <blockquote>
                 ${problem.content}
-            </blockquote>
-
-            <h6>h6. Bootstrap heading <small>Secondary text</small></h6>
-            <pre><code class="language-html" data-lang="html">You can use the mark tag to <span class="nt">&lt;mark&gt;</span>highlight<span class="nt">&lt;/mark&gt;</span> text.</code></pre>
 
             <center>
                 <button type="button" class="btn btn-primary">点击投票(12)</button>
             </center>
-
 
             <div></div>
             <c:forEach items="${answerList}" var="answer" varStatus="temp">
