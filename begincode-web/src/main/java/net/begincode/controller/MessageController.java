@@ -37,7 +37,7 @@ public class MessageController {
 	 * @param response
 	 * @return
 	 */
-//	@AuthPassport
+	@AuthPassport
 	@RequestMapping(value="/messageremind",method=RequestMethod.POST)
 	@ResponseBody
 	public Object getpage(HttpServletRequest request,HttpServletResponse response){
@@ -46,23 +46,23 @@ public class MessageController {
 		 * nowpage=当前页面
 		 * pagesize=分页大小 handler 设置为15
 		 */
-//		try {
-//			BegincodeUser begincodeUser=accountContext.getCurrentUser(request);
-//		} catch (Exception e) {
-//			System.out.println("错误的用户请求");
-//			return "";
-//		}
-//		Integer user_id=begincodeUser.getBegincodeUserId();
-		Integer user_id=null;
+		BegincodeUser begincodeUser;
+		try {
+			begincodeUser=accountContext.getCurrentUser(request);
+		} catch (Exception e) {
+			System.out.println("错误的用户请求");
+			return "";
+		}
+		Integer user_id=begincodeUser.getBegincodeUserId();
 		Integer nowpage=null;
 		Integer pagesize=null;
-		List<MessageRemind> ls=messageHandler.selectByMessageRemind(1, nowpage, pagesize);
+		List<MessageRemind> ls=messageHandler.selectByMessageRemind(user_id, nowpage, pagesize);
 		return ls;
 	}
 	/*
 	 * 改变message表的已读状态
 	 */
-//	@AuthPassport
+	@AuthPassport
 	@RequestMapping(value = "/{message_id}",method = RequestMethod.POST)
 	public void monitoringMessageClick(@PathVariable("message_id") int message_id){
 		try {

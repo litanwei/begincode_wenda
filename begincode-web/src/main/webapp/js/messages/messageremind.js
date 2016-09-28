@@ -24,7 +24,7 @@ $(function(){
 						"<div class=\"answers\">"+value.answer_count+"<small>回答</small></div>"+
 						"<div class=\"views hidden-xs\">"+value.view_count+"<small>浏览</small></div></div>"+	
 						"<div class=\"summary\">"+"<ul class=\"author list-inline\"><li><a href=\"#\">"+value.answer_username+"</a><span class=\"split\"></span><a href=\"#\" class=\"askDate\" data-created=\"1470910517\">"+
-						time+"提问</a></li></ul>"+
+						value.create_date+"提问</a></li></ul>"+
 						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a id="+value.message_id+" href=\""+"/problem/"+value.problem_id+".htm\" onclick=\"monitoringMessageClick(this)\" >"+value.answer_content+"</a></h2>"+
 						labelcontent+
 						"</span></div></section>";

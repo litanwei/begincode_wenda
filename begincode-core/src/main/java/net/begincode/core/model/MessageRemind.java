@@ -1,6 +1,6 @@
 package net.begincode.core.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /*
  * 信息提醒类
@@ -38,7 +38,7 @@ public class MessageRemind {
 	/*
 	 * 回答的时间
 	 */
-	private Timestamp create_date;
+	private Date create_date;
 	/**
 	 * 问题id
 	 */
@@ -106,11 +106,10 @@ public class MessageRemind {
 	public void setAnswer_content(String answer_content) {
 		this.answer_content = answer_content;
 	}
-	
-	public Timestamp getCreate_date() {
+	public Date getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(Timestamp create_date) {
+	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
 	@Override
