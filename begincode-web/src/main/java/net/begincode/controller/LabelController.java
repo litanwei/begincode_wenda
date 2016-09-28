@@ -1,5 +1,6 @@
 package net.begincode.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,11 +23,21 @@ public class LabelController {
 	@Resource
 	private LabelHandler labelhandler;
 
+	/**
+	 * 获取所有标签
+	 * @return List
+	 */
+	@RequestMapping("/getLabel")
 	public @ResponseBody
 	List<Label> getLabel() {
 
+		List<Label> list = new ArrayList<Label>();
 		logger.info("开始查询标签");
-
-		return null;
+		list = labelhandler.getAllLabel();
+		logger.info("查询标签完毕");
+		return list;
 	}
+	
+	
+	
 }

@@ -17,7 +17,7 @@ function getActivers(){
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
-					$(".list-group").append("<a class='list-group-item'>"+list[i].nickname+"</a>");
+					$(".list-group").append("<a href='' class='list-group-item'>"+list[i].nickname+"</a>");
 				}
 				$(".list-group").append("<a class='list-group-item disabled'onclick='hideActivers();'>【收起】</a>");
 			}else{

@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.begincode.core.mapper.BizLabelMapper;
 import net.begincode.core.mapper.LabelMapper;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.LabelExample;
+import net.begincode.core.model.LabelExample.Criteria;
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class LabelService {
 
 	@Resource
 	private LabelMapper labelMapper;
+	
+	@Resource
+	private BizLabelMapper bizLabelMapper;
 
 	/**
 	 * 查询所有标签
@@ -22,11 +27,6 @@ public class LabelService {
 	 */
 	public List<Label> selectAllLabel() {
 
-		
-		LabelExample example = new LabelExample();
-		
-		example.setOrderByClause("label_id desc");
-		
-		return labelMapper.selectByExample(example);
+		return bizLabelMapper.selectHotLabel();
 	}
 }

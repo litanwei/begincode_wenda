@@ -306,9 +306,7 @@
                 </div>
                 <div class="panel-body">
 				    <span class="tag-list">
-				        <a href="" target="_blank" class="list-tag">java</a><a href="" target="_blank" class="list-tag">基础类型</a>
-						<a href="" target="_blank" class="list-tag">接口</a><a href="" target="_blank" class="list-tag">面向对象</a>
-						<a href="" target="_blank" class="list-tag">框架</a><a href="" target="_blank" class="list-tag">SSM</a>
+				        
 					</span>
                 </div>
             </div>
@@ -329,5 +327,7 @@
 
 <!-- 获取活跃用户 -->
 <script type="text/javascript" src="../js/getActivers.js"></script>
+<!-- 获取热门标签 、查询标签-->
+<script type="text/javascript" src="../js/getLabel.js"></script>
 </body>
 </html>
