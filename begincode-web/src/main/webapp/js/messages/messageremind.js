@@ -24,7 +24,7 @@ $(function(){
 				if(jsonarry!=null&&jsonarry!=""){
 					$.each(jsonarry,function(key, value){
 						labelcontent=labelswitching(value.label_name);
-						var time=formatTime("新问题提醒", value.answer_count, value.answer_username, value.create_date);
+						var time=formatTime(value.answer_username, value.answer_count, value.answer_username, value.create_date);
 						jsontext=jsontext+" <section class=\"stream-list__item\">"+"<div class=\"qa-rank\">"+
 						"<div class=\"votes hidden-xs\">"+value.vote_count+"<small>投票</small></div>"+
 						"<div class=\"answers\">"+value.answer_count+"<small>回答</small></div>"+
