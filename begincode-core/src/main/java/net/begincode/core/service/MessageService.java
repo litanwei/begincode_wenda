@@ -42,5 +42,11 @@ public class MessageService {
 	public void updatemessagedelete(Integer message_id){
 		biz_MessageMapper.updatemessagedelete(message_id);
 	}
+	/**
+	 * 获取当前message数量
+	 */
+	public int countByMessageRemind(Integer user_id){
+		return biz_MessageMapper.countByMessageRemind(user_id);
+	}
 
 }

@@ -19,7 +19,7 @@ public interface Biz_MessageMapper extends MessageMapper {
      * 可以进行分页
      * @return
      */
-    int countByMessageRemind();
+    int countByMessageRemind(Integer user_id);
     /**
      * 修改message已读状态
      * @param message_id

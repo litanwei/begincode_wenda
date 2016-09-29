@@ -44,7 +44,7 @@ public class MessageController {
 		/**
 		 * user_id=当前用户id
 		 * nowpage=当前页面
-		 * pagesize=分页大小 handler 设置为15
+		 * pagesize=分页大小 默认设置为15
 		 */
 		BegincodeUser begincodeUser;
 		try {
@@ -54,7 +54,7 @@ public class MessageController {
 			return "";
 		}
 		Integer user_id=begincodeUser.getBegincodeUserId();
-		Integer nowpage=null;
+		Integer nowpage=Integer.valueOf(request.getParameter("nowpage"));
 		Integer pagesize=null;
 		List<MessageRemind> ls=messageHandler.selectByMessageRemind(user_id, nowpage, pagesize);
 		return ls;
@@ -71,5 +71,22 @@ public class MessageController {
 			logger.warn("message表已读状态修改出错");
 		}
 	}
-
+	/**
+	 * 获得message总数据数
+	 * @param request
+	 * @return
+	 */
+	@AuthPassport
+	@RequestMapping(value="/pagesize",method=RequestMethod.POST)
+	@ResponseBody
+	public int countMessage(HttpServletRequest request){
+		BegincodeUser begincodeUser;
+		try {
+			begincodeUser=accountContext.getCurrentUser(request);
+		} catch (Exception e) {
+			System.out.println("错误的用户请求");
+			return 0;
+		}
+		return messageHandler.countByMessageRemind(begincodeUser.getBegincodeUserId());
+	}
 }

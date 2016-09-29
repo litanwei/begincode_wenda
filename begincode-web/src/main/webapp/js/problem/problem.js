@@ -11,18 +11,6 @@ $(document).ready(function () {
             pagination(data, "newProblems", "newProblem", "GET");
         }
     });
-    $('#myTab a:first').click(function () {
-        $.ajax({
-            type: "GET",
-            url: "/problem/newProblems.htm?page=1",
-            dataType: "json",
-            success: function (data) {
-                getProblems(data, "newProblem");
-                pagination(data, "newProblems", "newProblem", "GET");
-            }
-        });
-    })
-
     $("#hotProblemId").click(function () {
         $("#hotProblem").empty();
         $.ajax({

@@ -24,14 +24,15 @@ public class MessageHandler {
 		if(begincode_user_id==null){
 			return null;
 		}
-		if(nowpage==null){
-			nowpage=0;
-		}else{
-			nowpage=nowpage-1;
-		}
 		if(pagesize==null){
 			pagesize=15;
 		}
+		if(nowpage==1){
+			nowpage=0;
+		}else{
+			nowpage=(nowpage-1)*pagesize-1;
+		}
+		
 		return messageService.selectByMessageRemind(begincode_user_id, nowpage, pagesize);
 	}
 	 /**
@@ -40,5 +41,12 @@ public class MessageHandler {
      */
 	public void updatemessagedelete(Integer message_id){
 		messageService.updatemessagedelete(message_id);
+	}
+	/**
+	 * 获得message数量
+	 * @return
+	 */
+	public int countByMessageRemind(Integer user_id){
+		return messageService.countByMessageRemind(user_id);
 	}
 }
