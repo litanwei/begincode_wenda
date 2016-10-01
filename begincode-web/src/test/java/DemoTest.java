@@ -100,7 +100,7 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     public void one(){
     	System.out.println("到这");
     	messageHandler.updatemessagedelete(5);
-    	List<MessageRemind> ls=messageHandler.selectByMessageRemind(21, 1, 15);
+    	List<MessageRemind> ls=messageHandler.selectByMessageRemind(17, 1, 15);
     	messageHandler.updatemessagedelete(5);
     	for(MessageRemind m:ls){
     		System.out.println(m);
