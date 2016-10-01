@@ -31,7 +31,7 @@ $(function(){
 							content=value.pr_content;
 						}else{
 							time=formatTime(value.pr_username, value.answer_count, value.answer_username, value.create_date);
-							content=value.answer_content;
+							content=value.pr_content;
 						}
 						jsontext=jsontext+" <section class=\"stream-list__item\">"+"<div class=\"qa-rank\">"+
 						"<div class=\"votes hidden-xs\">"+value.vote_count+"<small>投票</small></div>"+
