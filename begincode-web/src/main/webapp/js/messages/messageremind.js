@@ -19,7 +19,7 @@ $(function(){
 				alert("失败了");
 			},
 			success : function(data) {
-				var jsonarry =data;
+				var jsonarry=data;
 				jsontext="";
 				if(jsonarry!=null&&jsonarry!=""&&jsonarry.msg==null){
 					$.each(jsonarry,function(key, value){
