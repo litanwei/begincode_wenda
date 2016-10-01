@@ -1,10 +1,14 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.AnswerEnum;
+import net.begincode.core.enums.AnswerResponseEnum;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
+import net.begincode.enums.ResponseEnum;
 import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +59,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findNewProblem(BizFrontProblem bizFrontProblem) {
+    public Object findNewProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNewProblems(page);
