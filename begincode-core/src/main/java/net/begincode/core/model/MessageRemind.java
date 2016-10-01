@@ -45,23 +45,22 @@ public class MessageRemind {
 	private int problem_id;
 	/**
 	 * 提醒信息id
-	 * @return
 	 */
 	private int message_id;
-	public int getMessage_id() {
-		return message_id;
-	}
-	public void setMessage_id(int message_id) {
-		this.message_id = message_id;
-	}
-	public int getProblem_id() {
-		return problem_id;
-	}
-	public void setProblem_id(int problem_id) {
-		this.problem_id = problem_id;
-	}
-	public MessageRemind() {
-	}
+	/**
+	 * 问题的用户名
+	 */
+	private String pr_username;
+	/**
+	 * 问题创建的时间
+	 */
+	private Date pr_createtime;
+	/**
+	 * 问题的内容
+	 */
+	private String pr_content;
+	
+	
 	public int getVote_count() {
 		return vote_count;
 	}
@@ -110,14 +109,49 @@ public class MessageRemind {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
+	public int getProblem_id() {
+		return problem_id;
+	}
+	public void setProblem_id(int problem_id) {
+		this.problem_id = problem_id;
+	}
+	public int getMessage_id() {
+		return message_id;
+	}
+	public void setMessage_id(int message_id) {
+		this.message_id = message_id;
+	}
+	public String getPr_username() {
+		return pr_username;
+	}
+	public void setPr_username(String pr_username) {
+		this.pr_username = pr_username;
+	}
+	public Date getPr_createtime() {
+		return pr_createtime;
+	}
+	public void setPr_createtime(Date pr_createtime) {
+		this.pr_createtime = pr_createtime;
+	}
+	public String getPr_content() {
+		return pr_content;
+	}
+	public void setPr_content(String pr_content) {
+		this.pr_content = pr_content;
+	}
 	@Override
 	public String toString() {
 		return "MessageRemind [vote_count=" + vote_count + ", answer_count=" + answer_count + ", view_count="
 				+ view_count + ", answer_username=" + answer_username + ", answer_userid=" + answer_userid
 				+ ", label_name=" + label_name + ", answer_content=" + answer_content + ", create_date=" + create_date
-				+ ", problem_id=" + problem_id + ", message_id=" + message_id + "]";
+				+ ", problem_id=" + problem_id + ", message_id=" + message_id + ", pr_username=" + pr_username
+				+ ", pr_createtime=" + pr_createtime + ", pr_content=" + pr_content + "]";
 	}
 	
+	
+	
+	
+
 	
 	
 	

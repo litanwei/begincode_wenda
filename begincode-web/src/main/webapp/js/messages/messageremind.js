@@ -24,14 +24,22 @@ $(function(){
 				if(jsonarry!=null&&jsonarry!=""){
 					$.each(jsonarry,function(key, value){
 						labelcontent=labelswitching(value.label_name);
-						var time=formatTime(value.answer_username, value.answer_count, value.answer_username, value.create_date);
+						var time;
+						var content;
+						if(value.create_date==null){
+							time=formatTime(value.pr_username, 0, value.answer_username, value.pr_createtime);
+							content=value.pr_content;
+						}else{
+							time=formatTime(value.pr_username, value.answer_count, value.answer_username, value.create_date);
+							content=value.answer_content;
+						}
 						jsontext=jsontext+" <section class=\"stream-list__item\">"+"<div class=\"qa-rank\">"+
 						"<div class=\"votes hidden-xs\">"+value.vote_count+"<small>投票</small></div>"+
 						"<div class=\"answers\">"+value.answer_count+"<small>回答</small></div>"+
 						"<div class=\"views hidden-xs\">"+value.view_count+"<small>浏览</small></div></div>"+	
 						"<div class=\"summary\">"+"<ul class=\"author list-inline\"><li><a href=\"#\">"+
 						time+"</a></li></ul>"+
-						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a id="+value.message_id+" href=\""+"/problem/"+value.problem_id+".htm\" onclick=\"monitoringMessageClick(this)\" >"+value.answer_content+"</a></h2>"+
+						"<span class=\"keyword-list\">"+"<h2 class=\"title l\"><a id="+value.message_id+" href=\""+"/problem/"+value.problem_id+".htm\" onclick=\"monitoringMessageClick(this)\" >"+content+"</a></h2>"+
 						labelcontent+
 						"</span></div></section>";
 					})
