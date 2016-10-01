@@ -52,6 +52,9 @@ $(function(){
 	}
 	//标签转换xx,ss,gg,转换为单个标签组
 	var labelswitching=function(label){
+		if(label==null){
+			return "";
+		}
 		var labelarray=label.split(",");
 		var labelcontent="";
 		$.each(labelarray,function(key,value){
