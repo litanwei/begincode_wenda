@@ -1,3 +1,4 @@
+
 package net.begincode.core.handler;
 
 import java.util.List;
@@ -21,5 +22,14 @@ public class LabelHandler {
 	
 	public List<Label> getAllLabel(){
 		return labelService.selectAllLabel();
+	}
+
+	/**
+	 * @desc 问题标识查询标签列表
+	 * @param problemId
+	 * @return
+	 */
+	public List<Label> getLabelByProblemId(Integer problemId){
+		return labelService.selectLabelByProblemId(problemId);
 	}
 }

@@ -1,10 +1,7 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
-import net.begincode.core.handler.AccountContext;
-import net.begincode.core.handler.AnswerHandler;
-import net.begincode.core.handler.ProblemHandler;
-import net.begincode.core.handler.UserHandler;
+import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
@@ -41,6 +38,8 @@ public class ProblemController {
     private ProblemHandler problemHandler;
     @Resource
     private AccountContext accountContext;
+    @Resource
+    private LabelHandler labelHandler;
 
     @AuthPassport
     @RequestMapping("/create")
@@ -171,20 +170,21 @@ public class ProblemController {
      *@param：answer,model
      *@return：S
      */
-    @RequestMapping(value = "/{problemid}",method = RequestMethod.GET)
-    public String selectAllAnswer(Model model, @PathVariable("problemid") int problemid){
+    @RequestMapping(value = "/{problemId}",method = RequestMethod.GET)
+    public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId){
         Answer answer = new Answer();
-        answer.setProblemId(problemid);
+        answer.setProblemId(problemId);
         List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
         List<String> newTime = new ArrayList<>();
         for(int a = 0 ; a < answerList.size(); a++) {
             newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
         }
-        Problem problem  = problemHandler.selectById(problemid);
+        Problem problem  = problemHandler.selectById(problemId);
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
         model.addAttribute("answerList", answerList);
         model.addAttribute("newTime", newTime);
         model.addAttribute("problem",problem);
+        model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime",problemTime);
         return "question_view";
     }

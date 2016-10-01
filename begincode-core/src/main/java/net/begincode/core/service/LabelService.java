@@ -4,6 +4,7 @@ import net.begincode.core.mapper.BizLabelMapper;
 import net.begincode.core.mapper.LabelMapper;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.LabelExample;
+import net.begincode.core.model.ProblemLabelExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -75,5 +76,9 @@ public class LabelService {
     public List<Label> selectAllLabel() {
 
         return bizLabelMapper.selectHotLabel();
+    }
+
+    public List<Label> selectLabelByProblemId(Integer problemId){
+        return bizLabelMapper.selectLabelByProblemId(problemId);
     }
 }

@@ -1,14 +1,13 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="commons/taglibs.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="commons/taglibs.jsp" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%@ include file="commons/meta.jsp"%>
-    <title>Bootstrap 101 Template</title>
+    <%@ include file="commons/meta.jsp" %>
+    <title>${problem.title}  BeginCode问答</title>
 
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
@@ -23,7 +22,7 @@
 
 <body>
 
-<jsp:include page="/page/core/top.jsp" />
+<jsp:include page="/page/core/top.jsp"/>
 
 
 <div class="continer">
@@ -38,9 +37,12 @@
                         </h1>
 
                         <span class="keyword-list ">
-										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank" class="list-tag">css</a>
-								</span>
-                        <span id="problemId" extra="${problem.problemId}" class="hidden"></span>
+                            <c:forEach items="${labels}" var="label">
+                                <a href="" target="_blank" class="list-tag">${label.labelName}</a>
+                            </c:forEach>
+                        </span>
+                        <span id="problemId" extra="${problem.problemId}"  class="hidden"></span>
+
                         <div class="question-author">
                             <a href="#" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
@@ -52,15 +54,15 @@
                         <li>
                             <button type="button" id="sideFollow" class="btn btn-danger btn-sm"
                                     data-id="1010000006602336" data-do="follow" data-type="question"
-                                    data-toggle="tooltip" data-placement="right" title="关注后将获得更新提醒">关注
+                                    data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
                             </button>
-                            <strong>1</strong> 关注
+                            <strong>${problem.collectCount}</strong> 收藏
                         </li>
                         <li>
                             <button type="button" id="sideBookmark" class="btn btn-default btn-sm"
-                                    data-id="1010000006602336" data-type="question">收藏
+                                    data-id="1010000006602336" data-type="question">投票
                             </button>
-                            <strong id="sideBookmarked">${problem.collectCount}</strong> 收藏，<strong
+                            <strong id="sideBookmarked">${problem.voteCount}</strong> 投票，<strong
                                 class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
@@ -71,46 +73,49 @@
 </div>
 <div class="container">
 
-
-
     <div class="row">
         <div class="col-md-9">
-
-                ${problem.content}
+            ${problem.content}
 
             <center>
-                <button type="button" class="btn btn-primary">点击投票(12)</button>
+                <button type="button" class="btn btn-primary">点击投票(${problem.voteCount})</button>
             </center>
 
             <div></div>
             <c:forEach items="${answerList}" var="answer" varStatus="temp">
                 <hr>
                 <div class="post-offset">
-                    <c:if test="${answer.adopt == 1}">
-                        <div class="qa-rank">
-                            <div class="answers">
-                                <small>已采纳</small>
-                            </div>
-                        </div>
-                    </c:if>
-                    <div class="answer fmt" data-id="1020000006591589" >
+
+                    <div class="answer fmt" data-id="1020000006591589">
                         <p> ${answer.content}</p>
                     </div>
                     <div class="row answer__info--row">
                         <div class="post-opt col-md-8 col-sm-8 col-xs-10">
                             <ul class="list-inline mb0">
-                                <li><a href="#"><td>${newTime[temp.count-1]}</td></a>
-                                    <span class="text-muted"></span></li>
+                                <li>
+                                    <td>${newTime[temp.count-1]}</td>
+                                    <span class="text-muted"></span>
+                                </li>
                                 <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">反馈</a>
+                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
                                 </li>
-                                <li><a href="javascript:void(0);" class="comments" data-id="1020000006591589"
-                                       data-target="#comment-1020000006591589">
-                                    评论</a></li>
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b
-                                            class="caret"></b></a>
-                                </li>
+
+
+                                <c:choose>
+                                    <c:when test="${answer.adopt == 1}">
+                                        <li><span class="label label-danger">已采纳</span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
+                                            <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">采纳</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <%--<li class="dropdown">--%>
+                                    <%--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b--%>
+                                            <%--class="caret"></b></a>--%>
+                                <%--</li>--%>
                             </ul>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
@@ -141,20 +146,18 @@
                     <h3 class="panel-title">热门标签</h3>
                 </div>
                 <div class="panel-body">
-    <span class="tag-list">
-        <a href="" target="_blank" class="list-tag">java</a><a href="" target="_blank" class="list-tag">基础类型</a>
-		<a href="" target="_blank" class="list-tag">接口</a><a href="" target="_blank" class="list-tag">面向对象</a>
-		<a href="" target="_blank" class="list-tag">框架</a><a href="" target="_blank" class="list-tag">SSM</a>
-	</span>
+				    <span class="tag-list" id="labelBody">
+
+					</span>
                 </div>
             </div>
-            <div class="list-group">
-                <a href="#" class="list-group-item disabled">
-                    相似问题
-                </a>
-                <a href="#" class="list-group-item">问题111</a>
-                <a href="#" class="list-group-item">问题222</a>
-            </div>
+            <%--<div class="list-group">--%>
+                <%--<a href="#" class="list-group-item disabled">--%>
+                    <%--相似问题--%>
+                <%--</a>--%>
+                <%--<a href="#" class="list-group-item">问题111</a>--%>
+                <%--<a href="#" class="list-group-item">问题222</a>--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -167,6 +170,7 @@
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
+<script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 
 
 </body>
