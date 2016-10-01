@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%@ include file="commons/meta.jsp" %>
-    <title>Bootstrap 101 Template</title>
+    <title>BeginCode问答</title>
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
@@ -73,7 +73,7 @@
                 </div>
 
             </div>
-       
+
             <!--分页栏-->
             <nav style="text-align: center">
                 <ul id="paginationId" class="pagination">
@@ -90,7 +90,7 @@
                     <h3 class="panel-title">热门标签</h3>
                 </div>
                 <div class="panel-body">
-				    <span class="tag-list">
+				    <span class="tag-list" id="labelBody">
 				        
 					</span>
                 </div>
