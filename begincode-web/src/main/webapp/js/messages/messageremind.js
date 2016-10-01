@@ -21,7 +21,7 @@ $(function(){
 			success : function(data) {
 				var jsonarry =data;
 				jsontext="";
-				if(jsonarry!=null&&jsonarry!=""){
+				if(jsonarry!=null&&jsonarry!=""&&jsonarry.msg==null){
 					$.each(jsonarry,function(key, value){
 						labelcontent=labelswitching(value.label_name);
 						var time;
