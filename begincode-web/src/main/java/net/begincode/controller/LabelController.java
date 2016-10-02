@@ -29,7 +29,7 @@ public class LabelController {
 	 */
 	@RequestMapping("/getLabel")
 	public @ResponseBody
-	List<Label> getLabel() {
+	Object getLabel() {
 
 		List<Label> list = new ArrayList<Label>();
 		logger.info("开始查询标签");

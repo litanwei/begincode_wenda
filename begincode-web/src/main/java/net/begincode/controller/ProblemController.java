@@ -74,7 +74,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findHotProblem(BizFrontProblem bizFrontProblem) {
+    public Object findHotProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectHotProblems(page);
