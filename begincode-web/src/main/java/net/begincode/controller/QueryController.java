@@ -50,7 +50,7 @@ public class QueryController {
 
     private String paginationHtml(int totalPage, int currentNum, String keyword) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<ul class='pagination'><li><a href='${ctx}/search.htm?q=" + keyword + "'>首页</a></li>");
+        stringBuilder.append("<ul class='pagination'><li><a href='/search.htm?q=" + keyword + "'>首页</a></li>");
         if (currentNum == 1) {
             stringBuilder.append("<li class='previous disabled'><a href='#'>上一页</a></li>");
         } else {
@@ -73,66 +73,6 @@ public class QueryController {
             stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (currentNum + 1) + "'>下一页</a></li><li><a href='/search.htm?q=" + keyword + "&p=" + totalPage + "'>末页</a></li></ul>");
         }
         return stringBuilder.toString();
-
-
-       /* if (totalPage == 1) {
-            stringBuilder.append("<li class='previous disabled'><a href='#'>上一页</a></li>");
-            stringBuilder.append("<li class='active'><a href='${ctx}/search.htm?q=" + keyword + "&p=1'>1</a></li>");
-            stringBuilder.append("<li class='previous disabled'><a href='#'>下一页</a></li>");
-            stringBuilder.append("<li><a href='${ctx}/search.htm?q=" + keyword + "'>末页</a></li></ul>");
-            return stringBuilder.toString();
-        }
-        if (totalPage < 6 && currentNum == 1) {
-            stringBuilder.append("<li class='previous disabled'><a href='#'>上一页</a></li>");
-            stringBuilder.append("<li class='active'><a href='/search.htm?q=" + keyword + "&p=1'>1</a></li>");
-            for (int i = 1; i < totalPage; i++) {
-                stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (i + 1) + "'>" + (i + 1) + "</a></li>");
-            }
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (currentNum + 1) + "'>下一页</a></li>");
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + totalPage + "'>末页</a></li></ul>");
-            return stringBuilder.toString();
-        } else if (totalPage < 6 && currentNum > 1) {
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (currentNum - 1) + "'>上一页</a></li>");
-            for (int i = 1; i < totalPage; i++) {
-                if (i + 1 == currentNum) {
-                    stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" +i + "'>" + i + "</a></li>");
-                    stringBuilder.append("<li class='active'><a href='${ctx}/search.htm?q=" + keyword + "&p=" + currentNum + "'>" + currentNum + "</a></li>");
-                } else {
-                    stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (i + 1) + "'>" + (i + 1) + "</a></li>");
-                }
-            }
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (currentNum + 1) + "'>下一页</a></li>");
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + totalPage + "'>末页</a></li></ul>");
-            return stringBuilder.toString();
-        }
-        if(totalPage>6 && currentNum == 1){
-            stringBuilder.append("<li class='previous disabled'><a href='#'>上一页</a></li>");
-            stringBuilder.append("<li class='active'><a href='/search.htm?q=" + keyword + "&p=1'>1</a></li>");
-            for(int i=1;i<5;i++){
-                stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" +(i+1)+ "'>" + (i+1) + "</a></li>");
-            }
-            stringBuilder.append("<li class='disabled'><a>...</a></li>");
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + (currentNum + 1) + "'>下一页</a></li>");
-            stringBuilder.append("<li><a href='/search.htm?q=" + keyword + "&p=" + totalPage + "'>末页</a></li></ul>");
-            return stringBuilder.toString();
-        }*/
-
-
-        /*else{
-            stringBuilder.append(" <li><a href='${ctx}/search.htm?q="+keyword+"&p="+(currentNum-1)+"'>上一页</a></li>");
-        }
-        if(totalPage < 5){
-            for(int i= 0;i<totalPage;i++){
-                if(i!=currentNum)
-                {
-                    stringBuilder.append("<li><a href='${ctx}/search.htm?q="+keyword+"&p="+(i+1)+"'>"+(i+1)+"</a></li>");
-                }else{
-                    stringBuilder.append("<li class='ative'><a href='${ctx}/search.htm?q="+keyword+"&p="+(currentNum)+"'>"+currentNum+"</a></li>");
-                }
-            }
-        }else{
-
-        }*/
     }
 
 
