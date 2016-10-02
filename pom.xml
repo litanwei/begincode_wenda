@@ -6,7 +6,8 @@
 		<module>begincode-core</module>
 		<module>begincode-common</module>
 		<module>begincode-web</module>
-	</modules>
+        <module>begincode-lucene</module>
+    </modules>
 
 
 	<groupId>net.begincode</groupId>

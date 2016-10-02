@@ -46,6 +46,7 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
+
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
@@ -172,10 +173,11 @@ public class ProblemHandler {
             }
         }
     }
+
     /**
      * 根据id查询问题
      */
-    public Problem selectById(int answerId){
+    public Problem selectById(int answerId) {
         return problemService.selProblemById(answerId);
     }
 
@@ -195,6 +197,15 @@ public class ProblemHandler {
             list.add(bizFrontProblem);
         }
         return list;
+    }
+
+    /**
+     * 查找所有问题
+     *
+     * @return
+     */
+    public List<Problem> selectAllProblem() {
+        return problemService.findProblemList();
     }
 
 

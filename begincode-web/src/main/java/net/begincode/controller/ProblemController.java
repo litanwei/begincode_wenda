@@ -1,6 +1,7 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
+import net.begincode.common.BeginCodeConstant;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.ProblemHandler;
@@ -8,7 +9,16 @@ import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
+import net.begincode.lucene.bean.ConfigBean;
+import net.begincode.lucene.index.Index;
+import net.begincode.lucene.manager.IndexConfig;
+import net.begincode.lucene.utils.LuceneUtil;
 import net.begincode.utils.DateUtil;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -133,6 +143,8 @@ public class ProblemController {
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
+        HashSet<ConfigBean> set = new HashSet<>();
+        LuceneUtil.createIndex(problem); //新增问题添加进索引中
         map.put("success", "提交成功");
         return map;
     }

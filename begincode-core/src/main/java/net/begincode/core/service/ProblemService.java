@@ -42,6 +42,15 @@ public class ProblemService {
         return problemMapper.countByExample(problemExample);
     }
 
+    /**
+     * 查找所有问题
+     * @return
+     */
+    public List<Problem> findProblemList(){
+        ProblemExample problemExample = new ProblemExample();
+        return problemMapper.selectByExampleWithBLOBs(problemExample);
+    }
+
 
     /**
      * 我的问题分页
