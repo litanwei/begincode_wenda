@@ -3,9 +3,10 @@ $(function(){
 			messageremind(1);
 			$.ajax({
 				type: "POST",
+				dataType:"JSON",
 				url:"/message/pagesize.htm",
 				success : function(pagesize) {
-					paginationByMessage(parseInt(pagesize));
+					paginationByMessage(parseInt(pagesize.data));
 				}
 			});
 		})
@@ -13,13 +14,13 @@ $(function(){
 	function messageremind(nowpage) {
 		$.ajax({
 			type: "POST",
-			dataType:"json",
+			dataType:"JSON",
 			url : "/message/messageremind.htm?nowpage="+nowpage,
 			error:function(data){
 				alert("失败了");
 			},
 			success : function(data) {
-				var jsonarry =data;
+				var jsonarry =data.data;
 				jsontext="";
 				if(jsonarry!=null&&jsonarry!=""&&jsonarry.msg==null){
 					$.each(jsonarry,function(key, value){
