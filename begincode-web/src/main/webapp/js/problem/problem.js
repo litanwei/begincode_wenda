@@ -7,8 +7,12 @@ $(document).ready(function () {
         url: "/problem/newProblems.htm?page=1",
         dataType: "json",
         success: function (data) {
-            getProblems(data, "newProblem");
-            pagination(data, "newProblems", "newProblem", "GET");
+            if(data.code == 0){
+                getProblems(data, "newProblem");
+                pagination(data.data, "newProblems", "newProblem", "GET");
+            }else{
+                showModel(data.msg);
+            }
         }
     });
     $("#hotProblemId").click(function () {
@@ -18,8 +22,12 @@ $(document).ready(function () {
             url: "/problem/hotProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                getProblems(data, "hotProblem");
-                pagination(data, "hotProblems", "hotProblem", "GET");
+                if(data.code == 0){
+                    getProblems(data, "hotProblem");
+                    pagination(data.data, "hotProblems", "hotProblem", "GET");
+                }else{
+                    showModel(data.msg);
+                }
             }
         });
     });
@@ -30,8 +38,12 @@ $(document).ready(function () {
             url: "/problem/noAnswerProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                getProblems(data, "noAnswerProblem");
-                pagination(data, "noAnswerProblems", "noAnswerProblem", "GET");
+                if(data.code == 0){
+                    getProblems(data, "noAnswerProblem");
+                    pagination(data.data, "noAnswerProblems", "noAnswerProblem", "GET");
+                }else{
+                    showModel(data.msg);
+                }
             }
         });
 
@@ -43,12 +55,11 @@ $(document).ready(function () {
             url: "/problem/myProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if (data.msg != null) {
-                    $("#errorMessage").html(data.msg);
-                    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
-                } else {
+                if (data.msg == 0) {
                     getProblems(data, "myProblem");
-                    pagination(data, "myProblems", "myProblem", "POST");
+                    pagination(data.data, "myProblems", "myProblem", "POST");
+                } else {
+                    showModel(data.msg);
                 }
             }
         });
@@ -66,18 +77,14 @@ $(document).ready(function () {
                 url: "/problem/store.htm",
                 dataType: "json",
                 success: function (data) {
-                    if (data.success != null) {
-                        alert(data.success);
+                    if (data.code == 0) {
+                        alert(data.msg);
                         $("#problemSend").removeAttr("disabled");
                         window.location.href = "/";
-                    } else if (data.msg != null) {
-                        $("#myModal").modal("show");
+                    } else {
+                        alert(data.msg);
                     }
                 },
-                error: function (data) {
-                    alert("请检查输入,或者网络连接!");
-                    $("#problemSend").removeAttr("disabled");
-                }
             });
         }
     })
@@ -100,6 +107,11 @@ function checkProblemForm() {
     }
     return true;
 }
+function showModel(msg) {
+    $("#errorMessage").html(msg);
+    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
+}
+
 
 
 /**

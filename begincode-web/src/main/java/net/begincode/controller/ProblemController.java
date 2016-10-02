@@ -74,7 +74,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findHotProblem(BizFrontProblem bizFrontProblem) {
+    public Object findHotProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectHotProblems(page);
@@ -89,7 +89,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/noAnswerProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findNoAnswerProblem(BizFrontProblem bizFrontProblem) {
+    public Object findNoAnswerProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNoAnswerProblems(page);
@@ -105,7 +105,7 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/myProblems", method = RequestMethod.POST)
     @ResponseBody
-    public Page findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
+    public Object findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         BegincodeUser user = accountContext.getCurrentUser(request);
         page.setCurrentNum(bizFrontProblem.getPage());
@@ -126,7 +126,7 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
+    public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
@@ -136,7 +136,6 @@ public class ProblemController {
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
-        map.put("success", "提交成功");
         return map;
     }
 
