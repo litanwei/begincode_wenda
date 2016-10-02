@@ -79,14 +79,9 @@ public class MessageController {
 	@AuthPassport
 	@RequestMapping(value="/pagesize",method=RequestMethod.POST)
 	@ResponseBody
-	public int countMessage(HttpServletRequest request){
+	public Object countMessage(HttpServletRequest request){
 		BegincodeUser begincodeUser;
-		try {
-			begincodeUser=accountContext.getCurrentUser(request);
-		} catch (Exception e) {
-			System.out.println("错误的用户请求");
-			return 0;
-		}
+		begincodeUser=accountContext.getCurrentUser(request);
 		return messageHandler.countByMessageRemind(begincodeUser.getBegincodeUserId());
 	}
 }
