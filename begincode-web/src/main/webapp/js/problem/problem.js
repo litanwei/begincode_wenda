@@ -15,6 +15,22 @@ $(document).ready(function () {
             }
         }
     });
+    $("#newProblemId").click(function () {
+        $("newProblem").empty();
+        $.ajax({
+            type: "GET",
+            url: "/problem/newProblems.htm?page=1",
+            dataType: "json",
+            success: function (data) {
+                if(data.code == 0){
+                    getProblems(data, "newProblem");
+                    pagination(data.data, "newProblems", "newProblem", "GET");
+                }else{
+                    showModel(data.msg);
+                }
+            }
+        });
+    })
     $("#hotProblemId").click(function () {
         $("#hotProblem").empty();
         $.ajax({
