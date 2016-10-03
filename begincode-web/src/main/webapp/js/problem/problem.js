@@ -71,7 +71,7 @@ $(document).ready(function () {
             url: "/problem/myProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if (data.msg == 0) {
+                if (data.code == 0) {
                     getProblems(data, "myProblem");
                     pagination(data.data, "myProblems", "myProblem", "POST");
                 } else {
@@ -94,7 +94,6 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
-                        alert(data.msg);
                         $("#problemSend").removeAttr("disabled");
                         window.location.href = "/";
                     } else {
