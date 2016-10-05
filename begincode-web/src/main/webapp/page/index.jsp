@@ -325,9 +325,11 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../js/bootstrap.js"></script>
 
-<!-- 获取活跃用户 -->
-<script type="text/javascript" src="../js/getActivers.js"></script>
 <!-- 获取热门标签 、查询标签-->
 <script type="text/javascript" src="../js/getLabel.js"></script>
+<!-- 获取活跃用户 -->
+<script type="text/javascript" src="../js/getActivers.js"></script>
+<!-- 页面加载事件 -->
+<script type="text/javascript" src="../js/onLoad.js"></script>
 </body>
 </html>

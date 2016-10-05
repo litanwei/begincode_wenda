@@ -5,9 +5,7 @@
  */
 	
 	
-window.onload=function(){
-	getLabels();
-};
+
 function getLabels(){
 	
 	$.ajax({
@@ -17,7 +15,7 @@ function getLabels(){
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
-					$(".tag-list").append("<a href='' target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+					$(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
 			}else{
@@ -28,5 +26,5 @@ function getLabels(){
 	});
 	}
 	function selectLabel(id){
-		alert(id);
+		window.location.href="../label/selectProblemLabel.htm?id="+id;
 	}

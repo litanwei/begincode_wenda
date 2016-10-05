@@ -7,8 +7,6 @@ import javax.annotation.Resource;
 import net.begincode.core.mapper.BizLabelMapper;
 import net.begincode.core.mapper.LabelMapper;
 import net.begincode.core.model.Label;
-import net.begincode.core.model.LabelExample;
-import net.begincode.core.model.LabelExample.Criteria;
 
 import org.springframework.stereotype.Service;
 
@@ -29,4 +27,5 @@ public class LabelService {
 
 		return bizLabelMapper.selectHotLabel();
 	}
+
 }
