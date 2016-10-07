@@ -52,17 +52,17 @@
                 <div class="col-md-3 col-sm-4 col-xs-12 hidden-xs">
                     <ul class="post-topheader__side list-unstyled">
                         <li>
-                            <button type="button" id="sideFollow" class="btn btn-danger btn-sm"
+                            <button type="button" id="collection" class="btn btn-danger btn-sm"
                                     data-id="1010000006602336" data-do="follow" data-type="question"
                                     data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
                             </button>
-                            <strong>${problem.collectCount}</strong> 收藏
+                            <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
                         </li>
                         <li>
-                            <button type="button" id="sideBookmark" class="btn btn-default btn-sm"
+                            <button type="button" id="vote" class="btn btn-default btn-sm"
                                     data-id="1010000006602336" data-type="question">投票
                             </button>
-                            <strong id="sideBookmarked">${problem.voteCount}</strong> 投票，<strong
+                            <strong id="voteNumber">${problem.voteCount}</strong> 投票，<strong id="viewNumber"
                                 class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
@@ -171,6 +171,7 @@
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
+<script src="${ctx}/js/problem/Biz_problem.js"></script>
 
 
 </body>
