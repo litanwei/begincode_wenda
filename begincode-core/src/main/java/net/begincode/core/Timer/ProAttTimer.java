@@ -23,7 +23,7 @@ public class ProAttTimer  {
     	System.out.println("结束了");
 	}
 	//每小时执行一次更新
-	@Scheduled(fixedDelay = 3600000)
+	@Scheduled(initialDelay=3600000,fixedDelay = 3600000)
 	public void run() {
 		ProblemVariate.updataMap();
 	}
