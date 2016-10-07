@@ -77,24 +77,25 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal -->
   </div>
-  <div class="modal fade" id="valueModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <!--提问后提示弹出框-->
+  <div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   </button>
                   <h4 class="modal-title" id="myModalLabel">
-                      警告
+                      提示
                   </h4>
               </div>
               <div class="modal-body">
-                  <div id="valueValidate"></div>
+                  <div id="errorMessage"></div>
               </div>
               <div class="modal-footer">
-                  <a type="button" class="btn btn-primary" data-dismiss="modal">关闭</a>
+                  <a type="button" class="btn btn-primary" href="/">关闭</a>
               </div>
-          </div><!-- /.modal-content -->
-      </div><!-- /.modal -->
+          </div>
+      </div>
   </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

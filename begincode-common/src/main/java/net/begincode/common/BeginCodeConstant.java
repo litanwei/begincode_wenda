@@ -11,6 +11,6 @@ public class BeginCodeConstant {
     public static final Integer HOTPROBLEM_SUBTRACT_MONTH = 1;
 
 
-    public static final int PAGESIZE = 8;     //分页查询  每页显示的行数
+    public static final int PAGESIZE = 10;     //分页查询  每页显示的行数
 
 }
