@@ -17,8 +17,8 @@ public class ProAttentionService {
 	@Resource
 	private ProAttentionMapper proAttentionMapper;
 	
-	public List<ProAttention> statisticsByporblem(String condition){
-		return bzi_ProAttentionMapper.statisticsByporblem(condition);
+	public List<ProAttention> statisticsByProblem(String condition){
+		return bzi_ProAttentionMapper.statisticsByProblem(condition);
 	}
 	
 	public int selectByViewCount(Integer problem_id){

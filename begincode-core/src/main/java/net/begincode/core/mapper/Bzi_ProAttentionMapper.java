@@ -8,7 +8,7 @@ import net.begincode.core.model.ProAttention;
 
 public interface Bzi_ProAttentionMapper extends ProAttentionMapper {
 	
-	List<ProAttention> statisticsByporblem(String condition);
+	List<ProAttention> statisticsByProblem(String condition);
 	
 	int selectByViewCount(Integer problem_id);
 	

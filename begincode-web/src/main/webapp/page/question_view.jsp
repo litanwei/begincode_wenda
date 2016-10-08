@@ -21,9 +21,7 @@
 </head>
 
 <body>
-
 <jsp:include page="/page/core/top.jsp"/>
-
 
 <div class="continer">
     <div class="post-topheader">
@@ -161,18 +159,17 @@
         </div>
     </div>
 </div>
+<input type="hidden" value="${problem.problemId}" id="problem_id"/>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
-<script src="${ctx}/js/problem/Biz_problem.js"></script>
-
-
+<script src="${ctx}/js/problem/biz_Problem.js"></script>
 </body>
 </html>

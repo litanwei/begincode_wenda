@@ -2,19 +2,19 @@
  * Created by Stay on 2016/9/15.
  */
 $(function(){
-	StatisticalPro();
-	StatisticalPorView();
-	$(".post-topheader__side button").on('click',StatisticalPro);
+	var p_id =  $("#problem_id").attr("value");
+	statisticalPro();
+	statisticalProView(p_id);
+	$(".post-topheader__side button").on('click',statisticalPro);
 })
-function StatisticalPro(status){
+function statisticalPro(status){
+		var problem_id =  $("#problem_id").attr("value");
 		var buttons = this;
 		var urls;
 		if(buttons.id==null){
-			urls=window.location.href.replace("problem",
-					"problem/load/load");
+			urls="/problem/load/load/"+problem_id+".htm";
 		}else{
-			urls = window.location.href.replace("problem",
-					"problem/click/"+buttons.id + "");
+			urls="/problem/click/"+buttons.id+"/"+problem_id+".htm";
 		}
 		$.ajax({
 			type : "POST",
@@ -43,11 +43,10 @@ function StatisticalPro(status){
 			}
 		});
 }
-function StatisticalPorView(){
-	var urls=window.location.href.replace("problem","problem/view");
+function statisticalProView(problem_id){
 	$.ajax({
 		type:"GET",
-		url:urls,
+		url:"/problem/view/"+problem_id+".htm",
 		dataType : "JSON",
 		success: function(data){
 			$("#viewNumber").html(data.data);

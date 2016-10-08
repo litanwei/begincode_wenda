@@ -33,10 +33,14 @@ public class ProblemVariate {
 		}
 		return changeMap;
 	}
+	/**
+	 * V判断是更新Vote字段 
+	 * C判断是Collection字段
+	 */
 	public static Map<Integer, ProblemsStatistical> getMap() {
 		if(localmap==null){
-			List<ProAttention> lsv=proAttentionService.statisticsByporblem("v");
-			List<ProAttention> lsc=proAttentionService.statisticsByporblem("c");
+			List<ProAttention> lsv=proAttentionService.statisticsByProblem("v");
+			List<ProAttention> lsc=proAttentionService.statisticsByProblem("c");
 			localmap=new HashMap<Integer, ProblemsStatistical>();
 			for(ProAttention p:lsv){
 				isInLocalMap(p.getProblemId());
