@@ -37,7 +37,9 @@ function StatisticalPro(status){
 				};
 				$("#collectionNumber").html(result["collectionNumber"]);
 				$("#voteNumber").html(result["voteNumber"]);
-				$("#viewNumber").html(result["viewNumber"]);
+				if(buttons.id!=null){
+					$("#viewNumber").html(result["viewNumber"]);
+				}
 			}
 		});
 }
