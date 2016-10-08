@@ -18,7 +18,8 @@ import net.begincode.core.service.ProAttentionService;
 
 @Controller
 public class ProblemVariate {
-	private static Map<Integer, ProblemsStatistical> map;
+	private static Map<Integer, ProblemsStatistical> localmap;
+	private static Map<Integer, Set<Integer>> changeMap;
 	private static ProAttentionService proAttentionService;
 	
 	@Resource
@@ -26,25 +27,32 @@ public class ProblemVariate {
 		ProblemVariate.proAttentionService = proAttentionService;
 	}
 	
+	public static Map<Integer, Set<Integer>> getChangeMap() {
+		if(changeMap==null){
+			changeMap=new HashMap<Integer, Set<Integer>>();
+		}
+		return changeMap;
+	}
 	public static Map<Integer, ProblemsStatistical> getMap() {
-		if(map==null){
+		if(localmap==null){
 			List<ProAttention> lsv=proAttentionService.statisticsByporblem("v");
 			List<ProAttention> lsc=proAttentionService.statisticsByporblem("c");
-			map=new HashMap<Integer, ProblemsStatistical>();
+			localmap=new HashMap<Integer, ProblemsStatistical>();
 			for(ProAttention p:lsv){
-				isInMap(p.getProblemId());
-				map.get(p.getProblemId()).getVotes().add(p.getBegincodeUserId());
+				isInLocalMap(p.getProblemId());
+				localmap.get(p.getProblemId()).getVotes().add(p.getBegincodeUserId());
 			}
 			for(ProAttention p:lsc){
-				isInMap(p.getProblemId());
-				map.get(p.getProblemId()).getCollections().add(p.getBegincodeUserId());
+				isInLocalMap(p.getProblemId());
+				localmap.get(p.getProblemId()).getCollections().add(p.getBegincodeUserId());
 			}
 		}
-		return map;
+		return localmap;
 	}
-	public static Boolean isInMap(int problem_id){
+	//判断localMap是否存在problem
+	public static Boolean isInLocalMap(int problem_id){
 		//如果map中key中没有problem_id则添加新的map数据
-		if(!map.keySet().contains(problem_id)){
+		if(!localmap.keySet().contains(problem_id)){
 			ProblemsStatistical problemsStatistical=new ProblemsStatistical();
 			Set<Integer> collects=new HashSet<Integer>();
 			Set<Integer> votes=new HashSet<Integer>();
@@ -52,40 +60,49 @@ public class ProblemVariate {
 			problemsStatistical.setCollections(collects);
 			problemsStatistical.setVotes(votes);
 			problemsStatistical.setViews(views);
-			map.put(problem_id, problemsStatistical);
+			localmap.put(problem_id, problemsStatistical);
 			return false;
 		}
 		return true;
 	}
-	public static void updataMap(){
-		Set<Integer> k=map.keySet();
-		for(Integer i:k){
-			Set<Integer> vs=map.get(i).getVotes();
-			for(Integer u_id:vs){
-				Integer resultNumber=proAttentionService.updateByProattention("v",u_id , i);
-				if(resultNumber==0){
-					ProAttention record=new ProAttention();
-					record.setBegincodeUserId(u_id);
-					record.setProblemId(i);
-					record.setCollect(0);
-					record.setVote(1);
-					proAttentionService.insert(record);
-				}
-			}
-			Set<Integer> cs=map.get(i).getCollections();
-			for(Integer u_id:cs){
-				Integer resultNumber=proAttentionService.updateByProattention(null,u_id , i);
-				if(resultNumber==0){
-					ProAttention record=new ProAttention();
-					record.setBegincodeUserId(u_id);
-					record.setProblemId(i);
-					record.setCollect(1);
-					record.setVote(0);
-					proAttentionService.insert(record);
-				}
-			}
-			proAttentionService.updateByProblemViewS(map.get(i).getViews(), i);
+	//判断changeMap是否存在problem
+	public static Boolean isInChangeMap(int problem_id){
+		if(!changeMap.keySet().contains(problem_id)){
+			Set<Integer> s=new HashSet<Integer>();
+			changeMap.put(problem_id, s);
 		}
+		return true;
+	}
+	//更新本地数据
+	public static void updateMap(){
+		Set<Integer> k=changeMap.keySet();
+		for(Integer problem_id:k){
+			Set<Integer> changes=changeMap.get(problem_id);
+			for(Integer u_id:changes){
+				ProAttention p= initProAttention(u_id,problem_id);
+				if(localmap.get(problem_id).getCollections().contains(u_id)){
+					p.setCollect(1);
+				}
+				if(localmap.get(problem_id).getVotes().contains(u_id)){
+					p.setVote(1);
+				}
+				Integer resultNumber=proAttentionService.updateByProattention(p);
+				if(resultNumber==0){
+					proAttentionService.insert(p);
+				}
+			}
+			proAttentionService.updateByProblemViewS(localmap.get(problem_id).getViews(), problem_id);
+		}
+		changeMap.clear();
+	}
+	//获得初始化ProAttention类
+	public static ProAttention initProAttention(Integer user_id,Integer problem_id){
+		ProAttention initp=new ProAttention();
+		initp.setBegincodeUserId(user_id);
+		initp.setProblemId(problem_id);
+		initp.setCollect(0);
+		initp.setVote(0);
+		return initp;
 	}
 	
 	

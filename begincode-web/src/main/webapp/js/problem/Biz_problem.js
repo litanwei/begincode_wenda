@@ -2,15 +2,16 @@
  * Created by Stay on 2016/9/15.
  */
 $(function(){
-	StatisTicalPro();
-	$(".post-topheader__side button").on('click',StatisTicalPro);
+	StatisticalPro();
+	StatisticalPorView();
+	$(".post-topheader__side button").on('click',StatisticalPro);
 })
-var StatisTicalPro=function(){
+function StatisticalPro(status){
 		var buttons = this;
 		var urls;
-		if(status==null){
+		if(buttons.id==null){
 			urls=window.location.href.replace("problem",
-					"problem/load/load/");
+					"problem/load/load");
 		}else{
 			urls = window.location.href.replace("problem",
 					"problem/click/"+buttons.id + "");
@@ -20,7 +21,7 @@ var StatisTicalPro=function(){
 			dataType : "JSON",
 			url : urls,
 			error : function(data) {
-				alert("失败了");
+				alert(data.msg);
 			},
 			success : function(data) {
 				var result = data.data;
@@ -39,4 +40,15 @@ var StatisTicalPro=function(){
 				$("#viewNumber").html(result["viewNumber"]);
 			}
 		});
+}
+function StatisticalPorView(){
+	var urls=window.location.href.replace("problem","problem/view");
+	$.ajax({
+		type:"GET",
+		url:urls,
+		dataType : "JSON",
+		success: function(data){
+			$("#viewNumber").html(data.data);
+		}
+	})
 }

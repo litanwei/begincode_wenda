@@ -25,8 +25,8 @@ public class ProAttentionService {
 		return bzi_ProAttentionMapper.selectByViewCount(problem_id);
 	}
 	
-	public int updateByProattention(String row,Integer user_id,Integer problem_id){
-		return bzi_ProAttentionMapper.updateByProattention(row, user_id, problem_id);
+	public int updateByProattention(ProAttention proAttention){
+		return bzi_ProAttentionMapper.updateByProattention(proAttention);
 	}
 	
 	public int updateByProblemViewS(Integer views,Integer problem_id){
