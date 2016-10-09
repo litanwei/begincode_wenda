@@ -53,7 +53,7 @@ public class MyIndexSearch {
         try {
             TopDocs topDocs = searcher.search(query, end);
             bean.setSumCount(topDocs.totalHits);
-            bean.setDocs(highHtml(start,end,query, topDocs, searcher,100));
+            bean.setDocs(highHtml(start, end, query, topDocs, searcher, 100));
         } catch (Exception e) {
             logger.error(e.getMessage());
         } finally {
@@ -64,15 +64,16 @@ public class MyIndexSearch {
 
     /**
      * 返回带有高亮代码的list集合
+     *
      * @param start
      * @param end
      * @param query
      * @param topDocs
      * @param indexSearcher
-     * @param subNum    内容返回的字符数
+     * @param subNum        内容截取的字符数个数
      * @return
      */
-    private List<Problem> highHtml(int start, int end, Query query, TopDocs topDocs, IndexSearcher indexSearcher,int subNum) {
+    private List<Problem> highHtml(int start, int end, Query query, TopDocs topDocs, IndexSearcher indexSearcher, int subNum) {
         List<Problem> list = new ArrayList<>();
         try {
             end = end > topDocs.totalHits ? topDocs.totalHits : end;
@@ -92,23 +93,33 @@ public class MyIndexSearch {
                     TokenStream contentTokenStream = new MyIkAnalyzer().tokenStream("content", new StringReader(content));// TokenStream将查询出来的搞成片段，得到的是整个内容
                     TokenStream titleTokenStream = new MyIkAnalyzer().tokenStream("title", new StringReader(title));// TokenStream将查询出来的搞成片段，得到的是整个内容
                     String highContent = highlighter.getBestFragment(contentTokenStream, content);
+                    //如果内容的字数小于subNum则只截取其内容
                     if (highContent != null) {
-                        problem.setContent(highContent.substring(0,subNum)+"...");// 将权重高的摘要显示出来，得到的是关键字内容
+                        if (subNum < highContent.length()) {
+                            problem.setContent(highContent.substring(0, subNum) + "...");// 将权重高的摘要显示出来，得到的是关键字内容
+                        } else {
+                            problem.setContent(content + "...");
+                        }
                     } else {
                         problem.setContent(content);
                     }
-                    problem.setTitle(highlighter.getBestFragment(titleTokenStream, title));// 将权重高的摘要显示出来，得到的是关键字内容
+                    String highTitle = highlighter.getBestFragment(titleTokenStream, title);// 将权重高的摘要显示出来，得到的是关键字内容
+                    if (highTitle == null) {
+                        problem.setTitle(title);
+                    } else {
+                        problem.setTitle(highTitle);
+                    }
                     problem.setProblemId(Integer.parseInt(id));
                     problem.setSolve(Integer.parseInt(solve));
                     list.add(problem);
                 }
             }
             return list;
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return null;
-}
+    }
 
 
 }

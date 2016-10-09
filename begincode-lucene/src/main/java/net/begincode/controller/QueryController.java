@@ -35,7 +35,7 @@ public class QueryController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String query(@RequestParam(value = "q") String keyword, @RequestParam(value = "p", defaultValue = "1") int p, Model model) throws Exception {
         keyword = new String(keyword.getBytes("ISO-8859-1"), "UTF-8");
-        if (keyword.trim() == "") {
+        if (keyword.length()==0) {
             return "search";
         }
         Page<Problem> page = new Page<>();

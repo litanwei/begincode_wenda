@@ -57,6 +57,7 @@
                 ${pagination}
             </c:when>
             <c:when test="${searchList == null}">
+                <h3 style="color:red">站内无资源，或者关键字输入有误，请重新搜索！</h3>
             </c:when>
         </c:choose>
 
