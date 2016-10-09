@@ -9,6 +9,7 @@ import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.enums.ResponseEnum;
+import net.begincode.httpclient.HttpUtil;
 import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,7 @@ public class ProblemController {
         Label label = problemLableParam.getLabel();
         Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
         problemHandler.addProblem(problem, label, userId);
+        HttpUtil.createIndexHttp(problem.getProblemId());
         return map;
     }
 

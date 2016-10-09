@@ -196,6 +196,14 @@ public class ProblemHandler {
         }
         return list;
     }
+    /**
+     * 查找所有问题
+     *
+     * @return
+     */
+    public List<Problem> selectAllProblem() {
+        return problemService.findProblemList();
+    }
 
 
 }
