@@ -101,7 +101,7 @@ public class MyIndexSearch {
                             problem.setContent(content + "...");
                         }
                     } else {
-                        problem.setContent(content);
+                        problem.setContent(content + "...");
                     }
                     String highTitle = highlighter.getBestFragment(titleTokenStream, title);// 将权重高的摘要显示出来，得到的是关键字内容
                     if (highTitle == null) {
