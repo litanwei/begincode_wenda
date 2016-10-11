@@ -20,9 +20,12 @@ import java.util.List;
  */
 public class HttpUtil {
 
+
+
     private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
-    private static String url = "http://localhost:8081/http/";
+
+
 
     /**
      * 发送http请求给lucene索引库新增索引
@@ -30,9 +33,10 @@ public class HttpUtil {
      */
     public static void createIndexHttp(Integer problemId) {
         try {
+            HttpClientConfig httpClientConfig = new HttpClientConfig();
             CloseableHttpClient httpClient = HttpClients.createDefault();
             //创建一个post对象
-            HttpPost post = new HttpPost(url + "createReceive.htm");
+            HttpPost post = new HttpPost(httpClientConfig.getUrl() +":"+httpClientConfig.getPort()+"/"+httpClientConfig.getControllerPath()+"/createReceive.htm");
 
             List<NameValuePair> list = new ArrayList<NameValuePair>();
 
@@ -50,6 +54,4 @@ public class HttpUtil {
             logger.error(e.getMessage());
         }
     }
-
-
 }

@@ -7,8 +7,10 @@ import org.apache.lucene.analysis.Analyzer;
  * Created by Stay on 2016/9/28  15:52.
  */
 public class ConfigBean {
+//    @Value("${lucene.dirName}")
     private String indexName = "/test";//索引名
-    private String indexPath = "e:/begincodeIndex";//索引硬盘路径
+//    @Value("${lucene.path}")
+    private String indexPath = "d:/begincodeIndex";//索引硬盘路径
     private Analyzer analyzer = new MyIkAnalyzer();//索引分词器
     private double indexReopenMaxStaleSec = 10;
     private double indexReopenMinStaleSec = 0.025;

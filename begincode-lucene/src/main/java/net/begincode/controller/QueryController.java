@@ -21,7 +21,6 @@ import java.util.List;
  * Created by Stay on 2016/10/6  22:37.
  */
 @Controller
-@RequestMapping(value="/")
 public class QueryController {
 
     /**

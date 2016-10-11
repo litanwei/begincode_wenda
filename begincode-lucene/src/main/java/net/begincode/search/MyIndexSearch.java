@@ -5,6 +5,7 @@ import net.begincode.analyzer.MyIkAnalyzer;
 import net.begincode.bean.SearchResultBean;
 import net.begincode.core.model.Problem;
 import net.begincode.manager.IndexManager;
+import net.begincode.utils.JsoupUtil;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
@@ -86,7 +87,7 @@ public class MyIndexSearch {
                 Problem problem = new Problem();
                 Document doc = indexSearcher.doc(topDocs.scoreDocs[i].doc);
                 String title = doc.get("title");
-                String content = doc.get("content");
+                String content = JsoupUtil.replaceContent(doc.get("content"));
                 String id = doc.get("id");
                 String solve = doc.get("solve");
                 if (content != null && title != null) {
@@ -101,7 +102,11 @@ public class MyIndexSearch {
                             problem.setContent(content + "...");
                         }
                     } else {
-                        problem.setContent(content + "...");
+                        if (subNum < content.length()) {
+                            problem.setContent(content.substring(0, subNum) + "...");
+                        } else {
+                            problem.setContent(content + "...");
+                        }
                     }
                     String highTitle = highlighter.getBestFragment(titleTokenStream, title);// 将权重高的摘要显示出来，得到的是关键字内容
                     if (highTitle == null) {

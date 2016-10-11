@@ -15,8 +15,11 @@
             http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<context:component-scan base-package="net.begincode.*" />
-	<context:property-placeholder location="classpath*:*.properties"/>
-	<!--<util:properties id="config" location="classpath:config.properties"/>-->
+
+	<context:property-placeholder location="classpath*:config.properties"/>
+	<util:properties id="httpClient" location="classpath*:httpClient.properties"/>
+
+
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
