@@ -7,21 +7,20 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import net.begincode.core.cookie.CookieOperation;
+import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.BegincodeUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.BegincodeUser;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
+ * 
  * @author kangliang
- *@date 2016年8月25日
+ * @date 2016年8月25日
  */
 @RequestMapping("/user")
 @Controller
@@ -59,11 +58,14 @@ public class UserController {
 	 * 活跃用户
 	 */
 	@RequestMapping("activer")
-	public String activeUser(Model model){
-		logger.debug("用户查找");
+	public @ResponseBody
+	List<BegincodeUser> activeUser() {
+
+		logger.info("开始查找活跃用户");
 		List<BegincodeUser> list = userHandler.selectActiveUser();
-		model.addAttribute("list",list);
-		return "index";
+		logger.info("查找活跃用户完毕");
+
+		return list;
 	}
 	/**
 	 * qq查找或注册用户

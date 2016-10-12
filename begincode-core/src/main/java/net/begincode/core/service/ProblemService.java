@@ -41,7 +41,6 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         return problemMapper.countByExample(problemExample);
     }
-
     /**
      * 查找所有问题
      * @return
@@ -66,7 +65,7 @@ public class ProblemService {
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
         return problemMapper.selectByExampleWithRowbounds(problemExample,
-                new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
+                new RowBounds((currentNum - 1) * eachSize, eachSize));
 
     }
 
@@ -82,7 +81,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
         return problemMapper.selectByExampleWithRowbounds(problemExample,
-                new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
+                new RowBounds((currentNum - 1) * eachSize, eachSize));
     }
 
     /**
@@ -98,7 +97,7 @@ public class ProblemService {
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andAnswerCountEqualTo(0);
         return problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((currentNum - 1) * eachSize,
-                eachSize * currentNum));
+                eachSize));
     }
 
     /**
@@ -121,7 +120,7 @@ public class ProblemService {
                     + " 00:00:00");
             criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
             List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
-                    new RowBounds((currentNum - 1) * eachSize, eachSize * currentNum));
+                    new RowBounds((currentNum - 1) * eachSize, eachSize));
             return list;
         } catch (Exception e) {
             e.printStackTrace();

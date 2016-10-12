@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.begincode.core.mapper.Biz_MessageMapper" >
+ <resultMap id="RemindResultMap" type="net.begincode.core.model.MessageRemind" >
+    <!--
+      	映射MessageRemind类
+    -->
+    <result column="vote_count" property="vote_count" jdbcType="INTEGER" />
+    <result column="answer_count" property="answer_count" jdbcType="VARCHAR"  />
+    <result column="view_count" property="view_count" jdbcType="INTEGER" />
+    <result column="answer_username" property="answer_username" jdbcType="VARCHAR" />
+    <result column="answer_userid" property="answer_userid" jdbcType="INTEGER" />
+    <result column="label_name" property="label_name" jdbcType="VARCHAR"  />
+    <result column="answer_content" property="answer_content" jdbcType="LONGVARCHAR"  />
+    <result column="create_time" property="create_date" jdbcType="TIMESTAMP"  />
+    <result column="pro_id" property="problem_id" jdbcType="INTEGER" />
+    <result column="message_id" property="message_id" jdbcType="INTEGER" />
+    <result column="pr_username" property="pr_username" jdbcType="VARCHAR" />
+    <result column="pr_createtime" property="pr_createtime" jdbcType="TIMESTAMP"  />
+    <result column="pr_content" property="pr_content" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByMessageRemind" resultMap="RemindResultMap">
+  	<!--一条获得关联 message,problem,problem_label,label,answer表的信息  -->
+	SELECT ms.message_id,pr.vote_count,pr.answer_count,pr.view_count,an.user_name AS answer_username,an.begincode_user_id AS answer_userid,prla.label_name,an.content AS answer_content,an.create_time,ms.pro_id,pr.`user_name` AS pr_username,pr.`create_time` AS pr_createtime,pr.`content` AS pr_content 
+	  FROM message ms
+		LEFT JOIN (SELECT prl.problem_id,GROUP_CONCAT(lb.label_name) label_name FROM problem_label prl
+		   	LEFT JOIN label lb ON prl.label_id=lb.label_id GROUP BY prl.problem_id) AS prla ON prla.problem_id=ms.pro_id
+		LEFT JOIN problem pr ON (ms.pro_id=pr.problem_id )
+		LEFT JOIN answer an ON an.`answer_id`=ms.`answer_id`
+		WHERE ms.delete_flag = 0  
+		AND (ms.begincode_user_id=#{id}) limit #{nowpage},#{pagesize}	
+  </select>
+  <select id="countByMessageRemind" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM message WHERE message.`begincode_user_id`=#{user_id}
+  </select>
+  <update id="updatemessagedelete" parameterType="java.lang.Integer">
+  	UPDATE begincode.message SET delete_flag = 1 WHERE message_id =#{message_id}
+  </update>
+</mapper>

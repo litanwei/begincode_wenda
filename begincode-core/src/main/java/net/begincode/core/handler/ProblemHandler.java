@@ -3,6 +3,7 @@ package net.begincode.core.handler;
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
+import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
@@ -46,7 +47,8 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
-
+        //发送http请求给搜索端
+        HttpUtil.createIndexHttp(problem.getProblemId());
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
@@ -198,7 +200,6 @@ public class ProblemHandler {
         }
         return list;
     }
-
     /**
      * 查找所有问题
      *
@@ -207,6 +208,5 @@ public class ProblemHandler {
     public List<Problem> selectAllProblem() {
         return problemService.findProblemList();
     }
-
 
 }

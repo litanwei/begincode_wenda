@@ -1,8 +1,10 @@
 package net.begincode.core.mapper;
 
 import java.util.List;
+
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
@@ -104,6 +106,4 @@ public interface BegincodeUserMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(BegincodeUser record);
-
-
 }

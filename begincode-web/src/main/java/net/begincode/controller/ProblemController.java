@@ -13,6 +13,11 @@ import net.begincode.lucene.bean.ConfigBean;
 import net.begincode.lucene.index.Index;
 import net.begincode.lucene.manager.IndexConfig;
 import net.begincode.lucene.utils.LuceneUtil;
+import net.begincode.core.handler.*;
+import net.begincode.core.model.*;
+import net.begincode.core.param.ProblemLabelParam;
+import net.begincode.core.support.AuthPassport;
+import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.utils.DateUtil;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -51,6 +56,8 @@ public class ProblemController {
     private ProblemHandler problemHandler;
     @Resource
     private AccountContext accountContext;
+    @Resource
+    private LabelHandler labelHandler;
 
     @AuthPassport
     @RequestMapping("/create")
@@ -66,7 +73,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findNewProblem(BizFrontProblem bizFrontProblem) {
+    public Object findNewProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNewProblems(page);
@@ -81,7 +88,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/hotProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findHotProblem(BizFrontProblem bizFrontProblem) {
+    public Object findHotProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectHotProblems(page);
@@ -96,7 +103,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/noAnswerProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Page findNoAnswerProblem(BizFrontProblem bizFrontProblem) {
+    public Object findNoAnswerProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNoAnswerProblems(page);
@@ -112,7 +119,7 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/myProblems", method = RequestMethod.POST)
     @ResponseBody
-    public Page findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
+    public Object findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         BegincodeUser user = accountContext.getCurrentUser(request);
         page.setCurrentNum(bizFrontProblem.getPage());
@@ -133,8 +140,7 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Map addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
-        Map map = new HashMap();
+    public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
         problem.setUserName(user.getNickname());
@@ -145,8 +151,6 @@ public class ProblemController {
         problemHandler.addProblem(problem, label, userId);
         HashSet<ConfigBean> set = new HashSet<>();
         LuceneUtil.createIndex(problem); //新增问题添加进索引中
-        map.put("success", "提交成功");
-        return map;
     }
 
 
@@ -183,20 +187,21 @@ public class ProblemController {
      *@param：answer,model
      *@return：S
      */
-    @RequestMapping(value = "/{problemid}",method = RequestMethod.GET)
-    public String selectAllAnswer(Model model, @PathVariable("problemid") int problemid){
+    @RequestMapping(value = "/{problemId}",method = RequestMethod.GET)
+    public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId){
         Answer answer = new Answer();
-        answer.setProblemId(problemid);
+        answer.setProblemId(problemId);
         List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
         List<String> newTime = new ArrayList<>();
         for(int a = 0 ; a < answerList.size(); a++) {
             newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
         }
-        Problem problem  = problemHandler.selectById(problemid);
+        Problem problem  = problemHandler.selectById(problemId);
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
         model.addAttribute("answerList", answerList);
         model.addAttribute("newTime", newTime);
         model.addAttribute("problem",problem);
+        model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime",problemTime);
         return "question_view";
     }

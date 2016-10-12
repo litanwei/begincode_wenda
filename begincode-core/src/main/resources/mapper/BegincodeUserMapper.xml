@@ -100,6 +100,7 @@
     pic, check_flag, gag, course, open_id, access_token, user_source_id, delete_flag,
     invite_code
   </sql>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.begincode.core.model.BegincodeUserExample" >
     <!--
       WARNING - @mbggenerated
@@ -491,4 +492,6 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+   
 </mapper>
