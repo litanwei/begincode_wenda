@@ -1,4 +1,4 @@
-package net.begincode.httpclient;
+package net.begincode.core.httpclient;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
