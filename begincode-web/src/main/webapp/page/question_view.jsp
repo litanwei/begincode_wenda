@@ -41,7 +41,7 @@
                                 <a href="" target="_blank" class="list-tag">${label.labelName}</a>
                             </c:forEach>
                         </span>
-                        <span id="problemId" extra="${problem.problemId}"  class="hidden"></span>
+
 
                         <div class="question-author">
                             <a href="#" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
@@ -80,12 +80,12 @@
             <center>
                 <button type="button" class="btn btn-primary">点击投票(${problem.voteCount})</button>
             </center>
+            <div id="answerAdopt"></div>
 
-            <div></div>
-            <c:forEach items="${answerList}" var="answer" varStatus="temp">
-                <hr>
+            <c:forEach items="${answerAdoptList}" var="answer" varStatus="temp">
+
                 <div class="post-offset">
-
+                    <hr>
                     <div class="answer fmt" data-id="1020000006591589">
                         <p> ${answer.content}</p>
                     </div>
@@ -93,7 +93,7 @@
                         <div class="post-opt col-md-8 col-sm-8 col-xs-10">
                             <ul class="list-inline mb0">
                                 <li>
-                                    <td>${newTime[temp.count-1]}</td>
+                                    <td>${newAdoptTime[temp.count-1]}</td>
                                     <span class="text-muted"></span>
                                 </li>
                                 <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
@@ -108,14 +108,63 @@
                                     </c:when>
                                     <c:otherwise>
                                         <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                            <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">采纳</a>
+                                            <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
                                         </li>
                                     </c:otherwise>
                                 </c:choose>
-                                <%--<li class="dropdown">--%>
+                                    <%--<li class="dropdown">--%>
                                     <%--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b--%>
-                                            <%--class="caret"></b></a>--%>
-                                <%--</li>--%>
+                                    <%--class="caret"></b></a>--%>
+                                    <%--</li>--%>
+                            </ul>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
+                        </div>
+                        <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
+                            <div class=" answer__info--author-warp">
+                                <a class="answer__info--author-name" title="${answer.userName}"
+                                   href="/u/fishenal">${answer.userName}</a><span
+                                    class="answer__info--author-rank"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <div id="answerUpdate"></div>
+            <c:forEach items="${answerNoAdoptList}" var="answer" varStatus="temp">
+
+                <div class="post-offset" id="answer${answer.answerId}">
+                    <hr>
+                    <div class="answer fmt" data-id="1020000006591589">
+                        <p> ${answer.content}</p>
+                    </div>
+                    <div class="row answer__info--row">
+                        <div class="post-opt col-md-8 col-sm-8 col-xs-10">
+                            <ul class="list-inline mb0">
+                                <li>
+                                    <td>${newNoAdoptTime[temp.count-1]}</td>
+                                    <span class="text-muted"></span>
+                                </li>
+                                <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
+                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
+                                </li>
+
+
+                                <c:choose>
+                                    <c:when test="${answer.adopt == 1}">
+                                        <li><span class="label label-danger">已采纳</span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
+                                            <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                    <%--<li class="dropdown">--%>
+                                    <%--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b--%>
+                                    <%--class="caret"></b></a>--%>
+                                    <%--</li>--%>
                             </ul>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
@@ -131,13 +180,18 @@
             </c:forEach>
 
 
-            <p>
-            <hr>
-            <div id="summernote"></div>
-            </p>
-            <p>
-                <button type="button" class="btn btn-success" id="answerSend">提交答案</button>
-            </p>
+            <form id="answerForm" method="post">
+                <p>
+                <hr>
+
+                <div id="summernote"></div>
+                <input type="hidden" name="answer.problemId" id="problemId" value="${problem.problemId}"/>
+                <input type="hidden" name="answer.content" id="content" value=""/>
+                </p>
+                <p>
+                    <button type="button" class="btn btn-success" id="answerSend">提交答案</button>
+                </p>
+            </form>
         </div>
         <div class="col-md-3">
 
@@ -152,12 +206,32 @@
                 </div>
             </div>
             <%--<div class="list-group">--%>
-                <%--<a href="#" class="list-group-item disabled">--%>
-                    <%--相似问题--%>
-                <%--</a>--%>
-                <%--<a href="#" class="list-group-item">问题111</a>--%>
-                <%--<a href="#" class="list-group-item">问题222</a>--%>
+            <%--<a href="#" class="list-group-item disabled">--%>
+            <%--相似问题--%>
+            <%--</a>--%>
+            <%--<a href="#" class="list-group-item">问题111</a>--%>
+            <%--<a href="#" class="list-group-item">问题222</a>--%>
             <%--</div>--%>
+        </div>
+    </div>
+</div>
+<!--提问后提示弹出框-->
+<div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="errorMessage"></div>
+            </div>
+            <div class="modal-footer">
+                 <a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+            </div>
         </div>
     </div>
 </div>
@@ -170,6 +244,7 @@
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
+<script src="${ctx}/js/commons/timeUtil.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 
 

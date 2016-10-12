@@ -1,14 +1,10 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
-import net.begincode.common.BizException;
-import net.begincode.core.enums.AnswerEnum;
-import net.begincode.core.enums.AnswerResponseEnum;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
-import net.begincode.enums.ResponseEnum;
 import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,7 +162,6 @@ public class ProblemController {
         }
         return userId;
     }
-    
 
     /**
      * 查询问题和所有回复
@@ -175,17 +170,22 @@ public class ProblemController {
      */
     @RequestMapping(value = "/{problemId}",method = RequestMethod.GET)
     public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId){
-        Answer answer = new Answer();
-        answer.setProblemId(problemId);
-        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
-        List<String> newTime = new ArrayList<>();
-        for(int a = 0 ; a < answerList.size(); a++) {
-            newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
+        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
+        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<String> newAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerAdoptList.size(); a++) {
+            newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
+        }
+        List<String> newNoAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerNoAdoptList.size(); a++) {
+            newNoAdoptTime.add(DateUtil.getTimeFormatText(answerNoAdoptList.get(a).getCreateTime()));
         }
         Problem problem  = problemHandler.selectById(problemId);
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
-        model.addAttribute("answerList", answerList);
-        model.addAttribute("newTime", newTime);
+        model.addAttribute("answerAdoptList", answerAdoptList);
+        model.addAttribute("newAdoptTime", newAdoptTime);
+        model.addAttribute("answerNoAdoptList", answerNoAdoptList);
+        model.addAttribute("newNoAdoptTime", newNoAdoptTime);
         model.addAttribute("problem",problem);
         model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime",problemTime);

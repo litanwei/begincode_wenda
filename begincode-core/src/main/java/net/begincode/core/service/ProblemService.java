@@ -152,6 +152,15 @@ public class ProblemService {
     }
 
     /**
+     * 查找问题
+     * @param record
+     * @return Problem
+     */
+    public int updateProblem(Problem record){
+        return problemMapper.updateByPrimaryKey(record);
+    }
+
+    /**
      * 查找未回答问题总数
      *
      * @return
