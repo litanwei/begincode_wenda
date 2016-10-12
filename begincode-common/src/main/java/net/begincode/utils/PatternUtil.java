@@ -1,5 +1,7 @@
 package net.begincode.utils;
 
+import net.begincode.common.BizException;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -12,13 +14,13 @@ import java.util.regex.Pattern;
 public class PatternUtil {
 
     /**
-     * 验证传入的名称是否匹配 数字，字母，下划线，中文
+     * 验证传入的名称是否匹配 数字，字母，下划线，中文,中划线
      *
      * @param str 传入的字符串
      * @return 符合返回true 不符合返回false
      */
     public static boolean checkStr(String str) {
-        String pt = "^[\\u4e00-\\u9fa5_a-zA-Z0-9]+$";
+        String pt = "^[a-zA-Z0-9_\\-\u4e00-\u9fa5]+$";
         Matcher matcher = Pattern.compile(pt).matcher(str.trim());
         return matcher.matches();
     }

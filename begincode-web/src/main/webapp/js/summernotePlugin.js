@@ -33,7 +33,7 @@ $(document).ready(function() {
             dataType:"json",
             async:false,
             success:function(data){
-                result = data;
+                result = data.data;
             }
         });
         return result;

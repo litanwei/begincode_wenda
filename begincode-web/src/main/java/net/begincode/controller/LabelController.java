@@ -18,26 +18,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class LabelController {
 
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Resource
-	private LabelHandler labelhandler;
+    @Resource
+    private LabelHandler labelhandler;
 
-	/**
-	 * 获取所有标签
-	 * @return List
-	 */
-	@RequestMapping("/getLabel")
-	public @ResponseBody
-	Object getLabel() {
+    /**
+     * 获取所有标签
+     *
+     * @return List
+     */
+    @RequestMapping("/getLabel")
+    @ResponseBody
+    public Object getLabel() {
+        List<Label> list = new ArrayList<Label>();
+        list = labelhandler.getAllLabel();
+        return list;
+    }
 
-		List<Label> list = new ArrayList<Label>();
-		logger.info("开始查询标签");
-		list = labelhandler.getAllLabel();
-		logger.info("查询标签完毕");
-		return list;
-	}
-	
-	
-	
+
 }

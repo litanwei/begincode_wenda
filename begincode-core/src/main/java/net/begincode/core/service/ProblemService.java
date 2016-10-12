@@ -1,6 +1,8 @@
 package net.begincode.core.service;
 
 import net.begincode.common.BeginCodeConstant;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.FindProResponseEnum;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
@@ -108,20 +110,18 @@ public class ProblemService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         try {
-            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
-                    + " 00:00:00");
-            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
+            calendar.add(Calendar.MONTH, BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH);
+            criteria.andCreateTimeGreaterThanOrEqualTo(dateFormat.parse(dateFormat.format(calendar.getTime())));   //查找大于或等于这个日期的问题集合
             List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
                     new RowBounds((currentNum - 1) * eachSize, eachSize));
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }
 
     /**
-     * 未回答的问题总数
+     * 查找热门问题总数
      *
      * @return
      */
@@ -132,13 +132,11 @@ public class ProblemService {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         try {
-            Date date = dateFormat.parse(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1 - BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH) + "-01"
-                    + " 00:00:00");
-            criteria.andCreateTimeGreaterThanOrEqualTo(date);   //查找大于或等于这个日期的问题集合
+            calendar.add(Calendar.MONTH, BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH);
+            criteria.andCreateTimeGreaterThanOrEqualTo(dateFormat.parse(dateFormat.format(calendar.getTime())));   //查找大于或等于这个日期的问题集合
             return problemMapper.countByExample(problemExample);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }
 

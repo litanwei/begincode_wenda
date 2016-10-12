@@ -72,7 +72,7 @@
                   请检查是否登录！
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" onclick="javascript:history.back(-1);">关闭</button>
+                  <a type="button" class="btn btn-primary" data-dismiss="modal">关闭</a>
               </div>
           </div><!-- /.modal-content -->
       </div><!-- /.modal -->
@@ -92,7 +92,7 @@
                   <div id="errorMessage"></div>
               </div>
               <div class="modal-footer">
-                  <a type="button" class="btn btn-primary" href="/">关闭</a>
+                  <a type="button" class="btn btn-primary" data-dismiss="modal">关闭</a>
               </div>
           </div>
       </div>
@@ -102,7 +102,7 @@
   <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-  <script src="${ctx}/js/problem/problem.js"></script>
+  <script src="${ctx}/js/problem/createProblem.js"></script>
   <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
   <script src="${ctx}/summernote/summernote.js"></script>
   <script src="${ctx}/js/summernotePlugin.js"></script>

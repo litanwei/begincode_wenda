@@ -140,7 +140,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    警告
+                    提示
                 </h4>
             </div>
             <div class="modal-body">
