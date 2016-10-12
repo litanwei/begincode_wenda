@@ -24,10 +24,8 @@ function formatTime(problemAuthorName, size, answerName, time) {
             return problemAuthorName + " " + Math.ceil(diffTime / 60 / 60) + "小时前提问";
         } else if (diffTime > 86400 && diffTime < 259000) {
             return problemAuthorName + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天前提问";
-        } else if (diffTime > 259000) {
-            return problemAuthorName + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天" + "前提问";
         } else {
-            return problemAuthorName + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
+            return problemAuthorName + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前提问";
         }
     } else {
         if (diffTime < 60) {
@@ -40,9 +38,7 @@ function formatTime(problemAuthorName, size, answerName, time) {
             return answerName + " " + Math.ceil(diffTime / 60 / 60) + "小时前回答";
         } else if (diffTime > 86400 && diffTime < 259000) {
             return answerName + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天前回答";
-        } else if (diffTime > 259000) {
-            return answerName + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天" + "前回答";
-        } else {
+        }  else {
             return answerName + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
         }
     }

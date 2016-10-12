@@ -18,8 +18,11 @@
             http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<context:component-scan base-package="net.begincode.*" />
-	<context:property-placeholder location="classpath*:*.properties"/>
-	<!--<util:properties id="config" location="classpath:config.properties"/>-->
+
+	<context:property-placeholder location="classpath*:config.properties"/>
+	<util:properties id="httpClient" location="classpath*:httpClient.properties"/>
+
+
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<!-- 开启计时器 -->
 	<task:annotation-driven />

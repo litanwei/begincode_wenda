@@ -1,6 +1,5 @@
 package net.begincode.bean;
 
-import net.begincode.bean.Param;
 import net.begincode.common.BeginCodeConstant;
 
 /**
