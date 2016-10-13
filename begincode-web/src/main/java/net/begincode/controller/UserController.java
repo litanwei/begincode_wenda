@@ -38,7 +38,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	@ResponseBody
-	public List findUserList() {
+	public Object findUserList() {
 		List<String> nameList = new ArrayList<>();
 		List<BegincodeUser> list = userHandler.selectAll();
 		for (BegincodeUser user : list) {
