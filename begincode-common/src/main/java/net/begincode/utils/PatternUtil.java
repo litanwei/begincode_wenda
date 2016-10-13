@@ -67,5 +67,14 @@ public class PatternUtil {
         return set;
     }
 
+    /**
+     * 内容中过滤html标签
+     * @param content
+     * @return
+     */
+    public static String filterIndexContent(String content){
+        return content.trim().replaceAll("</?[^>]+>", " ").replace("&nbsp;", " ");
+    }
+
 
 }

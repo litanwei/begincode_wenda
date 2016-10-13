@@ -18,13 +18,13 @@ import net.begincode.core.model.MessageRemind;
 public class MessageService {
     @Resource
     private MessageMapper messageMapper;
-
+    @Resource
+    private Biz_MessageMapper biz_MessageMapper;
+    
     public void createMessage(Message message)
     {
         messageMapper.insertSelective(message);
     }
-    @Resource
-    private Biz_MessageMapper biz_MessageMapper;
     /**
 	 * 查询提醒信息
 	 * @param begincode_user_id

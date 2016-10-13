@@ -98,12 +98,11 @@
             </ul>
             <div id="navbar" class="navbar-collapse collapse">
 
-                <form class="navbar-form navbar-right">
+                <form class="navbar-form navbar-right" action="${ctx}/search.htm" method="get">
                     <span id="qqLoginBtn" class="dropdown"></span>
                     <div class="form-group">
-                        <input type="text" name="" class="form-control " placeholder="教程,资源,问题">
+                        <input type="text" name="q" class="form-control " placeholder="教程,资源,问题">
                     </div>
-
                     <button type="submit" class="btn btn-primary">搜索</button>
                 </form>
             </div>
