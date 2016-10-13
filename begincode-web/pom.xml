@@ -11,10 +11,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.begincode</groupId>
-			<artifactId>begincode-lucene</artifactId>
+			<artifactId>begincode-core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- 文件上传组件 -->
+		<!-- 文件上传 -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
