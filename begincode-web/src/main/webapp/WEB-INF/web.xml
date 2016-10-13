@@ -5,8 +5,10 @@
 	<display-name>begincode_wenda</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
+		<!--显式加载两个文件-->
 		<param-value>
-			classpath*:spring/*.xml
+			classpath*:spring/applicationContext-*.xml
+			classpath*:spring/dataSource.xml
 		</param-value>
 	</context-param>
 

@@ -3,12 +3,14 @@ package net.begincode.core.handler;
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
+import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -47,7 +49,6 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
-        Set<String> labelNameSet = PatternUtil.splitName(HtmlUtils.htmlEscape(label.getLabelName()));
         //发送http请求给搜索端
         HttpUtil.createIndexHttp(problem.getProblemId());
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
@@ -161,13 +162,14 @@ public class ProblemHandler {
         ProblemLabel problemLabel = new ProblemLabel();
         if (labelNameSet != null && labelNameSet.size() > 0) {
             for (String labelName : labelNameSet) {
+                labelName = HtmlUtils.htmlEscape(labelName);
                 Label seleLabel = labelService.selectByName(labelName);
                 if (seleLabel != null) {
                     problemLabel.setLabelId(seleLabel.getLabelId());
                     problemLabel.setProblemId(problem.getProblemId());
                     proLabService.createProLab(problemLabel);
                 } else {
-                    label.setLabelName(labelName);
+                    label.setLabelName(HtmlUtils.htmlEscape(labelName));
                     labelService.createLabel(label);
                     problemLabel.setLabelId(label.getLabelId());
                     problemLabel.setProblemId(problem.getProblemId());
@@ -176,10 +178,11 @@ public class ProblemHandler {
             }
         }
     }
+
     /**
      * 根据id查询问题
      */
-    public Problem selectById(int answerId){
+    public Problem selectById(int answerId) {
         return problemService.selProblemById(answerId);
     }
 
@@ -200,6 +203,7 @@ public class ProblemHandler {
         }
         return list;
     }
+
     /**
      * 查找所有问题
      *

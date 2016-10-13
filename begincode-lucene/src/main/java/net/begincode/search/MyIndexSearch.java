@@ -3,6 +3,8 @@ package net.begincode.search;
 
 import net.begincode.analyzer.MyIkAnalyzer;
 import net.begincode.bean.SearchResultBean;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.FindProResponseEnum;
 import net.begincode.core.model.Problem;
 import net.begincode.manager.IndexManager;
 import net.begincode.utils.JsoupUtil;
@@ -56,7 +58,7 @@ public class MyIndexSearch {
             bean.setSumCount(topDocs.totalHits);
             bean.setDocs(highHtml(start, end, query, topDocs, searcher, 100));
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         } finally {
             indexManager.relase(searcher);
         }
@@ -121,9 +123,8 @@ public class MyIndexSearch {
             }
             return list;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
-        return null;
     }
 
 

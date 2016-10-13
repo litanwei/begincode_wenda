@@ -1,5 +1,6 @@
 package net.begincode.core.httpclient;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,10 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpClientConfig {
 //    @Value("#{httpClient['httpClient.url']}")
+//    private String url;
     private String url = "http://localhost";
 //    @Value("#{httpClient['httpClient.port']}")
+//    private Integer port;
     private Integer port = 8081;
 //    @Value("#{httpClient['httpClient.controPath']}")
+//    private String controllerPath;
     private String controllerPath = "http";
 
     public HttpClientConfig() {

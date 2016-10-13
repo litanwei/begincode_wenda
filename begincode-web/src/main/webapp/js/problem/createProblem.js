@@ -50,14 +50,11 @@ function showModel(msg) {
  */
 function checkLabel(label) {
     var labelList = label.replace("，", ",").split(",");
-    var pattern = /^[a-zA-Z0-9_\\-\u4e00-\u9fa5]+$/;
-    if (label.trim() == null) {
+    var pattern = /^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$/;
+    if (label.trim() == null && label.trim() == "") {
         return false;
     }
-    for (var i=0;i<labelList.length;i++) {
-        if(labelList[i] == ""){
-            continue;
-        }
+    for (var i = 0; i < labelList.length; i++) {
         if (!pattern.test(labelList[i])) {
             return false;
         }
