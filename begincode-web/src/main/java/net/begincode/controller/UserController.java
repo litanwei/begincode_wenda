@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户
- * 
+ *
  * @author kangliang
  * @date 2016年8月25日
  */
@@ -26,64 +26,61 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Resource
-	UserHandler userHandler;
+    @Resource
+    UserHandler userHandler;
 
-	/**
-	 * summernote @提示获取后台用户
-	 *
-	 * @return 后台用户的nickname的list集合json
-	 */
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	@ResponseBody
-	public List findUserList() {
-		List<String> nameList = new ArrayList<>();
-		List<BegincodeUser> list = userHandler.selectAll();
-		for (BegincodeUser user : list) {
-			nameList.add(user.getNickname());
-		}
-		return nameList;
-	}
+    /**
+     * summernote @提示获取后台用户
+     *
+     * @return 后台用户的nickname的list集合json
+     */
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @ResponseBody
+    public Object findUserList() {
+        List<String> nameList = new ArrayList<>();
+        List<BegincodeUser> list = userHandler.selectAll();
+        for (BegincodeUser user : list) {
+            nameList.add(user.getNickname());
+        }
+        return nameList;
+    }
 
-	@RequestMapping(value = "/",method = RequestMethod.POST)
-	@ResponseBody
-	public void CreateUser(BegincodeUser begincodeUser)
-	{
-		System.out.print(begincodeUser.getBegincodeUserId());
-	}
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @ResponseBody
+    public void CreateUser(BegincodeUser begincodeUser) {
+        System.out.print(begincodeUser.getBegincodeUserId());
+    }
 
-	/**
-	 * 活跃用户
-	 */
-	@RequestMapping("activer")
-	public @ResponseBody
-	List<BegincodeUser> activeUser() {
+    /**
+     * 活跃用户
+     */
+    @RequestMapping("/activer")
+    @ResponseBody
+    public Object activeUser() {
+        List<BegincodeUser> list = userHandler.selectActiveUser();
+        return list;
+    }
 
-		logger.info("开始查找活跃用户");
-		List<BegincodeUser> list = userHandler.selectActiveUser();
-		logger.info("查找活跃用户完毕");
+    /**
+     * qq查找或注册用户
+     */
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @ResponseBody
+    public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
+        user.setUserSourceId(1);
+        user.setDeleteFlag("1");
+        user = userHandler.createUserAndFind(user);
+        CookieOperation.addCookie(response, user);
+    }
 
-		return list;
-	}
-	/**
-	 * qq查找或注册用户
-	 */
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	@ResponseBody
-	public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
-		user.setUserSourceId(1);
-		user.setDeleteFlag("1");
-		user = userHandler.createUserAndFind(user);
-		CookieOperation.addCookie(response, user);
-	}
-	/**
-	 * qq注销用户
-	 */
-	@RequestMapping(value = "loginClean",method = RequestMethod.POST)
-	@ResponseBody
-	public void cleanUser(HttpServletResponse response){
-		CookieOperation.delCookie(response);
-	}
+    /**
+     * qq注销用户
+     */
+    @RequestMapping(value = "loginClean", method = RequestMethod.POST)
+    @ResponseBody
+    public void cleanUser(HttpServletResponse response) {
+        CookieOperation.delCookie(response);
+    }
 }

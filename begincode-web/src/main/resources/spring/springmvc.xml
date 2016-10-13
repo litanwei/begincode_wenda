@@ -25,7 +25,7 @@
 
 
 
-    <task:annotation-driven /> <!-- 定时器开关-->
+    <!--<task:annotation-driven /> &lt;!&ndash; 定时器开关&ndash;&gt;-->
 
     <!-- 启用自定义AuthPassport 注解 -->
     <mvc:interceptors>

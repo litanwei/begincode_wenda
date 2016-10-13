@@ -7,9 +7,12 @@ import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.util.JavaScriptUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -42,6 +45,7 @@ public class ProblemHandler {
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label, Integer[] userId) {
         Message message = new Message();
+        problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
@@ -49,7 +53,7 @@ public class ProblemHandler {
         }
         //发送http请求给搜索端
         HttpUtil.createIndexHttp(problem.getProblemId());
-        Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
+        Set<String> labelNameSet = PatternUtil.splitName(HtmlUtils.htmlEscape(label.getLabelName()));
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
         if (userId != null && userId.length == 1) {

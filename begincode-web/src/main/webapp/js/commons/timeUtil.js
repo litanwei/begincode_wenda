@@ -5,7 +5,7 @@
  * 此方法用于返回 xxx 前提问(回答)
  * @param problemAuthorName   问题的作者
  * @param size    问题对应的回答数
- * @param answerName   回答实体json
+ * @param answerName   回答者名称
  * @param time     问题创建的时间  (时间格式: yyyy-MM-dd HH:mm:ss)
  * @returns {string}   返回的文字
  */
