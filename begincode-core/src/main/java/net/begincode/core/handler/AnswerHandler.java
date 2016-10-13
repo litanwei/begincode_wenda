@@ -1,9 +1,7 @@
 package net.begincode.core.handler;
 
 import net.begincode.common.BizException;
-import net.begincode.core.enums.AnswerEnum;
-import net.begincode.core.enums.AnswerResponseEnum;
-import net.begincode.core.enums.ProblemEnum;
+import net.begincode.core.enums.*;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.AnswerService;
@@ -36,7 +34,7 @@ public class AnswerHandler {
     public Answer creatAnswer(Answer answer) {
         answer.setCreateTime(new Date());
         int answerNum = answerService.insertAnswer(answer);
-        if (answerNum < 1) {
+        if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
@@ -49,10 +47,10 @@ public class AnswerHandler {
      * @param answerId
      * @return
      */
-    public void answerFeedback(int answerId) {
+    public void feedbackAnswer(int answerId) {
         Answer ans = answerService.selAnswerByAnswerId(answerId);
         if (ans.getFeedback() == 0) {
-            ans.setFeedback(AnswerEnum.IS_FEED_BACK.getIntVlue());
+            ans.setFeedback(Integer.parseInt(FeedbackEnum.IS_FEED_BACK.getCode()));
             answerService.updateAnswer(ans);
         }
     }
@@ -65,13 +63,13 @@ public class AnswerHandler {
      * @param answerId,begincodeUserId
      * @return Answer
      */
-    public Answer answerAdopt(int answerId,int begincodeUserId){
+    public Answer adoptAnswer(int answerId,int begincodeUserId){
         Answer ans = answerService.selAnswerByAnswerId(answerId);
         Problem pro = problemService.selProblemById(ans.getProblemId());
         if(pro.getBegincodeUserId() == begincodeUserId && ans.getBegincodeUserId()!= begincodeUserId){
-            ans.setAdopt(AnswerEnum.ANSWER_ADOPT.getIntVlue());
-            if (pro.getSolve()==ProblemEnum.SOLVE.getIntVlue()){
-                pro.setSolve(ProblemEnum.SOLVE.getIntVlue());
+            ans.setAdopt(Integer.parseInt(AdoptEnum.ADOPT.getCode()));
+            if (pro.getSolve()==Integer.parseInt(SolveEnum.SOLVE.getCode())){
+                pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
             answerService.updateAnswer(ans);

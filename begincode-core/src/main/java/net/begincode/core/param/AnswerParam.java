@@ -2,6 +2,8 @@ package net.begincode.core.param;
 
 import net.begincode.bean.Param;
 import net.begincode.core.enums.AnswerResponseEnum;
+import net.begincode.core.enums.ContentResponseEnum;
+import net.begincode.core.enums.ProblemIdResponseEnum;
 import net.begincode.core.model.Answer;
 
 
@@ -20,7 +22,7 @@ public class AnswerParam extends Param {
 
     @Override
     public void check() {
-        checkNotEmpty(answer.getProblemId().toString(), AnswerResponseEnum.ANSWER_ADD_ERROR);
-        checkNotEmpty(answer.getContent(), AnswerResponseEnum.ANSWER_ADD_ERROR);
+        checkNotEmpty(answer.getProblemId().toString(), ProblemIdResponseEnum.PROBLEMID_EMPTY_ERROR);
+        checkNotEmpty(answer.getContent(), ContentResponseEnum.CONTENT_EMPTY_ERROR);
     }
 }

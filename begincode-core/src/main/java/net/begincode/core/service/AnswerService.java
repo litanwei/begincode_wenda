@@ -1,7 +1,7 @@
 package net.begincode.core.service;
 
-import net.begincode.core.enums.AnswerEnum;
-import net.begincode.core.enums.ProblemEnum;
+import net.begincode.core.enums.AdoptEnum;
+import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
@@ -82,7 +82,7 @@ public class AnswerService {
         AnswerExample answerExample = new AnswerExample();
         answerExample.createCriteria()
                 .andProblemIdEqualTo(answer.getProblemId())
-                .andFeedbackNotEqualTo(AnswerEnum.FEED_BACK.getIntVlue());
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 
@@ -114,7 +114,7 @@ public class AnswerService {
         answerExample.setOrderByClause("create_time desc");
         answerExample.createCriteria()
                 .andProblemIdEqualTo(problemId).andAdoptEqualTo(0)
-                .andFeedbackNotEqualTo(ProblemEnum.FEED_BACK.getIntVlue());
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
     /**
@@ -127,8 +127,8 @@ public class AnswerService {
         AnswerExample answerExample = new AnswerExample();
         answerExample.setOrderByClause("create_time desc");
         answerExample.createCriteria()
-                .andProblemIdEqualTo(problemId).andAdoptEqualTo(1)
-                .andFeedbackNotEqualTo(ProblemEnum.FEED_BACK.getIntVlue());;
+                .andProblemIdEqualTo(problemId).andAdoptEqualTo(Integer.parseInt(AdoptEnum.ADOPT.getCode()))
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 }

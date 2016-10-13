@@ -3,6 +3,7 @@ package net.begincode.controller;
 
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
@@ -30,6 +31,8 @@ public class AnswerController {
     AccountContext accountContext;
     @Resource
     ProblemHandler problemHandler;
+    @Resource
+    MessageHandler messageHandler;
 
     /**
      * 添加问题回复
@@ -45,7 +48,9 @@ public class AnswerController {
         Answer answer = answerParam.getAnswer();
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
-        return answerHandler.creatAnswer(answer);
+        answer = answerHandler.creatAnswer(answer);
+        messageHandler.createMessage(null,answer.getAnswerId(),answer.getContent());
+        return answer;
     }
 
     /**
@@ -58,7 +63,7 @@ public class AnswerController {
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
     @ResponseBody
     public Object feedback(int answerId) {
-        answerHandler.answerFeedback(answerId);
+        answerHandler.feedbackAnswer(answerId);
         return null;
     }
 
@@ -73,6 +78,6 @@ public class AnswerController {
     @ResponseBody
     public Object answerAdopt(int answerId, HttpServletRequest request) {
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        return  answerHandler.answerAdopt(answerId, begincodeUser.getBegincodeUserId());
+        return  answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }
