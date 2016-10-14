@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
@@ -122,7 +120,8 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
+    public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
+        Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
         problem.setUserName(user.getNickname());
@@ -131,6 +130,7 @@ public class ProblemController {
         Label label = problemLableParam.getLabel();
         int problemId = problemHandler.addProblem(problem, label);
         messageHandler.createMessage(problemId,null,problem.getContent());
+        return map;
     }
 
     /**
