@@ -128,6 +128,7 @@ public class ProblemController {
      */
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
+    @ResponseBody
     public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
