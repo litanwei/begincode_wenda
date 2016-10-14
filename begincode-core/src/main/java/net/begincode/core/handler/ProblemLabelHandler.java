@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import net.begincode.core.model.ProblemLabel;
+import net.begincode.core.model.Problem;
 import net.begincode.core.service.ProblemLabelService;
 
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class ProblemLabelHandler {
 	@Resource
     private ProblemLabelService problemLabelService;
 	
-	public List<ProblemLabel> getLabelByLabelId(Integer labelId){
+	public List<Problem> getLabelByLabelId(Integer labelId){
 		return problemLabelService.selectAllLabel(labelId);
 	}
 }

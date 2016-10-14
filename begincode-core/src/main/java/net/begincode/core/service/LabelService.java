@@ -28,4 +28,8 @@ public class LabelService {
 		return bizLabelMapper.selectHotLabel();
 	}
 
+	public String selectLabelById(Integer labelId) {
+		return labelMapper.selectByPrimaryKey(labelId).getLabelName();
+	}
+
 }

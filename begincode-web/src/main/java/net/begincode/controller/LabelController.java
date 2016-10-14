@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import net.begincode.core.handler.LabelHandler;
 import net.begincode.core.handler.ProblemLabelHandler;
 import net.begincode.core.model.Label;
-import net.begincode.core.model.ProblemLabel;
+import net.begincode.core.model.Problem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +25,11 @@ public class LabelController {
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
-	private LabelHandler labelhandler;
+	private LabelHandler labelHandler;
 	
 	@Resource
 	private ProblemLabelHandler problemLabelHandler;
+	
 
 	/**
 	 * 获取所有标签
@@ -40,7 +41,7 @@ public class LabelController {
 
 		List<Label> list = new ArrayList<Label>();
 		logger.info("开始查询标签");
-		list = labelhandler.getAllLabel();
+		list = labelHandler.getAllLabel();
 		logger.info("查询标签完毕");
 		return list;
 	}
@@ -48,8 +49,10 @@ public class LabelController {
 	@RequestMapping("/selectProblemLabel")
 	public String selectLabel(@RequestParam("id") Integer labelId, Model model) {
 		
-		List<ProblemLabel> label = problemLabelHandler.getLabelByLabelId(labelId);
-		return "question_view";
+		List<Problem> proLabel = problemLabelHandler.getLabelByLabelId(labelId);
+		model.addAttribute("proLabel",proLabel);
+		model.addAttribute("label",labelHandler.getLabelById(labelId));
+		return "question_list";
 	}
 	
 	
