@@ -128,7 +128,6 @@ public class ProblemController {
      */
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
-    @ResponseBody
     public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
@@ -138,7 +137,6 @@ public class ProblemController {
         Label label = problemLableParam.getLabel();
         int problemId = problemHandler.addProblem(problem, label);
         messageHandler.createMessage(problemId,null,problem.getContent());
-
     }
 
     /**
