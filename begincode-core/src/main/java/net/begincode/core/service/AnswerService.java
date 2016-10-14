@@ -1,11 +1,12 @@
 package net.begincode.core.service;
 
+import net.begincode.core.enums.AdoptEnum;
+import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.begincode.core.enums.AnswerEnum;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -81,7 +82,7 @@ public class AnswerService {
         AnswerExample answerExample = new AnswerExample();
         answerExample.createCriteria()
                 .andProblemIdEqualTo(answer.getProblemId())
-                .andFeedbackNotEqualTo(AnswerEnum.FEED_BACK.getIntVlue());
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 
@@ -102,4 +103,32 @@ public class AnswerService {
         return answerMapper.updateByPrimaryKeySelective(record);
     }
 
+
+    /**
+     * 根据problemId查找非采纳回答 按时间排序
+     * @param problemId
+     * @return 问题所有回答实体
+     */
+    public List<Answer> findNotAdoptByProblemId(Integer problemId) {
+        AnswerExample answerExample = new AnswerExample();
+        answerExample.setOrderByClause("create_time desc");
+        answerExample.createCriteria()
+                .andProblemIdEqualTo(problemId).andAdoptEqualTo(0)
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
+        return answerMapper.selectByExampleWithBLOBs(answerExample);
+    }
+    /**
+     * 根据problemId查找采纳回答 按时间排序
+     * @param problemId
+     * @return 问题所有回答实体
+     */
+
+    public List<Answer> findAdoptByProblemId(Integer problemId) {
+        AnswerExample answerExample = new AnswerExample();
+        answerExample.setOrderByClause("create_time desc");
+        answerExample.createCriteria()
+                .andProblemIdEqualTo(problemId).andAdoptEqualTo(Integer.parseInt(AdoptEnum.ADOPT.getCode()))
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
+        return answerMapper.selectByExampleWithBLOBs(answerExample);
+    }
 }

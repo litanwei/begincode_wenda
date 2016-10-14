@@ -28,8 +28,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static net.begincode.utils.PatternUtil.filterNickName;
-
 /**
  * Created by Stay on 2016/8/26  21:48.
  */
@@ -42,13 +40,13 @@ public class ProblemController {
     @Resource
     private AnswerHandler answerHandler;
     @Resource
-    private UserHandler userHandler;
-    @Resource
     private ProblemHandler problemHandler;
     @Resource
     private AccountContext accountContext;
     @Resource
     private LabelHandler labelHandler;
+    @Resource
+    private MessageHandler messageHandler;
 
     @AuthPassport
     @RequestMapping("/create")
@@ -138,40 +136,10 @@ public class ProblemController {
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         Label label = problemLableParam.getLabel();
-        Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
-        problemHandler.addProblem(problem, label, userId);
-//        HashSet<ConfigBean> set = new HashSet<>();
-//        LuceneUtil.createIndex(problem); //新增问题添加进索引中
+        int problemId = problemHandler.addProblem(problem, label);
+        messageHandler.createMessage(problemId,null,problem.getContent());
+
     }
-
-
-
-
-
-    /**
-     * 传进的问题过滤出@ 后面的nickName 返回该用户的id
-     *
-     * @param content 传入的内容
-     * @return 用户id数组
-     */
-    private Integer[] contentFilter(String content) {
-        Set<String> stringSet = filterNickName(content);
-        int i = 0;
-        Integer[] userId = new Integer[stringSet.size()];
-        if (stringSet != null && stringSet.size() > 0) {
-            for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@", ""));
-                if (begincodeUser == null) {
-                    continue;
-                } else {
-                    userId[i] = begincodeUser.getBegincodeUserId();
-                    i++;
-                }
-            }
-        }
-        return userId;
-    }
-
 
     /**
      * 查询问题和所有回复
@@ -180,17 +148,22 @@ public class ProblemController {
      */
     @RequestMapping(value = "/{problemId}",method = RequestMethod.GET)
     public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId){
-        Answer answer = new Answer();
-        answer.setProblemId(problemId);
-        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
-        List<String> newTime = new ArrayList<>();
-        for(int a = 0 ; a < answerList.size(); a++) {
-            newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
+        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
+        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<String> newAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerAdoptList.size(); a++) {
+            newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
+        }
+        List<String> newNoAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerNoAdoptList.size(); a++) {
+            newNoAdoptTime.add(DateUtil.getTimeFormatText(answerNoAdoptList.get(a).getCreateTime()));
         }
         Problem problem  = problemHandler.selectById(problemId);
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
-        model.addAttribute("answerList", answerList);
-        model.addAttribute("newTime", newTime);
+        model.addAttribute("answerAdoptList", answerAdoptList);
+        model.addAttribute("newAdoptTime", newAdoptTime);
+        model.addAttribute("answerNoAdoptList", answerNoAdoptList);
+        model.addAttribute("newNoAdoptTime", newNoAdoptTime);
         model.addAttribute("problem",problem);
         model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime",problemTime);

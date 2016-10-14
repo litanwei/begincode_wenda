@@ -31,21 +31,21 @@ public class UserController {
     @Resource
     UserHandler userHandler;
 
-    /**
-     * summernote @提示获取后台用户
-     *
-     * @return 后台用户的nickname的list集合json
-     */
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    @ResponseBody
-    public Object findUserList() {
-        List<String> nameList = new ArrayList<>();
-        List<BegincodeUser> list = userHandler.selectAll();
-        for (BegincodeUser user : list) {
-            nameList.add(user.getNickname());
-        }
-        return nameList;
-    }
+	/**
+	 * summernote @提示获取后台用户
+	 *
+	 * @return 后台用户的nickname的list集合json
+	 */
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@ResponseBody
+	public Object findUserList() {
+		List<String> nameList = new ArrayList<>();
+		List<BegincodeUser> list = userHandler.selectAll();
+		for (BegincodeUser user : list) {
+			nameList.add(user.getNickname());
+		}
+		return nameList;
+	}
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody

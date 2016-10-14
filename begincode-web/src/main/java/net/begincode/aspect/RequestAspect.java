@@ -1,6 +1,5 @@
 package net.begincode.aspect;
 
-import com.sun.tools.javac.code.Flags;
 import net.begincode.bean.Param;
 import net.begincode.bean.Response;
 import net.begincode.common.BizException;
@@ -12,7 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
