@@ -1,19 +1,10 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
-import net.begincode.common.BeginCodeConstant;
-import net.begincode.core.handler.AccountContext;
-import net.begincode.core.handler.AnswerHandler;
-import net.begincode.core.handler.ProblemHandler;
-import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.*;
-import net.begincode.core.param.ProblemLabelParam;
-import net.begincode.core.support.AuthPassport;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
-import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Stay on 2016/8/26  21:48.
