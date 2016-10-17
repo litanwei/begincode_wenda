@@ -8,6 +8,8 @@ import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.param.AnswerParam;
+import net.begincode.core.sensitive.ForbiddenWordsInit;
+import net.begincode.core.sensitive.SensitivewordFilter;
 import net.begincode.core.support.AuthPassport;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,8 @@ public class AnswerController {
     ProblemHandler problemHandler;
     @Resource
     MessageHandler messageHandler;
+    @Resource
+    SensitivewordFilter sensitivewordFilter;
 
     /**
      * 添加问题回复
@@ -48,6 +52,7 @@ public class AnswerController {
         Answer answer = answerParam.getAnswer();
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
+        answer.setContent(sensitivewordFilter.isContaintSensitiveWord(answer.getContent()));
         answer = answerHandler.creatAnswer(answer);
         messageHandler.createMessage(null,answer.getAnswerId(),answer.getContent());
         return answer;

@@ -32,7 +32,7 @@
     <!-- 资源文件 定义，不拦截 -->
     <mvc:resources mapping="/**" location="/"/>
 
-     <mvc:annotation-driven>
+    <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="supportedMediaTypes">

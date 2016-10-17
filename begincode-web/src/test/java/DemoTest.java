@@ -7,7 +7,6 @@ import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Demo;
 import net.begincode.core.model.MessageRemind;
-import net.begincode.core.service.BegincodeUserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +34,6 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     @Resource
     private UserHandler userHandler;
     @Resource
-    private BegincodeUserService begincodeUserService;
-    // 模拟request,response
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
@@ -94,17 +91,19 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
             e.printStackTrace();
         }
     }
-     @Resource
+    @Resource
     private MessageHandler messageHandler;
     @Test
     public void one(){
-    	System.out.println("到这");
-    	messageHandler.updatemessagedelete(5);
-    	List<MessageRemind> ls=messageHandler.selectByMessageRemind(17, 1, 15);
-    	messageHandler.updatemessagedelete(5);
-    	for(MessageRemind m:ls){
-    		System.out.println(m);
-    	}
+        System.out.println("到这");
+        messageHandler.updatemessagedelete(5);
+        List<MessageRemind> ls=messageHandler.selectByMessageRemind(17, 1, 15);
+        messageHandler.updatemessagedelete(5);
+        for(MessageRemind m:ls){
+            System.out.println(m);
+        }
     }
+
+
 
 }
