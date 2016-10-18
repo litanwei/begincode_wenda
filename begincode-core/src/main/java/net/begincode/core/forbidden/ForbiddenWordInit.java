@@ -85,7 +85,7 @@ public class ForbiddenWordInit {
      * @throws Exception
      */
     public Set<String> readSensitiveWordFile() throws IOException {
-        FileInputStream fis=new FileInputStream("F:/workspace/begincode_wenda/begincode-core/src/main/resources/file/sensitive/forbiddenWords.txt");
+        FileInputStream fis=new FileInputStream("F:/workspace/begincode_wenda/begincode-core/src/main/resources/forbiddenWord/forbiddenWords.txt");
         InputStreamReader isr=new InputStreamReader(fis, "UTF-8");
         BufferedReader br = new BufferedReader(isr);
         String str = null;
@@ -106,7 +106,7 @@ public class ForbiddenWordInit {
      * @throws Exception
      */
     public void writeSensitiveWordFile(String[] strings) throws IOException {
-        FileOutputStream fos=new FileOutputStream(new File("F:/workspace/begincode_wenda/begincode-core/src/main/resources/file/sensitive/forbiddenWords.txt"),true);
+        FileOutputStream fos=new FileOutputStream(new File("F:/workspace/begincode_wenda/begincode-core/src/main/resources/forbiddenWord/forbiddenWords.txt"),true);
         OutputStreamWriter osw=new OutputStreamWriter(fos, "UTF-8");
         BufferedWriter  bw=new BufferedWriter(osw);
         for(String string:strings){
