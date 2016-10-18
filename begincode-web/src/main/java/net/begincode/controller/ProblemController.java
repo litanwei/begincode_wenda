@@ -130,7 +130,7 @@ public class ProblemController {
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
-        problem.setContent(forbiddenWordFilter.isContaintSensitiveWord(problem.getContent()));
+        problem.setContent(forbiddenWordFilter.isContaintForbiddenWord(problem.getContent()));
         Label label = problemLableParam.getLabel();
         int problemId = problemHandler.addProblem(problem, label);
         messageHandler.createMessage(problemId,null,problem.getContent());

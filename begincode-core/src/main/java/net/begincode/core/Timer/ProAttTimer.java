@@ -27,7 +27,7 @@ public class ProAttTimer  {
 	 * */
 	@PostConstruct
 	public void init() {
-		forbiddenWordFilter.readSensitiveWord(false);
+		forbiddenWordFilter.readForbiddenWord(false);
 		logger.info("加载敏感字");
 	}
 

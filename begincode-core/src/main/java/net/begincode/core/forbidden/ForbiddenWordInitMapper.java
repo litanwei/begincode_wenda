@@ -9,5 +9,5 @@ public interface ForbiddenWordInitMapper {
     /**
      * 动态新增违禁字
      * */
-    int addSensitiveWord(String[] strings);
+    int addForbiddenWord(String[] strings);
 }

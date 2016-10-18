@@ -5,12 +5,10 @@ package net.begincode.core.forbidden;
  */
 public class ForbiddenWord implements ForbiddenWordInitMapper{
 
-
-
     /**
      * 添加违禁字到txt，并更新违禁字容器
      * */
-    public int addSensitiveWord(String[] strings){
+    public int addForbiddenWord(String[] strings){
         ForbiddenWordFilter forbiddenWordFilter = new ForbiddenWordFilter();
         ForbiddenWordInit forbiddenWordInit = new ForbiddenWordInit();
         try{
@@ -18,7 +16,7 @@ public class ForbiddenWord implements ForbiddenWordInitMapper{
         }catch (Exception e){
             e.printStackTrace();
         }
-        forbiddenWordFilter.readSensitiveWord(false);
+        forbiddenWordFilter.readForbiddenWord(false);
         return 1;
     }
 

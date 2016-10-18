@@ -7,11 +7,12 @@ import java.util.*;
 
 /**
  * Created by saber on 2016/10/15.
+ * 违禁字加载和转换模型
  */
 @Component
 public class ForbiddenWordInit {
 
-    private HashMap sensitiveWordMap;
+    private HashMap forbiddenWordMap;
 
     public ForbiddenWordInit(){
         super();
@@ -28,7 +29,7 @@ public class ForbiddenWordInit {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sensitiveWordMap;
+        return forbiddenWordMap;
     }
 
     /**
@@ -51,14 +52,14 @@ public class ForbiddenWordInit {
      * @param keyWordSet  敏感词库
      */
     private void addSensitiveWordToHashMap(Set<String> keyWordSet) {
-        sensitiveWordMap = new HashMap(keyWordSet.size());     //初始化敏感词容器，减少扩容操作
+        forbiddenWordMap = new HashMap(keyWordSet.size());     //初始化敏感词容器，减少扩容操作
         String key = null;
         Map nowMap = null;
         Map<String, String> newWorMap = null;
         Iterator<String> iterator = keyWordSet.iterator();
         while(iterator.hasNext()){
             key = iterator.next();    //关键字
-            nowMap = sensitiveWordMap;
+            nowMap = forbiddenWordMap;
             for(int i = 0 ; i < key.length() ; i++){
                 char keyChar = key.charAt(i);       //转换成char型
                 Object wordMap = nowMap.get(keyChar);       //获取

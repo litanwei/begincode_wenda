@@ -51,7 +51,7 @@ public class AnswerController {
         Answer answer = answerParam.getAnswer();
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
-        answer.setContent(forbiddenWordFilter.isContaintSensitiveWord(answer.getContent()));
+        answer.setContent(forbiddenWordFilter.isContaintForbiddenWord(answer.getContent()));
         answer = answerHandler.creatAnswer(answer);
         messageHandler.createMessage(null,answer.getAnswerId(),answer.getContent());
         return answer;
