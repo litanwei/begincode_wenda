@@ -1,4 +1,4 @@
-package net.begincode.core.sensitive;
+package net.begincode.core.forbidden;
 
 import org.springframework.stereotype.Component;
 
@@ -13,26 +13,29 @@ import java.util.Set;
  */
 
 @Component
-public class SensitivewordFilter {
+public class ForbiddenWordFilter {
 
     public Map sensitiveWordMap = null;
 
+
+    public ForbiddenWordFilter(){
+        super();
+    }
+
     /**
      * 为敏感字库设置软引用，内存不足时清理。
+     * @param is 默认true；false重新加载敏感字，并设置软引用
      */
-    public void readSensitiveWord(){
-        sensitiveWordMap = new ForbiddenWordsInit().initChangeWord();
-        SoftReference softSensitiveWord = new SoftReference(sensitiveWordMap);
-        sensitiveWordMap = null;
-        if(softSensitiveWord.get()!=null){
-            sensitiveWordMap = (Map)softSensitiveWord.get();
-            System.out.println("不用装载");
+    public void readSensitiveWord(boolean is){
+        sensitiveWordMap=null;
+        if(sensitiveWordMap != null && is){
         }else{
-            sensitiveWordMap = new ForbiddenWordsInit().initChangeWord();
-            softSensitiveWord = new SoftReference(sensitiveWordMap);
-            sensitiveWordMap =null;
-            System.out.println("装载");
+            sensitiveWordMap = new ForbiddenWordInit().initChangeWord();
+            SoftReference softSensitiveWord = new SoftReference(sensitiveWordMap);
+            sensitiveWordMap = null;
+            sensitiveWordMap = (Map)softSensitiveWord.get();
         }
+
     }
 
 
@@ -42,6 +45,7 @@ public class SensitivewordFilter {
      * @return 若包含敏感字返回替换后的文本txt，否则返回传进来的文本txt
      */
     public String isContaintSensitiveWord(String txt){
+        readSensitiveWord(true);
         for(int i = 0 ; i < txt.length() ; i++){
             int matchFlag = this.CheckSensitiveWord(txt,i); //判断是否包含敏感字符
             if(matchFlag > 0){    //大于0存在，返回true

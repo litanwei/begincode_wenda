@@ -1,10 +1,10 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
+import net.begincode.core.forbidden.ForbiddenWordFilter;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
-import net.begincode.core.sensitive.SensitivewordFilter;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class ProblemController {
     @Resource
     private MessageHandler messageHandler;
     @Resource
-    SensitivewordFilter sensitivewordFilter;
+    ForbiddenWordFilter forbiddenWordFilter;
 
     @AuthPassport
     @RequestMapping("/create")
@@ -130,7 +130,7 @@ public class ProblemController {
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
-        problem.setContent(sensitivewordFilter.isContaintSensitiveWord(problem.getContent()));
+        problem.setContent(forbiddenWordFilter.isContaintSensitiveWord(problem.getContent()));
         Label label = problemLableParam.getLabel();
         int problemId = problemHandler.addProblem(problem, label);
         messageHandler.createMessage(problemId,null,problem.getContent());

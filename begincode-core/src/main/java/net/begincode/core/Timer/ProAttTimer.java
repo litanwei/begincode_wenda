@@ -1,7 +1,7 @@
 package net.begincode.core.Timer;
 
 
-import net.begincode.core.sensitive.SensitivewordFilter;
+import net.begincode.core.forbidden.ForbiddenWordFilter;
 import net.begincode.core.variate.ProblemVariate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +15,20 @@ import javax.annotation.Resource;
 @Controller
 public class ProAttTimer  {
 
-	@Resource
-	private SensitivewordFilter sensitivewordFilter;
+
 	private Logger logger = LoggerFactory.getLogger(ProAttTimer.class);
+
+
+    @Resource
+    private ForbiddenWordFilter forbiddenWordFilter;
 
 	/**
 	 * 系统启动时加载违禁字字典（forbiddenWords.txt）
 	 * */
 	@PostConstruct
 	public void init() {
-		sensitivewordFilter.readSensitiveWord();
-		System.out.println("读取数据");
+		forbiddenWordFilter.readSensitiveWord(false);
+		logger.info("加载敏感字");
 	}
 
 	//服务器关闭前执行更新

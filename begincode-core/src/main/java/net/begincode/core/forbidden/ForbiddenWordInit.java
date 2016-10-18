@@ -1,4 +1,4 @@
-package net.begincode.core.sensitive;
+package net.begincode.core.forbidden;
 
 import org.springframework.stereotype.Component;
 
@@ -9,11 +9,11 @@ import java.util.*;
  * Created by saber on 2016/10/15.
  */
 @Component
-public class ForbiddenWordsInit {
+public class ForbiddenWordInit {
 
     private HashMap sensitiveWordMap;
 
-    public ForbiddenWordsInit(){
+    public ForbiddenWordInit(){
         super();
     }
 
@@ -55,7 +55,6 @@ public class ForbiddenWordsInit {
         String key = null;
         Map nowMap = null;
         Map<String, String> newWorMap = null;
-        //迭代keyWordSet
         Iterator<String> iterator = keyWordSet.iterator();
         while(iterator.hasNext()){
             key = iterator.next();    //关键字
@@ -96,6 +95,7 @@ public class ForbiddenWordsInit {
         br.close();
         isr.close();
         fis.close();
+        System.out.println("读取违禁字");
         return stringSet;
 
     }
@@ -104,19 +104,12 @@ public class ForbiddenWordsInit {
      * 写入敏感词库中的内容，将内容添加到set集合中
      * @throws Exception
      */
-    public void writeSensitiveWordFile() throws IOException {
-        String[] arrs={
-                "敏一感字一",
-                "敏二感字二",
-                "敏三感字三",
-                "敏四感字四",
-                "敏五感字五"
-        };
-        FileOutputStream fos=new FileOutputStream(new File("F:/workspace/begincode_wenda/begincode-core/src/main/resources/file/sensitive/forbiddenWords.txt"));
+    public void writeSensitiveWordFile(String[] strings) throws IOException {
+        FileOutputStream fos=new FileOutputStream(new File("F:/workspace/begincode_wenda/begincode-core/src/main/resources/file/sensitive/forbiddenWords.txt"),true);
         OutputStreamWriter osw=new OutputStreamWriter(fos, "UTF-8");
         BufferedWriter  bw=new BufferedWriter(osw);
-        for(String arr:arrs){
-            bw.write(arr+"\t\n");
+        for(String string:strings){
+            bw.write(string+"\t\n");
         }
         bw.close();
         osw.close();
@@ -124,5 +117,6 @@ public class ForbiddenWordsInit {
 
     }
 }
+
 
 

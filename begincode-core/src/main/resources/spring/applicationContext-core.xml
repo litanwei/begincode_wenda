@@ -22,6 +22,8 @@
 	<context:property-placeholder location="classpath*:config.properties"/>
 	<util:properties id="httpClient" location="classpath*:httpClient.properties"/>
 
+	<!-- 异常统一处理 -->
+	<bean id="exceptionResolver" class="net.begincode.core.exception.ExceptionHandler" />
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<!-- 开启计时器 -->
