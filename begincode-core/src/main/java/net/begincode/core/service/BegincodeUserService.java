@@ -6,12 +6,16 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
-
-import org.springframework.stereotype.Service;
 
 /**
  * @author kangLiang
@@ -19,9 +23,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BegincodeUserService {
+
+    private Logger logger = LoggerFactory.getLogger(BegincodeUserService.class);
+
     @Resource
     private BegincodeUserMapper begincodeUserMapper;
-    
     @Resource
     private BizBegincodeUserMapper bizBegincodeUserMapper;
 
@@ -38,7 +44,7 @@ public class BegincodeUserService {
      * @parm user
      */
     public void updateBegincodeUserById(BegincodeUser user){
-    	begincodeUserMapper.updateByPrimaryKey(user);
+        begincodeUserMapper.updateByPrimaryKey(user);
     }
 
     /**
@@ -46,7 +52,7 @@ public class BegincodeUserService {
      * @param id  BegincodeUser标识
      */
     public void delBegincodeUserById(Integer id){
-    	begincodeUserMapper.deleteByPrimaryKey(id);
+        begincodeUserMapper.deleteByPrimaryKey(id);
     }
 
     /**
@@ -65,19 +71,57 @@ public class BegincodeUserService {
     public BegincodeUser selectById(Integer id){
         return begincodeUserMapper.selectByPrimaryKey(id);
     }
-    
+
     /**
      * 获取活跃用户列表
      * @return
      */
     
     public List<BegincodeUser> selectActiveUser(){
-    	
-    	
-    	/** --查询参数，取当前时间的前一个月的时间-- **/
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.add(Calendar.MONTH, -1);
-    	Date dateBefore = calendar.getTime();
+        /** --查询参数，取当前时间的前一个月的时间-- **/
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date dateBefore = calendar.getTime();
         return bizBegincodeUserMapper.getActiverUser(dateBefore);
     }
+    /**
+     * 根据nickName查找BegincodeUser
+     * @param nickName
+     * @return 不存在返回空 存在就返回此对象
+     */
+    public BegincodeUser selectByNickName(String nickName) {
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andNicknameEqualTo(nickName);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.size()>0?list.get(0):null;
+
+    }
+
+    /**
+     * openId查找用户
+     * @return BegincodeUser
+     */
+    public BegincodeUser findUserByOpenId(String openId) {
+        if(StringUtils.isNotEmpty(openId)){
+            BegincodeUser begincodeUser = new BegincodeUser();
+            BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+            begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
+            List<BegincodeUser> begincodeUserList = begincodeUserMapper.selectByExample(begincodeUserExample);
+            for(int a = 0 ; a <begincodeUserList.size() ; a++ ){
+                begincodeUser = begincodeUserList.get(a);
+            }
+            if(begincodeUser.getAccessToken() != null){
+                return begincodeUser;
+            }else{
+                return null;
+            }
+        }else{
+            logger.error(" accessToken ,openId  不能为空 ");
+            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
+
+        }
+
+    }
+
 }

@@ -19,14 +19,28 @@ import net.begincode.core.param.ProblemLabelParam;
 @Controller
 public class LabelController {
 
-	private Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Resource
 	private LabelHandler labelHandler;
-	
+
 	@Resource
 	private ProblemLabelHandler problemLabelHandler;
-	
+
+
+    /**
+     * 获取所有标签
+     *
+     * @return List
+     */
+    @RequestMapping("/getLabel")
+    @ResponseBody
+    public Object getLabel() {
+        List<Label> list = new ArrayList<Label>();
+        list = labelhandler.getAllLabel();
+        return list;
+    }
+
 
 	/**
 	 * 获取所有标签
@@ -42,15 +56,18 @@ public class LabelController {
 		logger.info("查询标签完毕");
 		return list;
 	}
-	
+
+    /**
+     * 查询标签下的问题
+     */
 	@RequestMapping("/selectProblemLabel")
 	public String selectLabel(@RequestParam("id") Integer labelId, Model model) {
-		
+
 		List<ProblemLabelParam> proLabel = problemLabelHandler.getLabelByLabelId(labelId);
 		model.addAttribute("proLabel",proLabel);
 		model.addAttribute("label",labelHandler.getLabelById(labelId));
 		return "question_list";
 	}
-	
-	
+
+
 }

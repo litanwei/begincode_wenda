@@ -14,6 +14,6 @@ public interface Bzi_ProAttentionMapper extends ProAttentionMapper {
 	
 	int updateByProattention(ProAttention proAttention);
 	
-	int updateByProblemViewS(@Param("views") Integer views, @Param("problem_id") Integer problem_id);
-	
+	int updateByProblemViewS(@Param("views")Integer views,@Param("problem_id")Integer problem_id);
+
 }

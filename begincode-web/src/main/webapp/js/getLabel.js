@@ -18,8 +18,6 @@ function getLabels(){
 					$(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
-			}else{
-				alert("服务器忙！");
 			}
 		} ,
 		dataType: 'json'

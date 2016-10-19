@@ -4,6 +4,7 @@
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:util="http://www.springframework.org/schema/util"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:task="http://www.springframework.org/schema/task"  
 	   xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
@@ -12,12 +13,19 @@
             http://www.springframework.org/schema/util
             http://www.springframework.org/schema/util/spring-util-4.2.xsd
             http://www.springframework.org/schema/tx
-            http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+            http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+            http://www.springframework.org/schema/task 
+            http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<context:component-scan base-package="net.begincode.*" />
-	<context:property-placeholder location="classpath*:*.properties"/>
-	<!--<util:properties id="config" location="classpath:config.properties"/>-->
-	<tx:annotation-driven />
+
+	<context:property-placeholder location="classpath*:config.properties"/>
+	<util:properties id="httpClient" location="classpath*:httpClient.properties"/>
+
+
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- 开启计时器 -->
+	<task:annotation-driven />
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -56,6 +64,7 @@
 			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
+
 </beans>
 
 

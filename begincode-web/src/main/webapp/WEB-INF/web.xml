@@ -37,6 +37,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.htm</url-pattern>
@@ -44,12 +52,16 @@
 	<welcome-file-list>
 		<welcome-file>page/index.jsp</welcome-file>
 	</welcome-file-list>
-	<!--<error-page>-->
-		<!--<error-code>404</error-code>-->
-		<!--<location>/error/404.jsp</location>-->
-	<!--</error-page>-->
-	<!--<error-page>-->
-		<!--<error-code>500</error-code>-->
-		<!--<location>/error/500.jsp</location>-->
-	<!--</error-page>-->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type> 
+		<location>/page/index.jsp</location>
+	</error-page>
 </web-app>
