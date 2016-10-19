@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 
-import net.begincode.core.mapper.Bzi_ProAttentionMapper;
-import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.model.ProAttention;
 import net.begincode.core.model.ProblemsStatistical;
 import net.begincode.core.service.ProAttentionService;

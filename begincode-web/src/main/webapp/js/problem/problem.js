@@ -16,7 +16,6 @@ $(document).ready(function () {
         }
     });
     $("#newProblemId").click(function () {
-        $("newProblem").empty();
         $.ajax({
             type: "GET",
             url: "/problem/newProblems.htm?page=1",
@@ -30,9 +29,8 @@ $(document).ready(function () {
                 }
             }
         });
-    })
+    });
     $("#hotProblemId").click(function () {
-        $("#hotProblem").empty();
         $.ajax({
             type: "GET",
             url: "/problem/hotProblems.htm?page=1",
@@ -48,7 +46,6 @@ $(document).ready(function () {
         });
     });
     $("#noAnswerProblemId").click(function () {
-        $("#noAnswerProblem").empty();
         $.ajax({
             type: "GET",
             url: "/problem/noAnswerProblems.htm?page=1",
@@ -65,7 +62,6 @@ $(document).ready(function () {
 
     });
     $("#myProblemId").click(function () {
-        $("#myProblem").empty();
         $.ajax({
             type: "POST",
             url: "/problem/myProblems.htm?page=1",

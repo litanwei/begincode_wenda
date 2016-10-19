@@ -50,7 +50,7 @@ function showModel(msg) {
  */
 function checkLabel(label) {
     var labelList = label.replace("，", ",").split(",");
-    var pattern = /^[a-zA-Z0-9_\\-\u4e00-\u9fa5]+$/;
+    var pattern = /^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$/;
     if (label.trim() == null) {
         return false;
     }

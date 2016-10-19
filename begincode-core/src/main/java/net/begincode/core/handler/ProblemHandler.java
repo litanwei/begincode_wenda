@@ -1,6 +1,7 @@
 package net.begincode.core.handler;
 
 import net.begincode.bean.Page;
+import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.httpclient.HttpUtil;
@@ -41,12 +42,13 @@ public class ProblemHandler {
      *
      * @param problem 前台传入的问题
      * @param label   传入的标签对象  用于标签表的新增
-     *
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public int addProblem(Problem problem, Label label) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
+        //使@的人加上a标签
+        problem.setContent(PatternUtil.nickNameUrl(problem.getContent()));
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
@@ -95,7 +97,7 @@ public class ProblemHandler {
      * @param page
      */
     public void selectMyProblems(String userName, Page<BizFrontProblem> page) {
-        page.setTotalNum(problemService.findMyProblemSize(userName));    //问题总数
+        page.setTotalNum(problemService.findByNickNameProblemSize(userName));    //问题总数
         List<Problem> list = problemService.findMyProblem(userName, page.getCurrentNum(), page.getPageEachSize());
         page.setData(operatePage(list));
     }
@@ -134,7 +136,7 @@ public class ProblemHandler {
     public String selectOrderByProblemId(Problem problem) {
         Answer answer = answerService.findOrderByProblemId(problem.getProblemId());
         if (answer == null) {
-            return "null";
+            return null;
         } else {
             return answer.getUserName();
         }
@@ -172,8 +174,11 @@ public class ProblemHandler {
 
     /**
      * 根据id查询问题
+     *
+     * @param answerId
+     * @return
      */
-    public Problem selectById(int answerId){
+    public Problem selectById(int answerId) {
         return problemService.selProblemById(answerId);
     }
 
@@ -194,6 +199,7 @@ public class ProblemHandler {
         }
         return list;
     }
+
     /**
      * 查找所有问题
      *
@@ -201,6 +207,17 @@ public class ProblemHandler {
      */
     public List<Problem> selectAllProblem() {
         return problemService.findProblemList();
+    }
+
+
+    /**
+     * 通过nickName查找对应的问题总数
+     *
+     * @param nickName
+     * @return
+     */
+    public Integer problemSizeByNickName(String nickName) {
+        return problemService.findByNickNameProblemSize(nickName);
     }
 
 }

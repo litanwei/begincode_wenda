@@ -184,12 +184,13 @@ public class ProblemService {
      * @param userName
      * @return
      */
-    public Integer findMyProblemSize(String userName) {
+    public Integer findByNickNameProblemSize(String userName) {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
         return problemMapper.countByExample(problemExample);
     }
+
 
 
 }

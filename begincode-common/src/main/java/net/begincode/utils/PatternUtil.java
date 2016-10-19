@@ -2,6 +2,7 @@ package net.begincode.utils;
 
 import net.begincode.common.BizException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -74,6 +75,29 @@ public class PatternUtil {
      */
     public static String filterIndexContent(String content){
         return content.trim().replaceAll("</?[^>]+>", " ").replace("&nbsp;", " ");
+    }
+
+
+    /**
+     *
+     * @param content
+     * @return
+     */
+    public static String nickNameUrl(String content){
+        //匹配@的人的正则表达式
+        String pt = "@[^\\\\@ ]{1,20}";
+        Matcher matcher = Pattern.compile(pt).matcher(content.trim().replaceAll("</?[^>]+>", " ").replace("&nbsp;", " "));
+        ArrayList<String> list = new ArrayList<String>();
+        while(matcher.find()){
+            String find = matcher.group().trim();
+            if(!list.contains(find)){
+                list.add(find);
+            }
+        }
+        for(int i=0;i<list.size();i++){
+            content = content.trim().replace(list.get(i),"<a href=/user/"+list.get(i).replace("@", "")+".htm"+">"+list.get(i)+"</a>");
+        }
+        return content;
     }
 
 
