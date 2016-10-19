@@ -11,14 +11,13 @@ function getActivers(){
 	$.ajax({
 		type: 'POST',
 		url: "user/activer.htm" ,
-		success: function(list){
+		success: function(data){
+			var list = data.data;
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
 					$(".list-group").append("<a class='list-group-item'>"+list[i].nickname+"</a>");
 				}
-			}else{
-				alert("服务器忙！");
 			}
 		} ,
 		dataType: 'json'

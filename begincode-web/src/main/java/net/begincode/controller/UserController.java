@@ -57,8 +57,8 @@ public class UserController {
 	 * 活跃用户
 	 */
 	@RequestMapping("activer")
-	public @ResponseBody
-	List<BegincodeUser> activeUser() {
+    @ResponseBody
+    public Object activeUser() {
 
 		logger.info("开始查找活跃用户");
 		List<BegincodeUser> list = userHandler.selectActiveUser();

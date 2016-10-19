@@ -28,27 +28,13 @@ public class LabelController {
 	private ProblemLabelHandler problemLabelHandler;
 
 
-    /**
-     * 获取所有标签
-     *
-     * @return List
-     */
-    @RequestMapping("/getLabel")
-    @ResponseBody
-    public Object getLabel() {
-        List<Label> list = new ArrayList<Label>();
-        list = labelhandler.getAllLabel();
-        return list;
-    }
-
-
-	/**
+   	/**
 	 * 获取所有标签
 	 * @return List
 	 */
 	@RequestMapping("/getLabel")
-	public @ResponseBody
-	List<Label> getLabel() {
+	@ResponseBody
+	public Object getLabel() {
 
 		List<Label> list = new ArrayList<Label>();
 		logger.info("开始查询标签");

@@ -11,7 +11,9 @@ function getLabels(){
 	$.ajax({
 		type: 'POST',
 		url: "label/getLabel.htm" ,
-		success: function(list){
+		success: function(data){
+
+			var list = data.data;
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
