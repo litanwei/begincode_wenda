@@ -13,7 +13,7 @@ public interface Biz_MessageMapper extends MessageMapper {
      * @param pagesize 分页大小
      * @return
      */
-    List<MessageRemind> selectByMessageRemind(@Param("id")Integer begincode_user_id,@Param("nowpage")Integer nowpage,@Param("pagesize")int pagesize);
+    List<MessageRemind> selectByMessageRemind(@Param("id") Integer begincode_user_id, @Param("nowpage") Integer nowpage, @Param("pagesize") int pagesize);
     /**
      * 获得messageRemind的数量
      * 可以进行分页

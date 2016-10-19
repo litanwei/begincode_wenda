@@ -7,8 +7,13 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.jsp.PageContext;
+import javax.xml.ws.spi.http.HttpContext;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.ProblemsStatistical;
-import net.begincode.variate.ProblemVariate;
+import net.begincode.core.variate.ProblemVariate;
 
 @RequestMapping("/problem")
 @Controller

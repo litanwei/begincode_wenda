@@ -3,25 +3,19 @@ package net.begincode.controller;
 
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.model.Problem;
+import net.begincode.core.param.AnswerParam;
 import net.begincode.core.support.AuthPassport;
-import net.begincode.utils.DateUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -37,40 +31,53 @@ public class AnswerController {
     AccountContext accountContext;
     @Resource
     ProblemHandler problemHandler;
+    @Resource
+    MessageHandler messageHandler;
 
     /**
-     * 问题回复
-     *@param：answer,request
-     *@return：
+     * 添加问题回复
+     *
+     * @param：answer,request
+     * @return：
      */
     @AuthPassport
-    @RequestMapping(value = "/reply",method = RequestMethod.POST)
+    @RequestMapping(value = "/reply", method = RequestMethod.POST)
     @ResponseBody
-    public Map reply(Answer answer, HttpServletRequest request){
-        Map map = new HashMap();
+    public Object reply(AnswerParam answerParam, HttpServletRequest request) {
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        Answer answer = answerParam.getAnswer();
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
-        answerHandler.creatAnswer(answer);
-        map.put("msg", "提交成功");
-        return map;
+        answer = answerHandler.creatAnswer(answer);
+        messageHandler.createMessage(null,answer.getAnswerId(),answer.getContent());
+        return answer;
     }
-
-
-
 
     /**
      * 回复反馈
-     *@param：answer,request
-     *@return：
+     *
+     * @param：answer,request
+     * @return：
+     */
+
+    @RequestMapping(value = "/feedback", method = RequestMethod.POST)
+    @ResponseBody
+    public Object feedback(int answerId) {
+        answerHandler.feedbackAnswer(answerId);
+        return null;
+    }
+
+    /**
+     * 回复采纳
+     *
+     * @param：answer,request
+     * @return：
      */
     @AuthPassport
-    @RequestMapping(value = "/feedback",method = RequestMethod.POST)
+    @RequestMapping(value = "/answerAdopt", method = RequestMethod.POST)
     @ResponseBody
-    public Map feedback(Answer answer){
-        Map map = new HashMap();
-        answerHandler.answerFeedback(answer.getAnswerId());
-        map.put("msg", "感谢您的反馈。");
-        return map;
+    public Object answerAdopt(int answerId, HttpServletRequest request) {
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        return  answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }

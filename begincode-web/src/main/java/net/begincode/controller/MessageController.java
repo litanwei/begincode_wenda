@@ -71,6 +71,7 @@ public class MessageController {
 			logger.warn("message表已读状态修改出错");
 		}
 	}
+
 	/**
 	 * 获得message总数据数
 	 * @param request

@@ -20,6 +20,10 @@ public class LabelHandler {
 	@Resource
     private LabelService labelService;
 	
+	/**
+	 * 获取所有标签
+	 * @return
+	 */
 	public List<Label> getAllLabel(){
 		return labelService.selectAllLabel();
 	}
@@ -31,5 +35,14 @@ public class LabelHandler {
 	 */
 	public List<Label> getLabelByProblemId(Integer problemId){
 		return labelService.selectLabelByProblemId(problemId);
+	}
+
+	/**
+	 * 通过LabelId获取LabelName
+	 * @param labelId
+	 * @return
+	 */
+	public String getLabelById(Integer labelId){
+		return labelService.selectLabelById(labelId);
 	}
 }

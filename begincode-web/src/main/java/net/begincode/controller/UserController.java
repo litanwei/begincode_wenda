@@ -31,21 +31,21 @@ public class UserController {
     @Resource
     UserHandler userHandler;
 
-    /**
-     * summernote @提示获取后台用户
-     *
-     * @return 后台用户的nickname的list集合json
-     */
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    @ResponseBody
-    public Object findUserList() {
-        List<String> nameList = new ArrayList<>();
-        List<BegincodeUser> list = userHandler.selectAll();
-        for (BegincodeUser user : list) {
-            nameList.add(user.getNickname());
-        }
-        return nameList;
-    }
+	/**
+	 * summernote @提示获取后台用户
+	 *
+	 * @return 后台用户的nickname的list集合json
+	 */
+	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@ResponseBody
+	public Object findUserList() {
+		List<String> nameList = new ArrayList<>();
+		List<BegincodeUser> list = userHandler.selectAll();
+		for (BegincodeUser user : list) {
+			nameList.add(user.getNickname());
+		}
+		return nameList;
+	}
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseBody
@@ -54,14 +54,18 @@ public class UserController {
     }
 
     /**
-     * 活跃用户
-     */
-    @RequestMapping("/activer")
+	 * 活跃用户
+	 */
+	@RequestMapping("activer")
     @ResponseBody
     public Object activeUser() {
-        List<BegincodeUser> list = userHandler.selectActiveUser();
-        return list;
-    }
+
+		logger.info("开始查找活跃用户");
+		List<BegincodeUser> list = userHandler.selectActiveUser();
+ 		logger.info("查找活跃用户完毕");
+
+		return list;
+	}
 
     /**
      * qq查找或注册用户

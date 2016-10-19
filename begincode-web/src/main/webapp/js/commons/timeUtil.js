@@ -29,17 +29,17 @@ function formatTime(problemAuthorName, size, answerName, time) {
         }
     } else {
         if (diffTime < 60) {
-            return answerName+" 刚刚回答";
+            return "刚刚回答";
         }
         else if (diffTime > 60 && diffTime < 3600) {
-            return answerName + " " + Math.ceil(diffTime / 60) + "分钟前回答";
+            return Math.ceil(diffTime / 60) + "分钟前回答";
         }
         else if (diffTime > 3600 && diffTime < 86400) {
-            return answerName + " " + Math.ceil(diffTime / 60 / 60) + "小时前回答";
+            return Math.ceil(diffTime / 60 / 60) + "小时前回答";
         } else if (diffTime > 86400 && diffTime < 259000) {
-            return answerName + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天前回答";
-        }  else {
-            return answerName + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
+            return Math.ceil(diffTime / 60 / 60 / 24) + "天前回答";
+        } else {
+            return (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
         }
     }
 }

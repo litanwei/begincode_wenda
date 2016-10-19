@@ -1,11 +1,29 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
+import net.begincode.common.BeginCodeConstant;
+import net.begincode.core.handler.AccountContext;
+import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.ProblemHandler;
+import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.*;
+import net.begincode.core.param.ProblemLabelParam;
+import net.begincode.core.support.AuthPassport;
+import net.begincode.lucene.bean.ConfigBean;
+import net.begincode.lucene.index.Index;
+import net.begincode.lucene.manager.IndexConfig;
+import net.begincode.lucene.utils.LuceneUtil;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
+import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.utils.DateUtil;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -171,17 +189,22 @@ public class ProblemController {
      */
     @RequestMapping(value = "/{problemId}",method = RequestMethod.GET)
     public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId){
-        Answer answer = new Answer();
-        answer.setProblemId(problemId);
-        List<Answer> answerList = answerHandler.selAllAnswerByExample(answer);
-        List<String> newTime = new ArrayList<>();
-        for(int a = 0 ; a < answerList.size(); a++) {
-            newTime.add(DateUtil.getTimeFormatText(answerList.get(a).getCreateTime()));
+        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
+        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<String> newAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerAdoptList.size(); a++) {
+            newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
+        }
+        List<String> newNoAdoptTime = new ArrayList<>();
+        for(int a = 0 ; a < answerNoAdoptList.size(); a++) {
+            newNoAdoptTime.add(DateUtil.getTimeFormatText(answerNoAdoptList.get(a).getCreateTime()));
         }
         Problem problem  = problemHandler.selectById(problemId);
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
-        model.addAttribute("answerList", answerList);
-        model.addAttribute("newTime", newTime);
+        model.addAttribute("answerAdoptList", answerAdoptList);
+        model.addAttribute("newAdoptTime", newAdoptTime);
+        model.addAttribute("answerNoAdoptList", answerNoAdoptList);
+        model.addAttribute("newNoAdoptTime", newNoAdoptTime);
         model.addAttribute("problem",problem);
         model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime",problemTime);

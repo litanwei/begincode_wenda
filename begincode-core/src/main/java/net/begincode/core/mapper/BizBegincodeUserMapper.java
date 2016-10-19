@@ -12,5 +12,5 @@ public interface BizBegincodeUserMapper {
     /**
      * 获取活跃用户，一个月内提问和回复的总数，排序，取前10
      */
-    public List<BegincodeUser> getActiverUser(@Param(value = "dateBefore")Date dateBefore);
+    public List<BegincodeUser> getActiverUser(@Param(value = "dateBefore") Date dateBefore);
 }
