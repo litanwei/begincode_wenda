@@ -37,7 +37,7 @@ public class UserController {
 
 		logger.info("开始查找活跃用户");
 		List<BegincodeUser> list = userHandler.selectActiveUser();
-		logger.info("查找活跃用户完毕");
+ 		logger.info("查找活跃用户完毕");
 
 		return list;
 	}

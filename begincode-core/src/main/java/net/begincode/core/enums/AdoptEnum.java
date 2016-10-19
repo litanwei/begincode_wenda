@@ -3,15 +3,15 @@ package net.begincode.core.enums;
 import net.begincode.enums.ResponseEnum;
 
 /**
- * Created by yangsj on 2016/8/20.
- * 业务响应枚举
+ * Created by saber on 2016/10/12.
  */
-public enum BizResponseEnum implements ResponseEnum {
-    SYSTEM_ERROR("1","系统错误");
+public enum AdoptEnum implements ResponseEnum{
+    ADOPT("1","采纳状态"),
+    NO_ADOPT("0","非采纳状态");
     private String code;
     private String message;
 
-    BizResponseEnum(String code, String message) {
+    AdoptEnum(String code, String message) {
         this.code = code;
         this.message = message;
     }

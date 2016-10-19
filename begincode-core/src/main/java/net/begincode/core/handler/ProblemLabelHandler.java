@@ -1,13 +1,10 @@
 package net.begincode.core.handler;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import net.begincode.core.model.Problem;
 import net.begincode.core.service.ProblemLabelService;
-
 import org.springframework.stereotype.Component;
+import net.begincode.core.param.ProblemLabelParam;
+import javax.annotation.Resource;
+import java.util.List;
 /**
  * 问题与标签关联
  * @author Administrator
@@ -19,7 +16,7 @@ public class ProblemLabelHandler {
 	@Resource
     private ProblemLabelService problemLabelService;
 	
-	public List<Problem> getLabelByLabelId(Integer labelId){
-		return problemLabelService.selectAllLabel(labelId);
+	public List<ProblemLabelParam> getLabelByLabelId(Integer labelId){
+		return problemLabelService.selectAllProblemByLabel(labelId);
 	}
 }
