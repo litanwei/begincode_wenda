@@ -15,8 +15,5 @@ public class BeginCodeConstant {
 
     public static final int PAGESIZE = 10;     //分页查询  每页显示的行数
 
-    public static String INDEX_FILE_NAME = "/test";
-
-    public static String INDEX_PATH_NAME = "d:/begincodeIndex";
 
 }

@@ -58,7 +58,7 @@ public class PatternUtil {
             set.add(labelNames[i]);
         }
         for (String labelName : set) {
-            //判断是否符合只有数字 字母 下划线 中文
+            //判断是否符合只有数字 字母 下划线 中文 中划线
             if (checkStr(labelName)) {
                 continue;
             } else {

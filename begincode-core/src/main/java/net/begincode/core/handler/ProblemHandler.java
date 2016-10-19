@@ -6,10 +6,7 @@ import net.begincode.common.BizException;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
-import net.begincode.core.service.AnswerService;
-import net.begincode.core.service.LabelService;
-import net.begincode.core.service.ProLabService;
-import net.begincode.core.service.ProblemService;
+import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +28,8 @@ public class ProblemHandler {
     @Resource
     private LabelService labelService;
     @Resource
+    private MessageService messageService;
+    @Resource
     private ProLabService proLabService;
     @Resource
     private AnswerService answerService;
@@ -42,13 +41,12 @@ public class ProblemHandler {
      *
      * @param problem 前台传入的问题
      * @param label   传入的标签对象  用于标签表的新增
+     * @param userId  传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public int addProblem(Problem problem, Label label) {
+    public void addProblem(Problem problem, Label label, Integer[] userId) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
-        //使@的人加上a标签
-        problem.setContent(PatternUtil.nickNameUrl(problem.getContent()));
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
@@ -56,10 +54,21 @@ public class ProblemHandler {
         }
         //发送http请求给搜索端
         HttpUtil.createIndexHttp(problem.getProblemId());
-        Set<String> labelNameSet = PatternUtil.splitName(HtmlUtils.htmlEscape(label.getLabelName()));
+        Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
-        return problem.getProblemId();
+        if (userId != null && userId.length == 1) {
+            message.setBegincodeUserId(userId[0]);
+            message.setProId(problem.getProblemId());
+            messageService.createMessage(message);
+        } else if (userId != null && userId.length > 1) {
+            for (int i = 0; i < userId.length; i++) {
+                //消息添加
+                message.setBegincodeUserId(userId[i]);
+                message.setProId(problem.getProblemId());
+                messageService.createMessage(message);
+            }
+        }
     }
 
 
@@ -156,12 +165,14 @@ public class ProblemHandler {
         ProblemLabel problemLabel = new ProblemLabel();
         if (labelNameSet != null && labelNameSet.size() > 0) {
             for (String labelName : labelNameSet) {
+                labelName = HtmlUtils.htmlEscape(labelName);
                 Label seleLabel = labelService.selectByName(labelName);
                 if (seleLabel != null) {
                     problemLabel.setLabelId(seleLabel.getLabelId());
                     problemLabel.setProblemId(problem.getProblemId());
                     proLabService.createProLab(problemLabel);
                 } else {
+                    label.setLabelName(HtmlUtils.htmlEscape(labelName));
                     label.setLabelName(labelName);
                     labelService.createLabel(label);
                     problemLabel.setLabelId(label.getLabelId());

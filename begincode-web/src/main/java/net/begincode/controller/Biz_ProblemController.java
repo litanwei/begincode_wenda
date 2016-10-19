@@ -3,7 +3,7 @@ package net.begincode.controller;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.ProblemsStatistical;
-import net.begincode.core.variate.ProblemVariate;
+import net.begincode.variate.ProblemVariate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ public class Biz_ProblemController {
 	@RequestMapping(value = "/{status}/{order}/{problem_id}")
 	@ResponseBody
 	public Object ProblemStatisticals(@PathVariable("status") String status, @PathVariable("order") String order,
-									  @PathVariable("problem_id") Integer problem_id, HttpServletRequest request) {
+			@PathVariable("problem_id") Integer problem_id, HttpServletRequest request) {
 		initMap();
 		ProblemVariate.isInLocalMap(problem_id); // 判断是否为map存在的问题 不存在就自动put进去一个新的数据
 		ProblemVariate.isInChangeMap(problem_id); //判断是否存在改变的problem
@@ -85,7 +85,7 @@ public class Biz_ProblemController {
 		}
 		return localmap.get(problem_id).getViews();
 	}
-
+	
 	//获取基础操作类
 	public Map<String, Object> getReMap(ProblemsStatistical p) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -104,6 +104,6 @@ public class Biz_ProblemController {
 		if(changeMap==null){
 			changeMap=ProblemVariate.getChangeMap();
 		}
-
+		
 	}
 }

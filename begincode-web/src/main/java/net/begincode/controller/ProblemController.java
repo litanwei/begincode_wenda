@@ -19,6 +19,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static net.begincode.utils.PatternUtil.filterNickName;
+
 /**
  * Created by Stay on 2016/8/26  21:48.
  */
@@ -31,13 +33,13 @@ public class ProblemController {
     @Resource
     private AnswerHandler answerHandler;
     @Resource
+    private UserHandler userHandler;
+    @Resource
     private ProblemHandler problemHandler;
     @Resource
     private AccountContext accountContext;
     @Resource
     private LabelHandler labelHandler;
-    @Resource
-    private MessageHandler messageHandler;
 
     @AuthPassport
     @RequestMapping("/create")
@@ -128,10 +130,39 @@ public class ProblemController {
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         Label label = problemLableParam.getLabel();
-        int problemId = problemHandler.addProblem(problem, label);
-        messageHandler.createMessage(problemId,null,problem.getContent());
+        Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
+        problemHandler.addProblem(problem, label, userId);
         return map;
     }
+
+
+
+
+
+    /**
+     * 传进的问题过滤出@ 后面的nickName 返回该用户的id
+     *
+     * @param content 传入的内容
+     * @return 用户id数组
+     */
+    private Integer[] contentFilter(String content) {
+        Set<String> stringSet = filterNickName(content);
+        int i = 0;
+        Integer[] userId = new Integer[stringSet.size()];
+        if (stringSet != null && stringSet.size() > 0) {
+            for (String nickName : stringSet) {
+                BegincodeUser begincodeUser = userHandler.selectByNickName(nickName.replace("@", ""));
+                if (begincodeUser == null) {
+                    continue;
+                } else {
+                    userId[i] = begincodeUser.getBegincodeUserId();
+                    i++;
+                }
+            }
+        }
+        return userId;
+    }
+
 
     /**
      * 查询问题和所有回复

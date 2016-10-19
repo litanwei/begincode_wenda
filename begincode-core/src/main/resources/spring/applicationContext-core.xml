@@ -24,8 +24,6 @@
 
 
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<!-- 开启计时器 -->
-	<task:annotation-driven />
 
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
