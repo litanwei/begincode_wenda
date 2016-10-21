@@ -52,23 +52,19 @@
             <div class="summary">
                 <ul class="author list-inline ">
                     <li>
-                        <a href="/u/guaixiaoguiyq"><c:if test="${pl.}"></c:if></a>
+                        <a href="#">${pl.problem.userName}</a>
                         <span class="split"></span>
-                        <a href="/q/1010000006240373/a-1020000006241989">${pl.problem.updateTime}前回答</a>
+                        <a href="#">${pl.problem.updateTime}提问</a>
                     </li>
                 </ul>
 
                 <span class="keyword-list ">
-						<h2 class="title l"><a href="/q/1010000006240373">${pl.problem.title}</a></h2>
+						<h2 class="title l"><a href="#">${pl.problem.title}</a></h2>
 
-										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
+        <c:forEach items="${pl.labell}" var="p" varStatus="varStau">
+										<a href="" target="_blank" class="list-tag">${p.labelName}</a><a href="'/label/selectProblemLabel.htm?id='+${p.labelId}" target="_blank"
                                                                                                class="list-tag">css</a>
-										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
-                                                                                               class="list-tag">css</a>
-										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
-                                                                                               class="list-tag">css</a>
-										<a href="" target="_blank" class="list-tag">html</a><a href="" target="_blank"
-                                                                                               class="list-tag">css</a>
+        </c:forEach>
 								</span>
             </div>
 
@@ -76,17 +72,6 @@
     </c:forEach>
             </div>
         </div>
-    <div class="row">
-        <div class="col-md-9">
-
-            <!--分页栏-->
-            <nav style="text-align: center">
-                <ul id="paginationId" class="pagination">
-                </ul>
-            </nav>
-        </div>
-
-
     </div>
 
 </div>

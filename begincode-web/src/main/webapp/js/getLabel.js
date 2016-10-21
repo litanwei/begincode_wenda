@@ -26,5 +26,5 @@ function getLabels(){
 	});
 	}
 	function selectLabel(id){
-		window.location.href="../label/selectProblemLabel.htm?id="+id;
+		window.location.href="/label/selectProblemLabel.htm?id="+id;
 	}

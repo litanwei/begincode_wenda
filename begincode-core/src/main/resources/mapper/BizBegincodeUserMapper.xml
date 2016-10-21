@@ -65,7 +65,7 @@
 		WHERE 
 		
 		<if test="dateBefore != null and dateBefore != ''">
-		update_time >= #{dateBefore }
+		p.create_time >= #{dateBefore }
 		</if>
 		
 		AND
