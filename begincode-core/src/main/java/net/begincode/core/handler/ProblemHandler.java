@@ -33,6 +33,8 @@ public class ProblemHandler {
     private ProLabService proLabService;
     @Resource
     private AnswerService answerService;
+    @Resource
+    private ProAttentionService proAttentionService;
 
     /**
      * 添加问题
@@ -47,6 +49,7 @@ public class ProblemHandler {
     public void addProblem(Problem problem, Label label, Integer[] userId) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
+        problem.setContent(PatternUtil.nickNameUrl(problem.getContent()));
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);
         if (problemNum < 0) {
@@ -127,12 +130,24 @@ public class ProblemHandler {
     /**
      * 查找未回答的问题集合
      *
-     * @return
+     * @param page
      */
     public void selectNoAnswerProblems(Page<BizFrontProblem> page) {
         page.setTotalNum(problemService.findNoAnswerSize());    //问题总数
         List<Problem> problemList = problemService.findNoAnswerProblem(page.getCurrentNum(), page.getPageEachSize());
         page.setData(operatePage(problemList));
+    }
+
+    /**
+     * 收藏问题集合(分页)
+     *
+     * @param userId
+     * @param page
+     */
+    public void selectCollProblemsById(Integer userId, Page<BizFrontProblem> page) {
+        page.setTotalNum(proAttentionService.selectCollectNumByUserId(userId));
+        List<Problem> list = problemService.selCollProlemsById(userId, page.getCurrentNum(), page.getPageEachSize());
+        page.setData(operatePage(list));
     }
 
 

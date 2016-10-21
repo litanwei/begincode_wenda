@@ -3,7 +3,10 @@ package net.begincode.core.service;
 import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.FindProResponseEnum;
+import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.mapper.ProblemMapper;
+import net.begincode.core.model.ProAttention;
+import net.begincode.core.model.ProAttentionExample;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
 import org.apache.ibatis.session.RowBounds;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +27,9 @@ import java.util.List;
 public class ProblemService {
     @Resource
     private ProblemMapper problemMapper;
+
+    @Resource
+    private ProAttentionMapper proAttentionMapper;
 
     /**
      * 创建新问题
@@ -43,11 +50,13 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         return problemMapper.countByExample(problemExample);
     }
+
     /**
      * 查找所有问题
+     *
      * @return
      */
-    public List<Problem> findProblemList(){
+    public List<Problem> findProblemList() {
         ProblemExample problemExample = new ProblemExample();
         return problemMapper.selectByExampleWithBLOBs(problemExample);
     }
@@ -129,6 +138,56 @@ public class ProblemService {
     }
 
     /**
+     * 查找id对应的收藏问题集合
+     *
+     * @param userId
+     * @param currentNum
+     * @param eachSize
+     * @return
+     */
+    public List<Problem> selCollProlemsById(Integer userId, Integer currentNum, Integer eachSize) {
+        List<ProAttention> list = selCollProAttById(userId, currentNum, eachSize);
+        ArrayList<Problem> arrayList = new ArrayList<>(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            Problem problem = problemMapper.selectByPrimaryKey(list.get(i).getProblemId());
+            arrayList.add(problem);
+        }
+        return arrayList;
+    }
+
+    /**
+     * 查找id对应的ProAttention集合
+     *
+     * @param userId
+     * @param currentNum
+     * @param eachSize
+     * @return
+     */
+    public List<ProAttention> selCollProAttById(Integer userId, Integer currentNum, Integer eachSize) {
+        ProAttentionExample proAttentionExample = new ProAttentionExample();
+        proAttentionExample.setOrderByClause("problem_id desc");
+        ProAttentionExample.Criteria criteria = proAttentionExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andCollectEqualTo(1);
+        return proAttentionMapper.selectByExampleWithRowbounds(proAttentionExample, new RowBounds((currentNum - 1) * eachSize,
+                eachSize));
+    }
+
+    /**
+     * 根据用户名查找对应的用户集合
+     *
+     * @param userName
+     * @return
+     */
+    public List<Problem> selectProByUserName(String userName) {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andUserNameEqualTo(userName);
+        return problemMapper.selectByExample(problemExample);
+    }
+
+
+    /**
      * 查找热门问题总数
      *
      * @return
@@ -150,19 +209,21 @@ public class ProblemService {
 
     /**
      * 查找问题
+     *
      * @param problemId
      * @return Problem
      */
-    public Problem selProblemById(Integer problemId){
+    public Problem selProblemById(Integer problemId) {
         return problemMapper.selectByPrimaryKey(problemId);
     }
 
     /**
      * 查找问题
+     *
      * @param record
      * @return Problem
      */
-    public int updateProblem(Problem record){
+    public int updateProblem(Problem record) {
         return problemMapper.updateByPrimaryKey(record);
     }
 
@@ -190,7 +251,6 @@ public class ProblemService {
         criteria.andUserNameEqualTo(userName);
         return problemMapper.countByExample(problemExample);
     }
-
 
 
 }

@@ -26,71 +26,65 @@
 
 <jsp:include page="/page/core/top.jsp"/>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="jumbotron">
-                <div class="container">
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">个人信息</h3>
-                            </div>
-                            <div class="col-sm-4 col-md-3">
-                                <a href="#" class="thumbnail">
-                                    <img src="${user.pic}">
-                                </a>
-                            </div>
-                            <h3 id="nickName">${user.nickname}</h3>
-                            <h5><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/>加入begincode </h5>
-                            <div id="echart" style="width: 200px;height:300px;"></div>
+    <div class="row clearfix">
+        <div class="col-md-2 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        个人信息
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-6 col-md-5">
+                        <a href="${user.pic}" class="thumbnail">
+                            <img src="${user.pic}">
+                        </a>
+                    </div>
+                    <h3 id="nickName">${user.nickname}</h3>
+                    <h5><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/><br/>加入BeginCode </h5>
+                    <div id="echart" style="width: 200px;height:450px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 column">
+            <div class="tabbable" id="tabs-657849">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a id="problem" href="#problems" data-toggle="tab">他的提问${problemSize}</a>
+                    </li>
+                    <li>
+                        <a id="answer" href="#answers" data-toggle="tab">他的回答${answerSize}</a>
+                    </li>
+                    <li>
+                        <a id="collection" href="#collections" data-toggle="tab">他的收藏${collectSize}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <!-- 他的提问 -->
+                    <div role="tabpanel" class="tab-pane fade in active" id="problems">
+                        <div id="hisProblems" class="container-fluid">
                         </div>
                     </div>
+                    <!--他的回答-->
+                    <div role="tabpanel" class="tab-pane fade" class="tab-pane" id="answers">
+                        <div id="hisAnswers" class="container-fluid">
+                        </div>
+                    </div>
+                    <!--他的收藏-->
+                    <div role="tabpanel" class="tab-pane" id="collections">
+                        <div id="hisCollections" class="container-fluid">
+                        </div>
+                    </div>
+                    <!--分页栏-->
+                    <nav style="text-align: center">
+                        <ul id="paginationId" class="pagination">
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist" id="myTab">
-                <li role="presentation" class="active"><a id="problem" href="#problem" aria-controls="problems" role="tab"
-                                                          data-toggle="tab">他的提问${problemSize}</a></li>
-                <li role="presentation"><a href="#answers" tabindex="-1" id="answer" aria-controls="profile"
-                                           role="tab"
-                                           data-toggle="tab">他的回答${answerSize}</a>
-                </li>
-                <li role="presentation"><a id="collection" href="#collections" aria-controls="messages"
-                                           role="tab"
-                                           data-toggle="tab">他的收藏${collectSize}</a></li>
-            </ul>
-
-
-            <div class="tab-content">
-                <!-- 他的提问 -->
-                <div role="tabpanel" class="tab-pane fade in active" id="problems">
-                    <div id="hisProblems" class="container-fluid">
-                    </div>
-                </div>
-                <!--他的回答-->
-                <div role="tabpanel" class="tab-pane fade" class="tab-pane" id="answers">
-                    <div id="hisAnswers" class="container-fluid">
-                    </div>
-                </div>
-                <!--他的收藏-->
-                <div role="tabpanel" class="tab-pane" id="collections">
-                    <div id="hisCollections" class="container-fluid">
-                    </div>
-                </div>
-            </div>
-
-            <!--分页栏-->
-            <nav style="text-align: center">
-                <ul id="paginationId" class="pagination">
-                </ul>
-            </nav>
-        </div>
-
-
     </div>
+</div>
 
 </div>
 <c:if test="${!empty msg}" var="condition" scope="request">

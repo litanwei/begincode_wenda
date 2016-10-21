@@ -55,8 +55,11 @@ function checkLabel(label) {
         return false;
     }
     for (var i = 0; i < labelList.length; i++) {
-        if (!pattern.test(labelList[i])) {
-            return false;
+        if (labelList[i] == "") {
+            continue;
+            if (!pattern.test(labelList[i])) {
+                return false;
+            }
         }
     }
     return true;

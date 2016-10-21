@@ -1,50 +1,72 @@
 /**
  * Created by Stay on 2016/10/17.
  */
-var myChart = echarts.init(document.getElementById('echart'));
+$(document).ready(function () {
+    //用户名获取
+    var name = $("#nickName").html();
+    var myChart = echarts.init(document.getElementById('echart'));
+    $.ajax({
+        type: "GET",
+        url: "/user/echarts/" + name + ".htm",
+        dataType: "json",
+        success: function (data) {
+            myChart.showLoading();
+            if (data.code == 0) {
+                myChart.hideLoading();
+                var mapData = JSON.stringify(data.data.seriesData).replace("}", "").replace("{", "").replace("\"","").split(",");
+                var array = [];
+                for (var j = 0; j < mapData.length; j++) {
+                    var map = {};
+                    var tempMap = mapData[j].replace("\"","").replace("\"","").split(":");
+                    map.value = tempMap[1];
+                    map.name = tempMap[0];
+                    array[j] = map;
+                }
+                //开始获取标签名
+                var labelList = [];
+                for (var i = 0; i < data.data.label.length; i++) {
+                    labelList.push(data.data.label[i].labelName);
+                }
+                myChart.setOption({
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x: 'right',
+                        data: labelList,
+                    },
+                    series: [
+                        {
+                            name: '技术栈',
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '12',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: array
+                        }
+                    ]
+                })
 
-option = {
-    tooltip: {
-        trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
-    legend: {
-        orient: 'horizontal',
-        x: 'right',
-        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-    },
-    series: [
-        {
-            name:'访问来源',
-            type:'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    show: true,
-                    textStyle: {
-                        fontSize: '12',
-                        fontWeight: 'bold'
-                    }
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
-            ]
+            }
         }
-    ]
-};
-myChart.setOption(option);
+    });
+})

@@ -2,10 +2,7 @@ package net.begincode.controller;
 
 import net.begincode.bean.Page;
 import net.begincode.core.cookie.CookieOperation;
-import net.begincode.core.handler.AnswerHandler;
-import net.begincode.core.handler.ProAttentionHandler;
-import net.begincode.core.handler.ProblemHandler;
-import net.begincode.core.handler.UserHandler;
+import net.begincode.core.handler.*;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BizFrontProblem;
@@ -21,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户
@@ -43,6 +42,8 @@ public class UserController {
     private AnswerHandler answerHandler;
     @Resource
     private ProAttentionHandler proAttentionHandler;
+    @Resource
+    private LabelHandler labelHandler;
 
     /**
      * summernote @提示获取后台用户
@@ -77,7 +78,8 @@ public class UserController {
     }
 
     /**
-     *  用户对应的问题集合
+     * 用户对应的问题集合
+     *
      * @param nickName
      * @param bizFrontProblem
      * @return
@@ -92,6 +94,7 @@ public class UserController {
     }
 
     /**
+     * 用户对应的回答数列表
      *
      * @param nickName
      * @param answer
@@ -102,8 +105,39 @@ public class UserController {
     public Object findAnswerByNickName(@PathVariable(value = "nickName") String nickName, Answer answer) {
         Page<Answer> page = new Page<Answer>();
         page.setCurrentNum(answer.getPage());
-        answerHandler.selectAnswerByNickName(nickName,page);
+        answerHandler.selectAnswerByNickName(nickName, page);
         return page;
+    }
+
+    /**
+     * 用户收藏的问题列表
+     *
+     * @param nickName
+     * @param bizFrontProblem
+     * @return
+     */
+    @RequestMapping(value = "/collect/{nickName}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object findCollProByNickName(@PathVariable(value = "nickName") String nickName, BizFrontProblem bizFrontProblem) {
+        Page<BizFrontProblem> page = new Page<BizFrontProblem>();
+        page.setCurrentNum(bizFrontProblem.getPage());
+        problemHandler.selectCollProblemsById(userHandler.selectByNickName(nickName).getBegincodeUserId(), page);
+        return page;
+    }
+
+    /**
+     * 图表异步加载使用
+     *
+     * @param nickName
+     * @return
+     */
+    @RequestMapping(value = "/echarts/{nickName}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object echartsCreate(@PathVariable(value = "nickName") String nickName) {
+        Map map = new HashMap<>();
+        map.put("label", labelHandler.selLabelNameListByNickName(nickName));
+        map.put("seriesData",labelHandler.selLabelUseNumByNickName(nickName));
+        return map;
     }
 
 
