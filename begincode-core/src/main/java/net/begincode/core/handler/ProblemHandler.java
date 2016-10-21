@@ -49,6 +49,7 @@ public class ProblemHandler {
     public void addProblem(Problem problem, Label label, Integer[] userId) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
+        //截取内容中@的用户名 加上url
         problem.setContent(PatternUtil.nickNameUrl(problem.getContent()));
         //创建问题如果成功返回整数
         int problemNum = problemService.createProblem(problem);

@@ -8,6 +8,7 @@ import net.begincode.core.model.Problem;
 import net.begincode.core.service.AnswerService;
 import net.begincode.core.service.ProblemService;
 import net.begincode.utils.JsoupUtil;
+import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -35,6 +36,8 @@ public class AnswerHandler {
      */
     public Answer creatAnswer(Answer answer) {
         answer.setCreateTime(new Date());
+        //截取内容中@的用户名 加上url
+        answer.setContent(PatternUtil.nickNameUrl(answer.getContent()));
         int answerNum = answerService.insertAnswer(answer);
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
