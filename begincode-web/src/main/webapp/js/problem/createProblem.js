@@ -11,7 +11,7 @@ $(document).ready(function () {
             $.ajax({
                 data: $("#problemForm").serializeArray(),
                 type: "POST",
-                url: "/problem/store.htm",
+                url: ctx+"/problem/store.htm",
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {

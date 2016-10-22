@@ -5,7 +5,7 @@ function sendFeedback(answerId) {
     $.ajax({
         data: answer,
         type: "POST",
-        url: "/answer/feedback.htm",
+        url: ctx+"/answer/feedback.htm",
         dataType: "json",
         contentType: false,
         processData: false,
@@ -21,7 +21,7 @@ function sendAdoptAnswer(answerId) {
     $.ajax({
         data: answer,
         type: "POST",
-        url: "/answer/answerAdopt.htm",
+        url: ctx+"/answer/answerAdopt.htm",
         dataType: "json",
         contentType: false,
         processData: false,
@@ -50,7 +50,7 @@ $(document).ready(function () {
         $.ajax({
             data: $("#answerForm").serializeArray(),
             type: "POST",
-            url: "/answer/reply.htm",
+            url: ctx+"/answer/reply.htm",
             dataType: "json",
             async:true,
             success: function (data) {

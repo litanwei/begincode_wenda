@@ -29,7 +29,7 @@ $(document).ready(function() {
         var result;
         $.ajax({
             type:"POST",
-            url:"/user/users.htm",
+            url:ctx+"/user/users.htm",
             dataType:"json",
             async:false,
             success:function(data){

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabelHandler {
 
-    @Resource
+	@Resource
     private LabelService labelService;
     @Resource
     private ProLabService proLabService;

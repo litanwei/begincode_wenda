@@ -8,15 +8,15 @@ import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
+import org.springframework.web.util.JavaScriptUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Stay on 2016/8/26  21:41.
@@ -226,7 +226,6 @@ public class ProblemHandler {
         }
         return list;
     }
-
     /**
      * 查找所有问题
      *

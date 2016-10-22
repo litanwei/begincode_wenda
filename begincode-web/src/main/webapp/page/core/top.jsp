@@ -7,7 +7,7 @@
         data-redirecturi="http://www.begincode.net/login.html"
         charset="utf-8"></script>
 <script type="text/javascript">
-
+    var ctx = "${ctx}";
     var reqd;
     //调用QC.Login方法，指定btnId参数将按钮绑定在容器节点中
     QC.Login({
@@ -47,7 +47,7 @@
     function regUser(nickName, figureurl, gender, province, city, year, openId, accessToken) {
         jQuery.ajax({
             type: "POST",
-            url: "/user/login.htm",
+            url: ctx+"/user/login.htm",
             data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
             dataType: "json",
             success: function (codes) {
@@ -58,7 +58,7 @@
     function delUser(nickName) {
         jQuery.ajax({
             type: "POST",
-            url: "/user/loginClean.htm",
+            url: ctx+"/user/loginClean.htm",
             data: "nickname=" + nickName,
             dataType: "json",
             success: function (codes) {

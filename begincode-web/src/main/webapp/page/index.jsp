@@ -91,7 +91,7 @@
                 </div>
                 <div class="panel-body">
 				    <span class="tag-list" id="labelBody">
-				        
+
 					</span>
                 </div>
             </div>
@@ -166,5 +166,7 @@
 <script type="text/javascript" src="${ctx}/js/getActivers.js"></script>
 <!-- 获取热门标签 、查询标签-->
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
+<!-- 页面加载事件 -->
+<script type="text/javascript" src="../js/onLoad.js"></script>
 </body>
 </html>

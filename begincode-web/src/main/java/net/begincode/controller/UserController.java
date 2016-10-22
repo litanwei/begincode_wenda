@@ -142,14 +142,18 @@ public class UserController {
 
 
     /**
-     * 活跃用户
-     */
-    @RequestMapping("/activer")
+	 * 活跃用户
+	 */
+	@RequestMapping("activer")
     @ResponseBody
     public Object activeUser() {
-        List<BegincodeUser> list = userHandler.selectActiveUser();
-        return list;
-    }
+
+		logger.info("开始查找活跃用户");
+		List<BegincodeUser> list = userHandler.selectActiveUser();
+ 		logger.info("查找活跃用户完毕");
+
+		return list;
+	}
 
     /**
      * qq查找或注册用户
