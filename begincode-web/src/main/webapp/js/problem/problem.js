@@ -4,7 +4,7 @@
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: "/problem/newProblems.htm?page=1",
+        url: ctx+"/problem/newProblems.htm?page=1",
         dataType: "json",
         success: function (data) {
             if(data.code == 0){
@@ -19,7 +19,7 @@ $(document).ready(function () {
         $("newProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/newProblems.htm?page=1",
+            url: ctx+"/problem/newProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if(data.code == 0){
@@ -35,7 +35,7 @@ $(document).ready(function () {
         $("#hotProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/hotProblems.htm?page=1",
+            url: ctx+"/problem/hotProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if(data.code == 0){
@@ -51,7 +51,7 @@ $(document).ready(function () {
         $("#noAnswerProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/noAnswerProblems.htm?page=1",
+            url: ctx+"/problem/noAnswerProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if(data.code == 0){
@@ -68,7 +68,7 @@ $(document).ready(function () {
         $("#myProblem").empty();
         $.ajax({
             type: "POST",
-            url: "/problem/myProblems.htm?page=1",
+            url: ctx+"/problem/myProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {

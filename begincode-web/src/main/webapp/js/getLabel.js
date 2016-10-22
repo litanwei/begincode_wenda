@@ -10,21 +10,20 @@ function getLabels(){
 	
 	$.ajax({
 		type: 'POST',
-		url: "/label/getLabel.htm" ,
-		success: function(list){
+		url: ctx+"/label/getLabel.htm" ,
+		success: function(data){
+			var list = data.data;
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
 					$("#labelBody").append("<a href='' target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
-			}else{
-				alert("服务器忙！");
 			}
 		} ,
 		dataType: 'json'
 	});
 	}
-	function selectLabel(id){
-		alert(id);
-	}
+	//function selectLabel(id){
+	//	alert(id);
+	//}

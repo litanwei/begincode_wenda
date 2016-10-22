@@ -17,7 +17,7 @@ function pagination(data,url,id,method) {
             if (type == "change") {
                 $.ajax({
                     type: method,
-                    url: "/problem/"+url+".htm?page="+currentPage,
+                    url: ctx+"/problem/"+url+".htm?page="+currentPage,
                     dataType: "json",
                     success: function (data) {
                         getProblems(data, id);

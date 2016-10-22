@@ -4,7 +4,7 @@ $(function(){
 			$.ajax({
 				type: "POST",
 				dataType:"JSON",
-				url:"/message/pagesize.htm",
+				url:ctx+"/message/pagesize.htm",
 				success : function(pagesize) {
 					paginationByMessage(parseInt(pagesize.data));
 				}
@@ -15,7 +15,7 @@ $(function(){
 		$.ajax({
 			type: "POST",
 			dataType:"JSON",
-			url : "/message/messageremind.htm?nowpage="+nowpage,
+			url : ctx+"/message/messageremind.htm?nowpage="+nowpage,
 			error:function(data){
 				alert("失败了");
 			},
@@ -68,7 +68,7 @@ $(function(){
 	var monitoringMessageClick=function(message){
 		$.ajax({
 			type: "POST",
-			url : "/message/"+message.id+".htm",
+			url :ctx+ "/message/"+message.id+".htm",
 		});
 	}
 	//自定义分页

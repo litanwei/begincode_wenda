@@ -12,9 +12,9 @@ function statisticalPro(status){
 		var buttons = this;
 		var urls;
 		if(buttons.id==null){
-			urls="/problem/load/load/"+problem_id+".htm";
+			urls=ctx+"/problem/load/load/"+problem_id+".htm";
 		}else{
-			urls="/problem/click/"+buttons.id+"/"+problem_id+".htm";
+			urls=ctx+"/problem/click/"+buttons.id+"/"+problem_id+".htm";
 		}
 		$.ajax({
 			type : "POST",
@@ -46,7 +46,7 @@ function statisticalPro(status){
 function statisticalProView(problem_id){
 	$.ajax({
 		type:"GET",
-		url:"/problem/view/"+problem_id+".htm",
+		url:ctx+"/problem/view/"+problem_id+".htm",
 		dataType : "JSON",
 		success: function(data){
 			$("#viewNumber").html(data.data);
