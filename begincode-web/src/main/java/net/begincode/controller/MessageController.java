@@ -40,7 +40,7 @@ public class MessageController {
 	@AuthPassport
 	@RequestMapping(value="/messageremind",method=RequestMethod.POST)
 	@ResponseBody
-	public Object getpage(HttpServletRequest request,HttpServletResponse response){
+	public Object getPage(HttpServletRequest request,HttpServletResponse response){
 		/**
 		 * user_id=当前用户id
 		 * nowpage=当前页面
