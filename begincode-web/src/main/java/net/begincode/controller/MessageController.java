@@ -1,88 +1,70 @@
 package net.begincode.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import net.begincode.bean.Page;
 import net.begincode.core.handler.AccountContext;
 import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.model.MessageRemind;
 import net.begincode.core.support.AuthPassport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RequestMapping("/message")
 @Controller
 public class MessageController {
-	
-	private Logger logger = LoggerFactory.getLogger(DemoController.class);
-	
-	@Resource
-	private MessageHandler messageHandler;
-	@Resource
-	private AccountContext accountContext;
-	
-	/**
-	 * 获取message信息
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@AuthPassport
-	@RequestMapping(value="/messageremind",method=RequestMethod.POST)
-	@ResponseBody
-	public Object getpage(HttpServletRequest request,HttpServletResponse response){
-		/**
-		 * user_id=当前用户id
-		 * nowpage=当前页面
-		 * pagesize=分页大小 默认设置为15
-		 */
-		BegincodeUser begincodeUser;
-		try {
-			begincodeUser=accountContext.getCurrentUser(request);
-		} catch (Exception e) {
-			System.out.println("错误的用户请求");
-			return "";
-		}
-		Integer user_id=begincodeUser.getBegincodeUserId();
-		Integer nowpage=Integer.valueOf(request.getParameter("nowpage"));
-		Integer pagesize=null;
-		List<MessageRemind> ls=messageHandler.selectByMessageRemind(user_id, nowpage, pagesize);
-		return ls;
-	}
-	/*
-	 * 改变message表的已读状态
-	 */
-	@AuthPassport
-	@RequestMapping(value = "/{message_id}",method = RequestMethod.POST)
-	public void monitoringMessageClick(@PathVariable("message_id") int message_id){
-		try {
-			messageHandler.updatemessagedelete(message_id);
-		} catch (Exception e) {
-			logger.warn("message表已读状态修改出错");
-		}
-	}
 
-	/**
-	 * 获得message总数据数
-	 * @param request
-	 * @return
-	 */
-	@AuthPassport
-	@RequestMapping(value="/pagesize",method=RequestMethod.POST)
-	@ResponseBody
-	public Object countMessage(HttpServletRequest request){
-		BegincodeUser begincodeUser;
-		begincodeUser=accountContext.getCurrentUser(request);
-		return messageHandler.countByMessageRemind(begincodeUser.getBegincodeUserId());
-	}
+    private Logger logger = LoggerFactory.getLogger(DemoController.class);
+
+    @Resource
+    private MessageHandler messageHandler;
+    @Resource
+    private AccountContext accountContext;
+
+    @AuthPassport
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public Object findMessage(HttpServletRequest request, @RequestParam(value = "page") Integer currentPage) {
+        Page<Object> page = new Page<>();
+        page.setCurrentNum(currentPage);
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        messageHandler.selectMessageByUserId(begincodeUser.getBegincodeUserId(), page);
+        return page;
+    }
+
+    /**
+     * 进入此方法 根据问题id 更改消息表中的删除状态 为已读
+     *
+     * @param request
+     * @param problemId
+     * @return
+     */
+    @AuthPassport
+    @RequestMapping(value = "/problem/{id}", method = RequestMethod.GET)
+    public Object updateMessageByProblemId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId) {
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        messageHandler.updateMessageByProblemId(begincodeUser.getBegincodeUserId(), problemId);
+        return "redirect:/problem/" + problemId + ".htm";
+    }
+
+    /**
+     * 进入此方法 根据回答id 更改消息表中的删除状态 为已读
+     *
+     * @param request
+     * @param problemId
+     * @param answerId
+     * @return
+     */
+    @AuthPassport
+    @RequestMapping(value = "/answer/{id}", method = RequestMethod.GET)
+    public Object updateMessageByAnswerId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId, @RequestParam(value = "answerId") Integer answerId) {
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        messageHandler.updateMessageByAnswerId(begincodeUser.getBegincodeUserId(), answerId);
+        return "redirect:/problem/" + problemId + ".htm";
+    }
+
+
 }

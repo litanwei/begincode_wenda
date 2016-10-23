@@ -25,6 +25,16 @@ public class AnswerService {
 
 
     /**
+     * 根据标识查找回答实体
+     *
+     * @param answerId
+     * @return
+     */
+    public Answer findByAnswerId(Integer answerId) {
+        return answerMapper.selectByPrimaryKey(answerId);
+    }
+
+    /**
      * 传入问题id 返回对应的回答数
      *
      * @param problemId
@@ -160,6 +170,7 @@ public class AnswerService {
 
     /**
      * 根据nickName返回回答集合
+     *
      * @param nickName
      * @param currentNum
      * @param eachSize

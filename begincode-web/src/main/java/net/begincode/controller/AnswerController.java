@@ -49,7 +49,7 @@ public class AnswerController {
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
         answer = answerHandler.creatAnswer(answer);
-        messageHandler.createMessage(null,answer.getAnswerId(),answer.getContent());
+        messageHandler.createMessage(null, answer.getAnswerId(), answer.getContent());
         return answer;
     }
 
@@ -78,6 +78,6 @@ public class AnswerController {
     @ResponseBody
     public Object answerAdopt(int answerId, HttpServletRequest request) {
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        return  answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
+        return answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }

@@ -51,7 +51,7 @@ public class LabelController {
 
 		List<ProblemLabelParam> proLabel = problemLabelHandler.getLabelByLabelId(labelId);
 		model.addAttribute("proLabel",proLabel);
-		model.addAttribute("label",labelHandler.getLabelById(labelId));
+//		model.addAttribute("label",labelHandler.getLabelById(labelId));
 		return "question_list";
 	}
 

@@ -42,7 +42,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.code == 0) {
                     answerHtml("hisAnswers", data.data);
-                    userPagination(data.data, "/answer/" + name, "hisAnswers", "GET");
+                    userAnswerPagination(data.data, "/answer/" + name, "hisAnswers", "GET");
                 }
             }
         });

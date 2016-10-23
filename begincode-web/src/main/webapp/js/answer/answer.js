@@ -97,7 +97,7 @@ function updateAnswer(data,id) {
         +'<ul class="list-inline mb0">'
         +'<li>'
         +'<td>'
-        + formatTime(null,1,null,data.data.createTime)
+        + formatTime(data.data.userName,1,data.data.userName,data.data.createTime)
         + '</td>'
         +'<span class="text-muted"></span>'
         +'</li>'
