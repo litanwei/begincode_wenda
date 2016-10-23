@@ -72,6 +72,9 @@
     </c:forEach>
             </div>
         </div>
+        <div class="list-group">
+        <a class='list-group-item disabled'>最活跃用户</a>
+    </div>
     </div>
 
 </div>
@@ -85,8 +88,12 @@
 <script src="${ctx}/js/commons/jqpagination.js"></script>
 <script src="${ctx}/js/problem/problem.js"></script>
 
-
+<!-- 获取热门标签 、查询标签-->
+<script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
+<!-- 页面加载事件 -->
+<script type="text/javascript" src="../js/onLoad.js"></script>
 </body>
+
 </html>
 
 
