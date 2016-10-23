@@ -76,7 +76,7 @@ $(function(){
 	    $("#paginationId").empty();
 	    $("#paginationId").jqPaginator({
 	    	totalCounts: countpage,
-	    	pageSize:15,
+	    	pageSize:10,
 	    	visiblePages: 4,
 	        first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
 	        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',

@@ -55,7 +55,7 @@ public class MessageController {
 		}
 		Integer user_id=begincodeUser.getBegincodeUserId();
 		Integer nowpage=Integer.valueOf(request.getParameter("nowpage"));
-		Integer pagesize=null;
+		Integer pagesize=null;//这里的null可以通过值传递分页大小 否则就用默认10页 在handler控制默认分页大小
 		List<MessageRemind> ls=messageHandler.selectByMessageRemind(user_id, nowpage, pagesize);
 		return ls;
 	}

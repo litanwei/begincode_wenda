@@ -31,7 +31,7 @@ public class MessageHandler {
 			return null;
 		}
 		if(pagesize==null){
-			pagesize=15;
+			pagesize=10;
 		}
 		if(nowpage==1){
 			nowpage=0;
