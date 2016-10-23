@@ -25,11 +25,14 @@
 <body>
 
 <jsp:include page="/page/core/top.jsp"/>
+<div class="container-fluid">
+
+
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
                                               data-toggle="tab">${label}</a></li>
 </ul>
-<div>
+<div class="row">
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
             <div class="container-fluid">
@@ -62,8 +65,7 @@
 						<h2 class="title l"><a href="#">${pl.problem.title}</a></h2>
 
         <c:forEach items="${pl.labell}" var="p" varStatus="varStau">
-										<a href="" target="_blank" class="list-tag">${p.labelName}</a><a href="'/label/selectProblemLabel.htm?id='+${p.labelId}" target="_blank"
-                                                                                               class="list-tag">css</a>
+										<a href="'/label/selectProblemLabel.htm?id='${p.labelId}" target="_blank" class="list-tag">${p.labelName}</a>
         </c:forEach>
 								</span>
             </div>
@@ -72,11 +74,20 @@
     </c:forEach>
             </div>
         </div>
-        <div class="list-group">
-        <a class='list-group-item disabled'>最活跃用户</a>
     </div>
-    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">热门标签</h3>
+        </div>
+        <div class="panel-body">
+				    <span class="tag-list" id="labelBody">
 
+					</span>
+        </div>
+        </div>
+    </div>
+</div>
 </div>
 
 
@@ -89,9 +100,36 @@
 <script src="${ctx}/js/problem/problem.js"></script>
 
 <!-- 获取热门标签 、查询标签-->
-<script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
+<script type="text/javascript">
+    function getLabels(){
+
+        $.ajax({
+            type: 'POST',
+            url: "getLabel.htm" ,
+            success: function(data){
+
+                var list = data.data;
+                if(list != null && list != ""){
+
+                    for (var i = 0; i < list.length; i++) {
+                        $(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+                    }
+
+                }
+            } ,
+            dataType: 'json'
+        });
+    }
+    function selectLabel(id){
+        window.location.href="/label/selectProblemLabel.htm?id="+id;
+    }
+</script>
 <!-- 页面加载事件 -->
-<script type="text/javascript" src="../js/onLoad.js"></script>
+<script type="text/javascript" >
+    window.onload=function(){
+        getLabels();
+    };
+</script>
 </body>
 
 </html>
