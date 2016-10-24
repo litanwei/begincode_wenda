@@ -24,6 +24,13 @@ public class MessageController {
     @Resource
     private AccountContext accountContext;
 
+    /**
+     * 消息入口 @ 我的消息列表
+     *
+     * @param request
+     * @param currentPage
+     * @return
+     */
     @AuthPassport
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody

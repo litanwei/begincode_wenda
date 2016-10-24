@@ -30,6 +30,23 @@ function messageHtml(data,id) {
             } else {
                 solve = '<div class="answers solved">' +  numFormat(data[i].answerCount) + '<small>解决</small></div>';
             }
+            var titleSub = "";
+            if(data[i].title.length>30){
+                titleSub = '<h2 class="title l"><a href="/message/problem/'
+                    + data[i].problemId + ".htm"
+                    + '"data-toggle="tooltip" data-placement="top" title='
+                    + data[i].title
+                    + '>'
+                    + data[i].title.substring(0,30);
+                    + '</a></h2>';
+            }else{
+                titleSub = '<h2 class="title l"><a href="/message/problem/'
+                    + data[i].problemId + '.htm'
+                    + '" data-toggle="tooltip" data-placement="top">'
+                    + data[i].title;
+                    + '</a></h2>';
+            }
+
             var problemList = '<section class="stream-list__item">'
                 + '<div class="qa-rank">'
                 + '<div class="votes plus hidden-xs">'
@@ -51,18 +68,36 @@ function messageHtml(data,id) {
                 + '</li>'
                 + '</ul>'
                 + '<span class="keyword-list ">'
-                + '<h2 class="title l"><a href="/message/problem/'
-                + data[i].problemId + ".htm"
-                + '">'
-                + data[i].title
-                + '</a></h2>'
+                + titleSub
                 + '</span></div></section>';
             $("#" +id).append(problemList);
         }else{
+            var contentSub="";
             if (data[i].adopt == 0) {
                 adoptDiv = '<div class="answers">0<small>未采纳</small></div>';
             } else {
                 adoptDiv = '<div class="answers solved">1<small>被采纳</small></div>';
+            }
+            if(data[i].content.length>30){
+                contentSub='<h2 class="title l">'
+                + '<a href="/message/answer/'
+                + data[i].problemId
+                + '.htm'
+                + '?answerId='+data[i].answerId
+                + '"data-toggle="tooltip" data-placement="top" title="'
+                + data[i].content
+                + '">'
+                + data[i].content.substring(0,30)
+                + '</a></h2>';
+            }else{
+                contentSub = '<h2 class="title l">'
+                    + '<a href="/message/answer/'
+                    + data[i].problemId
+                    + '.htm'
+                    + '?answerId='+data[i].answerId
+                    + '"data-toggle="tooltip" data-placement="top">'
+                    + data[i].content
+                    + '</a></h2>';
             }
             var answerList = '<section class="stream-list__item">'
                 + '<div class="qa-rank">'
@@ -85,18 +120,12 @@ function messageHtml(data,id) {
                 + '</li>'
                 + '</ul>'
                 + '<span class="keyword-list ">'
-                + '<h2 class="title l">'
-                + '<a href="/message/answer/'
-                + data[i].problemId
-                + '.htm'
-                + '?answerId='+data[i].answerId
-                + '">'
-                + data[i].content
-                + '</a></h2>'
+                + contentSub
                 + '</span>'
                 + '</div>'
                 + '</section>';
             $("#" + id).append(answerList);
+            $("[data-toggle='tooltip']").tooltip();
         }
     })
 }

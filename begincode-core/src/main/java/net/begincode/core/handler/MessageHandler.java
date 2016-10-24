@@ -77,8 +77,8 @@ public class MessageHandler {
             if (message.getAnswerId() != 0) {
                 Answer answer = answerService.findByAnswerId(message.getAnswerId());
                 String content = JsoupUtil.replaceContent(answer.getContent());
-                if (content.length() > 35) {
-                    answer.setContent(content.substring(0, 35));
+                if (content.length() > 200) {
+                    answer.setContent(content.substring(0, 200));
                 } else {
                     answer.setContent(content);
                 }
@@ -86,8 +86,8 @@ public class MessageHandler {
             } else {
                 Problem problem = problemService.selProblemById(message.getProId());
                 String content = JsoupUtil.replaceContent(problem.getContent());
-                if (content.length() > 35) {
-                    problem.setTitle(content.substring(0, 35));
+                if (content.length() > 200) {
+                    problem.setTitle(content.substring(0, 200));
                 } else {
                     problem.setTitle(content);
                 }

@@ -32,6 +32,7 @@ public class MessageService {
      */
     public List<Message> findMessByUserId(Integer userId, Integer currentNum, Integer eachSize) {
         MessageExample messageExample = new MessageExample();
+        messageExample.setOrderByClause("message_id desc");
         MessageExample.Criteria criteria = messageExample.createCriteria();
         criteria.andDeleteFlagEqualTo(0);
         criteria.andBegincodeUserIdEqualTo(userId);

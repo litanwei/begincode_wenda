@@ -14,46 +14,46 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.begincode.core.param.ProblemLabelParam;
+
 @RequestMapping("/label")
 @Controller
 public class LabelController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	@Resource
-	private LabelHandler labelHandler;
+    @Resource
+    private LabelHandler labelHandler;
 
-	@Resource
-	private ProblemLabelHandler problemLabelHandler;
+    @Resource
+    private ProblemLabelHandler problemLabelHandler;
 
 
-   	/**
-	 * 获取所有标签
-	 * @return List
-	 */
-	@RequestMapping("/getLabel")
-	@ResponseBody
-	public Object getLabel() {
-
-		List<Label> list = new ArrayList<Label>();
-		logger.info("开始查询标签");
-		list = labelHandler.getAllLabel();
-		logger.info("查询标签完毕");
-		return list;
-	}
+    /**
+     * 获取所有标签
+     *
+     * @return List
+     */
+    @RequestMapping("/getLabel")
+    @ResponseBody
+    public Object getLabel() {
+        List<Label> list = new ArrayList<Label>();
+        list = labelHandler.getAllLabel();
+        return list;
+    }
 
     /**
      * 查询标签下的问题
      */
-	@RequestMapping("/selectProblemLabel")
-	public String selectLabel(@RequestParam("id") Integer labelId, Model model) {
+    @RequestMapping("/selectProblemLabel")
+    public String selectLabel(@RequestParam("id") Integer labelId, Model model) {
 
-		List<ProblemLabelParam> proLabel = problemLabelHandler.getLabelByLabelId(labelId);
-		model.addAttribute("proLabel",proLabel);
+        List<ProblemLabelParam> proLabel = problemLabelHandler.getLabelByLabelId(labelId);
+        model.addAttribute("proLabel", proLabel);
 //		model.addAttribute("label",labelHandler.getLabelById(labelId));
-		return "question_list";
-	}
+        return "question_list";
+    }
 
 
 }

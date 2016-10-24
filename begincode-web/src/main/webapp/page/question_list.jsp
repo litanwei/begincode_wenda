@@ -94,7 +94,6 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/messages/messageremind.js"></script>
 <script src="${ctx}/js/commons/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>
