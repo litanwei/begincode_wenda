@@ -8,8 +8,8 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.junit.Before;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import net.begincode.core.model.ProAttention;
 import net.begincode.core.model.ProblemsStatistical;
@@ -25,7 +25,7 @@ public class ProblemVariate {
     public void setProAttentionService(ProAttentionService proAttentionService) {
         ProblemVariate.proAttentionService = proAttentionService;
     }
-
+    @Before
     public static Map<Integer, Set<Integer>> getChangeMap() {
         if (changeMap == null) {
             changeMap = new HashMap<Integer, Set<Integer>>();
@@ -82,9 +82,6 @@ public class ProblemVariate {
 
     //更新本地数据
     public static void updateMap() {
-    	if(changeMap==null){
-    		changeMap=getChangeMap();
-    	}
         Set<Integer> k = changeMap.keySet();
         for (Integer problem_id : k) {
             Set<Integer> changes = changeMap.get(problem_id);
