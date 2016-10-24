@@ -14,7 +14,7 @@ public interface Biz_ProAttentionMapper extends ProAttentionMapper {
 	
 	int updateByProattention(ProAttention proAttention);
 	
-	int updateByProblemViewS(@Param("views")Integer views,@Param("problem_id")Integer problem_id);
+	int updateByProblemCounts(@Param("views")Integer views,@Param("votes")Integer votes,@Param("collects")Integer collects,@Param("problem_id")Integer problem_id);
 
 	/**
 	 * 根据userId返回用户收藏的问题总数

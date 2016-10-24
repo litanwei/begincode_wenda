@@ -32,8 +32,8 @@
 		collect = #{collect,jdbcType=TINYINT}
 		WHERE problem_id =#{problemId} AND begincode_user_id=#{begincodeUserId}
 	</update>
-    <update id="updateByProblemViewS">
-		UPDATE problem set view_count=#{views} where problem_id=#{problem_id}
+    <update id="updateByProblemCounts">
+		UPDATE problem set view_count=#{views},vote_count=#{votes},collect_count=#{collects} where problem_id=#{problem_id}
 	</update>
     <select id="selectCollectNumByUserId" parameterType="java.lang.Integer"
             resultType="java.lang.Integer">

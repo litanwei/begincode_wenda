@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import net.begincode.core.mapper.Biz_ProAttentionMapper;
@@ -29,8 +30,8 @@ public class ProAttentionService {
 		return biz_ProAttentionMapper.updateByProattention(proAttention);
 	}
 	
-	public int updateByProblemViewS(Integer views,Integer problem_id){
-		return biz_ProAttentionMapper.updateByProblemViewS(views, problem_id);
+	public int updateByProblemViewS(Integer views,Integer votes,Integer collects,Integer problem_id){
+		return biz_ProAttentionMapper.updateByProblemCounts(views,votes,collects,problem_id);
 	}
 	public int insert(ProAttention record){
 		return proAttentionMapper.insert(record);

@@ -98,7 +98,7 @@ public class ProblemVariate {
                     proAttentionService.insert(p);
                 }
             }
-            proAttentionService.updateByProblemViewS(localmap.get(problem_id).getViews(), problem_id);
+            proAttentionService.updateByProblemViewS(localmap.get(problem_id).getViews(),localmap.get(problem_id).getVotes().size(), localmap.get(problem_id).getCollections().size(),problem_id);
         }
         changeMap.clear();
     }
