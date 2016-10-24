@@ -82,6 +82,9 @@ public class ProblemVariate {
 
     //更新本地数据
     public static void updateMap() {
+    	if(changeMap==null){
+    		changeMap=getChangeMap();
+    	}
         Set<Integer> k = changeMap.keySet();
         for (Integer problem_id : k) {
             Set<Integer> changes = changeMap.get(problem_id);
