@@ -1,6 +1,5 @@
 package net.begincode.variate;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.springframework.stereotype.Component;
 
+import net.begincode.core.model.LockHashMap;
 import net.begincode.core.model.ProAttention;
 import net.begincode.core.model.ProblemsStatistical;
 import net.begincode.core.service.ProAttentionService;
@@ -28,7 +28,7 @@ public class ProblemVariate {
     @Before
     public static Map<Integer, Set<Integer>> getChangeMap() {
         if (changeMap == null) {
-            changeMap = new HashMap<Integer, Set<Integer>>();
+            changeMap = new LockHashMap<Integer, Set<Integer>>();
         }
         return changeMap;
     }
@@ -41,7 +41,7 @@ public class ProblemVariate {
         if (localmap == null) {
             List<ProAttention> lsv = proAttentionService.statisticsByProblem("v");
             List<ProAttention> lsc = proAttentionService.statisticsByProblem("c");
-            localmap = new HashMap<Integer, ProblemsStatistical>();
+            localmap = new LockHashMap<Integer, ProblemsStatistical>();
             for (ProAttention p : lsv) {
                 isInLocalMap(p.getProblemId());
                 localmap.get(p.getProblemId()).getVotes().add(p.getBegincodeUserId());
