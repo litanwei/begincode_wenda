@@ -280,7 +280,7 @@
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
-<script src="${ctx}/js/problem/problemView.js"></script>
+<script src="${ctx}/js/problem/problemDetail.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 </body>
 </html>

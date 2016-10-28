@@ -1,6 +1,8 @@
 package net.begincode.controller;
 
 import net.begincode.bean.Page;
+import net.begincode.core.enums.CollectEnum;
+import net.begincode.core.enums.VoteEnum;
 import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
@@ -213,15 +215,15 @@ public class ProblemController {
      */
     private ProAttention setProAttention(BegincodeUser begincodeUser, Problem problem) {
         ProAttention proAttention = countMapHandler.findOrCreateProAtt(problem.getProblemId(), begincodeUser.getBegincodeUserId());
-        countMapHandler.updateVoteCollQueue();  //更新队列中的数据进map
+        countMapHandler.updateVoteCollQueue();  //手动调用  更新队列中的数据进map
         //此时 如果map中有数据 说明还没有进入数据库中
         if (countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId()) != null) {
             Integer vote = countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId());
             proAttention.setVote(vote);
-            if (vote == 1) {
+            if (vote == Integer.parseInt(VoteEnum.VOTE.getCode())) {
                 Integer newVoteCount = problem.getVoteCount() + 1;
                 problem.setVoteCount(newVoteCount);
-            } else if (vote == 0 && proAttention.getVote() == 1) {
+            } else if (vote == Integer.parseInt(VoteEnum.NO_VOTE.getCode()) && proAttention.getVote() == Integer.parseInt(VoteEnum.VOTE.getCode())) {
                 Integer newVoteCount = problem.getVoteCount() - 1;
                 problem.setVoteCount(newVoteCount);
             }
@@ -230,10 +232,10 @@ public class ProblemController {
             Integer collect = countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId());
             if (collect != null) {
                 proAttention.setCollect(collect);
-                if (collect == 1) {
+                if (collect == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                     Integer newCollectCount = problem.getCollectCount() + 1;
                     problem.setCollectCount(newCollectCount);
-                } else if (collect == 0 && proAttention.getCollect() == 1) {
+                } else if (collect == Integer.parseInt(CollectEnum.NO_COLLECT.getCode()) && proAttention.getCollect() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                     Integer newCollectCount = problem.getCollectCount() - 1;
                     problem.setCollectCount(newCollectCount);
                 }

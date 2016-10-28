@@ -1,7 +1,9 @@
 package net.begincode.core.handler;
 
 import net.begincode.common.BizException;
+import net.begincode.core.enums.CollectEnum;
 import net.begincode.core.enums.ProAttResponseEnum;
+import net.begincode.core.enums.VoteEnum;
 import net.begincode.core.model.ProAttention;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.ProAttentionService;
@@ -35,6 +37,7 @@ public class CountMapHandler {
 
 
     public void initViewMap(Integer problemId) {
+        forceViewUpdate();  //判断浏览队列大小是否大于5，大于5则强制更新
         Problem problem = problemService.findByProblemId(problemId);
         if (viewMap.get(problemId) == null) {
             viewMap.put(problemId, problem.getViewCount());
@@ -44,30 +47,39 @@ public class CountMapHandler {
 
     /**
      * 初始化收藏map   key对应的是收藏投票主键 value 是收藏的状态
+     * 返回对应proAttention实体
      *
      * @param problemId
      * @param userId
+     * @return
      */
-    public void initCollMap(Integer problemId, Integer userId) {
+    public ProAttention initCollMap(Integer problemId, Integer userId) {
+        forceCollVoteUpdate(); //判断map中的大小是否大于5 大于则强制更新
         ProAttention proAttention = findOrCreateProAtt(problemId, userId);
         Integer proAttentionId = proAttention.getProAttentionId();
         if (collectMap.get(proAttentionId) == null) {
             collectMap.put(proAttentionId, proAttention.getCollect());
         }
+        updateCollMap();  //清空队列中的数据 进入map
+        return proAttention;
     }
 
     /**
-     * 初始化投票map
+     * 初始化投票map 返回问题id 和用户id 对应的实体
      *
      * @param problemId
      * @param userId
+     * @return
      */
-    public void initVoteMap(Integer problemId, Integer userId) {
+    public ProAttention initVoteMap(Integer problemId, Integer userId) {
+        forceCollVoteUpdate(); //判断map中的大小是否大于5 大于则强制更新
         ProAttention proAttention = findOrCreateProAtt(problemId, userId);
         Integer proAttentionId = proAttention.getProAttentionId();
         if (voteMap.get(proAttentionId) == null) {
             voteMap.put(proAttentionId, proAttention.getVote());
         }
+        updateVoteMap(); //清空队列中的数据 进入map
+        return proAttention;
     }
 
     /**
@@ -155,9 +167,9 @@ public class CountMapHandler {
         while (voteIterator.hasNext()) {
             Map.Entry<Integer, Integer> entry = voteIterator.next();
             Problem problem = problemService.selProblemById(proAttentionService.selectById(entry.getKey()).getProblemId());
-            if (entry.getValue() == 1) {
+            if (entry.getValue() == Integer.parseInt(VoteEnum.VOTE.getCode())) {
                 problemService.updateVoteByProId(problem.getProblemId(), problem.getVoteCount() + 1);
-            } else if (entry.getValue() == 0) {
+            } else if (entry.getValue() == Integer.parseInt(VoteEnum.NO_VOTE.getCode())) {
                 if (proAttentionService.selectById(entry.getKey()).getVote() == 1) {
                     problemService.updateVoteByProId(problem.getProblemId(), problem.getVoteCount() - 1);
                 }
@@ -196,10 +208,10 @@ public class CountMapHandler {
         while (collectIterator.hasNext()) {
             Map.Entry<Integer, Integer> entry = collectIterator.next();
             Problem problem = problemService.selProblemById(proAttentionService.selectById(entry.getKey()).getProblemId());
-            if (entry.getValue() == 1) {
+            if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                 problemService.updateCollByProId(problem.getProblemId(), problem.getCollectCount() + 1);
-            } else if (entry.getValue() == 0) {
-                if (proAttentionService.selectById(entry.getKey()).getCollect() == 1) {
+            } else if (entry.getValue() == Integer.parseInt(CollectEnum.NO_COLLECT.getCode())) {
+                if (proAttentionService.selectById(entry.getKey()).getCollect() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                     problemService.updateCollByProId(problem.getProblemId(), problem.getCollectCount() - 1);
                 }
             }

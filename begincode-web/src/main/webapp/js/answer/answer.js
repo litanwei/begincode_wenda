@@ -100,7 +100,7 @@ function updateAnswer(data, id) {
         + '<ul class="list-inline mb0">'
         + '<li>'
         + '<td>'
-        + formatTime(data.data.userName, 1, data.data.userName, data.data.createTime)
+        + formatTime(data.data.createTime)+'回答'
         + '</td>'
         + '<span class="text-muted"></span>'
         + '</li>'
