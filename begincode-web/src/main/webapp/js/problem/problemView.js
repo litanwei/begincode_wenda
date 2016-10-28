@@ -51,7 +51,7 @@ $(document).ready(function () {
                         $("#voteNumber").html((parseInt(voteNum) + 1));
                     }
                     if (data.data == 0) {
-                        $("#collection").html("投票");
+                        $("#vote").html("投票");
                         var voteNum = $("#voteNumber").html();
                         $("#voteNumber").html((parseInt(voteNum) - 1));
                     }
