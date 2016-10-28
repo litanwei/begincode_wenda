@@ -2,12 +2,14 @@ package net.begincode.core.handler;
 
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
-import net.begincode.core.enums.*;
+import net.begincode.core.enums.AdoptEnum;
+import net.begincode.core.enums.AnswerResponseEnum;
+import net.begincode.core.enums.FeedbackEnum;
+import net.begincode.core.enums.SolveEnum;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.AnswerService;
 import net.begincode.core.service.ProblemService;
-import net.begincode.utils.JsoupUtil;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 

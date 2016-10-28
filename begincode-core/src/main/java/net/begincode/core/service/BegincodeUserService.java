@@ -103,7 +103,6 @@ public class BegincodeUserService {
      * @return BegincodeUser
      */
     public BegincodeUser findUserByOpenId(String openId) {
-        if(StringUtils.isNotEmpty(openId)){
             BegincodeUser begincodeUser = new BegincodeUser();
             BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
             begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
@@ -116,12 +115,6 @@ public class BegincodeUserService {
             }else{
                 return null;
             }
-        }else{
-            logger.error(" accessToken ,openId  不能为空 ");
-            throw new BizException(OpenIdResponseEnum.OPENID_FIND_ERROR);
-
-        }
-
     }
 
 }

@@ -3,12 +3,16 @@ package net.begincode.core.handler;
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.MessageResponseEnum;
-import net.begincode.core.model.*;
+import net.begincode.core.model.Answer;
+import net.begincode.core.model.BegincodeUser;
+import net.begincode.core.model.Message;
+import net.begincode.core.model.Problem;
 import net.begincode.core.service.AnswerService;
 import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.service.MessageService;
 import net.begincode.core.service.ProblemService;
 import net.begincode.utils.JsoupUtil;
+import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static net.begincode.utils.PatternUtil.filterNickName;
 
 @Component
 public class MessageHandler {
@@ -132,7 +135,7 @@ public class MessageHandler {
      * @return 用户id数组
      */
     private Integer[] contentFilter(String content) {
-        Set<String> stringSet = filterNickName(content);
+        Set<String> stringSet = PatternUtil.filterNickName(content);
         int i = 0;
         Integer[] userId = new Integer[stringSet.size()];
         if (stringSet != null && stringSet.size() > 0) {

@@ -252,5 +252,86 @@ public class ProblemService {
         return problemMapper.countByExample(problemExample);
     }
 
+    /**
+     * 根据问题id 修改收藏 浏览 投票数
+     *
+     * @param problemId
+     * @param view
+     * @param collect
+     * @param vote
+     * @return
+     */
+    public Integer updateVoteCollByProId(Integer problemId, Integer view, Integer collect, Integer vote) {
+        Problem problem = new Problem();
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        problem.setViewCount(view);
+        problem.setCollectCount(collect);
+        problem.setVoteCount(vote);
+        return problemMapper.updateByExampleSelective(problem, problemExample);
+    }
+
+    /**
+     * 根据问题id 修改浏览次数
+     *
+     * @param problemId
+     * @param view
+     * @return
+     */
+    public Integer updateViewByProId(Integer problemId,Integer view){
+        Problem problem = new Problem();
+        problem.setViewCount(view);
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        return problemMapper.updateByExampleSelective(problem,problemExample);
+    }
+
+    /**
+     * 根据问题id修改收藏数
+     *
+     * @param problemId
+     * @param collectCount
+     * @return
+     */
+    public Integer updateCollByProId(Integer problemId,Integer collectCount){
+        Problem problem = new Problem();
+        problem.setCollectCount(collectCount);
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        return problemMapper.updateByExampleSelective(problem,problemExample);
+    }
+
+    /**
+     * 根据问题id修改投票次数
+     *
+     * @param problemId
+     * @param voteCount
+     * @return
+     */
+    public Integer updateVoteByProId(Integer problemId,Integer voteCount){
+        Problem problem = new Problem();
+        problem.setVoteCount(voteCount);
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andProblemIdEqualTo(problemId);
+        return problemMapper.updateByExampleSelective(problem,problemExample);
+    }
+
+
+
+
+    /**
+     * 通过问题id查找问题
+     *
+     * @param problemId
+     * @return
+     */
+    public Problem findByProblemId(Integer problemId) {
+        return problemMapper.selectByPrimaryKey(problemId);
+    }
+
 
 }

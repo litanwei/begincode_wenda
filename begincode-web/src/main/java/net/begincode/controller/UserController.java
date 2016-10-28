@@ -6,6 +6,8 @@ import net.begincode.core.handler.*;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BizFrontProblem;
+import net.begincode.core.model.ProAttention;
+import net.begincode.core.support.AuthPassport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +47,8 @@ public class UserController {
     private ProAttentionHandler proAttentionHandler;
     @Resource
     private LabelHandler labelHandler;
+
+
 
     /**
      * summernote @提示获取后台用户
@@ -136,22 +141,22 @@ public class UserController {
     public Object echartsCreate(@PathVariable(value = "nickName") String nickName) {
         Map map = new HashMap<>();
         map.put("label", labelHandler.selLabelNameListByNickName(nickName));
-        map.put("seriesData",labelHandler.selLabelUseNumByNickName(nickName));
+        map.put("seriesData", labelHandler.selLabelUseNumByNickName(nickName));
         return map;
     }
 
 
     /**
-	 * 活跃用户
-	 */
-	@RequestMapping("activer")
+     * 活跃用户
+     */
+    @RequestMapping("activer")
     @ResponseBody
     public Object activeUser() {
 
-		List<BegincodeUser> list = userHandler.selectActiveUser();
+        List<BegincodeUser> list = userHandler.selectActiveUser();
 
-		return list;
-	}
+        return list;
+    }
 
     /**
      * qq查找或注册用户
@@ -173,4 +178,6 @@ public class UserController {
     public void cleanUser(HttpServletResponse response) {
         CookieOperation.delCookie(response);
     }
+
+
 }

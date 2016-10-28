@@ -1,5 +1,6 @@
 package net.begincode.core.handler;
 
+import net.begincode.core.model.ProAttention;
 import net.begincode.core.service.ProAttentionService;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,10 @@ public class ProAttentionHandler {
      */
     public Integer selectCollectNumByUserId(Integer userId){
         return proAttentionService.selectCollectNumByUserId(userId);
+    }
+
+    public ProAttention selectProAttById(Integer problemId, Integer userId){
+        return proAttentionService.selectProAttentionById(problemId,userId);
     }
 
 
