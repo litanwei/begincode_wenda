@@ -279,13 +279,13 @@ public class ProblemService {
      * @param view
      * @return
      */
-    public Integer updateViewByProId(Integer problemId,Integer view){
+    public Integer updateViewByProId(Integer problemId, Integer view) {
         Problem problem = new Problem();
         problem.setViewCount(view);
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem,problemExample);
+        return problemMapper.updateByExampleSelective(problem, problemExample);
     }
 
     /**
@@ -295,13 +295,13 @@ public class ProblemService {
      * @param collectCount
      * @return
      */
-    public Integer updateCollByProId(Integer problemId,Integer collectCount){
+    public Integer updateCollByProId(Integer problemId, Integer collectCount) {
         Problem problem = new Problem();
         problem.setCollectCount(collectCount);
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem,problemExample);
+        return problemMapper.updateByExampleSelective(problem, problemExample);
     }
 
     /**
@@ -311,16 +311,14 @@ public class ProblemService {
      * @param voteCount
      * @return
      */
-    public Integer updateVoteByProId(Integer problemId,Integer voteCount){
+    public Integer updateVoteByProId(Integer problemId, Integer voteCount) {
         Problem problem = new Problem();
         problem.setVoteCount(voteCount);
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem,problemExample);
+        return problemMapper.updateByExampleSelective(problem, problemExample);
     }
-
-
 
 
     /**

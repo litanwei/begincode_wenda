@@ -56,6 +56,12 @@ public class CountMapHandler {
         }
     }
 
+    /**
+     * 初始化投票map
+     *
+     * @param problemId
+     * @param userId
+     */
     public void initVoteMap(Integer problemId, Integer userId) {
         ProAttention proAttention = findOrCreateProAtt(problemId, userId);
         Integer proAttentionId = proAttention.getProAttentionId();
@@ -64,6 +70,13 @@ public class CountMapHandler {
         }
     }
 
+    /**
+     * 查找实体 如果未找到 则创建
+     *
+     * @param problemId
+     * @param userId
+     * @return
+     */
     @Transactional
     public ProAttention findOrCreateProAtt(Integer problemId, Integer userId) {
         ProAttention proAttention = proAttentionService.selectProAttentionById(problemId, userId);
@@ -239,7 +252,7 @@ public class CountMapHandler {
 
 
     /**
-     *  一个问题id 增加一次浏览量
+     * 一个问题id 增加一次浏览量
      *
      * @param problemId
      * @return
@@ -249,13 +262,13 @@ public class CountMapHandler {
     }
 
     /**
-     *  增加数据进收藏队列
-     *  例如输入的数据为 1-1-0  第一个为问题id 第二个为用户id 最后一个为状态值
+     * 增加数据进收藏队列
+     * 例如输入的数据为 1-1-0  第一个为问题id 第二个为用户id 最后一个为状态值
      *
      * @param data
      * @return
      */
-    public boolean addCollQueue(String data){
+    public boolean addCollQueue(String data) {
         return collectConcurrentLinkedQueue.add(data);
     }
 
@@ -266,7 +279,7 @@ public class CountMapHandler {
      * @param data
      * @return
      */
-    public boolean addVoteQueue(String data){
+    public boolean addVoteQueue(String data) {
         return voteConcurrentLinkedQueue.add(data);
     }
 
@@ -276,17 +289,17 @@ public class CountMapHandler {
      * @param proAttentionId
      * @return
      */
-    public Integer getMapCollValue(Integer proAttentionId){
+    public Integer getMapCollValue(Integer proAttentionId) {
         return collectMap.get(proAttentionId);
     }
 
     /**
-     * 去投票map中的值
+     * 取投票map中的值
      *
      * @param proAttentionId
      * @return
      */
-    public Integer getMapVoteValue(Integer proAttentionId){
+    public Integer getMapVoteValue(Integer proAttentionId) {
         return voteMap.get(proAttentionId);
     }
 

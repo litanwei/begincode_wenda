@@ -33,59 +33,66 @@ public class BegincodeUserService {
 
     /**
      * 新增BegincodeUser
+     *
      * @param user
      */
-    public void addBegincodeUser(BegincodeUser user){
-    	begincodeUserMapper.insertSelective(user);
+    public void addBegincodeUser(BegincodeUser user) {
+        begincodeUserMapper.insertSelective(user);
     }
 
     /**
      * Id修改修改BegincodeUser
+     *
      * @parm user
      */
-    public void updateBegincodeUserById(BegincodeUser user){
+    public void updateBegincodeUserById(BegincodeUser user) {
         begincodeUserMapper.updateByPrimaryKey(user);
     }
 
     /**
      * 根据标识删除BegincodeUser
-     * @param id  BegincodeUser标识
+     *
+     * @param id BegincodeUser标识
      */
-    public void delBegincodeUserById(Integer id){
+    public void delBegincodeUserById(Integer id) {
         begincodeUserMapper.deleteByPrimaryKey(id);
     }
 
     /**
      * @return 查询所有BegincodeUser列表
      */
-    public List<BegincodeUser> selectAll(){
+    public List<BegincodeUser> selectAll() {
         BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
         return begincodeUserMapper.selectByExample(begincodeUserExample);
     }
 
     /**
      * 根据标识查询BegincodeUser
+     *
      * @param id
      * @return
      */
-    public BegincodeUser selectById(Integer id){
+    public BegincodeUser selectById(Integer id) {
         return begincodeUserMapper.selectByPrimaryKey(id);
     }
 
     /**
      * 获取活跃用户列表
+     *
      * @return
      */
-    
-    public List<BegincodeUser> selectActiveUser(){
+
+    public List<BegincodeUser> selectActiveUser() {
         /** --查询参数，取当前时间的前一个月的时间-- **/
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         Date dateBefore = calendar.getTime();
         return bizBegincodeUserMapper.getActiverUser(dateBefore);
     }
+
     /**
      * 根据nickName查找BegincodeUser
+     *
      * @param nickName
      * @return 不存在返回空 存在就返回此对象
      */
@@ -94,27 +101,28 @@ public class BegincodeUserService {
         BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
         criteria.andNicknameEqualTo(nickName);
         List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
-        return list.size()>0?list.get(0):null;
+        return list.size() > 0 ? list.get(0) : null;
 
     }
 
     /**
      * openId查找用户
+     *
      * @return BegincodeUser
      */
     public BegincodeUser findUserByOpenId(String openId) {
-            BegincodeUser begincodeUser = new BegincodeUser();
-            BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
-            begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
-            List<BegincodeUser> begincodeUserList = begincodeUserMapper.selectByExample(begincodeUserExample);
-            for(int a = 0 ; a <begincodeUserList.size() ; a++ ){
-                begincodeUser = begincodeUserList.get(a);
-            }
-            if(begincodeUser.getAccessToken() != null){
-                return begincodeUser;
-            }else{
-                return null;
-            }
+        BegincodeUser begincodeUser = new BegincodeUser();
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        begincodeUserExample.createCriteria().andOpenIdEqualTo(openId);
+        List<BegincodeUser> begincodeUserList = begincodeUserMapper.selectByExample(begincodeUserExample);
+        for (int a = 0; a < begincodeUserList.size(); a++) {
+            begincodeUser = begincodeUserList.get(a);
+        }
+        if (begincodeUser.getAccessToken() != null) {
+            return begincodeUser;
+        } else {
+            return null;
+        }
     }
 
 }

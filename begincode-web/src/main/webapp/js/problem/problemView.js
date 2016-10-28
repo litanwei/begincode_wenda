@@ -8,7 +8,7 @@ $(document).ready(function () {
         url: ctx + "/view/" + problemId + ".htm",
         dataType: "json",
         success: function (data) {
-            if(data.code != 0){
+            if (data.code != 0) {
                 showModel(data.msg);
             }
         }
@@ -24,14 +24,14 @@ $(document).ready(function () {
                     if (data.data == 1) {
                         $("#collection").html("已收藏");
                         var collectNum = $("#collectionNumber").html();
-                        $("#collectionNumber").html((parseInt(collectNum)+1));
+                        $("#collectionNumber").html((parseInt(collectNum) + 1));
                     }
-                    if(data.data == 0){
+                    if (data.data == 0) {
                         $("#collection").html("收藏");
                         var collectNum = $("#collectionNumber").html();
-                        $("#collectionNumber").html((parseInt(collectNum)-1));
+                        $("#collectionNumber").html((parseInt(collectNum) - 1));
                     }
-                }else {
+                } else {
                     showModel(data.msg);
                 }
             }
@@ -48,14 +48,14 @@ $(document).ready(function () {
                     if (data.data == 1) {
                         $("#vote").html("已投票");
                         var voteNum = $("#voteNumber").html();
-                        $("#voteNumber").html((parseInt(voteNum)+1));
+                        $("#voteNumber").html((parseInt(voteNum) + 1));
                     }
-                    if(data.data == 0){
+                    if (data.data == 0) {
                         $("#collection").html("投票");
                         var voteNum = $("#voteNumber").html();
-                        $("#voteNumber").html((parseInt(voteNum)-1));
+                        $("#voteNumber").html((parseInt(voteNum) - 1));
                     }
-                }else{
+                } else {
                     showModel(data.msg);
                 }
             }

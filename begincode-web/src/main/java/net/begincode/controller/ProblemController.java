@@ -203,9 +203,9 @@ public class ProblemController {
     }
 
     /**
-     *  传进用户实体 和问题实体 返回对应的收藏 或者 投票状态
-     *  这两个状态 我们从map中取  取得时候还要强制更新队列 使map为最新获取的值
-     *   取得value就是用户最近的收藏 或者 投票状态
+     * 传进用户实体 和问题实体 返回对应的收藏 或者 投票状态
+     * 这两个状态 我们从map中取  取得时候还要强制更新队列 使map为最新获取的值
+     * 取得value就是用户最近的收藏 或者 投票状态
      *
      * @param begincodeUser
      * @param problem
@@ -215,7 +215,7 @@ public class ProblemController {
         ProAttention proAttention = countMapHandler.findOrCreateProAtt(problem.getProblemId(), begincodeUser.getBegincodeUserId());
         countMapHandler.updateVoteCollQueue();  //更新队列中的数据进map
         //此时 如果map中有数据 说明还没有进入数据库中
-        if(countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId())!=null){
+        if (countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId()) != null) {
             Integer vote = countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId());
             proAttention.setVote(vote);
             if (vote == 1) {
@@ -226,7 +226,7 @@ public class ProblemController {
                 problem.setVoteCount(newVoteCount);
             }
         }
-        if(countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId())!=null){
+        if (countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId()) != null) {
             Integer collect = countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId());
             if (collect != null) {
                 proAttention.setCollect(collect);
