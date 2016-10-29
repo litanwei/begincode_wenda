@@ -11,30 +11,7 @@
                 jdbcType="INTEGER"/>
         <result column="problem_id" property="problemId" jdbcType="INTEGER"/>
     </resultMap>
-    <select id="statisticsByProblem" resultMap="BaseResultMap">
-        SELECT * FROM pro_attention
-        <where>
-            <if test='_parameter == "v" '>
-                vote=1
-            </if>
-            <if test='_parameter == "c" '>
-                collect=1
-            </if>
-        </where>
-    </select>
-    <select id="selectByViewCount" parameterType="java.lang.Integer"
-            resultType="java.lang.Integer">
-		SELECT view_count FROM problem WHERE problem_id=#{problem_id}
-	</select>
-    <update id="updateByProattention" parameterType="net.begincode.core.model.ProAttention">
-		update pro_attention
-		set vote = #{vote,jdbcType=TINYINT},
-		collect = #{collect,jdbcType=TINYINT}
-		WHERE problem_id =#{problemId} AND begincode_user_id=#{begincodeUserId}
-	</update>
-    <update id="updateByProblemViewS">
-		UPDATE problem set view_count=#{views} where problem_id=#{problem_id}
-	</update>
+
     <select id="selectCollectNumByUserId" parameterType="java.lang.Integer"
             resultType="java.lang.Integer">
 SELECT COUNT(pro_attention.pro_attention_id) FROM problem,pro_attention WHERE pro_attention.begincode_user_id=#{userId} AND pro_attention.collect=1 AND problem.problem_id=pro_attention.problem_id

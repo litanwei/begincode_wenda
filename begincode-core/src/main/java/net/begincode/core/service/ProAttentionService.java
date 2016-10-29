@@ -18,25 +18,6 @@ public class ProAttentionService {
     @Resource
     private ProAttentionMapper proAttentionMapper;
 
-    public List<ProAttention> statisticsByProblem(String condition) {
-        return biz_ProAttentionMapper.statisticsByProblem(condition);
-    }
-
-    public int selectByViewCount(Integer problem_id) {
-        return biz_ProAttentionMapper.selectByViewCount(problem_id);
-    }
-
-    public int updateByProattention(ProAttention proAttention) {
-        return biz_ProAttentionMapper.updateByProattention(proAttention);
-    }
-
-
-    public int insert(ProAttention record) {
-        return proAttentionMapper.insert(record);
-    }
-
-    ;
-
     /**
      * 根据userId返回用户收藏的问题总数
      *
