@@ -62,8 +62,8 @@ function messageHtml(data,id) {
                 + '<div class="summary">'
                 + '<ul class="author list-inline ">'
                 + '<li>'
-                + '<a style="text-decoration:none;">'
-                + formatTime(data[i].userName, data[i].answerCount, data[i].userName,data[i].createTime)
+                + '<a style="text-decoration:none;">'+ data[i].userName +'  '
+                + formatTime(data[i].createTime)
                 + '</a>'
                 + '</li>'
                 + '</ul>'
@@ -114,8 +114,8 @@ function messageHtml(data,id) {
                 + '<div class="summary">'
                 + '<ul class="author list-inline">'
                 + '<li>'
-                + '<a style="text-decoration:none;">'
-                + formatTime(data[i].userName, 1, data[i].userName, data[i].createTime)
+                + '<a style="text-decoration:none;">'+ data[i].userName + '  '
+                + formatTime(data[i].createTime)
                 + '</a>'
                 + '</li>'
                 + '</ul>'

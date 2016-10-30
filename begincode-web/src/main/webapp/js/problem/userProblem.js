@@ -76,9 +76,9 @@ function answerHtml(id, data) {
     var adoptDiv = "";
     $.each(data.data, function (i) {
         if (data.data[i].adopt == 0) {
-            adoptDiv = '<div class="answers">未采纳</div>';
+            adoptDiv = '<div class="answers">0<small>未采纳</small></div>';
         } else {
-            adoptDiv = '<div class="answers solved">被采纳</div>';
+            adoptDiv = '<div class="answers solved">1<small>被采纳</small></div>';
         }
         var answerList = '<div class="tab-content">'
             + '<div role="tabpanel" class="tab-pane active" id="home">'
@@ -98,8 +98,8 @@ function answerHtml(id, data) {
             + '<div class="summary">'
             + '<ul class="author list-inline">'
             + '<li>'
-            + '<a style="text-decoration:none;">'
-            + formatTime(data.data[i].username, 1, data.data[i].username, data.data[i].createTime)
+            + '<a style="text-decoration:none;">' + data.data[i].userName + '  '
+            + formatTime(data.data[i].createTime)
             + '</a>'
             + '</li>'
             + '</ul>'
