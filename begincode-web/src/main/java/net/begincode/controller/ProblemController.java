@@ -13,10 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +43,8 @@ public class ProblemController {
     private CountMapHandler countMapHandler;
     @Resource
     private ProAttentionHandler proAttentionHandler;
+    @Resource
+    private MessageHandler messageHandler;
 
 
     @AuthPassport
@@ -190,9 +189,9 @@ public class ProblemController {
         }
         Problem problem = problemHandler.selectById(problemId);
         if (begincodeUser != null) {
+            //如果是用户进来 则判断用户所是否有收藏或投票此问题
             model.addAttribute("proAttention", setProAttention(begincodeUser, problem));
         }
-        //如果是用户进来 则判断用户所是否有收藏或投票此问题
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
         model.addAttribute("answerAdoptList", answerAdoptList);
         model.addAttribute("newAdoptTime", newAdoptTime);
@@ -205,43 +204,32 @@ public class ProblemController {
     }
 
     /**
-     * 传进用户实体 和问题实体 返回对应的收藏 或者 投票状态
-     * 这两个状态 我们从map中取  取得时候还要强制更新队列 使map为最新获取的值
-     * 取得value就是用户最近的收藏 或者 投票状态
+     * 传入用户 和 问题 实体 首先查找map中有无数据 再查找数据库
      *
      * @param begincodeUser
      * @param problem
      * @return
      */
     private ProAttention setProAttention(BegincodeUser begincodeUser, Problem problem) {
-        ProAttention proAttention = countMapHandler.findOrCreateProAtt(problem.getProblemId(), begincodeUser.getBegincodeUserId());
-        countMapHandler.updateVoteCollQueue();  //手动调用  更新队列中的数据进map
         //此时 如果map中有数据 说明还没有进入数据库中
-        if (countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId()) != null) {
-            Integer vote = countMapHandler.getMapVoteValueByKey(proAttention.getProAttentionId());
-            proAttention.setVote(vote);
-            if (vote == Integer.parseInt(VoteEnum.VOTE.getCode())) {
-                Integer newVoteCount = problem.getVoteCount() + 1;
-                problem.setVoteCount(newVoteCount);
-            } else if (vote == Integer.parseInt(VoteEnum.NO_VOTE.getCode()) && proAttention.getVote() == Integer.parseInt(VoteEnum.VOTE.getCode())) {
-                Integer newVoteCount = problem.getVoteCount() - 1;
-                problem.setVoteCount(newVoteCount);
+        if (countMapHandler.getMapCollValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId()) == null) {
+            return proAttentionHandler.selectProAttById(problem.getProblemId(), begincodeUser.getBegincodeUserId());
+        } else {
+            Integer collState = countMapHandler.getMapCollValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId());
+            Integer voteState = countMapHandler.getMapVoteValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId());
+            ProAttention proAttention = new ProAttention();
+            proAttention.setCollect(collState);
+            proAttention.setVote(voteState);
+            if (collState == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                Integer collCount = problem.getCollectCount();
+                problem.setCollectCount(collCount + 1);
             }
-        }
-        if (countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId()) != null) {
-            Integer collect = countMapHandler.getMapCollValueByKey(proAttention.getProAttentionId());
-            if (collect != null) {
-                proAttention.setCollect(collect);
-                if (collect == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
-                    Integer newCollectCount = problem.getCollectCount() + 1;
-                    problem.setCollectCount(newCollectCount);
-                } else if (collect == Integer.parseInt(CollectEnum.NO_COLLECT.getCode()) && proAttention.getCollect() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
-                    Integer newCollectCount = problem.getCollectCount() - 1;
-                    problem.setCollectCount(newCollectCount);
-                }
+            if (voteState == Integer.parseInt(VoteEnum.VOTE.getCode())) {
+                Integer voteCount = problem.getVoteCount();
+                problem.setVoteCount(voteCount + 1);
             }
+            return proAttention;
         }
-        return proAttention;
     }
 
 

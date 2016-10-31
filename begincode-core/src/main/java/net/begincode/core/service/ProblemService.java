@@ -3,6 +3,7 @@ package net.begincode.core.service;
 import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.FindProResponseEnum;
+import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.ProAttention;
@@ -30,6 +31,8 @@ public class ProblemService {
 
     @Resource
     private ProAttentionMapper proAttentionMapper;
+    @Resource
+    private BizProblemMapper bizProblemMapper;
 
     /**
      * 创建新问题
@@ -329,6 +332,57 @@ public class ProblemService {
      */
     public Problem findByProblemId(Integer problemId) {
         return problemMapper.selectByPrimaryKey(problemId);
+    }
+
+
+    /**
+     * 批量增加浏览次数  list里面存着问题id
+     *
+     * @param list
+     * @return
+     */
+    public Integer batchUpdateView(List<Problem> list){
+        return bizProblemMapper.batchUpdateViewAdd(list);
+    }
+
+    /**
+     * 通过问题id增加收藏次数
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer updateCollAddByProblemId(Integer problemId){
+        return bizProblemMapper.updateCollAddByProblemId(problemId);
+    }
+
+    /**
+     * 根据问题id减少收藏次数
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer updateCollReduceByProblemId(Integer problemId){
+        return bizProblemMapper.updateCollReduceByProblemId(problemId);
+    }
+
+    /**
+     * 根据问题id增加投票次数
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer updateVoteAddByProblemId(Integer problemId){
+        return bizProblemMapper.updateVoteAddByProblemId(problemId);
+    }
+
+    /**
+     * 根据问题id减少投票次数
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer updateVoteReduceByProblemId(Integer problemId){
+        return bizProblemMapper.updateVoteReduceByProblemId(problemId);
     }
 
 

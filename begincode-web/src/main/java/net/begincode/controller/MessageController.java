@@ -51,7 +51,7 @@ public class MessageController {
      */
     @AuthPassport
     @RequestMapping(value = "/problem/{id}", method = RequestMethod.GET)
-    public Object updateMessageByProblemId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId) {
+    public String updateMessageByProblemId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId) {
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
         messageHandler.updateMessageByProblemId(begincodeUser.getBegincodeUserId(), problemId);
         return "redirect:/problem/" + problemId + ".htm";

@@ -34,15 +34,8 @@ public class ProblemViewController {
     public Object updateColl(HttpServletRequest request, @PathVariable(value = "problemId") Integer problemId) {
         BegincodeUser user = accountContext.getCurrentUser(request);
         Integer begincodeUserId = user.getBegincodeUserId();
-        ProAttention proAttention = countMapHandler.initCollMap(problemId, begincodeUserId);
-        if (countMapHandler.getMapCollValue(proAttention.getProAttentionId()) == 0) {
-            countMapHandler.addCollQueue(problemId + "-" + begincodeUserId + "-" + CollectEnum.COLLECT.getCode());
-            return 1;
-        } else if (countMapHandler.getMapCollValue(proAttention.getProAttentionId()) == 1) {
-            countMapHandler.addCollQueue(problemId + "-" + begincodeUserId + "-" + CollectEnum.NO_COLLECT.getCode());
-            return 0;
-        }
-        return null;
+        countMapHandler.initCollMap(problemId, begincodeUserId);  //初始化map  如果数据库没有数据 则先存map里
+        return countMapHandler.changeCollMap(begincodeUserId + "-" + problemId);   //改变map里的状态
     }
 
     @AuthPassport
@@ -51,22 +44,20 @@ public class ProblemViewController {
     public Object updateVote(HttpServletRequest request, @PathVariable(value = "problemId") Integer problemId) {
         BegincodeUser user = accountContext.getCurrentUser(request);
         Integer begincodeUserId = user.getBegincodeUserId();
-        ProAttention proAttention = countMapHandler.initVoteMap(problemId, begincodeUserId);
-        if (countMapHandler.getMapVoteValue(proAttention.getProAttentionId()) == 0) {
-            countMapHandler.addVoteQueue(problemId + "-" + begincodeUserId + "-" + VoteEnum.VOTE.getCode());
-            return 1;
-        } else if (countMapHandler.getMapVoteValue(proAttention.getProAttentionId()) == 1) {
-            countMapHandler.addVoteQueue(problemId + "-" + begincodeUserId + "-" + VoteEnum.NO_VOTE.getCode());
-            return 0;
-        }
-        return null;
+        countMapHandler.initVoteMap(problemId, begincodeUserId);   //初始化map  如果数据库中没有数据 则先存map里
+        return countMapHandler.changVoteMap(begincodeUserId + "-" + problemId);  //改变map里的状态
     }
 
 
+    /**
+     * 问题浏览增加队列
+     *
+     * @param problemId
+     * @return
+     */
     @RequestMapping(value = "/view/{problemId}", method = RequestMethod.GET)
     @ResponseBody
     public Object updateView(@PathVariable(value = "problemId") int problemId) {
-        countMapHandler.initViewMap(problemId);
         return countMapHandler.addViewQueue(problemId);
     }
 }

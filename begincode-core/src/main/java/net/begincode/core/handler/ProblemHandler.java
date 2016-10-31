@@ -56,7 +56,7 @@ public class ProblemHandler {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         //发送http请求给搜索端
-        HttpUtil.createIndexHttp(problem.getProblemId());
+//        HttpUtil.createIndexHttp(problem.getProblemId());
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
