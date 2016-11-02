@@ -42,7 +42,7 @@
                 <li role="presentation"><a id="myProblemId" href="#myProblems" aria-controls="messages" role="tab"
                                            data-toggle="tab">我的问题</a></li>
                 <li role="presentation"><a id="messageId" href="#messages" aria-controls="messages" role="tab"
-                                           data-toggle="tab">@我的</a></li>
+                                           data-toggle="tab">@我的 <span class="badge" id="messageCount"></span></a></li>
             </ul>
 
 

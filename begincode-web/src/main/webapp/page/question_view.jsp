@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%@ include file="commons/meta.jsp" %>
-    <title>${problem.title} BeginCode问答</title>
+    <title>${problem.title}  BeginCode问答</title>
 
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
@@ -39,8 +39,6 @@
                                 <a href="" target="_blank" class="list-tag">${label.labelName}</a>
                             </c:forEach>
                         </span>
-                        <span id="problemId" extra="${problem.problemId}"  class="hidden"></span>
-
                         <div class="question-author">
                             <a href="#" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
@@ -50,53 +48,18 @@
                 <div class="col-md-3 col-sm-4 col-xs-12 hidden-xs">
                     <ul class="post-topheader__side list-unstyled">
                         <li>
-                            <c:choose>
-                                <c:when test="${proAttention.collect == '1'}">
-                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
-                                            data-id="1010000006602336" data-do="follow" data-type="question"
-                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">已收藏
-                                    </button>
-                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
-                                </c:when>
-                                <c:when test="${proAttention.collect == '0'}">
-                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
-                                            data-id="1010000006602336" data-do="follow" data-type="question"
-                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
-                                    </button>
-                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
-                                            data-id="1010000006602336" data-do="follow" data-type="question"
-                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
-                                    </button>
-                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
-                                </c:otherwise>
-                            </c:choose>
+                            <button type="button" id="collection" class="btn btn-danger btn-sm"
+                                    data-id="1010000006602336" data-do="follow" data-type="question"
+                                    data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
+                            </button>
+                            <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
                         </li>
                         <li>
-                            <c:choose>
-                                <c:when test="${proAttention.vote == '0'}">
-                                    <button type="button" id="vote" class="btn btn-default btn-sm"
-                                            data-id="1010000006602336" data-type="question">投票
-                                    </button>
-                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
-                                </c:when>
-                                <c:when test="${proAttention.vote == '1'}">
-                                    <button type="button" id="vote" class="btn btn-default btn-sm"
-                                            data-id="1010000006602336" data-type="question">已投票
-                                    </button>
-                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" id="vote" class="btn btn-default btn-sm"
-                                            data-id="1010000006602336" data-type="question">投票
-                                    </button>
-                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
-                                </c:otherwise>
-                            </c:choose>
-                            <strong id="viewNumber"
-                                    class="no-stress">${problem.viewCount}</strong> 浏览
+                            <button type="button" id="vote" class="btn btn-default btn-sm"
+                                    data-id="1010000006602336" data-type="question">投票
+                            </button>
+                            <strong id="voteNumber">${problem.voteCount}</strong> 投票，<strong id="viewNumber"
+                                                                                             class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
                 </div>
@@ -113,8 +76,21 @@
             <center>
                 <button type="button" class="btn btn-primary">点击投票(${problem.voteCount})</button>
             </center>
-            <div id="answerAdopt"></div>
 
+            <form id="answerForm" method="post">
+                <p>
+                <hr>
+                <div onclick="updataSummernote()">
+                    <div id="summernote" class="click2edit"></div>
+                </div>
+                <input type="hidden" name="answer.problemId" id="problemId" value="${problem.problemId}"/>
+                <input type="hidden" name="answer.content" id="content" value=""/>
+                </p>
+                <div class="container-fluid align-center">
+                    <button type="button" class="btn btn-primary" id="answerSend" >发布回答</button>
+                </div>
+            </form>
+            <div id="answerAdopt"></div>
             <c:forEach items="${answerAdoptList}" var="answer" varStatus="temp">
 
                 <div class="post-offset">
@@ -132,16 +108,13 @@
                                 <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
                                     <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
                                 </li>
-
-
                                 <c:choose>
                                     <c:when test="${answer.adopt == 1}">
                                         <li><span class="label label-danger">已采纳</span>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li data-toggle="tooltip" data-placement="top" title=""
-                                            class="edit-btn js__rank-check">
+                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
                                             <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
                                         </li>
                                     </c:otherwise>
@@ -163,7 +136,6 @@
                     </div>
                 </div>
             </c:forEach>
-
             <div id="answerUpdate"></div>
             <c:forEach items="${answerNoAdoptList}" var="answer" varStatus="temp">
 
@@ -183,15 +155,13 @@
                                     <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
                                 </li>
 
-
                                 <c:choose>
                                     <c:when test="${answer.adopt == 1}">
                                         <li><span class="label label-danger">已采纳</span>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li data-toggle="tooltip" data-placement="top" title=""
-                                            class="edit-btn js__rank-check">
+                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
                                             <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
                                         </li>
                                     </c:otherwise>
@@ -215,19 +185,8 @@
             </c:forEach>
 
 
-            <form id="answerForm" method="post">
-                <p>
-                <hr>
-
-                <div id="summernote"></div>
-                <input type="hidden" name="answer.problemId" id="problemId" value="${problem.problemId}"/>
-                <input type="hidden" name="answer.content" id="content" value=""/>
-                </p>
-                <p>
-                    <button type="button" class="btn btn-success" id="answerSend">提交答案</button>
-                </p>
-            </form>
         </div>
+
         <div class="col-md-3">
 
             <div class="panel panel-default">
@@ -251,6 +210,8 @@
     </div>
 </div>
 <input type="hidden" value="${problem.problemId}" id="problem_id"/>
+<hr>
+<jsp:include page="/page/core/foot.jsp"/>
 <!--提问后提示弹出框-->
 <div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -271,16 +232,19 @@
         </div>
     </div>
 </div>
+
+
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
+
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>
+<script src="${ctx}/js/summernoteAnswer.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
-<script src="${ctx}/js/summernotePlugin.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
-<script src="${ctx}/js/problem/problemDetail.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 </body>
 </html>

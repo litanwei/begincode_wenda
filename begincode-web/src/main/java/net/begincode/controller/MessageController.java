@@ -43,6 +43,21 @@ public class MessageController {
     }
 
     /**
+     * 获得message总数据数
+     * @param request
+     * @return
+     */
+    @AuthPassport
+    @RequestMapping(value="/count",method=RequestMethod.POST)
+    @ResponseBody
+    public Object countMessage(HttpServletRequest request){
+        BegincodeUser begincodeUser;
+        begincodeUser=accountContext.getCurrentUser(request);
+        return messageHandler.countByMessageRemind(begincodeUser.getBegincodeUserId());
+    }
+
+
+    /**
      * 进入此方法 根据问题id 更改消息表中的删除状态 为已读
      *
      * @param request

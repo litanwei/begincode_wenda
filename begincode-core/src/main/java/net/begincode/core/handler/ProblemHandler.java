@@ -42,10 +42,9 @@ public class ProblemHandler {
      *
      * @param problem 前台传入的问题
      * @param label   传入的标签对象  用于标签表的新增
-     * @param userId  传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addProblem(Problem problem, Label label, Integer[] userId) {
+    public void addProblem(Problem problem, Label label) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
         //截取内容中@的用户名 加上url
@@ -60,18 +59,6 @@ public class ProblemHandler {
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
-        if (userId != null && userId.length == 1) {
-            message.setBegincodeUserId(userId[0]);
-            message.setProId(problem.getProblemId());
-            messageService.createMessage(message);
-        } else if (userId != null && userId.length > 1) {
-            for (int i = 0; i < userId.length; i++) {
-                //消息添加
-                message.setBegincodeUserId(userId[i]);
-                message.setProId(problem.getProblemId());
-                messageService.createMessage(message);
-            }
-        }
     }
 
 
