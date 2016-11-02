@@ -80,7 +80,7 @@
             <form id="answerForm" method="post">
                 <p>
                 <hr>
-                <div onclick="updataSummernote()">
+                <div onclick="updataSummernote()" id="updataSummernote">
                     <div id="summernote" class="click2edit"></div>
                 </div>
                 <input type="hidden" name="answer.problemId" id="problemId" value="${problem.problemId}"/>

@@ -1,10 +1,12 @@
+var flag;
 
 $(document).ready(function() {
-   edit1()
+    edit1();
 });
 
 //显示无工具栏富文本
 var edit1 = function () {
+    flag = true;
     $('#summernote').summernote({
         focus: true,
         placeholder: '请输入回答，邀请人回答请输入@。',
@@ -15,23 +17,26 @@ var edit1 = function () {
 }
 //切换富文本状态
 var updataSummernote = function () {
-    save();
-    edit();
+    if(flag==true){
+        save();
+        edit();
+        flag = false;
+    }
 }
 //显示富文本 工具栏 @人功能
 var edit = function() {
     $('.click2edit').summernote({
         focus: true,
         toolbar: [
-        // [groupName, [list of button]]
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['insert', ['picture', 'link', 'table', 'hr']],
-        ['fontsize', ['fontsize']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['musc', ['codeview']],
-    ],
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['insert', ['picture', 'link', 'table', 'hr']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['musc', ['codeview']],
+        ],
         height: 100,
         hint: {
             mentions: mentionsinit(),
