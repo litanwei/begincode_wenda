@@ -69,11 +69,7 @@ public class ProblemHandler {
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
-        if (userId != null && userId.length == 1) {
-            message.setBegincodeUserId(userId[0]);
-            message.setProId(problem.getProblemId());
-            messageService.createMessage(message);
-        } else if (userId != null && userId.length > 1) {
+        if (userId != null && userId.length > 0) {
             for (int i = 0; i < userId.length; i++) {
                 //消息添加
                 message.setBegincodeUserId(userId[i]);
@@ -82,8 +78,10 @@ public class ProblemHandler {
             }
         }
     }
+
     /**
      * 根据nickName查找用户
+     *
      * @param nickName
      * @return
      */
@@ -99,10 +97,16 @@ public class ProblemHandler {
      * @return
      */
     private List problemToLabel(Problem problem) {
-        List<String> list = new ArrayList<>();
-        List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());
-        for (ProblemLabel problemLabel : lt) {
-            list.add(labelService.selectById(problemLabel.getLabelId()).getLabelName());
+        List list = new ArrayList<>();
+        List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());  //通过问题id找到问题标签集合
+        //通过迭代把labelId存入集合
+        for (int i = 0; i < lt.size(); i++) {
+            list.add(lt.get(i).getLabelId());
+        }
+        List<Label> labelList = labelService.selectInById(list);  //in查询
+        list.clear();
+        for (Label label : labelList) {
+            list.add(label.getLabelName());
         }
         return list;
     }
@@ -218,7 +222,7 @@ public class ProblemHandler {
     /**
      * 根据id查询问题
      *
-     * @param answerId
+     * @param problemId
      * @return
      */
     public Problem selectById(int problemId) {
@@ -242,6 +246,7 @@ public class ProblemHandler {
         }
         return list;
     }
+
     /**
      * 查找所有问题
      *
@@ -270,6 +275,7 @@ public class ProblemHandler {
             return begincodeUserService.findUserByOpenId(begincodeUser.getOpenId());
         }
     }
+
     /**
      * 获取问题所对应的采纳回答
      * 并按时间降序排序
@@ -301,8 +307,8 @@ public class ProblemHandler {
         return labelService.selectLabelByProblemId(problemId);
     }
 
-    public ProAttention selectProAttById(Integer problemId, Integer userId){
-        return proAttentionService.selectProAttentionById(problemId,userId);
+    public ProAttention selectProAttById(Integer problemId, Integer userId) {
+        return proAttentionService.selectProAttentionById(problemId, userId);
     }
 
     /**
@@ -464,11 +470,12 @@ public class ProblemHandler {
             voteMap.clear();
         }
     }
+
     /**
      * 从队列中更新收藏状态进数据库
      */
     private void updateCollectMapToData() {
-        if(collectMap.size()>0){
+        if (collectMap.size() > 0) {
             Iterator<Map.Entry<String, Integer>> collectIterator = collectMap.entrySet().iterator();
             while (collectIterator.hasNext()) {
                 Map.Entry<String, Integer> entry = collectIterator.next();
@@ -492,13 +499,11 @@ public class ProblemHandler {
 
     /**
      * 强制更新收藏和投票map进入数据库
-     *
      */
-    public void updateMapToData(){
+    public void updateMapToData() {
         updateCollectMapToData();
         updateVoteMapToData();
     }
-
 
 
     /**
@@ -552,14 +557,12 @@ public class ProblemHandler {
             viewList.add(problem);
         }
         //批量更新浏览次数
-        if(viewList.size()>0){
+        if (viewList.size() > 0) {
             problemService.batchUpdateView(viewList);
             viewList.clear();
             viewConcurrentLinkedQueue.clear();
         }
     }
-
-
 
 
     /**

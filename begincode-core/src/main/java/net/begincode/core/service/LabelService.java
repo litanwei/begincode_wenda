@@ -44,6 +44,21 @@ public class LabelService {
 
 
     /**
+     * 传入标签id集合 用数据库in查询
+     *
+     * @param listId
+     * @return
+     */
+    public List<Label> selectInById(List<Integer> listId){
+        LabelExample labelExample = new LabelExample();
+        LabelExample.Criteria criteria = labelExample.createCriteria();
+        criteria.andLabelIdIn(listId);
+        return labelMapper.selectByExample(labelExample);
+    }
+
+
+
+    /**
      * 根据标签名查找标签
      *
      * @param labelName 传入的标签名

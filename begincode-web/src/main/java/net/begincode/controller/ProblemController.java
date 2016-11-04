@@ -197,6 +197,7 @@ public class ProblemController {
      * @param request
      * @return
      */
+    @AuthPassport
     @RequestMapping(value="/answer/{answerId}/{problemId}",method = RequestMethod.GET)
     public String messageAnswer(Model model,@PathVariable(value="problemId") int problemId,@PathVariable(value="answerId") int answerId,HttpServletRequest request){
         BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
