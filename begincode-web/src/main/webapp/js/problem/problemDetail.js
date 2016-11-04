@@ -5,7 +5,7 @@ $(document).ready(function () {
     var problemId = $("#problem_id").val();
     $.ajax({
         type: "GET",
-        url: ctx + "/view/" + problemId + ".htm",
+        url: ctx + "/problem/view/" + problemId + ".htm",
         dataType: "json",
         success: function (data) {
             if (data.code != 0) {
@@ -17,7 +17,7 @@ $(document).ready(function () {
     $("#collection").click(function () {
         $.ajax({
             type: "POST",
-            url: ctx + "/collect/" + problemId + ".htm",
+            url: ctx + "/problem/collect/" + problemId + ".htm",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
@@ -41,7 +41,7 @@ $(document).ready(function () {
     $("#vote").click(function () {
         $.ajax({
             type: "POST",
-            url: ctx + "/vote/" + problemId + ".htm",
+            url: ctx + "/problem/vote/" + problemId + ".htm",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {

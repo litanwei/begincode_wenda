@@ -101,31 +101,7 @@ public class MessageHandler {
         page.setData(arrayList);
     }
 
-    /**
-     * 问题查看后更改删除标识为1
-     *
-     * @param userId
-     * @param problemId
-     */
-    public void updateMessageByProblemId(Integer userId, Integer problemId) {
-        Integer messageNum = messageService.updateMessageByProblemId(userId, problemId);
-        if (messageNum < 0) {
-            throw new BizException(MessageResponseEnum.MESSAGE_UPDATE_ERROR);
-        }
-    }
 
-    /**
-     * 回答查找后更改删除标识为1
-     *
-     * @param userId
-     * @param answerId
-     */
-    public void updateMessageByAnswerId(Integer userId, Integer answerId) {
-        Integer messageNum = messageService.updateMessageByAnswerId(userId, answerId);
-        if (messageNum < 0) {
-            throw new BizException(MessageResponseEnum.MESSAGE_UPDATE_ERROR);
-        }
-    }
 
 
     /**
