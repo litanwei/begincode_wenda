@@ -167,45 +167,42 @@ public class ProblemController {
     @RequestMapping(value = "/{problemId}", method = RequestMethod.GET)
     public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId, HttpServletRequest request) {
         BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
-        fillProblem(model,problemId,begincodeUser);
+        fillProblem(model, problemId, begincodeUser);
         return "question_view";
     }
 
     /**
-     *  @ 我的 问题入口
-     *
      * @param model
      * @param problemId
      * @param request
      * @return
+     * @ 我的 问题入口
      */
     @AuthPassport
-    @RequestMapping(value="/message/{problemId}",method = RequestMethod.GET)
-    public String messageProblem(Model model,@PathVariable("problemId") int problemId,HttpServletRequest request){
+    @RequestMapping(value = "/message/{problemId}", method = RequestMethod.GET)
+    public String messageProblem(Model model, @PathVariable("problemId") int problemId, HttpServletRequest request) {
         BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
-        fillProblem(model,problemId,begincodeUser);
+        fillProblem(model, problemId, begincodeUser);
         problemHandler.updateMessageByProblemId(begincodeUser.getBegincodeUserId(), problemId);
         return "question_view";
     }
 
     /**
-     * @ 我的回答入口
-     *
      * @param model
      * @param problemId
      * @param answerId
      * @param request
      * @return
+     * @ 我的回答入口
      */
     @AuthPassport
-    @RequestMapping(value="/answer/{answerId}/{problemId}",method = RequestMethod.GET)
-    public String messageAnswer(Model model,@PathVariable(value="problemId") int problemId,@PathVariable(value="answerId") int answerId,HttpServletRequest request){
+    @RequestMapping(value = "/answer/{answerId}/{problemId}", method = RequestMethod.GET)
+    public String messageAnswer(Model model, @PathVariable(value = "problemId") int problemId, @PathVariable(value = "answerId") int answerId, HttpServletRequest request) {
         BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
-        fillProblem(model,problemId,begincodeUser);
-        problemHandler.updateMessageByAnswerId(begincodeUser.getBegincodeUserId(),answerId);
+        fillProblem(model, problemId, begincodeUser);
+        problemHandler.updateMessageByAnswerId(begincodeUser.getBegincodeUserId(), answerId);
         return "question_view";
     }
-
 
 
     /**
@@ -213,9 +210,9 @@ public class ProblemController {
      *
      * @param model
      * @param problemId
-     * @param request
+     * @param begincodeUser
      */
-    private void fillProblem(Model model,int problemId,BegincodeUser begincodeUser){
+    private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
         List<Answer> answerAdoptList = problemHandler.selAdoptAnswerByProblemId(problemId);
         List<Answer> answerNoAdoptList = problemHandler.selNoAdoptAnswerByProblemId(problemId);
         List<String> newAdoptTime = new ArrayList<>();
@@ -250,21 +247,30 @@ public class ProblemController {
      */
     private ProAttention fillProAttention(BegincodeUser begincodeUser, Problem problem) {
         //此时 如果map中有数据 说明还没有进入数据库中
-        if (problemHandler.getMapCollValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId()) == null) {
+        if (problemHandler.getMapCollValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId()) == null && problemHandler.getMapVoteValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId()) == null) {
             return problemHandler.selectProAttById(problem.getProblemId(), begincodeUser.getBegincodeUserId());
         } else {
             Integer collState = problemHandler.getMapCollValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId());
             Integer voteState = problemHandler.getMapVoteValue(begincodeUser.getBegincodeUserId() + "-" + problem.getProblemId());
             ProAttention proAttention = new ProAttention();
-            proAttention.setCollect(collState);
-            proAttention.setVote(voteState);
-            if (collState == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+            if (collState == null) {
+                proAttention.setCollect(problemHandler.selectProAttById(problem.getProblemId(), begincodeUser.getBegincodeUserId()).getCollect());
+            } else {
+                //当map中有数据的时候 就说明此数据还未进入数据库
+                proAttention.setCollect(collState);
                 Integer collCount = problem.getCollectCount();
-                problem.setCollectCount(collCount + 1);
+                if (collState == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                    problem.setCollectCount(collCount + 1);
+                }
             }
-            if (voteState == Integer.parseInt(VoteEnum.VOTE.getCode())) {
+            if (voteState == null) {
+                proAttention.setVote(problemHandler.selectProAttById(problem.getProblemId(), begincodeUser.getBegincodeUserId()).getVote());
+            } else {
+                proAttention.setVote(voteState);
                 Integer voteCount = problem.getVoteCount();
-                problem.setVoteCount(voteCount + 1);
+                if (voteState == Integer.parseInt(VoteEnum.VOTE.getCode())) {
+                    problem.setVoteCount(voteCount + 1);
+                }
             }
             return proAttention;
         }
