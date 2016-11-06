@@ -19,8 +19,6 @@ public class AnsAgreeHandler {
 
     @Resource
     private AnsAgreeService ansAgreeService;
-    @Resource
-    private AnswerService answerService;
 
     /**
      * 根据用户id，问题回复id判断AnsAgree是否存在 存在修改内容 不存在增加
@@ -30,38 +28,11 @@ public class AnsAgreeHandler {
      */
     public int selectAndUpdate(AnsAgree ansAgree) {
         List<Integer> answerIdList = new ArrayList<>();
-        Answer answer = answerService.selAnswerByAnswerId(ansAgree.getAnswerId());
         answerIdList.add(ansAgree.getAnswerId());
         List<AnsAgree> ansAgreeList = ansAgreeService.selectByExample(ansAgree.getBegincodeUserId(), answerIdList);
         if (ansAgreeList.size() != 0) {
-            if(ansAgree.getAgree() == 1){
-                answer.setAgreeCount(answer.getAgreeCount()+1);
-                if(ansAgreeList.get(0).getAgree() == 2){
-                    answer.setOppositionCount(answer.getOppositionCount()-1);
-                }
-            }else{
-                if(ansAgree.getAgree() == 2){
-                    answer.setOppositionCount(answer.getOppositionCount()+1);
-                    if(ansAgreeList.get(0).getAgree() == 1){
-                        answer.setAgreeCount(answer.getAgreeCount()-1);
-                    }
-                }else{
-                    if(ansAgreeList.get(0).getAgree() == 1){
-                        answer.setAgreeCount(answer.getAgreeCount()-1);
-                    }else{
-                        answer.setOppositionCount(answer.getOppositionCount()-1);
-                    }
-                }
-            }
-            answerService.updateAnswer(answer);
             return ansAgreeService.updateByExample(ansAgree);
         } else {
-            if(ansAgree.getAgree()==1){
-                answer.setAgreeCount(answer.getAgreeCount()+1);
-            }else{
-                answer.setAgreeCount(answer.getOppositionCount()+1);
-            }
-            answerService.updateAnswer(answer);
             return ansAgreeService.insertSelective(ansAgree);
         }
     }

@@ -1,5 +1,6 @@
 package net.begincode.core.service;
 
+import net.begincode.core.enums.AgreeEnum;
 import net.begincode.core.mapper.AnsAgreeMapper;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.AnsAgreeExample;
@@ -55,6 +56,29 @@ public class AnsAgreeService {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
         ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(ansAgree.getBegincodeUserId()).andAnswerIdEqualTo(ansAgree.getAnswerId());
         return ansAgreeMapper.updateByExampleSelective(ansAgree,ansAgreeExample);
+    }
+
+    /**
+     *根据回复id获取赞同数量
+     *
+     * @param：answerId
+     * @return: int
+     */
+    public int selAgreeCountById(int answerId){
+        AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
+        ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.AGREE.getCode()));
+        return ansAgreeMapper.countByExample(ansAgreeExample);
+    }
+    /**
+     *根据回复id获取反对数量
+     *
+     * @param：answerId
+     * @return: int
+     */
+    public int selOppositionCountById(int answerId){
+        AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
+        ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.OPPOSITION.getCode()));
+        return ansAgreeMapper.countByExample(ansAgreeExample);
     }
 
 }
