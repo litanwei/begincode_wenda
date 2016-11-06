@@ -18,6 +18,7 @@ public class MapTask {
     private ProblemHandler problemHandler;
 
 
+
 //        @Scheduled(fixedRate = 1000*20)  //每隔20秒触发此方法
     @Scheduled(fixedRate = 1000 * 300)  //每隔五分钟触发此方法
     public void mapTask() {

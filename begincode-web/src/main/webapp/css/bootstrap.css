@@ -4970,7 +4970,7 @@ a.label:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
-  background-color: #777;
+  background-color: #CC0000;
   border-radius: 10px;
 }
 .badge:empty {
@@ -4992,7 +4992,7 @@ a.badge:focus {
   cursor: pointer;
 }
 .list-group-item.active > .badge,
-.nav-pills > .active > a > .badge {
+.nav-tabs > .active > a > .badge {
   color: #337ab7;
   background-color: #fff;
 }

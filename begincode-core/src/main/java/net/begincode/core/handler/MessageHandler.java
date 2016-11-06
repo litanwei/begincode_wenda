@@ -44,17 +44,16 @@ public class MessageHandler {
         Integer[] userId = contentFilter(content);
         Message message = new Message();
         if (userId != null && userId.length == 1) {
-            message.setBegincodeUserId(userId[0]);
-            message.setProId(problemId);
-            message.setAnswerId(answerId);
-            messageService.createMessage(message);
-        } else if (userId != null && userId.length > 1) {
-            for (int i = 0; i < userId.length; i++) {
-                //消息添加
-                message.setBegincodeUserId(userId[i]);
+                message.setBegincodeUserId(userId[0]);
                 message.setProId(problemId);
                 message.setAnswerId(answerId);
                 messageService.createMessage(message);
+        } else if (userId != null && userId.length > 1) {
+            for (int i = 0; i < userId.length; i++) {
+                    message.setBegincodeUserId(userId[i]);
+                    message.setProId(problemId);
+                    message.setAnswerId(answerId);
+                    messageService.createMessage(message);
             }
         }
     }
@@ -102,6 +101,14 @@ public class MessageHandler {
     }
 
 
+
+    /**
+     * 获得message数量
+     * @return
+     */
+    public int countByMessageRemind(Integer user_id){
+        return messageService.findMessSize(user_id);
+    }
 
 
     /**

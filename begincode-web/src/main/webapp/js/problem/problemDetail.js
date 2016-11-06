@@ -62,5 +62,29 @@ $(document).ready(function () {
         })
     })
 
+    $("#clickVote").click(function () {
+        $.ajax({
+            type: "POST",
+            url: ctx + "/problem/vote/" + problemId + ".htm",
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                    if (data.data == 1) {
+                        $("#vote").html("已投票");
+                        var voteNum = $("#voteNumber").html();
+                        $("#voteNumber").html((parseInt(voteNum) + 1));
+                    }
+                    if (data.data == 0) {
+                        $("#vote").html("投票");
+                        var voteNum = $("#voteNumber").html();
+                        $("#voteNumber").html((parseInt(voteNum) - 1));
+                    }
+                } else {
+                    showModel(data.msg);
+                }
+            }
+        })
+    })
+
 
 });

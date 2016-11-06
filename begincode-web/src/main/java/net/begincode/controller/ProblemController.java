@@ -3,12 +3,11 @@ package net.begincode.controller;
 import net.begincode.bean.Page;
 import net.begincode.core.enums.CollectEnum;
 import net.begincode.core.enums.VoteEnum;
-import net.begincode.core.handler.ProblemHandler;
+import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.DateUtil;
-import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,12 @@ public class ProblemController {
 
     @Resource
     private ProblemHandler problemHandler;
+    @Resource
+    private MessageHandler messageHandler;
+    @Resource
+    private AnsAgreeHandler ansAgreeHandler;
+    @Resource
+    private AnswerHandler answerHandler;
 
 
     @AuthPassport
@@ -125,35 +130,11 @@ public class ProblemController {
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         Label label = problemLableParam.getLabel();
-        Integer[] userId = contentFilter(problem.getContent());   //过滤@后面的用户名 把html标签去掉
-        problemHandler.addProblem(problem, label, userId);
+        messageHandler.createMessage(user.getBegincodeUserId(),null,problem.getContent());
+        problemHandler.addProblem(problem, label);
         return map;
     }
 
-
-    /**
-     * 传进的问题过滤出@ 后面的nickName 返回该用户的id
-     *
-     * @param content 传入的内容
-     * @return 用户id数组
-     */
-    private Integer[] contentFilter(String content) {
-        Set<String> stringSet = PatternUtil.filterNickName(content);
-        int i = 0;
-        Integer[] userId = new Integer[stringSet.size()];
-        if (stringSet != null && stringSet.size() > 0) {
-            for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = problemHandler.selectByNickName(nickName.replace("@", ""));
-                if (begincodeUser == null) {
-                    continue;
-                } else {
-                    userId[i] = begincodeUser.getBegincodeUserId();
-                    i++;
-                }
-            }
-        }
-        return userId;
-    }
 
 
     /**
@@ -213,8 +194,8 @@ public class ProblemController {
      * @param begincodeUser
      */
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
-        List<Answer> answerAdoptList = problemHandler.selAdoptAnswerByProblemId(problemId);
-        List<Answer> answerNoAdoptList = problemHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
+        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
         List<String> newAdoptTime = new ArrayList<>();
         for (int a = 0; a < answerAdoptList.size(); a++) {
             newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
@@ -225,14 +206,23 @@ public class ProblemController {
         }
         Problem problem = problemHandler.selectById(problemId);
         if (begincodeUser != null) {
-            //如果是用户进来 则判断用户所是否有收藏或投票此问题
             model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
+            if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
+                Integer[] answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
+                Integer[] answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
+                model.addAttribute("answerAdoptAgreeFlag", answerAdoptAgreeFlag);
+                model.addAttribute("answerNoAdoptAgreeFlag", answerNoAdoptAgreeFlag);
+            }
         }
+        //如果是用户进来 则判断用户所是否有收藏或投票此问题
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
+        //采纳回复
         model.addAttribute("answerAdoptList", answerAdoptList);
         model.addAttribute("newAdoptTime", newAdoptTime);
+        //未采纳回复
         model.addAttribute("answerNoAdoptList", answerNoAdoptList);
         model.addAttribute("newNoAdoptTime", newNoAdoptTime);
+        //问题 标签
         model.addAttribute("problem", problem);
         model.addAttribute("labels", problemHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime", problemTime);

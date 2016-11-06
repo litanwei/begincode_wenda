@@ -8,6 +8,7 @@ import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.enums.SolveEnum;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
+import net.begincode.core.service.AnsAgreeService;
 import net.begincode.core.service.AnswerService;
 import net.begincode.core.service.ProblemService;
 import net.begincode.utils.PatternUtil;
@@ -28,6 +29,8 @@ public class AnswerHandler {
     private AnswerService answerService;
     @Resource
     private ProblemService problemService;
+    @Resource
+    private AnsAgreeService ansAgreeService;
 
 
     /**
@@ -98,7 +101,22 @@ public class AnswerHandler {
         return answerService.selectAllAnswer(answer);
     }
 
-
+    /**
+     * 获取问题所对应的采纳回答
+     * 并按时间降序排序
+     *
+     * @param problemId
+     * @return List<Answer>
+     */
+    public List<Answer> selAdoptAnswerByProblemId(int problemId) {
+        List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
+        for(Answer answer:answerList){
+            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
+            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
+        }
+        return answerList;
+    }
 
     /**
      * 获取问题所对应的未采纳回答
@@ -108,7 +126,13 @@ public class AnswerHandler {
      * @return List<Answer>
      */
     public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-        return answerService.findNotAdoptByProblemId(problemId);
+        List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
+        for(Answer answer:answerList){
+            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
+            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
+        }
+        return answerList;
     }
 
     /**
@@ -130,17 +154,6 @@ public class AnswerHandler {
     public void selectAnswerByNickName(String nickName, Page<Answer> page) {
         page.setTotalNum(selectAnswerNumByNickName(nickName));
         List<Answer> list = answerService.findAnswerListByNickName(nickName, page.getCurrentNum(), page.getPageEachSize());
-         /*for (int i = 0; i < list.size(); i++) {
-            String jsoupContent = "";
-            if (list.get(i).getContent().length() > 0) {
-                jsoupContent = JsoupUtil.replaceContent(list.get(i).getContent());
-            }
-            if (jsoupContent.length() > 20) {
-                list.get(i).setContent(jsoupContent.substring(0, 20));
-            } else if (jsoupContent.length() > 0) {
-                list.get(i).setContent(JsoupUtil.replaceContent(jsoupContent));
-            }
-        }*/
         page.setData(list);
     }
 

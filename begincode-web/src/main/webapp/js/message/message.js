@@ -3,6 +3,7 @@
  */
 $(document).ready(function () {
     $("#messageId").click(function () {
+        messageCount();
         $.ajax({
             type: "POST",
             url: ctx+"/message/list.htm?page=1",
@@ -19,6 +20,30 @@ $(document).ready(function () {
     })
 });
 
+setInterval (function() {
+    $.ajax({
+        type: "POST",
+        dataType:"JSON",
+        url:ctx+"/message/count.htm",
+        success : function(data) {
+            if(data.code == 0){
+                document.getElementById("messageCount").innerHTML = data.data;
+            }
+        }
+    });
+},5000);
+function messageCount(){
+    $.ajax({
+        type: "POST",
+        dataType:"JSON",
+        url:ctx+"/message/count.htm",
+        success : function(data) {
+            if(data.code == 0){
+                document.getElementById("messageCount").innerHTML = data.data;
+            }
+        }
+    });
+};
 
 function messageHtml(data,id) {
     $("#"+id).empty();
