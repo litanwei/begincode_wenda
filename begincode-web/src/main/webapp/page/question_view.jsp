@@ -12,6 +12,8 @@
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
+    <link href="${ctx}/css/answer.css" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -58,8 +60,7 @@
                             <button type="button" id="vote" class="btn btn-default btn-sm"
                                     data-id="1010000006602336" data-type="question">投票
                             </button>
-                            <strong id="voteNumber">${problem.voteCount}</strong> 投票，<strong id="viewNumber"
-                                                                                             class="no-stress">${problem.viewCount}</strong> 浏览
+                            <strong id="voteNumber">${problem.voteCount}</strong> 投票，<strong id="viewNumber" class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
                 </div>
@@ -80,7 +81,7 @@
             <form id="answerForm" method="post">
                 <p>
                 <hr>
-                <div onclick="updataSummernote()" id="updataSummernote">
+                <div onclick="updataSummernote()">
                     <div id="summernote" class="click2edit"></div>
                 </div>
                 <input type="hidden" name="answer.problemId" id="problemId" value="${problem.problemId}"/>
@@ -90,98 +91,153 @@
                     <button type="button" class="btn btn-primary" id="answerSend" >发布回答</button>
                 </div>
             </form>
+
             <div id="answerAdopt"></div>
             <c:forEach items="${answerAdoptList}" var="answer" varStatus="temp">
-
-                <div class="post-offset">
+                <article class="widget-question__item">
                     <hr>
-                    <div class="answer fmt" data-id="1020000006591589">
-                        <p> ${answer.content}</p>
+                    <input type="hidden" value="${answer.answerId}"/>
+                    <div class="votebar">
+                        <c:choose>
+                            <c:when test="${answerAdoptAgreeFlag[temp.count-1] == 1}">
+                                <button id="click-like" class="click-like up pressed" aria-pressed="true" title="取消赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down" aria-pressed="false" title="反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:when>
+                            <c:when test="${answerAdoptAgreeFlag[temp.count-1] == 2}">
+                                <button id="click-like" class="click-like up" aria-pressed="false" title="赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true" title="取消反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button id="click-like" class="click-like up" aria-pressed="false" title="赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down" aria-pressed="false" title="反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${answer.adopt == 1}">
+                                <a class="rcmd-label">采纳</a>
+                            </c:when>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${(answer.agreeCount>(answer.oppositionCount*10))&&answer.oppositionCount>0}">
+                                <a class="rcmd-label">推荐</a>
+                            </c:when>
+                        </c:choose>
+
                     </div>
-                    <div class="row answer__info--row">
-                        <div class="post-opt col-md-8 col-sm-8 col-xs-10">
-                            <ul class="list-inline mb0">
-                                <li>
-                                    <td>${newAdoptTime[temp.count-1]}</td>
-                                    <span class="text-muted"></span>
-                                </li>
-                                <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
-                                </li>
-                                <c:choose>
-                                    <c:when test="${answer.adopt == 1}">
-                                        <li><span class="label label-danger">已采纳</span>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                            <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                                    <%--<li class="dropdown">--%>
-                                    <%--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b--%>
-                                    <%--class="caret"></b></a>--%>
-                                    <%--</li>--%>
-                            </ul>
+                    <div class="post-offset">
+
+                        <div class="answer-fmt" data-id="1010000007316290" >
+                            <p> ${answer.content}</p>
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
-                        </div>
-                        <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
-                            <div class=" answer__info--author-warp">
-                                <a class="answer__info--author-name" title="${answer.userName}"
-                                   href="/u/fishenal">${answer.userName}</a><span
-                                    class="answer__info--author-rank"></span></div>
+                        <div class="row">
+                            <div class="post-opt col-md-8">
+                                <ul class="list-inline mb0">
+                                    <li><a href="javascript:;">${newAdoptTime[temp.count-1]}</a></li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
+                                    </li>
+
+                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"
+                                        data-id="1010000007316290">
+                                        <a href="javascript:void(0);" class="dropdown-toggle"
+                                           data-toggle="dropdown">更多<b class="caret"></b></a>
+                                        <ul class="dropdown-menu dropdown-menu-left">
+                                            <li><a href="javascript:void(0);"
+                                                   data-toggle="modal"
+                                                   data-target="#911"
+                                                   data-action="close">关上把你能耐的</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </article>
             </c:forEach>
+
             <div id="answerUpdate"></div>
             <c:forEach items="${answerNoAdoptList}" var="answer" varStatus="temp">
-
-                <div class="post-offset" id="answer${answer.answerId}">
+                <article class="widget-question__item" id="answer${answer.answerId}">
                     <hr>
-                    <div class="answer fmt" data-id="1020000006591589">
-                        <p> ${answer.content}</p>
+                    <input type="hidden" value="${answer.answerId}"/>
+                    <div class="votebar">
+                        <c:choose>
+                            <c:when test="${answerNoAdoptAgreeFlag[temp.count-1] == 1}">
+                                <button id="click-like" class="click-like up pressed" aria-pressed="true" title="取消赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down" aria-pressed="false" title="反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:when>
+                            <c:when test="${answerNoAdoptAgreeFlag[temp.count-1] == 2}">
+                                <button id="click-like" class="click-like up" aria-pressed="false" title="赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true" title="取消反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <button id="click-like" class="click-like up" aria-pressed="false" title="赞同">
+                                    <i class="vote-arrow"></i>
+                                    <span class="count">${answer.agreeCount}</span>
+                                </button>
+                                <button id="click-dislike" class="click-dislike down" aria-pressed="false" title="反对">
+                                    <i class="vote-arrow"></i>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                    <div class="row answer__info--row">
-                        <div class="post-opt col-md-8 col-sm-8 col-xs-10">
-                            <ul class="list-inline mb0">
-                                <li>
-                                    <td>${newNoAdoptTime[temp.count-1]}</td>
-                                    <span class="text-muted"></span>
-                                </li>
-                                <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                    <a href="javascript:void(0);" onclick="sendFeedback(${answer.answerId})">举报</a>
-                                </li>
+                    <div class="post-offset">
 
-                                <c:choose>
-                                    <c:when test="${answer.adopt == 1}">
-                                        <li><span class="label label-danger">已采纳</span>
-                                        </li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li data-toggle="tooltip" data-placement="top" title="" class="edit-btn js__rank-check">
-                                            <a href="javascript:void(0);" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                                    <%--<li class="dropdown">--%>
-                                    <%--<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">更多<b--%>
-                                    <%--class="caret"></b></a>--%>
-                                    <%--</li>--%>
-                            </ul>
+                        <div class="answer-fmt" data-id="1010000007316290" >
+                            <p> ${answer.content}</p>
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
-                        </div>
-                        <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
-                            <div class=" answer__info--author-warp">
-                                <a class="answer__info--author-name" title="${answer.userName}"
-                                   href="/u/fishenal">${answer.userName}</a><span
-                                    class="answer__info--author-rank"></span></div>
+                        <div class="row">
+                            <div class="post-opt col-md-8">
+                                <ul class="list-inline mb0">
+                                    <li><a href="javascript:;">${newNoAdoptTime[temp.count-1]}</a></li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
+                                    </li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
+                                    </li>
+
+                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"
+                                        data-id="1010000007316290">
+                                        <a href="javascript:void(0);" class="dropdown-toggle"
+                                           data-toggle="dropdown">更多<b class="caret"></b></a>
+                                        <ul class="dropdown-menu dropdown-menu-left">
+                                            <li><a href="javascript:void(0);"
+                                                   data-toggle="modal"
+                                                   data-target="#911"
+                                                   data-action="close">关闭</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </article>
             </c:forEach>
 
 
@@ -199,13 +255,6 @@
 					</span>
                 </div>
             </div>
-            <%--<div class="list-group">--%>
-            <%--<a href="#" class="list-group-item disabled">--%>
-            <%--相似问题--%>
-            <%--</a>--%>
-            <%--<a href="#" class="list-group-item">问题111</a>--%>
-            <%--<a href="#" class="list-group-item">问题222</a>--%>
-            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -246,5 +295,6 @@
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
+<script src="${ctx}/js/problem/problemDetail.js"></script>
 </body>
 </html>

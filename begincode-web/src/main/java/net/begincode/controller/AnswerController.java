@@ -1,10 +1,9 @@
 package net.begincode.controller;
 
 
-import net.begincode.core.handler.AccountContext;
-import net.begincode.core.handler.AnswerHandler;
-import net.begincode.core.handler.MessageHandler;
-import net.begincode.core.handler.ProblemHandler;
+import net.begincode.core.enums.AgreeEnum;
+import net.begincode.core.handler.*;
+import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.param.AnswerParam;
@@ -33,6 +32,8 @@ public class AnswerController {
     ProblemHandler problemHandler;
     @Resource
     MessageHandler messageHandler;
+    @Resource
+    AnsAgreeHandler ansAgreeHandler;
 
     /**
      * 添加问题回复
@@ -78,6 +79,11 @@ public class AnswerController {
     @ResponseBody
     public Object answerAdopt(int answerId, HttpServletRequest request) {
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        AnsAgree ansAgree = new AnsAgree();
+        ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
+        ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
+        ansAgree.setAnswerId(answerId);
+        ansAgreeHandler.selectAndUpdate(ansAgree);
         return answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }

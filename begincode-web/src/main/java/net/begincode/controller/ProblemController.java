@@ -8,7 +8,6 @@ import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.DateUtil;
-import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -44,6 +43,8 @@ public class ProblemController {
     private CountMapHandler countMapHandler;
     @Resource
     private MessageHandler messageHandler;
+    @Resource
+    private AnsAgreeHandler ansAgreeHandler;
 
 
     @AuthPassport
@@ -165,13 +166,22 @@ public class ProblemController {
         Problem problem = problemHandler.selectById(problemId);
         if (begincodeUser != null) {
             model.addAttribute("proAttention", setProAttention(begincodeUser, problem));
+            if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
+                Integer[] answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
+                Integer[] answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
+                model.addAttribute("answerAdoptAgreeFlag", answerAdoptAgreeFlag);
+                model.addAttribute("answerNoAdoptAgreeFlag", answerNoAdoptAgreeFlag);
+            }
         }
         //如果是用户进来 则判断用户所是否有收藏或投票此问题
         String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
+        //采纳回复
         model.addAttribute("answerAdoptList", answerAdoptList);
         model.addAttribute("newAdoptTime", newAdoptTime);
+        //未采纳回复
         model.addAttribute("answerNoAdoptList", answerNoAdoptList);
         model.addAttribute("newNoAdoptTime", newNoAdoptTime);
+        //问题 标签
         model.addAttribute("problem", problem);
         model.addAttribute("labels", labelHandler.getLabelByProblemId(problemId));
         model.addAttribute("problemTime", problemTime);
