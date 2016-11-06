@@ -403,6 +403,7 @@ public class ProblemHandler {
      * @return
      */
     public String changVoteMap(String strId) {
+        //判断map中的状态是否是投票的状态
         if (voteMap.get(strId) == Integer.parseInt(VoteEnum.VOTE.getCode())) {
             voteMap.put(strId, Integer.parseInt(VoteEnum.NO_VOTE.getCode()));
             return "0";
@@ -458,7 +459,7 @@ public class ProblemHandler {
                 Integer userId = Integer.parseInt(id[0]);
                 Integer problemId = Integer.parseInt(id[1]);
                 ProAttention proAttention = findOrCreateProAtt(problemId, userId);
-                if (entry.getValue() == Integer.parseInt(VoteEnum.VOTE.getCode())) {
+                if (entry.getValue() == Integer.parseInt(VoteEnum.VOTE.getCode()) && proAttention.getVote() != Integer.parseInt(VoteEnum.VOTE.getCode())) {
                     problemService.updateVoteAddByProblemId(problemId);
                 } else if (entry.getValue() == Integer.parseInt(VoteEnum.NO_VOTE.getCode())) {
                     if (proAttention.getVote() == Integer.parseInt(VoteEnum.VOTE.getCode())) {
@@ -484,7 +485,7 @@ public class ProblemHandler {
                 Integer problemId = Integer.parseInt(id[1]);
                 ProAttention proAttention = findOrCreateProAtt(problemId, userId);
                 // 更新收藏状态  要先判断数据库中有无收藏情况 如果有收藏 从problem表中加1 再更改状态
-                if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode()) && proAttention.getCollect() != Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                     problemService.updateCollAddByProblemId(problemId);
                 } else if (entry.getValue() == Integer.parseInt(CollectEnum.NO_COLLECT.getCode())) {
                     if (proAttention.getCollect() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
