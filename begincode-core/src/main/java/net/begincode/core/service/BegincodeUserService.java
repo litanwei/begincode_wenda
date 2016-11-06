@@ -123,5 +123,20 @@ public class BegincodeUserService {
         }
 
     }
+    /*
+     * 通过列表名查询和数据查询是否存在数据
+     */
+    public Boolean selectCountIsExist(String columnName,Object data){
+    	if(bizBegincodeUserMapper.selectCountIsExist(columnName,data)<=0){
+    		return false;
+    	}
+		return true;
+    }
+    /*
+     * 通过login和passwor登录用户
+     */
+    public BegincodeUser selectUserByUsernamePassword(String username,String password){
+    	return bizBegincodeUserMapper.selectUserByUsernamePassword(username, password);
+    }
 
 }

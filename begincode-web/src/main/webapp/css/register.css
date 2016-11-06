@@ -1,0 +1,180 @@
+.form_reg {
+    float: left;
+    width: 320px;
+    padding-left:30px;
+}
+
+.form_reg .form {
+    position: relative;
+    zoom: 1
+}
+
+.form_reg .tabs {
+    padding-top: 28px;
+    line-height: 1
+}
+
+.form_reg .tabs_nav {
+    font-size: 28px;
+    color: #404040;
+    margin-right: 32px
+}
+
+.form_reg .tabs_nav:hover {
+    text-decoration: none
+}
+
+.form_reg .tabs_active {
+    color: #f60
+}
+
+.form_reg .input_wrap {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    height: 38px;
+    _height: 36px;
+    position: relative
+}
+
+.form_reg .input_wrap input {
+    border: 0;
+    background: 0;
+    width: 302px;
+    padding: 0 8px;
+    height: 38px;
+    line-height: 38px;
+    _height: 36px;
+    _line-height: 36px
+}
+
+.form_reg .tr {
+    margin-top: 16px;
+    line-height: 1
+}
+
+.form_reg .rule_wrap {
+    font-size: 14px;
+    color: gray;
+    *margin-top: 12px
+}
+
+.form_reg .rule_wrap a {
+    color: gray
+}
+
+.form_reg .submit_wrap {
+    *margin-top: 12px
+}
+
+.form_reg .submit {
+    display: block;
+    height: 40px;
+    background-color: #f60;
+    font-size: 18px;
+    text-align: center;
+    color: #fff;
+    line-height: 40px;
+    border: 0;
+    width: 100%;
+    cursor: pointer
+}
+
+.form_reg .quick_nav {
+    margin-top: 14px
+}
+
+.form_reg .login_btn {
+    color: #404040
+}
+
+
+
+.form_reg .code_wrap .disabled {
+    background: 0
+}
+
+
+
+.form_reg .vcode_wrap {
+    width: 202px;
+    position: relative
+}
+
+.form_login .vcode_wrap {
+    width: 202px;
+    position: relative
+}
+
+.form_login .vcode_wrap .vcode {
+    width: 188px
+}
+
+#loginPanel .vcode_wrap .vcode {
+    width: 188px
+}
+
+.form_reg .vcode_img {
+    position: absolute;
+    left: 219px;
+    top: 3px;
+    cursor: pointer;
+    visibility: hidden
+}
+
+.form_login .vcode_img {
+    position: absolute;
+    left: 219px;
+    top: 3px;
+    cursor: pointer;
+    visibility: hidden;
+    width: 100px;
+    height: 30px;
+}
+
+.form_reg .quick_nav a {
+    color: #404040;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.form_reg .h5_valid_wrap {
+    border: 1px solid #d00;
+    border-color: #d00;
+    box-shadow: 0 0 2px rgba(221,0,0,.5)
+}
+
+.form_reg .h4_valid_wrap {
+    border: 1px solid #06a7e1;
+    border-color: #06a7e1;
+    box-shadow: 0 0 2px rgba(0, 112, 221, 0.5);
+}
+
+.form_reg .h5_valid {
+    background: 0;
+    border: 0;
+    box-shadow: none
+}
+
+.form_reg .common_tip_box {
+    position: absolute;
+    left: -1px;
+    top: -30px;
+    width: 100%
+}
+.h5_valid_tip {
+    position: absolute;
+    height: 22px;
+    line-height: 22px;
+    overflow: hidden;
+    right: 8px;
+    top: 8px;
+    background-color: #d00;
+    color: #fff;
+    padding: 0 8px;
+    border-radius: 3px
+}
+.h5_valid_tip p {
+    zoom: normal;
+    margin: 0;
+    padding: 0
+}

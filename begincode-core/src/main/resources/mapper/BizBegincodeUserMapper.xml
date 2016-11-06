@@ -83,4 +83,10 @@
 		LIMIT 10
 
 	</select>
+	<select id="selectCountIsExist" statementType="STATEMENT" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM begincode_user WHERE ${columnName}='${data}'
+	</select>
+	<select id="selectUserByUsernamePassword" resultMap="BaseResultMap">
+		SELECT * FROM begincode_user WHERE login_name=#{username} AND pwd=#{password}
+	</select>
 </mapper>

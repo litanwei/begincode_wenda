@@ -2,6 +2,7 @@ package net.begincode.core.handler;
 
 import net.begincode.common.BizException;
 import net.begincode.core.enums.UserResponseEnum;
+import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
 
@@ -111,5 +112,14 @@ public class UserHandler {
     public BegincodeUser selectByOpenId(String openId)
     {
         return begincodeUserService.findUserByOpenId(openId);
+    }
+    public Boolean selectCountIsExist(String columnName,Object data){
+    	return begincodeUserService.selectCountIsExist(columnName, data);
+    }
+    /*
+     * 通过login和passwor登录用户
+     */
+    public BegincodeUser selectUserByUsernamePassword(String username,String password){
+    	return begincodeUserService.selectUserByUsernamePassword(username, password);
     }
 }

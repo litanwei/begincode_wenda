@@ -26,7 +26,7 @@ public class CookieOperation {
 	public static void addCookie(HttpServletResponse response, BegincodeUser user){
 		Cookie accessToken = new Cookie("accessToken",user.getAccessToken());
 		Cookie openId = new Cookie("openId",user.getOpenId());
-		Cookie check = new Cookie("check",user.getCheckFlag());
+		Cookie check = new Cookie("check","1");
 		accessToken.setPath("/");
 		openId.setPath("/");
 		check.setPath("/");

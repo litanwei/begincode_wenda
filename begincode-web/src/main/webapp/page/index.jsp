@@ -4,12 +4,9 @@
 <html lang="zh-CN">
 <head>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
-    <script src="${ctx}/js/jquery/jqPaginator.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%@ include file="commons/meta.jsp" %>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>BeginCode问答</title>
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
@@ -25,6 +22,7 @@
 <body>
 
 <jsp:include page="/page/core/top.jsp"/>
+<%@ include file="commons/meta.jsp" %>
 <div class="container-fluid">
 
     <div class="row">
