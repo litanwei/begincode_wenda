@@ -215,6 +215,15 @@ function updateAnswer(data,id,ansAgreeFlag) {
         +'</li>'
         +'</ul>'
         +'</div>'
+        +'<div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">'
+        +'</div>'
+        +'<div class="col-md-2 col-sm-2 hidden-xs answer__info--author">'
+        +'<div class=" answer__info--author-warp">'
+        +'<a'
+        +'href="/u/fishenal>'
+        +data.data.userName
+        +'</a><span class="answer__info--author-rank"></span></div>'
+        +'</div>'
         +'</div>'
         +'</div>'
         +'</article>';

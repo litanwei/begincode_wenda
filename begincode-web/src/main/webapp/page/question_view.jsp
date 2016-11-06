@@ -165,6 +165,14 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
+                            </div>
+                            <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
+                                <div class=" answer__info--author-warp">
+                                    <a  title="${answer.userName}"
+                                       href="/u/fishenal">${answer.userName}</a><span
+                                        class="answer__info--author-rank"></span></div>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -234,6 +242,14 @@
                                         </ul>
                                     </li>
                                 </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
+                            </div>
+                            <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
+                                <div class=" answer__info--author-warp">
+                                    <a title="${answer.userName}"
+                                       href="/u/fishenal">${answer.userName}</a><span
+                                        class="answer__info--author-rank"></span></div>
                             </div>
                         </div>
                     </div>
