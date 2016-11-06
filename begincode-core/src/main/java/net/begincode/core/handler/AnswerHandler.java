@@ -110,11 +110,12 @@ public class AnswerHandler {
      * @return List<Answer>
      */
     public List<Answer> selAdoptAnswerByProblemId(int problemId) {
-        List<Answer> answerList = new ArrayList<>();
+        List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
         for(Answer answer:answerList){
             answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
+            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
         }
-        return answerService.findAdoptByProblemId(problemId);
+        return answerList;
     }
 
     /**
@@ -125,11 +126,12 @@ public class AnswerHandler {
      * @return List<Answer>
      */
     public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-        List<Answer> answerList = new ArrayList<>();
+        List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
         for(Answer answer:answerList){
+            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
             answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
         }
-        return answerService.findNotAdoptByProblemId(problemId);
+        return answerList;
     }
 
     /**
