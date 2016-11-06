@@ -75,7 +75,7 @@
             ${problem.content}
 
             <center>
-                <button type="button" class="btn btn-primary">点击投票(${problem.voteCount})</button>
+                <button id="clickVote" type="button" class="btn btn-primary">点击投票</button>
             </center>
 
             <form id="answerForm" method="post">

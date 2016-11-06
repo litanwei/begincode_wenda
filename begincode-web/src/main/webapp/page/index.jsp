@@ -167,6 +167,6 @@
 <!-- 获取热门标签 、查询标签-->
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 <!-- 页面加载事件 -->
-<script type="text/javascript" src="../js/onLoad.js"></script>
+<script type="text/javascript" src="${ctx}/js/onLoad.js"></script>
 </body>
 </html>

@@ -1,8 +1,13 @@
 import net.begincode.controller.UserController;
-import net.begincode.core.handler.*;
+import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.DemoHandler;
+import net.begincode.core.handler.MessageHandler;
+import net.begincode.core.handler.UserHandler;
+import net.begincode.core.mapper.BizProblemMapper;
+import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.*;
-import net.begincode.core.service.AnsAgreeService;
 import net.begincode.core.service.BegincodeUserService;
+import net.begincode.core.service.ProblemService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,38 +37,13 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     private UserHandler userHandler;
     @Resource
     private BegincodeUserService begincodeUserService;
+    @Resource
+    private ProblemService problemService;
+
     // 模拟request,response
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
 
-    @Resource
-    private AnsAgreeHandler ansAgreeHandler;
-    @Test
-    public void selA(){
-        AnsAgree ansAgree = new AnsAgree();
-        ansAgree.setAnswerId(41);
-        ansAgree.setAgree(1);
-        ansAgree.setBegincodeUserId(11);
-        ansAgreeHandler.selectAndUpdate(ansAgree);
-    }
-    @Resource
-    private AnsAgreeService ansAgreeService;
-    @Test
-    public void selB(){
-        AnsAgree ansAgree = new AnsAgree();
-        ansAgree.setAnswerId(43);
-        ansAgree.setAgree(2);
-        ansAgree.setBegincodeUserId(11);
-        ansAgreeService.updateByExample(ansAgree);
-    }
-    @Test
-    public void selC(){
-        AnsAgree ansAgree = new AnsAgree();
-        ansAgree.setAnswerId(42);
-        ansAgree.setAgree(2);
-        ansAgree.setBegincodeUserId(11);
-        ansAgreeService.insertSelective(ansAgree);
-    }
     // 注入loginController
     @Autowired
     private UserController userController ;
@@ -121,5 +101,17 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
      @Resource
     private MessageHandler messageHandler;
 
+    @Test
+    public void testaa(){
+        List<Problem> list = new ArrayList<>();
+        Problem p = new Problem();
+        p.setProblemId(6);
+        list.add(p);
+        Problem pa = new Problem();
+        pa.setProblemId(6);
+        list.add(pa);
+        System.out.print(list.size());
+        problemService.batchUpdateView(list);
+    }
 
 }

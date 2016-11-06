@@ -1,15 +1,13 @@
 package net.begincode.core.service;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import net.begincode.core.model.ProAttentionExample;
-import org.springframework.stereotype.Service;
-
 import net.begincode.core.mapper.Biz_ProAttentionMapper;
 import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.model.ProAttention;
+import net.begincode.core.model.ProAttentionExample;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class ProAttentionService {
@@ -28,21 +26,6 @@ public class ProAttentionService {
         return biz_ProAttentionMapper.selectCollectNumByUserId(userId);
     }
 
-    /**
-     * 根据问题号和用户号修改 未收藏 已收藏状态
-     *
-     * @param problemId
-     * @param userId
-     * @param vote
-     * @return
-     */
-    public Integer updateVoteByProIdAndUserId(Integer problemId, Integer userId, Integer vote) {
-        ProAttention proAttention = new ProAttention();
-        proAttention.setVote(vote);
-        ProAttentionExample proAttentionExample = new ProAttentionExample();
-        proAttentionExample.createCriteria().andProblemIdEqualTo(problemId).andBegincodeUserIdEqualTo(userId);
-        return proAttentionMapper.updateByExampleSelective(proAttention, proAttentionExample);
-    }
 
     /**
      * 通过问题id 和用户id 查找

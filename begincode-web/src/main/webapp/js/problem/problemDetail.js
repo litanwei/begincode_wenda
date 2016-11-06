@@ -5,7 +5,7 @@ $(document).ready(function () {
     var problemId = $("#problem_id").val();
     $.ajax({
         type: "GET",
-        url: ctx + "/view/" + problemId + ".htm",
+        url: ctx + "/problem/view/" + problemId + ".htm",
         dataType: "json",
         success: function (data) {
             if (data.code != 0) {
@@ -17,7 +17,7 @@ $(document).ready(function () {
     $("#collection").click(function () {
         $.ajax({
             type: "POST",
-            url: ctx + "/collect/" + problemId + ".htm",
+            url: ctx + "/problem/collect/" + problemId + ".htm",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
@@ -41,7 +41,31 @@ $(document).ready(function () {
     $("#vote").click(function () {
         $.ajax({
             type: "POST",
-            url: ctx + "/vote/" + problemId + ".htm",
+            url: ctx + "/problem/vote/" + problemId + ".htm",
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                    if (data.data == 1) {
+                        $("#vote").html("已投票");
+                        var voteNum = $("#voteNumber").html();
+                        $("#voteNumber").html((parseInt(voteNum) + 1));
+                    }
+                    if (data.data == 0) {
+                        $("#vote").html("投票");
+                        var voteNum = $("#voteNumber").html();
+                        $("#voteNumber").html((parseInt(voteNum) - 1));
+                    }
+                } else {
+                    showModel(data.msg);
+                }
+            }
+        })
+    })
+
+    $("#clickVote").click(function () {
+        $.ajax({
+            type: "POST",
+            url: ctx + "/problem/vote/" + problemId + ".htm",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
