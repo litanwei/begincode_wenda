@@ -268,27 +268,6 @@ public class ProblemHandler {
         }
     }
 
-    /**
-     * 获取问题所对应的采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selAdoptAnswerByProblemId(int problemId) {
-        return answerService.findAdoptByProblemId(problemId);
-    }
-
-    /**
-     * 获取问题所对应的未采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-        return answerService.findNotAdoptByProblemId(problemId);
-    }
 
     /**
      * @param problemId

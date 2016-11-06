@@ -15,7 +15,6 @@ import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -114,6 +113,7 @@ public class AnswerHandler {
         for(Answer answer:answerList){
             answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
             answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
         }
         return answerList;
     }
@@ -130,6 +130,7 @@ public class AnswerHandler {
         for(Answer answer:answerList){
             answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
             answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
         }
         return answerList;
     }

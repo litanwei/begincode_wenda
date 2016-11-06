@@ -56,37 +56,4 @@ public class MessageController {
         return messageHandler.countByMessageRemind(begincodeUser.getBegincodeUserId());
     }
 
-
-    /**
-     * 进入此方法 根据问题id 更改消息表中的删除状态 为已读
-     *
-     * @param request
-     * @param problemId
-     * @return
-     */
-    @AuthPassport
-    @RequestMapping(value = "/problem/{id}", method = RequestMethod.GET)
-    public Object updateMessageByProblemId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId) {
-        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        messageHandler.updateMessageByProblemId(begincodeUser.getBegincodeUserId(), problemId);
-        return "redirect:/problem/" + problemId + ".htm";
-    }
-
-    /**
-     * 进入此方法 根据回答id 更改消息表中的删除状态 为已读
-     *
-     * @param request
-     * @param problemId
-     * @param answerId
-     * @return
-     */
-    @AuthPassport
-    @RequestMapping(value = "/answer/{id}", method = RequestMethod.GET)
-    public Object updateMessageByAnswerId(HttpServletRequest request, @PathVariable(value = "id") Integer problemId, @RequestParam(value = "answerId") Integer answerId) {
-        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
-        messageHandler.updateMessageByAnswerId(begincodeUser.getBegincodeUserId(), answerId);
-        return "redirect:/problem/" + problemId + ".htm";
-    }
-
-
 }

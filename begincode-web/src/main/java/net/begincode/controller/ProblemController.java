@@ -3,12 +3,11 @@ package net.begincode.controller;
 import net.begincode.bean.Page;
 import net.begincode.core.enums.CollectEnum;
 import net.begincode.core.enums.VoteEnum;
-import net.begincode.core.handler.ProblemHandler;
+import net.begincode.core.handler.*;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
 import net.begincode.utils.DateUtil;
-import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -33,19 +32,13 @@ public class ProblemController {
     private Logger logger = LoggerFactory.getLogger(ProblemController.class);
 
     @Resource
-    private AnswerHandler answerHandler;
-    @Resource
     private ProblemHandler problemHandler;
-    @Resource
-    private AccountContext accountContext;
-    @Resource
-    private LabelHandler labelHandler;
-    @Resource
-    private CountMapHandler countMapHandler;
     @Resource
     private MessageHandler messageHandler;
     @Resource
     private AnsAgreeHandler ansAgreeHandler;
+    @Resource
+    private AnswerHandler answerHandler;
 
 
     @AuthPassport
@@ -201,8 +194,8 @@ public class ProblemController {
      * @param begincodeUser
      */
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
-        List<Answer> answerAdoptList = problemHandler.selAdoptAnswerByProblemId(problemId);
-        List<Answer> answerNoAdoptList = problemHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
+        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
         List<String> newAdoptTime = new ArrayList<>();
         for (int a = 0; a < answerAdoptList.size(); a++) {
             newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
@@ -213,7 +206,7 @@ public class ProblemController {
         }
         Problem problem = problemHandler.selectById(problemId);
         if (begincodeUser != null) {
-            model.addAttribute("proAttention", setProAttention(begincodeUser, problem));
+            model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
                 Integer[] answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
                 Integer[] answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
