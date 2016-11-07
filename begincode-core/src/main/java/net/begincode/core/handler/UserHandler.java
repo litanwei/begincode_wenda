@@ -139,4 +139,10 @@ public class UserHandler {
     	}
     	return begincodeUserService.selectByLoginname(username, password);
     }
+    public Boolean IsExistByRow(String rowName,String rowData){
+    	if(rowName==null||rowName.trim().equals("")||rowData==null||rowData.trim().equals("")){
+    		return null;
+    	}
+    	return begincodeUserService.IsExistByRow(rowName, rowData);
+    }
 }

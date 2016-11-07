@@ -145,5 +145,12 @@ public class BegincodeUserService {
     	}
     	return null;
     }
+    public Boolean IsExistByRow(String rowName,String rowData){
+    	Integer size=bizBegincodeUserMapper.countByRowName(rowName, rowData);
+    	if(size==null||size<=0){
+    		return false;
+    	}
+    	return true;
+    }
    
 }

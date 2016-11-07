@@ -1,4 +1,4 @@
-//显示login弹窗
+//显示login弹窗！
 function view_login(){
 	var layerIndex=layer.open({
 		type : 2,
@@ -10,7 +10,7 @@ function view_login(){
 	});
 	parent.layer.close(layerIndex-1);
 }
-//显示register弹窗
+//显示register弹窗！
 function view_register(){
 	var layerIndex=layer.open({
 		type : 2,
@@ -22,23 +22,30 @@ function view_register(){
 	});
 	parent.layer.close(layerIndex-1);
 }
-//提交表单
-function form_submit(form){
+//提交注册表单！
+function form_register_submit(form){
 	if(validate_form(form)){
 		$.ajax({
 			data:$(form).serialize(),
 			dataType:"json",
-			url:"/user/registerByUsername.htm",
+			url:"/user/registerUser.htm",
 			success : function(data) {
-				parent.location.reload();//属性主页面
-				check_loginStauts();//检查是否登录
+				if(data.data==true){
+					parent.location.reload();//刷新主页面  ########可选
+					check_loginStauts();//检查是否登录
+				}
 			}
 		});
 	}else{
 		img_change($(".vcode_img"));
 	}
 }
-//验证form表单
+//可选非法字符
+//else if(!/^[a-z\d\u4E00-\u9FA5]+$/.test(nname.val())){
+//	add_remind(nname,'昵称包含非法字符')
+//	return false;
+//}
+//验证form表单！
 function validate_form(form){
 	var uname=$(form.username);
 	var nname=$(form.nickname);
@@ -57,8 +64,8 @@ function validate_form(form){
 	}else if(nname.val()==''){
 		add_remind(nname,'请输入用户昵称')
 		return false;
-	}else if(!/^[a-z\d\u4E00-\u9FA5]+$/.test(nname.val())){
-		add_remind(nname,'包含非法字符')
+	} else if(nname.val().indexOf("nbsp;")>0){
+		add_remind(nname,'昵称包含非法字符')
 		return false;
 	}else if(pwd.val() == ''){
         add_remind(pwd,'请输入密码');
@@ -82,7 +89,7 @@ function validate_form(form){
 	}
 	return true;
 	}
-//红色提醒字
+//红色提醒字！
 function add_remind(jObject,text){
 	jObject.parent().append('<div class="h5_valid_tip"><p>'+text+'</p></div>');
 	jObject.parent().addClass('h5_valid_wrap');
@@ -92,11 +99,11 @@ function add_remind(jObject,text){
         jObject.off('keyup');
     });
 	}
-//改变验证图片
+//改变验证图片！
 function img_change(dom){
 	dom.src="/image/vcode.htm?t="+Math.random();  
 }
-//登录
+//登录！
 function login_submit(form) {
 	var uname=$(form.username);
 	var pwd=$(form.password);
@@ -112,72 +119,38 @@ function login_submit(form) {
 		dataType:"json",
 		url:"/user/loginUser.htm",
 		success : function(data) {
-			if(data.data.success==null){
-				alert(data.data.error);
-			}else{
-				parent.location.reload();
-				check_loginStauts();
+			if(data.data==true){
+				parent.location.reload();//登录成功刷新主页面  ￥￥￥￥￥￥￥可选可控制
+				check_loginStauts(); //登录成功检查一次
 			};
 		}
 	});	
 }
-//检查登录状态 true表示成功登录
-function check_login(){
+//检查登录状态 true表示成功登录！
+function check_loginStauts(){
 	$.ajax({
 		dataType:"json",
 		url:"/user/checkLogin.htm",
 		success : function(data) {
-			alert(data.data);
 			if(data.data==true){
 				changeLoignDiv(true);
+			}else{
+				changeLoignDiv(false);
 			}
 		}
 	});	
 }
 //修改div登录显示
 function changeLoignDiv(boolen){
-	var nickname;
+	var html=$("#successLoginDiv").html();
+	alert(html);
+}
+//退出登录
+function exitLogin(){
+	alert("开始");
 	$.ajax({
-		url:"/user/getLoginUser.htm",
-		dataType:"json",
-		success:function(data){
-			nickanem=data.data.nickname;
-			if(boolen==true){
-				var changeDiv='<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎:'+nickanem+'<span class="caret"></span></a>'+
-			    '<ul class="dropdown-menu">'+
-			    ' <li><a href="javascript:void(0)">博文管理</a></li>'+
-			    ' <li role="separator" class="divider"></li>'+
-			    ' <li><a href="javascript:void(0)" onclick="login_delete()">退出</a></li>'+
-			    ' </ul>';
-				$("#simpleLogin",parent.document).html(changeDiv);
-			}
-			if(boolen==false){
-				var changeDiv='<a href="javascript:void(0)" onclick="login_sumbit_show()">登录</a> '+
-				'<a href="javascript:void(0)" onclick="register_sumbit_show()">注册</a>';
-				$("#simpleLogin",parent.document).html(changeDiv);
-			}
-		}
+		type:"post",
+		url:"/user/loginClean.htm",
 	});
-	
-	
-}
-function register_sumbit_show() {
-	parent.layer.open({
-		type : 2,
-		title : '',
-		shadeClose : true,
-		shade : false,
-		area : [ '400px', '500px' ],
-		content : '/user/register_view.htm'
-	});
-}
-function login_sumbit_show() {
-	parent.layer.open({
-		type : 2,
-		title : '',
-		shadeClose : true,
-		shade : false,
-		area : [ '400px', '400px' ],
-		content : 'http://www.begincode.net/user/login_view.htm'
-	});
+	alert("到这");
 }

@@ -11,7 +11,7 @@
  <div class="main login_main" id="main">
         <div class="panel login_panel fix" id="loginPanel">
             <div class="form_login">
-                <form class="form" method="post" id="ddd">
+                <form class="form" method="post" id="loginForm">
                     <div class="clear">&nbsp;</div>
                     <div class="tr input_wrap loginname_wrap">
                         <i class="login_username_icon"></i>
@@ -35,7 +35,7 @@
                       
                     </ul>
                     <div class="tr submit_wrap">
-                        <a class="submit" onclick="window.parent.login_submit(ddd)">登 录</a>
+                        <a class="submit" onclick="window.parent.login_submit(loginForm)">登 录</a>
                         <a class="go_reg" onclick="window.parent.view_register()">注册</a>
                     </div>
                     <div class="QQ_login" onclick="qq_login()"><i class="QQicon_login"></i><span class="make_lgoin">使用QQ登录</span></div>

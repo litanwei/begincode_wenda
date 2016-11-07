@@ -14,7 +14,7 @@
             <div class="header fix">
                 <h2>注册</h2>
             </div>
-            <form class="form form1 tabs_content" method="post">
+            <form class="form form1 tabs_content" method="post" id="RegisterForm">
                 <div class="tr input_wrap loginname_wrap">
                     <input  title="请输入用户名" type="text" name="username" id="username" placeholder="用户名">
                 </div>
@@ -37,7 +37,7 @@
                 <div class="tr rule_wrap">
                 </div>
                 <div class="tr submit_wrap">
-                    <a class="submit" onclick="reg_submit()">注 册</a>
+                    <a class="submit" onclick="window.parent.form_register_submit(RegisterForm)">注 册</a>
                 </div>
             </form>
             <div class="quick_nav tr">

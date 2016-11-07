@@ -13,4 +13,8 @@ public interface BizBegincodeUserMapper {
      * 获取活跃用户，一个月内提问和回复的总数，排序，取前10
      */
     public List<BegincodeUser> getActiverUser(@Param(value = "dateBefore") Date dateBefore);
+    /**
+     * 通过列名和列数据cout数据
+     */
+    public Integer countByRowName(@Param(value = "rowName") String rowName,@Param(value = "rowData") String rowData);
 }
