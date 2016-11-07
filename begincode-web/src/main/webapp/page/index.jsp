@@ -3,9 +3,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+	<jsp:include page="/page/core/top.jsp"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
-    <script src="${ctx}/js/jquery/jqPaginator.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,8 +22,6 @@
     <![endif]-->
 </head>
 <body>
-
-<jsp:include page="/page/core/top.jsp"/>
 <div class="container-fluid">
 
     <div class="row">
