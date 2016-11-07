@@ -6,7 +6,7 @@ $(document).ready(function () {
     var name = $("#nickName").html();
     $.ajax({
         type: "GET",
-        url: "/user/problem/" + name + ".htm",
+        url: ctx+"/user/problem/" + name + ".htm",
         dataType: "json",
         success: function (data) {
             if (data.code == 0) {
@@ -21,7 +21,7 @@ $(document).ready(function () {
     $("#problem").click(function () {
         $.ajax({
             type: "GET",
-            url: "/user/problem/" + name + ".htm",
+            url: ctx+"/user/problem/" + name + ".htm",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
@@ -37,7 +37,7 @@ $(document).ready(function () {
     $("#answer").click(function () {
         $.ajax({
             type: "GET",
-            url: "/user/answer/" + name + ".htm?page=1",
+            url: ctx+"/user/answer/" + name + ".htm?page=1",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
@@ -51,7 +51,7 @@ $(document).ready(function () {
     $("#collection").click(function () {
         $.ajax({
             type: "GET",
-            url: "/user/collect/" + name + ".htm?page=1",
+            url: ctx+"/user/collect/" + name + ".htm?page=1",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {

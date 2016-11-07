@@ -50,17 +50,53 @@
                 <div class="col-md-3 col-sm-4 col-xs-12 hidden-xs">
                     <ul class="post-topheader__side list-unstyled">
                         <li>
-                            <button type="button" id="collection" class="btn btn-danger btn-sm"
-                                    data-id="1010000006602336" data-do="follow" data-type="question"
-                                    data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
-                            </button>
-                            <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
+                            <c:choose>
+                                <c:when test="${proAttention.collect == '1'}">
+                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
+                                            data-id="1010000006602336" data-do="follow" data-type="question"
+                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">已收藏
+                                    </button>
+                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
+                                </c:when>
+                                <c:when test="${proAttention.collect == '0'}">
+                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
+                                            data-id="1010000006602336" data-do="follow" data-type="question"
+                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
+                                    </button>
+                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" id="collection" class="btn btn-danger btn-sm"
+                                            data-id="1010000006602336" data-do="follow" data-type="question"
+                                            data-toggle="tooltip" data-placement="right" title="收藏后更新将会提醒">收藏
+                                    </button>
+                                    <strong id="collectionNumber">${problem.collectCount}</strong> 收藏
+                                </c:otherwise>
+                            </c:choose>
                         </li>
                         <li>
-                            <button type="button" id="vote" class="btn btn-default btn-sm"
-                                    data-id="1010000006602336" data-type="question">投票
-                            </button>
-                            <strong id="voteNumber">${problem.voteCount}</strong> 投票，<strong id="viewNumber" class="no-stress">${problem.viewCount}</strong> 浏览
+                            <c:choose>
+                                <c:when test="${proAttention.vote == '0'}">
+                                    <button type="button" id="vote" class="btn btn-default btn-sm"
+                                            data-id="1010000006602336" data-type="question">投票
+                                    </button>
+                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
+                                </c:when>
+                                <c:when test="${proAttention.vote == '1'}">
+                                    <button type="button" id="vote" class="btn btn-default btn-sm"
+                                            data-id="1010000006602336" data-type="question">已投票
+                                    </button>
+                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" id="vote" class="btn btn-default btn-sm"
+                                            data-id="1010000006602336" data-type="question">投票
+                                    </button>
+                                    <strong id="voteNumber">${problem.voteCount}</strong> 投票，
+                                </c:otherwise>
+                            </c:choose>
+                            <strong id="viewNumber"
+                                    class="no-stress">${problem.viewCount}</strong> 浏览
                         </li>
                     </ul>
                 </div>
