@@ -284,7 +284,7 @@
                             <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
                                 <div class=" answer__info--author-warp">
                                     <a title="${answer.userName}"
-                                       href="/u/fishenal">${answer.userName}</a><span
+                                       href="${ctx}/user/${answer.userName}.htm">${answer.userName}</a><span
                                         class="answer__info--author-rank"></span></div>
                             </div>
                         </div>

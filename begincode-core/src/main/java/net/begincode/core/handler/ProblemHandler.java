@@ -51,7 +51,6 @@ public class ProblemHandler {
      *
      * @param problem 前台传入的问题
      * @param label   传入的标签对象  用于标签表的新增
-     * @param userId  传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label) {
@@ -391,13 +390,14 @@ public class ProblemHandler {
      * @param userId
      * @return
      */
-    @Transactional
     private ProAttention findOrCreateProAtt(Integer problemId, Integer userId) {
         ProAttention proAttention = proAttentionService.selectProAttentionById(problemId, userId);
         if (proAttention == null) {
             proAttention = new ProAttention();
             proAttention.setBegincodeUserId(userId);
             proAttention.setProblemId(problemId);
+            proAttention.setCollect(0);
+            proAttention.setVote(0);
             Integer createNum = proAttentionService.createProAtt(proAttention);
             if (createNum < 0) {
                 throw new BizException(ProAttResponseEnum.PROATT_CREATE_ERROR);
@@ -456,8 +456,10 @@ public class ProblemHandler {
                 Integer problemId = Integer.parseInt(id[1]);
                 ProAttention proAttention = findOrCreateProAtt(problemId, userId);
                 // 更新收藏状态  要先判断数据库中有无收藏情况 如果有收藏 从problem表中加1 再更改状态
-                if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode()) && proAttention.getCollect() != Integer.parseInt(CollectEnum.COLLECT.getCode())) {
-                    problemService.updateCollAddByProblemId(problemId);
+                if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                    if (proAttention!=null && proAttention.getCollect() != Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                        problemService.updateCollAddByProblemId(problemId);
+                    }
                 } else if (entry.getValue() == Integer.parseInt(CollectEnum.NO_COLLECT.getCode())) {
                     if (proAttention.getCollect() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                         problemService.updateCollReduceByProblemId(problemId);
