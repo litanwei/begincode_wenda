@@ -54,7 +54,7 @@ public class ProblemHandler {
      * @param userId  传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addProblem(Problem problem, Label label, Integer[] userId) {
+    public void addProblem(Problem problem, Label label) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
         //截取内容中@的用户名 加上url
@@ -69,14 +69,6 @@ public class ProblemHandler {
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);
-        if (userId != null && userId.length > 0) {
-            for (int i = 0; i < userId.length; i++) {
-                //消息添加
-                message.setBegincodeUserId(userId[i]);
-                message.setProId(problem.getProblemId());
-                messageService.createMessage(message);
-            }
-        }
     }
 
     /**
@@ -276,27 +268,6 @@ public class ProblemHandler {
         }
     }
 
-    /**
-     * 获取问题所对应的采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selAdoptAnswerByProblemId(int problemId) {
-        return answerService.findAdoptByProblemId(problemId);
-    }
-
-    /**
-     * 获取问题所对应的未采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-        return answerService.findNotAdoptByProblemId(problemId);
-    }
 
     /**
      * @param problemId

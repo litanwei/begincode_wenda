@@ -24,6 +24,4 @@ function getLabels(){
 		dataType: 'json'
 	});
 	}
-	//function selectLabel(id){
-	//	alert(id);
-	//}
+
