@@ -448,7 +448,6 @@ input.common_btn,input.common_btn:hover,input.common_btn:active {
     width: 30px;
     height: 25px;
     background-size: 25px;
-    background-image: url(/img/login_username.png);
     background-repeat: no-repeat;
     border-right: 1px solid #ccc;
     padding-right: 5px;
@@ -461,7 +460,6 @@ input.common_btn,input.common_btn:hover,input.common_btn:active {
     width: 30px;
     height: 25px;
     background-size: 25px;
-    background-image: url(/img/login_userpas.png);
     background-repeat: no-repeat;
     border-right: 1px solid #ccc;
     padding-right: 5px;
@@ -490,7 +488,6 @@ input.common_btn,input.common_btn:hover,input.common_btn:active {
     cursor: pointer;
 }
 .QQicon_login{
-    background:url(/img/QQ_login.png) no-repeat ;
     display: inline-block;
     width: 40px;
     height: 40px;
@@ -949,7 +946,6 @@ body,html {
     position: absolute;
     left: 8px;
     top: 5px;
-    background: url(/img/b_a1e9474.png) -200px -190px no-repeat
 }
 
 .oauth_frequent .qq_btn {
@@ -962,7 +958,6 @@ body,html {
     position: absolute;
     left: 8px;
     top: 4px;
-    background: url(/img/QQ_login.png) no-repeat;
     background-size: 30px;
 }
 

@@ -22,17 +22,17 @@
                     <input  title="请输入用户昵称" type="text" name="nickname" id="nickname" placeholder="用户昵称">
                 </div>
                 <div class="tr input_wrap passwd_wrap">
-                    <input title="别忘了密码" type="password" name="password" id=""password"" placeholder="密码">
+                    <input title="别忘了密码" type="password" name="password" id="password" placeholder="密码">
                 </div>
                 <div class="tr input_wrap check_passwd_wrap">
-                    <input  title="别忘了密码" type="password" name="password" id="checkpassword" placeholder="确认密码">
+                    <input  title="别忘了密码" type="password" name="checkpassword" id="checkpassword" placeholder="确认密码">
                 </div>
                 <div class="tr input_wrap email_wrap">
                     <input title="别忘了邮箱" type="text" name="email" id="email" placeholder="邮箱地址">
                 </div>
                 <div class="tr input_wrap vcode_wrap">
-                    <input  autocomplete="off" title="别忘了验证码" class="vcode" type="text" name="vcode" id="regvcode" placeholder="验证码">
-                    <img src="#" class="vcode_img" title="看不清？点击换一张！" style="visibility: visible;" onclick="fresh_vcode();">
+                    <input title="别忘了验证码" class="vcode" type="text" name="vcode" id="regvcode" placeholder="验证码">
+                    <img src="/image/vcode.htm" class="vcode_img" title="看不清？点击换一张！" style="visibility: visible;" onclick="window.parent.img_change(this)">
                 </div>
                 <div class="tr rule_wrap">
                 </div>

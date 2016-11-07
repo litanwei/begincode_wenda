@@ -9,8 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户事务层
@@ -23,8 +27,19 @@ public class UserHandler {
     private Logger logger = LoggerFactory.getLogger(UserHandler.class);
     @Resource
     private BegincodeUserService begincodeUserService;
+    
+    //用于保存已登录的nickname 和对应的session
+	private Map<String, HttpSession> loginUserMap=new HashMap<>();
+	
+    public Map<String, HttpSession> getLoginUserMap() {
+		return loginUserMap;
+	}
 
-    /**
+	public void setLoginUserMap(Map<String, HttpSession> loginUserMap) {
+		this.loginUserMap = loginUserMap;
+	}
+
+	/**
      * 新增User
      *
      * @param begincodeUser
