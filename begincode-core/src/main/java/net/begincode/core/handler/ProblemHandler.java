@@ -5,7 +5,6 @@ import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.enums.*;
-import net.begincode.core.httpclient.HttpUtil;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;

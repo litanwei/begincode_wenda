@@ -1,23 +1,19 @@
 package net.begincode.core.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import net.begincode.utils.PatternUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import net.begincode.common.BizException;
-import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+import net.begincode.utils.PatternUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author kangLiang

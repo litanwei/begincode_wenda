@@ -1,10 +1,7 @@
 package net.begincode.core.handler;
 
 import net.begincode.bean.Page;
-import net.begincode.common.BizException;
-import net.begincode.core.enums.MessageResponseEnum;
 import net.begincode.core.model.Answer;
-import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.Message;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.AnswerService;
@@ -12,22 +9,17 @@ import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.service.MessageService;
 import net.begincode.core.service.ProblemService;
 import net.begincode.utils.JsoupUtil;
-import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Component
 public class MessageHandler {
     @Resource
     private MessageService messageService;
-
-    @Resource
-    private BegincodeUserService begincodeUserService;
     @Resource
     private AnswerService answerService;
     @Resource

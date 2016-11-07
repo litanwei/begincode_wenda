@@ -34,8 +34,6 @@ public class ProblemController {
     @Resource
     private ProblemHandler problemHandler;
     @Resource
-    private MessageHandler messageHandler;
-    @Resource
     private AnsAgreeHandler ansAgreeHandler;
     @Resource
     private AnswerHandler answerHandler;
