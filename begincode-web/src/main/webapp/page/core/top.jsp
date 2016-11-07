@@ -6,13 +6,15 @@
         data-appid="101230380"
         data-redirecturi="http://www.begincode.net/login.html"
         charset="utf-8"></script>
-<script type="text/javascript">
-    var ctx = "${ctx}";
-</script>
 <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
 <script src="${ctx}/js/jquery/jqPaginator.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/layer/layer.js"></script>
 <script src="${ctx}/js/login/login.js"></script>
+<script type="text/javascript">
+    var ctx = "${ctx}";
+    check_login();
+</script>
+
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">

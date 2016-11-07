@@ -11,17 +11,17 @@
  <div class="main login_main" id="main">
         <div class="panel login_panel fix" id="loginPanel">
             <div class="form_login">
-                <form class="form" method="post">
+                <form class="form" method="post" id="ddd">
                     <div class="clear">&nbsp;</div>
                     <div class="tr input_wrap loginname_wrap">
                         <i class="login_username_icon"></i>
-                        <input value="" type="text" title="用户名" class="loginname" name="loginname" id="loginname" placeholder="用户名-可使用3dm论坛帐号登录"><i class="iconfont mobile_ico"></i>
+                        <input value="" type="text" title="用户名" class="loginname" name="username" id="username" placeholder="用户名-可使用3dm论坛帐号登录"><i class="iconfont mobile_ico"></i>
                         <i class="iconfont email_ico"></i>
                     </div>
                     <div class="tr input_wrap password_wrap">
                     <i class="login_userpas_icon"></i>
                         <div class="password_wrap1">
-                            <input value="" required="required" title="别忘了密码" type="password" class="password" name="password1" id="loginpassword" placeholder="密码">
+                            <input value="" required="required" title="别忘了密码" type="password" class="password" name="password" id="password" placeholder="密码">
                         </div>
                     </div>
                     
@@ -35,7 +35,7 @@
                       
                     </ul>
                     <div class="tr submit_wrap">
-                        <a class="submit" onclick="login_submit()">登 录</a>
+                        <a class="submit" onclick="window.parent.login_submit(ddd)">登 录</a>
                         <a class="go_reg" onclick="window.parent.view_register()">注册</a>
                     </div>
                     <div class="QQ_login" onclick="qq_login()"><i class="QQicon_login"></i><span class="make_lgoin">使用QQ登录</span></div>

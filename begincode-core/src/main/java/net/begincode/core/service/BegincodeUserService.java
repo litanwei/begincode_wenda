@@ -16,6 +16,7 @@ import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+import net.begincode.core.model.BegincodeUserExample.Criteria;
 
 /**
  * @author kangLiang
@@ -124,5 +125,25 @@ public class BegincodeUserService {
             return null;
         }
     }
-
+    
+    /**
+     * loginname和password 查找用户
+     * @param loginname
+     * @param password
+     * @return
+     */
+    public BegincodeUser selectByLoginname(String loginname,String password){
+    	BegincodeUser begincodeUser = new BegincodeUser();
+    	BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+    	Criteria criteria=begincodeUserExample.createCriteria();
+    	criteria.andLoginNameEqualTo(loginname);
+    	criteria.andPwdEqualTo(password);
+    	List<BegincodeUser> begincodeUserList=begincodeUserMapper.selectByExample(begincodeUserExample);
+    	if(begincodeUserList.size()==1){
+    		begincodeUser = begincodeUserList.get(0);
+    		return begincodeUser;
+    	}
+    	return null;
+    }
+   
 }

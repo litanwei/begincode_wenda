@@ -127,4 +127,16 @@ public class UserHandler {
     {
         return begincodeUserService.findUserByOpenId(openId);
     }
+    /**
+     * 根据loginname和password查找用户
+     * @param username
+     * @param password
+     * @return 
+     */
+    public BegincodeUser selectByLoginname(String username,String password){
+    	if(username==null||password==null||username.trim().equals("")||password.trim().equals("")){
+    		return null;
+    	}
+    	return begincodeUserService.selectByLoginname(username, password);
+    }
 }

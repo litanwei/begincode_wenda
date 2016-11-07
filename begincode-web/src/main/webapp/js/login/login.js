@@ -97,8 +97,6 @@ function img_change(dom){
 	dom.src="/image/vcode.htm?t="+Math.random();  
 }
 //登录
-
-
 function login_submit(form) {
 	var uname=$(form.username);
 	var pwd=$(form.password);
@@ -112,10 +110,7 @@ function login_submit(form) {
 	$.ajax({
 		data:$(form).serialize(),
 		dataType:"json",
-		url:"/user/loginByUsername.htm",
-		error:function(data){
-			alert(data.msg);
-		},
+		url:"/user/loginUser.htm",
 		success : function(data) {
 			if(data.data.success==null){
 				alert(data.data.error);
@@ -126,24 +121,20 @@ function login_submit(form) {
 		}
 	});	
 }
-//通过Cookie检查是否登录
-function check_loginStauts(){
-	var allcookies = document.cookie;
-	var arrCookies = allcookies.split("; ");
-	   for(var i = 0; i < arrCookies.length; i++){
-           var arr = arrCookies[i].split("=");
-           if(arr[0]=="check"){
-        	   if(arr[1]!="1"){
-        		   changeLoignDiv(false);
-        	   }else{
-        		   changeLoignDiv(true);  
-        	   }
-           }
-       }
+//检查登录状态 true表示成功登录
+function check_login(){
+	$.ajax({
+		dataType:"json",
+		url:"/user/checkLogin.htm",
+		success : function(data) {
+			alert(data.data);
+			if(data.data==true){
+				changeLoignDiv(true);
+			}
+		}
+	});	
 }
 //修改div登录显示
-
-
 function changeLoignDiv(boolen){
 	var nickname;
 	$.ajax({
@@ -158,12 +149,12 @@ function changeLoignDiv(boolen){
 			    ' <li role="separator" class="divider"></li>'+
 			    ' <li><a href="javascript:void(0)" onclick="login_delete()">退出</a></li>'+
 			    ' </ul>';
-				$("#loginShowTop",parent.document).html(changeDiv);
+				$("#simpleLogin",parent.document).html(changeDiv);
 			}
 			if(boolen==false){
 				var changeDiv='<a href="javascript:void(0)" onclick="login_sumbit_show()">登录</a> '+
 				'<a href="javascript:void(0)" onclick="register_sumbit_show()">注册</a>';
-				$("#loginShowTop",parent.document).html(changeDiv);
+				$("#simpleLogin",parent.document).html(changeDiv);
 			}
 		}
 	});
