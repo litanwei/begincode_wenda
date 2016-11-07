@@ -82,9 +82,9 @@ public class AnswerService {
      * 插入回答
      *
      * @param：answer
-     * @return：int
+     * @return：Integer
      */
-    public int insertAnswer(Answer record) {
+    public Integer insertAnswer(Answer record) {
         return answerMapper.insertSelective(record);
     }
 

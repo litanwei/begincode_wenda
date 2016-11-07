@@ -51,7 +51,6 @@ public class ProblemHandler {
      *
      * @param problem 前台传入的问题
      * @param label   传入的标签对象  用于标签表的新增
-     * @param userId  传入用户id集合  用于消息表的新增
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label) {
@@ -64,6 +63,7 @@ public class ProblemHandler {
         if (problemNum < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
+        messageService.createMessage(problem.getProblemId(),null,begincodeUserService.contentFilter(problem.getContent()));
         //发送http请求给搜索端
 //        HttpUtil.createIndexHttp(problem.getProblemId());
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
