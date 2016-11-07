@@ -87,7 +87,9 @@ public class AnswerHandler {
                 pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
+            ans.setAgreeCount(ansAgreeService.selAgreeCountById(answerId));
             answerService.updateAnswer(ans);
+
             return ans;
         } else {
             return null;
