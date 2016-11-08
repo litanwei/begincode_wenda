@@ -140,9 +140,11 @@ function check_loginStauts(){
 		success : function(data) {
 			if(data.data==true){
 				changeLoignDiv(true);
+				return true;
 			}else{
 //				check_loginByQQ();//失败再去用QQCookies判断
 				changeLoignDiv(false);
+				return false;
 			}
 		}
 	});	
@@ -155,6 +157,7 @@ function exitLogin(){
 		url:"/user/loginClean.htm",
 		success : function(data){
 			check_loginStauts();
+			QC.Login.signOut();
 		}
 	});
 }
@@ -183,18 +186,27 @@ function disposeDiv(_html,array){
 	});
 	$("#simpleLogin").html(_html);
 }
-//用户QQ登录自带Cookie获取openId! 空值放回
-function check_loginByQQ(){
-	
-}
-//QQ登录组件!
+
+//QQ登录页面打开!
 function login_submitByQQ(){
 	url="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101230380&response_type=token&scope=get_user_info,upload_pic,get_user_cbinfo&redirect_uri=http%3A%2F%2Fwww.begincode.net%2Flogin.html";
-//	layer.iframeSrc(layerIndex, url);
+//	layer.iframeSrc(layerIndex, url); //不能回传
 	QC.Login.showPopup();
+	layer.close(layerIndex);
 //	window.open(url); 可选窗口打开
 }
-
+// QQ登录成功会回调
+var paras={};
+QC.api("get_user_info", paras)  
+.success(function(s){//成功回调  
+	reqd=s.data;
+	QC.Login.getMe(function(openId, accessToken){
+		if(check_loginStauts()==false){
+			return;
+		}
+		regUser(reqd.nickname, reqd.figureurl, reqd.gender, reqd.province, reqd.city, reqd.year, openId, accessToken);
+		});
+}) ; 
 //QQ注册或登录
 function regUser(nickName, figureurl, gender, province, city, year, openId, accessToken) {
     jQuery.ajax({
@@ -202,9 +214,11 @@ function regUser(nickName, figureurl, gender, province, city, year, openId, acce
         url:"/user/login.htm",
         data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
         dataType: "json",
-        success: function (codes) {
-        	alert("QQ成功注册或登录");
-        	check_loginStauts();   	
+        success: function (data) {
+        	check_loginStauts();
+        },
+        error: function(){
         }
     });
 }
+

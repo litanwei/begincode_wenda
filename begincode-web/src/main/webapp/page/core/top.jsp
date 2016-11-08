@@ -12,7 +12,6 @@
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	check_loginStauts();
-	
 /* QC.Login.getMe(function(openId, accessToken){
 		if(openId==null||accessToken==null){
 			return;

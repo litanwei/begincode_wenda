@@ -164,9 +164,6 @@ public class UserController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
     public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
-    	System.out.println(user==null);
-    	System.out.println(user.getOpenId());
-    	System.out.println(user.getAccessToken());
         user.setUserSourceId(1);
         user.setDeleteFlag("1");
         user = userHandler.createUserAndFind(user);
