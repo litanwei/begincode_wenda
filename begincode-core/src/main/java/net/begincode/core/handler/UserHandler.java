@@ -125,6 +125,9 @@ public class UserHandler {
      */
     public BegincodeUser selectByOpenId(String openId)
     {
+    	if(openId==null||openId.equals("")){
+    		return null;
+    	}
         return begincodeUserService.findUserByOpenId(openId);
     }
     /**
@@ -133,11 +136,11 @@ public class UserHandler {
      * @param password
      * @return 
      */
-    public BegincodeUser selectByLoginname(String username,String password){
+    public BegincodeUser selectByLoginName(String username,String password){
     	if(username==null||password==null||username.trim().equals("")||password.trim().equals("")){
     		return null;
     	}
-    	return begincodeUserService.selectByLoginname(username, password);
+    	return begincodeUserService.selectByLoginName(username, password);
     }
     public Boolean IsExistByRow(String rowName,String rowData){
     	if(rowName==null||rowName.trim().equals("")||rowData==null||rowData.trim().equals("")){

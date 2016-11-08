@@ -1,6 +1,7 @@
 //显示login弹窗！
+var layerIndex;
 function view_login(){
-	var layerIndex=layer.open({
+	layerIndex=layer.open({
 		type : 2,
 		title : '',
 		shadeClose : true,
@@ -12,7 +13,7 @@ function view_login(){
 }
 //显示register弹窗！
 function view_register(){
-	var layerIndex=layer.open({
+	layerIndex=layer.open({
 		type : 2,
 		title : '',
 		shadeClose : true,
@@ -31,7 +32,8 @@ function form_register_submit(form){
 			url:"/user/registerUser.htm",
 			success : function(data) {
 				if(data.data==true){
-					parent.location.reload();//刷新主页面  ########可选
+//					parent.location.reload();//刷新主页面  ########可选
+					parent.layer.close(layerIndex);
 					check_loginStauts();//检查是否登录
 				}
 			}
@@ -120,7 +122,8 @@ function login_submit(form) {
 		url:"/user/loginUser.htm",
 		success : function(data) {
 			if(data.data==true){
-				parent.location.reload();//登录成功刷新主页面  ￥￥￥￥￥￥￥可选可控制
+//				parent.location.reload();//登录成功刷新主页面  ￥￥￥￥￥￥￥可选可控制
+				parent.layer.close(layerIndex);
 				check_loginStauts(); //登录成功检查一次
 			};
 		}
@@ -140,17 +143,45 @@ function check_loginStauts(){
 		}
 	});	
 }
-//修改div登录显示
-function changeLoignDiv(boolen){
-	var html=$("#successLoginDiv").html();
-	alert(html);
-}
-//退出登录
+
+//退出登录!
 function exitLogin(){
-	alert("开始");
+	alert("准备退出");
 	$.ajax({
 		type:"post",
 		url:"/user/loginClean.htm",
+		success : function(data){
+			check_loginStauts();
+		}
 	});
-	alert("到这");
+}
+//修改div登录显示
+function changeLoignDiv(boolen){
+	var _html;
+	if(boolen==false){
+	  _html=$("#failLoginDiv").html();
+	  $("#simpleLogin").html(_html);
+	  return;
+	}else{
+	  _html=$("#successLoginDiv").html();
+	}
+	$.ajax({
+		dataType:"json",
+		url:"/user/userInfo.htm",
+		success : function(data){
+			var user=data.data;
+			disposeDiv(_html,user);
+			if(user!=null){
+				var d="\[(.*?)\]";
+			}
+		}
+	});
+}
+//替换div中的参数
+function disposeDiv(_html,array){
+	var reg = new RegExp(/\[(.*?)\]/,'igm');
+	_html=_html.replace(reg,function(node, key){
+		return array[key];
+	});
+	$("#simpleLogin").html(_html);
 }

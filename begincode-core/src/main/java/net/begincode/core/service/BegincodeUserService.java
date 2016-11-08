@@ -105,7 +105,6 @@ public class BegincodeUserService {
         return list.size() > 0 ? list.get(0) : null;
 
     }
-
     /**
      * openId查找用户
      *
@@ -132,7 +131,7 @@ public class BegincodeUserService {
      * @param password
      * @return
      */
-    public BegincodeUser selectByLoginname(String loginname,String password){
+    public BegincodeUser selectByLoginName(String loginname,String password){
     	BegincodeUser begincodeUser = new BegincodeUser();
     	BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
     	Criteria criteria=begincodeUserExample.createCriteria();

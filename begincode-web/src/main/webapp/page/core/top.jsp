@@ -11,15 +11,11 @@
 <script src="${ctx}/js/login/login.js"></script>
 <script type="text/javascript">
 	var ctx = "${ctx}";
-	function one() {
-		var html=$("#successLoginDiv").html();
-		alert(html);
-		$("#simpleLogin").html(html);
-	}
+	check_loginStauts();
 </script>
 <!-- 这是成功登录的页面 -->
 <script id="successLoginDiv" type="text/html">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎:username<span class="caret"></span></a>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎:[loginName]<span class="caret"></span></a>
 	<ul class="dropdown-menu">
 		<li><a href="javascript:void(0)">博文管理</a></li>
 		<li role="separator" class="divider"></li>
@@ -28,8 +24,8 @@
 </script>
 <!-- 这是失败的页面 -->
 <script id="failLoginDiv" type="text/html">
-	<a href="javascript:void(0)" onclick="login_sumbit_show()">登录</a>
-	<a href="javascript:void(0)" onclick="register_sumbit_show()">注册</a>
+	<a href="JavaScript:void(0)" onclick="view_login()">登录</a> 
+    <a href="JavaScript:void(0)" onclick="view_register()">注册</a>
 </script>
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
@@ -62,9 +58,9 @@
 
 				<form class="navbar-form navbar-right" action="${ctx}/search.htm"
 					method="get">
-					<span id="simpleLogin" class="dropdown"> <a
-						href="JavaScript:void(0)" onclick="view_login()">登录</a> <a
-						href="JavaScript:void(0)" onclick="view_register()">注册</a>
+					<span id="simpleLogin" class="dropdown">
+					<a href="JavaScript:void(0)" onclick="view_login()">登录</a> 
+					<a href="JavaScript:void(0)" onclick="view_register()">注册</a>
 					</span>
 					<div class="form-group">
 						<input type="text" name="q" class="form-control "
@@ -76,9 +72,5 @@
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
-	<div id="test">
-		<input type="button" onclick="one()" value="点击获取">
-	</div>
-	<span>我要获取值啊${sessionScope.checkLogin}</span>
 	<!-- /.container-fluid -->
 </nav>

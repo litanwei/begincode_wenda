@@ -1,11 +1,12 @@
 package net.begincode.controller;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.handler.UserHandler;
 import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.support.AuthPassport;
 
 @RequestMapping("/user")
 @Controller
@@ -44,10 +44,8 @@ public class BizUserController {
 	public Object loginUser(HttpServletRequest request,HttpServletResponse response){
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
-		System.out.println(username);
-		System.out.println(password);
-		BegincodeUser user=userHandler.selectByLoginname(username, password);
-		if(user!=null){
+		BegincodeUser user=userHandler.selectByLoginName(username, password);
+		if(user!=null){//密码账号验证成功
 			CookieOperation.addCookie(response, user);
 			if(userHandler.getLoginUserMap().keySet().contains(username)){
 				userHandler.getLoginUserMap().get(username).invalidate();//清空原有session
@@ -56,37 +54,36 @@ public class BizUserController {
 		}else{
 			return false;
 		}
-		request.getSession().setAttribute("checkLogin", true);
 		return true;
 	}
 	/**
-	 * 检查Session中是否存在checklogin判断登录
+	 * 检查Cookie中是否存在openid判断登录
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value="/checkLogin")
 	@ResponseBody
 	public Object checkLogin(HttpServletRequest request){
-		Object checkLogin=request.getSession().getAttribute("checkLogin");
-		 Enumeration e=request.getSession().getAttributeNames();
-		 while(e.hasMoreElements()){
-	         System.out.println(e.nextElement());
-	      }
-		if(checkLogin==null){
+		String opend=getOpenId(request);
+		if(opend==null){
 			return false;
 		}
 		return true;
 	}
 	/**
-	 * 用于返回用户的nickname等信息
+	 * 用于返回用户的信息 ajax
 	 * @return
 	 */
 	@RequestMapping(value="/userInfo")
 	@ResponseBody
 	public Object userInfo(HttpServletRequest request){
-		Map<String, Object> reDate=new HashMap<>();
-		
-		return "";
+		BegincodeUser user=null;
+		String opend=getOpenId(request);
+		user=userHandler.selectByOpenId(opend);
+		if(user==null){
+			return null;
+		}
+		return user;
 	}
 	/**
 	 * 用户注册
@@ -129,9 +126,17 @@ public class BizUserController {
 		user.setAccessToken(access_token);
 		CookieOperation.addCookie(response, user);//添加cookie信息 用于@AuthPassport验证登录
 		userHandler.getLoginUserMap().put(username, request.getSession()); //添加map 用于map储存session进行异地登录销毁
-		request.getSession().setAttribute("checkLogin", true);  //添加session登录验证 用于session验证登录
 		userHandler.addUser(user);
 		return true;
 	}
-
+	//request获得OpendId
+	public String getOpenId(HttpServletRequest request){
+		Cookie[] cookies=request.getCookies();
+		for(Cookie c:cookies){
+			if(c.getName().equals("openId")){
+				return c.getValue();
+			}
+		}
+		return null;
+	}
 }
