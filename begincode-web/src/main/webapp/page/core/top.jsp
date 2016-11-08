@@ -12,10 +12,23 @@
 <script type="text/javascript">
 	var ctx = "${ctx}";
 	check_loginStauts();
+	
+/* QC.Login.getMe(function(openId, accessToken){
+		if(openId==null||accessToken==null){
+			return;
+		}
+		var paras={};
+		QC.api("get_user_info", paras)  
+    	.success(function(s){//成功回调  
+        reqd=s.data;
+        regUser(reqd.nickname, reqd.figureurl, reqd.gender, reqd.province, reqd.city, reqd.year, openId, accessToken);
+    }) ; 
+		});  
+	alert("呜呜呜呜呜呜"); */
 </script>
 <!-- 这是成功登录的页面 -->
 <script id="successLoginDiv" type="text/html">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎:[loginName]<span class="caret"></span></a>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎:[nickname]<span class="caret"></span></a>
 	<ul class="dropdown-menu">
 		<li><a href="javascript:void(0)">博文管理</a></li>
 		<li role="separator" class="divider"></li>
@@ -72,5 +85,8 @@
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
+	<a href="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101230380&response_type=token&scope=get_user_info,upload_pic,get_user_cbinfo&redirect_uri=http%3A%2F%2Fwww.begincode.net%2Flogin.html" target="_blank">登录</a>
+	<a href="javaScript:void(0)" onclick="login_submitByQQ()">测试异步</a>
+	<a href="javaScript:void(0)" onclick="check_loginByQQ()">检查QQ登陆</a>
 	<!-- /.container-fluid -->
 </nav>

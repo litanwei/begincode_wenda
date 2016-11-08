@@ -2,6 +2,7 @@ package net.begincode.controller;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.begincode.core.cookie.CookieOperation;
@@ -64,8 +66,8 @@ public class BizUserController {
 	@RequestMapping(value="/checkLogin")
 	@ResponseBody
 	public Object checkLogin(HttpServletRequest request){
-		String opend=getOpenId(request);
-		if(opend==null){
+		String openId=getOpenId(request);
+		if(openId==null){
 			return false;
 		}
 		return true;
@@ -100,7 +102,7 @@ public class BizUserController {
 		String password=request.getParameter("password");
 		String email=request.getParameter("email");
 		String vcode=request.getParameter("vcode").toLowerCase();
-		String checkvcode=request.getSession().getAttribute("imageCode").toString().toLowerCase();
+		String checkvcode=request.getSession().getAttribute("imageVcode").toString().toLowerCase();
 		if(!vcode.equals(checkvcode)){
 			return false;
 		}
@@ -129,6 +131,7 @@ public class BizUserController {
 		userHandler.addUser(user);
 		return true;
 	}
+
 	//request获得OpendId
 	public String getOpenId(HttpServletRequest request){
 		Cookie[] cookies=request.getCookies();

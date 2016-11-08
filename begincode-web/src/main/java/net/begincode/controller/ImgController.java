@@ -23,7 +23,7 @@ public class ImgController {
 	@RequestMapping(value="/vcode")
 	public void getVcode(HttpServletResponse response,HttpSession session) throws IOException{
 		Object img[]=ImageUtil.createImage();
-		session.setAttribute("vocde", img[0]);
+		session.setAttribute("imageVcode", img[0]);
 		BufferedImage image = (BufferedImage) img[1];  
 		response.setContentType("image/png"); 
 		OutputStream os = response.getOutputStream();

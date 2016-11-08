@@ -38,7 +38,7 @@
                         <a class="submit" onclick="window.parent.login_submit(loginForm)">登 录</a>
                         <a class="go_reg" onclick="window.parent.view_register()">注册</a>
                     </div>
-                    <div class="QQ_login" onclick="qq_login()"><i class="QQicon_login"></i><span class="make_lgoin">使用QQ登录</span></div>
+                    <div class="QQ_login" onclick="window.parent.login_submitByQQ()"><i class="QQicon_login"></i><span class="make_lgoin">使用QQ登录</span></div>
                 </form>
             </div>
         </div>

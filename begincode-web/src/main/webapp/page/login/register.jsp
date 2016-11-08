@@ -48,7 +48,7 @@
         <div class="oauth_login">
             <div class="title">授权登录</div>
             <div class="oauth_frequent fix">
-                <a data-type="3" class="btn qq_btn" onclick="qq_login()"><b></b>QQ登录</a>
+                <a data-type="3" class="btn qq_btn" onclick="window.parent.login_submitByQQ()"><b></b>QQ登录</a>
             </div>
         </div>
     </div>

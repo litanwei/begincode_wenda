@@ -9,7 +9,7 @@ function view_login(){
 		area : [ '400px', '400px' ],
 		content : '/user/view/login/login.htm'
 	});
-	parent.layer.close(layerIndex-1);
+	layer.close(layerIndex-1);
 }
 //显示register弹窗！
 function view_register(){
@@ -21,7 +21,8 @@ function view_register(){
 		area : [ '680px', '500px' ],
 		content : '/user/view/login/register.htm'
 	});
-	parent.layer.close(layerIndex-1);
+	layer.close(layerIndex-1);
+	img_change($(".vcode_img"));
 }
 //提交注册表单！
 function form_register_submit(form){
@@ -35,6 +36,8 @@ function form_register_submit(form){
 //					parent.location.reload();//刷新主页面  ########可选
 					parent.layer.close(layerIndex);
 					check_loginStauts();//检查是否登录
+				}else{
+					img_change($(".vcode_img"));
 				}
 			}
 		});
@@ -138,6 +141,7 @@ function check_loginStauts(){
 			if(data.data==true){
 				changeLoignDiv(true);
 			}else{
+//				check_loginByQQ();//失败再去用QQCookies判断
 				changeLoignDiv(false);
 			}
 		}
@@ -146,7 +150,6 @@ function check_loginStauts(){
 
 //退出登录!
 function exitLogin(){
-	alert("准备退出");
 	$.ajax({
 		type:"post",
 		url:"/user/loginClean.htm",
@@ -155,13 +158,11 @@ function exitLogin(){
 		}
 	});
 }
-//修改div登录显示
+//修改div登录显示!
 function changeLoignDiv(boolen){
 	var _html;
 	if(boolen==false){
 	  _html=$("#failLoginDiv").html();
-	  $("#simpleLogin").html(_html);
-	  return;
 	}else{
 	  _html=$("#successLoginDiv").html();
 	}
@@ -171,17 +172,39 @@ function changeLoignDiv(boolen){
 		success : function(data){
 			var user=data.data;
 			disposeDiv(_html,user);
-			if(user!=null){
-				var d="\[(.*?)\]";
-			}
 		}
 	});
 }
-//替换div中的参数
+//替换div中的参数!
 function disposeDiv(_html,array){
 	var reg = new RegExp(/\[(.*?)\]/,'igm');
 	_html=_html.replace(reg,function(node, key){
 		return array[key];
 	});
 	$("#simpleLogin").html(_html);
+}
+//用户QQ登录自带Cookie获取openId! 空值放回
+function check_loginByQQ(){
+	
+}
+//QQ登录组件!
+function login_submitByQQ(){
+	url="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101230380&response_type=token&scope=get_user_info,upload_pic,get_user_cbinfo&redirect_uri=http%3A%2F%2Fwww.begincode.net%2Flogin.html";
+//	layer.iframeSrc(layerIndex, url);
+	QC.Login.showPopup();
+//	window.open(url); 可选窗口打开
+}
+
+//QQ注册或登录
+function regUser(nickName, figureurl, gender, province, city, year, openId, accessToken) {
+    jQuery.ajax({
+        type: "POST",
+        url:"/user/login.htm",
+        data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
+        dataType: "json",
+        success: function (codes) {
+        	alert("QQ成功注册或登录");
+        	check_loginStauts();   	
+        }
+    });
 }
