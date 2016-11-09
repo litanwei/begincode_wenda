@@ -33,7 +33,7 @@
 
                     <div class="post-topheader__info">
                         <h1 class="h3 post-topheader__info--title" id="questionTitle" data-id="1010000006602336">
-                            <a href="/q/1010000006602336">${problem.title}</a>
+                            <a>${problem.title}</a>
                         </h1>
 
                         <span class="keyword-list ">
@@ -42,7 +42,7 @@
                             </c:forEach>
                         </span>
                         <div class="question-author">
-                            <a href="#" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
+                            <a href="${ctx}/user/${problem.userName}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
                         </div>
                     </div>

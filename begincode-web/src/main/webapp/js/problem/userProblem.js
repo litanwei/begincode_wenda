@@ -75,6 +75,8 @@ function answerHtml(id, data) {
     $("#" + id).empty();
     var adoptDiv = "";
     $.each(data.data, function (i) {
+        var content = data.data[i].content;
+        content = content.replace(/<\/?[^>]*>/g,'').substring(0,100);
         if (data.data[i].adopt == 0) {
             adoptDiv = '<div class="answers">0<small>未采纳</small></div>';
         } else {
@@ -105,11 +107,11 @@ function answerHtml(id, data) {
             + '</ul>'
             + '<span class="keyword-list ">'
             + '<h2 class="title l">'
-            + '<a href="/problem/'
+            + '<a href=" '+ ctx+'/problem/'
             + data.data[i].problemId
             + '.htm">'
-            + data.data[i].content
-            + '</a></h2>'
+            + content
+            + ' </a></h2>'
             + '</span>'
             + '</div>'
             + '</section>'
