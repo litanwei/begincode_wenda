@@ -215,10 +215,12 @@ function regUser(nickName, figureurl, gender, province, city, year, openId, acce
         data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
         dataType: "json",
         success: function (data) {
-        	check_loginStauts();
         },
         error: function(){
+        	QC.Login.signOut();
+        	location.reload();
         }
     });
+
 }
 
