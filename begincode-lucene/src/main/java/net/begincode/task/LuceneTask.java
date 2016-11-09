@@ -5,8 +5,6 @@ import net.begincode.core.model.Problem;
 import net.begincode.bean.ConfigBean;
 import net.begincode.index.Index;
 import net.begincode.manager.IndexConfig;
-import net.begincode.utils.JsoupUtil;
-import net.begincode.utils.PatternUtil;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;

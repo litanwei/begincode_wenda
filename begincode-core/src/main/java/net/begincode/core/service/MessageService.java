@@ -1,15 +1,13 @@
 package net.begincode.core.service;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
-import net.begincode.core.mapper.Biz_MessageMapper;
 import net.begincode.core.mapper.MessageMapper;
 import net.begincode.core.model.Message;
-import net.begincode.core.model.MessageRemind;
+import net.begincode.core.model.MessageExample;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Stay on 2016/8/30  22:57.
@@ -18,35 +16,77 @@ import net.begincode.core.model.MessageRemind;
 public class MessageService {
     @Resource
     private MessageMapper messageMapper;
-    @Resource
-    private Biz_MessageMapper biz_MessageMapper;
-    
-    public void createMessage(Message message)
-    {
+
+    public void createMessage(Message message) {
         messageMapper.insertSelective(message);
     }
+
+
     /**
-	 * 查询提醒信息
-	 * @param begincode_user_id
-	 * @param nowpage
-	 * @param pagesize
-	 */
-	public List<MessageRemind> selectByMessageRemind(Integer begincode_user_id,Integer nowpage,Integer pagesize){
-		return biz_MessageMapper.selectByMessageRemind(begincode_user_id, nowpage, pagesize);
-	}
-	
-	 /**
-     * 修改message已读状态
-     * @param message_id
+     * 根据用户id查找 未读 消息表集合
+     *
+     * @param userId
+     * @param currentNum
+     * @param eachSize
+     * @return
      */
-	public void updatemessagedelete(Integer message_id){
-		biz_MessageMapper.updatemessagedelete(message_id);
-	}
-	/**
-	 * 获取当前message数量
-	 */
-	public int countByMessageRemind(Integer user_id){
-		return biz_MessageMapper.countByMessageRemind(user_id);
-	}
+    public List<Message> findMessByUserId(Integer userId, Integer currentNum, Integer eachSize) {
+        MessageExample messageExample = new MessageExample();
+        messageExample.setOrderByClause("message_id desc");
+        MessageExample.Criteria criteria = messageExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(0);
+        criteria.andBegincodeUserIdEqualTo(userId);
+        return messageMapper.selectByExampleWithRowbounds(messageExample, new RowBounds((currentNum - 1) * eachSize,
+                eachSize));
+    }
+
+    /**
+     * 查找总的消息个数
+     *
+     * @param userId
+     * @return
+     */
+    public Integer findMessSize(Integer userId) {
+        MessageExample messageExample = new MessageExample();
+        MessageExample.Criteria criteria = messageExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(0);
+        criteria.andBegincodeUserIdEqualTo(userId);
+        return messageMapper.countByExample(messageExample);
+    }
+
+    /**
+     * 通过问题id更改提醒表的删除标识 变为1
+     *
+     * @param userId
+     * @param problemId
+     * @return
+     */
+    public Integer updateMessageByProblemId(Integer userId, Integer problemId) {
+        Message message = new Message();
+        message.setDeleteFlag(1);
+        MessageExample messageExample = new MessageExample();
+        MessageExample.Criteria criteria = messageExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andProIdEqualTo(problemId);
+        return messageMapper.updateByExampleSelective(message, messageExample);
+    }
+
+    /**
+     * 通过回答id更改提醒表的删除标识 变为1
+     *
+     * @param userId
+     * @param answerId
+     * @return
+     */
+    public Integer updateMessageByAnswerId(Integer userId, Integer answerId) {
+        Message message = new Message();
+        message.setDeleteFlag(1);
+        MessageExample messageExample = new MessageExample();
+        MessageExample.Criteria criteria = messageExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andAnswerIdEqualTo(answerId);
+        return messageMapper.updateByExampleSelective(message, messageExample);
+    }
+
 
 }

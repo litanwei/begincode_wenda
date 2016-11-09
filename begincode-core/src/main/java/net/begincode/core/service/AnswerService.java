@@ -5,6 +5,8 @@ import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
+import net.begincode.core.model.ProblemExample;
+import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,16 @@ public class AnswerService {
     @Resource
     private AnswerMapper answerMapper;
 
+
+    /**
+     * 根据标识查找回答实体
+     *
+     * @param answerId
+     * @return
+     */
+    public Answer findByAnswerId(Integer answerId) {
+        return answerMapper.selectByPrimaryKey(answerId);
+    }
 
     /**
      * 传入问题id 返回对应的回答数
@@ -65,20 +77,24 @@ public class AnswerService {
             return null;
         }
     }
+
     /**
      * 插入回答
-     *@param：answer
-     *@return：int
+     *
+     * @param：answer
+     * @return：int
      */
-    public int insertAnswer(Answer record){
+    public int insertAnswer(Answer record) {
         return answerMapper.insertSelective(record);
     }
+
     /**
      * 获取所有回答
-     *@param：answer
-     *@return：List<Answer>
+     *
+     * @param：answer
+     * @return：List<Answer>
      */
-    public List<Answer> selectAllAnswer(Answer answer){
+    public List<Answer> selectAllAnswer(Answer answer) {
         AnswerExample answerExample = new AnswerExample();
         answerExample.createCriteria()
                 .andProblemIdEqualTo(answer.getProblemId())
@@ -88,24 +104,28 @@ public class AnswerService {
 
     /**
      * 查询回答
-     *@param：answerId
-     *@return：Answer
+     *
+     * @param：answerId
+     * @return：Answer
      */
-    public Answer selAnswerByAnswerId(Integer answerId){
+    public Answer selAnswerByAnswerId(Integer answerId) {
         return answerMapper.selectByPrimaryKey(answerId);
     }
+
     /**
      * 添加回复更新
-     *@param：
-     *@return：
+     *
+     * @param：
+     * @return：
      */
-    public int updateAnswer(Answer record){
+    public int updateAnswer(Answer record) {
         return answerMapper.updateByPrimaryKeySelective(record);
     }
 
 
     /**
      * 根据problemId查找非采纳回答 按时间排序
+     *
      * @param problemId
      * @return 问题所有回答实体
      */
@@ -117,8 +137,10 @@ public class AnswerService {
                 .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
+
     /**
      * 根据problemId查找采纳回答 按时间排序
+     *
      * @param problemId
      * @return 问题所有回答实体
      */
@@ -131,4 +153,36 @@ public class AnswerService {
                 .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
+
+
+    /**
+     * 根据nickName查找对应的回答数
+     *
+     * @param nickName
+     * @return
+     */
+    public Integer findAnswerNumByNickName(String nickName) {
+        AnswerExample answerExample = new AnswerExample();
+        AnswerExample.Criteria criteria = answerExample.createCriteria();
+        criteria.andUserNameEqualTo(nickName);
+        return answerMapper.countByExample(answerExample);
+    }
+
+    /**
+     * 根据nickName返回回答集合
+     *
+     * @param nickName
+     * @param currentNum
+     * @param eachSize
+     * @return
+     */
+    public List<Answer> findAnswerListByNickName(String nickName, Integer currentNum, Integer eachSize) {
+        AnswerExample answerExample = new AnswerExample();
+        answerExample.setOrderByClause("answer_id");
+        AnswerExample.Criteria criteria = answerExample.createCriteria();
+        criteria.andUserNameEqualTo(nickName);
+        return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
+    }
+
+
 }

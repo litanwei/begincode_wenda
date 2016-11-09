@@ -3,11 +3,11 @@ import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.DemoHandler;
 import net.begincode.core.handler.MessageHandler;
 import net.begincode.core.handler.UserHandler;
-import net.begincode.core.model.Answer;
-import net.begincode.core.model.BegincodeUser;
-import net.begincode.core.model.Demo;
-import net.begincode.core.model.MessageRemind;
+import net.begincode.core.mapper.BizProblemMapper;
+import net.begincode.core.mapper.ProblemMapper;
+import net.begincode.core.model.*;
 import net.begincode.core.service.BegincodeUserService;
+import net.begincode.core.service.ProblemService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +37,9 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     private UserHandler userHandler;
     @Resource
     private BegincodeUserService begincodeUserService;
+    @Resource
+    private ProblemService problemService;
+
     // 模拟request,response
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
@@ -96,15 +100,18 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     }
      @Resource
     private MessageHandler messageHandler;
+
     @Test
-    public void one(){
-    	System.out.println("到这");
-    	messageHandler.updatemessagedelete(5);
-    	List<MessageRemind> ls=messageHandler.selectByMessageRemind(17, 1, 15);
-    	messageHandler.updatemessagedelete(5);
-    	for(MessageRemind m:ls){
-    		System.out.println(m);
-    	}
+    public void testaa(){
+        List<Problem> list = new ArrayList<>();
+        Problem p = new Problem();
+        p.setProblemId(6);
+        list.add(p);
+        Problem pa = new Problem();
+        pa.setProblemId(6);
+        list.add(pa);
+        System.out.print(list.size());
+        problemService.batchUpdateView(list);
     }
 
 }

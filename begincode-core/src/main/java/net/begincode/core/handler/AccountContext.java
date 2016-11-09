@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import static net.begincode.core.cookie.CookieOperation.getUser;
+
 /**
  * Created by saber on 2016/9/9.
  */
 @Component
 public class AccountContext {
-  /**
+    /**
      * 根据request查询user
      *
      * @param request
@@ -22,7 +24,11 @@ public class AccountContext {
     BegincodeUserService begincodeUserService;
 
     public BegincodeUser getCurrentUser(HttpServletRequest request) {
-
-        return begincodeUserService.findUserByOpenId(CookieOperation.getUser(request).getOpenId());
+        BegincodeUser begincodeUser = CookieOperation.getUser(request);
+        if (begincodeUser == null) {
+            return null;
+        } else {
+            return begincodeUserService.findUserByOpenId(begincodeUser.getOpenId());
+        }
     }
 }

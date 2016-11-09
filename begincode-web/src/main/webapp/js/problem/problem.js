@@ -4,60 +4,57 @@
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: "/problem/newProblems.htm?page=1",
+        url: ctx + "/problem/newProblems.htm?page=1",
         dataType: "json",
         success: function (data) {
-            if(data.code == 0){
+            if (data.code == 0) {
                 getProblems(data, "newProblem");
                 pagination(data.data, "newProblems", "newProblem", "GET");
-            }else{
+            } else {
                 showModel(data.msg);
             }
         }
     });
     $("#newProblemId").click(function () {
-        $("newProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/newProblems.htm?page=1",
+            url: ctx + "/problem/newProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     getProblems(data, "newProblem");
                     pagination(data.data, "newProblems", "newProblem", "GET");
-                }else{
+                } else {
                     showModel(data.msg);
                 }
             }
         });
-    })
+    });
     $("#hotProblemId").click(function () {
-        $("#hotProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/hotProblems.htm?page=1",
+            url: ctx + "/problem/hotProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     getProblems(data, "hotProblem");
                     pagination(data.data, "hotProblems", "hotProblem", "GET");
-                }else{
+                } else {
                     showModel(data.msg);
                 }
             }
         });
     });
     $("#noAnswerProblemId").click(function () {
-        $("#noAnswerProblem").empty();
         $.ajax({
             type: "GET",
-            url: "/problem/noAnswerProblems.htm?page=1",
+            url: ctx + "/problem/noAnswerProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     getProblems(data, "noAnswerProblem");
                     pagination(data.data, "noAnswerProblems", "noAnswerProblem", "GET");
-                }else{
+                } else {
                     showModel(data.msg);
                 }
             }
@@ -65,10 +62,9 @@ $(document).ready(function () {
 
     });
     $("#myProblemId").click(function () {
-        $("#myProblem").empty();
         $.ajax({
             type: "POST",
-            url: "/problem/myProblems.htm?page=1",
+            url: ctx + "/problem/myProblems.htm?page=1",
             dataType: "json",
             success: function (data) {
                 if (data.code == 0) {
@@ -83,7 +79,6 @@ $(document).ready(function () {
 
 
 });
-
 
 
 function showModel(msg) {

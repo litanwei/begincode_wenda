@@ -32,6 +32,4 @@ public class HttpController {
         LuceneUtil.createIndex(pro);
         return map;
     }
-
-
 }

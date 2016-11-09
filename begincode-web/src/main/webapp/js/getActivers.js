@@ -10,7 +10,7 @@ function getActivers(){
 	$(".list-group").html("<a class='list-group-item disabled'>最活跃用户</a>");
 	$.ajax({
 		type: 'POST',
-		url: "user/activer.htm" ,
+		url: ctx+"/user/activer.htm" ,
 		success: function(data){
 			var list = data.data;
 			if(list != null && list != ""){

@@ -101,5 +101,14 @@
 	<script type="text/javascript" src="../js/getLabelList.js"></script>
 	<!-- 页面加载事件 -->
 	<script type="text/javascript" src="../js/onLoad.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="${ctx}/js/bootstrap/bootstrap.js"></script>
+<script src="${ctx}/js/problem/getProblems.js"></script>
+<script src="${ctx}/js/commons/timeUtil.js"></script>
+<script src="${ctx}/js/commons/jqpagination.js"></script>
+<script src="${ctx}/js/problem/problem.js"></script>
+
+
 </body>
 </html>

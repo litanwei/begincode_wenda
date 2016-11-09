@@ -11,7 +11,7 @@ $(document).ready(function () {
             $.ajax({
                 data: $("#problemForm").serializeArray(),
                 type: "POST",
-                url: "/problem/store.htm",
+                url: ctx+"/problem/store.htm",
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
@@ -50,16 +50,16 @@ function showModel(msg) {
  */
 function checkLabel(label) {
     var labelList = label.replace("，", ",").split(",");
-    var pattern = /^[a-zA-Z0-9_\\-\u4e00-\u9fa5]+$/;
-    if (label.trim() == null) {
+    var pattern = /^[a-zA-Z0-9_\-\u4e00-\u9fa5]+$/;
+    if (label.trim() == null && label.trim() == "") {
         return false;
     }
-    for (var i=0;i<labelList.length;i++) {
-        if(labelList[i] == ""){
+    for (var i = 0; i < labelList.length; i++) {
+        if (labelList[i] == "") {
             continue;
-        }
-        if (!pattern.test(labelList[i])) {
-            return false;
+            if (!pattern.test(labelList[i])) {
+                return false;
+            }
         }
     }
     return true;

@@ -10,14 +10,13 @@ function getLabels(){
 	
 	$.ajax({
 		type: 'POST',
-		url: "label/getLabel.htm" ,
+		url: ctx+"/label/getLabel.htm" ,
 		success: function(data){
-
 			var list = data.data;
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
-					$(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+					$("#labelBody").append("<a href='' target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
 			}
@@ -25,6 +24,10 @@ function getLabels(){
 		dataType: 'json'
 	});
 	}
+<<<<<<< HEAD
 	function selectLabel(id){
 		window.location.href="/label/selectProblemLabel.htm?id="+id;
 	}
+=======
+
+>>>>>>> refs/remotes/origin/master

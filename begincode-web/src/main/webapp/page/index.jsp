@@ -42,7 +42,7 @@
                 <li role="presentation"><a id="myProblemId" href="#myProblems" aria-controls="messages" role="tab"
                                            data-toggle="tab">我的问题</a></li>
                 <li role="presentation"><a id="messageId" href="#messages" aria-controls="messages" role="tab"
-                                           data-toggle="tab">@我的</a></li>
+                                           data-toggle="tab">@我的 <span class="badge" id="messageCount"></span></a></li>
             </ul>
 
 
@@ -156,17 +156,17 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/messages/messageremind.js"></script>
-<script src="${ctx}/js/commons/getProblems.js"></script>
+<script src="${ctx}/js/problem/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>
 <script src="${ctx}/js/problem/problem.js"></script>
+<script src="${ctx}/js/message/message.js"></script>
 
 <!-- 获取活跃用户 -->
 <script type="text/javascript" src="${ctx}/js/getActivers.js"></script>
 <!-- 获取热门标签 、查询标签-->
 <script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 <!-- 页面加载事件 -->
-<script type="text/javascript" src="../js/onLoad.js"></script>
+<script type="text/javascript" src="${ctx}/js/onLoad.js"></script>
 </body>
 </html>

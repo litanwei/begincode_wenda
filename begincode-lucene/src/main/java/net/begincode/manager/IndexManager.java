@@ -1,6 +1,8 @@
 package net.begincode.manager;
 
 import net.begincode.bean.ConfigBean;
+import net.begincode.common.BizException;
+import net.begincode.core.enums.IndexResponseEnum;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -73,7 +75,7 @@ public class IndexManager {
             //创建Manager
             this.crtReopenThread = new ControlledRealTimeReopenThread<IndexSearcher>(trackingIndexWriter, searcherManager, configBean.getIndexReopenMaxStaleSec(), configBean.getIndexReopenMinStaleSec());
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new BizException(IndexResponseEnum.INDEX_ERROR);
         }
         //开启系统的守护线程
         setThread();
@@ -87,8 +89,7 @@ public class IndexManager {
         try {
             return this.searcherManager.acquire();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new BizException(IndexResponseEnum.INDEX_ERROR);
         }
     }
 
@@ -135,7 +136,7 @@ public class IndexManager {
                     System.out.println(new Date().toLocaleString() + "\t" + configBean.getIndexName() + "\tcommit");
                     TimeUnit.SECONDS.sleep(configBean.getIndexCommitSeconds());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw new BizException(IndexResponseEnum.INDEX_ERROR);
                 }
             }
             super.run();
@@ -146,7 +147,7 @@ public class IndexManager {
         try {
             indexWriter.commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BizException(IndexResponseEnum.INDEX_ERROR);
         }
     }
 
