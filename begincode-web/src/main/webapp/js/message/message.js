@@ -57,7 +57,7 @@ function messageHtml(data,id) {
             }
             var titleSub = "";
             if(data[i].title.length>30){
-                titleSub = '<h2 class="title l"><a href="/problem/message/'
+                titleSub = '<h2 class="title l"><a href="'+ctx+'/problem/message/'
                     + data[i].problemId + ".htm"
                     + '"data-toggle="tooltip" data-placement="top" title='
                     + data[i].title
@@ -65,7 +65,7 @@ function messageHtml(data,id) {
                     + data[i].title.substring(0,30);
                     + '</a></h2>';
             }else{
-                titleSub = '<h2 class="title l"><a href="/problem/message/'
+                titleSub = '<h2 class="title l"><a href="'+ctx+'/problem/message/'
                     + data[i].problemId + '.htm'
                     + '" data-toggle="tooltip" data-placement="top">'
                     + data[i].title;
@@ -105,7 +105,7 @@ function messageHtml(data,id) {
             }
             if(data[i].content.length>30){
                 contentSub='<h2 class="title l">'
-                + '<a href="/problem/answer/'
+                + '<a href="'+ctx+'/problem/answer/'
                 + data[i].answerId+"/"+data[i].problemId
                 + '.htm'
                 + '"data-toggle="tooltip" data-placement="top" title="'
@@ -115,7 +115,7 @@ function messageHtml(data,id) {
                 + '</a></h2>';
             }else{
                 contentSub = '<h2 class="title l">'
-                    + '<a href="/problem/answer/'
+                    + '<a href="'+ctx+'/problem/answer/'
                     + data[i].answerId+"/"+data[i].problemId
                     + '.htm'
                     + '"data-toggle="tooltip" data-placement="top">'

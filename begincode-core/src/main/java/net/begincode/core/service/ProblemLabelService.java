@@ -31,7 +31,9 @@ public class ProblemLabelService {
 		ProblemLabelExample example = new ProblemLabelExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andLabelIdEqualTo(labelId);
+		//通过labelId查proLabel的所有对应关系
 		List<ProblemLabel> proLabel = problemLabelMapper.selectByExample(example );
+		//通过proLabel的关联查所有的problem数组
 		List<ProblemLabelParam> pro = new ArrayList<ProblemLabelParam>();
 		if(proLabel != null){
 			for (ProblemLabel problemLabel : proLabel) {
@@ -39,11 +41,15 @@ public class ProblemLabelService {
 				if(null != problem){
 					ProblemLabelParam problemLabelParam = new ProblemLabelParam();
 					problemLabelParam.setProblem(problem);
+					//TODO
+//					problemLabelParam.setLabell(new LabelService().selectLabelByProblemId(problem.getProblemId()));
 					pro.add(problemLabelParam);
 				}
 			}
 		}
 		return pro;
 	}
+
+
 
 }

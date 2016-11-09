@@ -1,21 +1,19 @@
 package net.begincode.core.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import net.begincode.common.BizException;
-import net.begincode.core.enums.OpenIdResponseEnum;
 import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+import net.begincode.utils.PatternUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author kangLiang
@@ -123,6 +121,30 @@ public class BegincodeUserService {
         } else {
             return null;
         }
+    }
+
+    /**
+     * 传进的问题过滤出@ 后面的nickName 返回该用户的id
+     *
+     * @param content 传入的内容
+     * @return 用户id数组
+     */
+    public Integer[] contentFilter(String content) {
+        Set<String> stringSet = PatternUtil.filterNickName(content);
+        int i = 0;
+        Integer[] userId = new Integer[stringSet.size()];
+        if (stringSet != null && stringSet.size() > 0) {
+            for (String nickName : stringSet) {
+                BegincodeUser begincodeUser = selectByNickName(nickName.replace("@", ""));
+                if (begincodeUser == null) {
+                    continue;
+                } else {
+                    userId[i] = begincodeUser.getBegincodeUserId();
+                    i++;
+                }
+            }
+        }
+        return userId;
     }
 
 }

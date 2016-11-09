@@ -34,8 +34,6 @@ public class ProblemController {
     @Resource
     private ProblemHandler problemHandler;
     @Resource
-    private MessageHandler messageHandler;
-    @Resource
     private AnsAgreeHandler ansAgreeHandler;
     @Resource
     private AnswerHandler answerHandler;
@@ -130,7 +128,6 @@ public class ProblemController {
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         Label label = problemLableParam.getLabel();
-        messageHandler.createMessage(user.getBegincodeUserId(),null,problem.getContent());
         problemHandler.addProblem(problem, label);
         return map;
     }
