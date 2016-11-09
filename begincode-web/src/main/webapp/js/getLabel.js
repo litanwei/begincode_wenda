@@ -16,7 +16,7 @@ function getLabels(){
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
-					$("#labelBody").append("<a href='' target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+					$(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
 			}
@@ -24,10 +24,6 @@ function getLabels(){
 		dataType: 'json'
 	});
 	}
-<<<<<<< HEAD
 	function selectLabel(id){
 		window.location.href="/label/selectProblemLabel.htm?id="+id;
 	}
-=======
-
->>>>>>> refs/remotes/origin/master
