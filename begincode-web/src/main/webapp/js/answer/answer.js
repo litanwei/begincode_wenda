@@ -12,7 +12,7 @@ $(document).ready(function () {
             async: true,
             success: function (data) {
                 if (data.code == 0) {
-                    updateAnswer(data, "answerUpdate",2);
+                    updateAnswer(data, "answerUpdate", 2);
                     showModel(data.msg);
                     setTimeout(function () {
                         $("#ajaxModal").modal("hide")
@@ -33,52 +33,25 @@ $(document).ready(function () {
 
 //赞同按钮处理
     var agreeFlag = 0;
-    $(".click-like").click(function () {
+    $(":button").click(function () {
         var answerId = $(this).parent().prev("input").val();
-
-        if($(this).hasClass("pressed")){
-            $(this).removeClass("pressed")
-            $(this).attr("title","赞同");
-            agreeFlag = 0;
-            var agreeNum = $(this).children("span").html();
-            $(this).children("span").html(parseInt(agreeNum) - 1);
+        var thisClick = $(this);
+        if(thisClick.hasClass("click-like")) {
+            if (thisClick.hasClass("pressed")) {
+                agreeFlag = 0;
+            } else {
+                agreeFlag = 1;
+            }
         }else {
-            $(this).addClass("pressed");
-            $(this).attr("title","取消赞同");
-            var agreeNum = $(this).children("span").html();
-            $(this).children("span").html(parseInt(agreeNum) + 1);
-            agreeFlag = 1;
-            if($(this).next().hasClass("pressed")){
-                $(this).next().removeClass("pressed");
-                $(this).next().attr("title","取消反对")
-
+            if (thisClick.hasClass("pressed")) {
+                agreeFlag = 0;
+            } else {
+                agreeFlag = 2;
             }
         }
-        ansAgree(answerId,agreeFlag);
+        ansAgree(answerId,agreeFlag,thisClick);
     })
-    //反对按钮处理
-    $(".click-dislike").click(function () {
-        var answerId = $(this).parent().prev("input").val();
-        if($(this).hasClass("pressed")){
-            $(this).removeClass("pressed")
-            $(this).attr("title","反对");
-            agreeFlag = 0;
-        }else {
-            $(this).addClass("pressed");
-            $(this).attr("title","取消反对");
-            agreeFlag = 2;
-            if($(this).prev().hasClass("pressed")){
-                $(this).prev().removeClass("pressed");
-                $(this).prev().attr("title","赞同");
-                var agreeNum = $(this).prev().children("span").html();
-                $(this).prev().children("span").html(parseInt(agreeNum) - 1);
-            }
-        }
-        ansAgree(answerId,agreeFlag);
-    })
-
 })
-
 
 // 回复反馈
 function sendFeedback(answerId) {
@@ -127,7 +100,8 @@ function sendAdoptAnswer(answerId) {
     })
 }
 
-function ansAgree(answerId,agreeFlag) {
+//赞同反对 后台交互
+function ansAgree(answerId,agreeFlag,thisClick) {
     var ansAgree = new FormData();
     ansAgree.append("agreeFlag",agreeFlag);
     ansAgree.append("answerId",answerId);
@@ -139,7 +113,9 @@ function ansAgree(answerId,agreeFlag) {
         contentType: false,
         processData: false,
         success: function (data) {
-            if (data.code != 0) {
+            if (data.code == 0) {
+                agreeClick(thisClick);
+            }else {
                 showModel(data.msg);
             }
         }
@@ -232,39 +208,8 @@ function updateAnswer(data,id,ansAgreeFlag) {
     $(".votebar").on("click","button", function() {
         var agreeFlag = 0;
         var answerId = $(this).parent().prev("input").val();
-        if($(this).hasClass("click-like")) {
-            if ($(this).hasClass("pressed")) {
-                $(this).removeClass("pressed")
-                agreeFlag = 0;
-                var agreeNum = $(this).children("span").html();
-                $(this).children("span").html(parseInt(agreeNum) - 1);
-            } else {
-                $(this).addClass("pressed");
-                var agreeNum = $(this).children("span").html();
-                $(this).children("span").html(parseInt(agreeNum) + 1);
-                agreeFlag = 1;
-                if ($(this).next().hasClass("pressed")) {
-                    $(this).next().removeClass("pressed");
-                }
-            }
-            ansAgree(answerId, agreeFlag);
-        }else {
-            //反对按钮处理
-            if ($(this).hasClass("pressed")) {
-                $(this).removeClass("pressed")
-                agreeFlag = 0;
-            } else {
-                $(this).addClass("pressed");
-                agreeFlag = 2;
-                if ($(this).prev().hasClass("pressed")) {
-                    $(this).prev().removeClass("pressed");
-                    var agreeNum = $(this).prev().children("span").html();
-                    $(this).prev().children("span").html(parseInt(agreeNum) - 1);
-                }
-            }
-            ansAgree(answerId, agreeFlag);
-
-        }
+        var thisClick = $(this);
+        agreeClick(answerId,agreeFlag,thisClick)
     })
 
 }
@@ -273,6 +218,42 @@ function showModel(msg) {
     $("#errorMessage").html(msg);
     $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
 }
+//按钮处理
+function agreeClick(thisClick){
+    if(thisClick.hasClass("click-like")) {
+        if (thisClick.hasClass("pressed")) {
+            thisClick.removeClass("pressed")
+            thisClick.attr("title","赞同");
+            var agreeNum = thisClick.children("span").html();
+            thisClick.children("span").html(parseInt(agreeNum) - 1);
+        } else {
+            thisClick.addClass("pressed");
+            thisClick.attr("title","取消赞同");
+            var agreeNum = thisClick.children("span").html();
+            thisClick.children("span").html(parseInt(agreeNum) + 1);
+            if (thisClick.next().hasClass("pressed")) {
+                thisClick.next().removeClass("pressed");
+                thisClick.next().attr("title","取消反对")
+            }
+        }
+    }else {
+        //反对按钮处理
+        if (thisClick.hasClass("pressed")) {
+            thisClick.removeClass("pressed");
+            thisClick.attr("title","反对");
+        } else {
+            thisClick.addClass("pressed");
+            thisClick.attr("title","取消反对");
+            if (thisClick.prev().hasClass("pressed")) {
+                thisClick.prev().removeClass("pressed");
+                thisClick.prev().attr("title","赞同");
+                var agreeNum = thisClick.prev().children("span").html();
+                thisClick.prev().children("span").html(parseInt(agreeNum) - 1);
+            }
+        }
+    }
+}
+
 
 
 
