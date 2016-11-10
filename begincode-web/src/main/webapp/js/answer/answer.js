@@ -33,9 +33,7 @@ $(document).ready(function () {
 
 })
 
-
-
-//赞同按钮处理.。
+//赞同按钮处理
 var agreeFlag = 0;
 $(":button").click(function () {
     var answerId = $(this).parent().prev("input").val();
