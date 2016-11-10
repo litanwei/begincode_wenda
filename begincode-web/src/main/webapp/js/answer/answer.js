@@ -209,7 +209,7 @@ function updateAnswer(data,id,ansAgreeFlag) {
         var agreeFlag = 0;
         var answerId = $(this).parent().prev("input").val();
         var thisClick = $(this);
-        agreeClick(answerId,agreeFlag,thisClick)
+        ansAgree(answerId,agreeFlag,thisClick)
     })
 
 }
@@ -218,7 +218,8 @@ function showModel(msg) {
     $("#errorMessage").html(msg);
     $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
 }
-//按钮处理
+
+
 function agreeClick(thisClick){
     if(thisClick.hasClass("click-like")) {
         if (thisClick.hasClass("pressed")) {
