@@ -31,27 +31,31 @@ $(document).ready(function () {
         });
     })
 
-//赞同按钮处理
-    var agreeFlag = 0;
-    $(":button").click(function () {
-        var answerId = $(this).parent().prev("input").val();
-        var thisClick = $(this);
-        if(thisClick.hasClass("click-like")) {
-            if (thisClick.hasClass("pressed")) {
-                agreeFlag = 0;
-            } else {
-                agreeFlag = 1;
-            }
-        }else {
-            if (thisClick.hasClass("pressed")) {
-                agreeFlag = 0;
-            } else {
-                agreeFlag = 2;
-            }
-        }
-        ansAgree(answerId,agreeFlag,thisClick);
-    })
 })
+
+
+
+//赞同按钮处理.。
+var agreeFlag = 0;
+$(":button").click(function () {
+    var answerId = $(this).parent().prev("input").val();
+    var thisClick = $(this);
+    if(thisClick.hasClass("click-like")) {
+        if (thisClick.hasClass("pressed")) {
+            agreeFlag = 0;
+        } else {
+            agreeFlag = 1;
+        }
+    }else {
+        if (thisClick.hasClass("pressed")) {
+            agreeFlag = 0;
+        } else {
+            agreeFlag = 2;
+        }
+    }
+    ansAgree(answerId,agreeFlag,thisClick);
+})
+
 
 // 回复反馈
 function sendFeedback(answerId) {
@@ -207,8 +211,22 @@ function updateAnswer(data,id,ansAgreeFlag) {
 
     $(".votebar").on("click","button", function() {
         var agreeFlag = 0;
-        var answerId = $(this).parent().prev("input").val();
         var thisClick = $(this);
+        if(thisClick.hasClass("click-like")) {
+            if (thisClick.hasClass("pressed")) {
+                agreeFlag = 0;
+            } else {
+                agreeFlag = 1;
+            }
+        }else {
+            if (thisClick.hasClass("pressed")) {
+                agreeFlag = 0;
+            } else {
+                agreeFlag = 2;
+            }
+        }
+        var answerId = $(this).parent().prev("input").val();
+
         ansAgree(answerId,agreeFlag,thisClick)
     })
 
