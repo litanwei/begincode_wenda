@@ -116,6 +116,11 @@ public class AnswerHandler {
      */
     public List<Answer> selAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
+        for(Answer answer:answerList){
+            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
+            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
+        }
         return answerList;
     }
 
@@ -128,6 +133,11 @@ public class AnswerHandler {
      */
     public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
+        for(Answer answer:answerList){
+            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
+            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
+            answerService.updateAnswer(answer);
+        }
         return answerList;
     }
 

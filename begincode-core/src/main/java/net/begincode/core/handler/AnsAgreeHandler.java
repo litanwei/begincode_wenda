@@ -4,7 +4,6 @@ import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.AnsAgreeService;
-import net.begincode.core.service.AnswerService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -19,8 +18,6 @@ public class AnsAgreeHandler {
 
     @Resource
     private AnsAgreeService ansAgreeService;
-    @Resource
-    private AnswerService answerService;
 
     /**
      * 根据用户id，问题回复id判断AnsAgree是否存在 存在修改内容 不存在增加
@@ -33,32 +30,8 @@ public class AnsAgreeHandler {
         answerIdList.add(ansAgree.getAnswerId());
         List<AnsAgree> ansAgreeList = ansAgreeService.selectByExample(ansAgree.getBegincodeUserId(), answerIdList);
         if (ansAgreeList.size() != 0) {
-            if (ansAgreeList.get(0).getAgree() == 1) {
-               if(ansAgree.getAgree() == 2) {
-                   answerService.updateOppositionAddByAnswerId(ansAgree.getAnswerId());
-               }
-                answerService.updateAgreeReduceByAnswerId(ansAgree.getAnswerId());
-            }
-            if (ansAgreeList.get(0).getAgree() == 2) {
-                if(ansAgree.getAgree() == 1) {
-                    answerService.updateAgreeAddByAnswerId(ansAgree.getAnswerId());
-                }
-                answerService.updateOppositionAddByAnswerId(ansAgree.getAnswerId());
-            }
-            if (ansAgreeList.get(0).getAgree() == 0) {
-                if(ansAgree.getAgree() == 1) {
-                    answerService.updateAgreeAddByAnswerId(ansAgree.getAnswerId());
-                }else{
-                    answerService.updateOppositionAddByAnswerId(ansAgree.getAnswerId());
-                }
-            }
             return ansAgreeService.updateByExample(ansAgree);
         } else {
-            if(ansAgree.getAgree() == 1){
-                answerService.updateAgreeAddByAnswerId(ansAgree.getAnswerId());
-            }else{
-                answerService.updateOppositionAddByAnswerId(ansAgree.getAnswerId());
-            }
             return ansAgreeService.insertSelective(ansAgree);
         }
     }
