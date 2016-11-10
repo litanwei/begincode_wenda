@@ -2,6 +2,7 @@ package net.begincode.core.model;
 
 import net.begincode.bean.PageParam;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,6 +12,15 @@ public class BizFrontProblem extends PageParam {
     private Problem problem;
     private String answerName;
     private List<String> labelNameList;
+    private Date answerTime;
+
+    public Date getAnswerTime() {
+        return answerTime;
+    }
+
+    public void setAnswerTime(Date answerTime) {
+        this.answerTime = answerTime;
+    }
 
     public Problem getProblem() {
         return problem;

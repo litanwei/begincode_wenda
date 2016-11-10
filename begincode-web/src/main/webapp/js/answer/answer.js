@@ -1,5 +1,20 @@
 // 回复 绑定回复内容 问题id
 $(document).ready(function () {
+        $.ajax({
+            type: 'POST',
+            url: ctx+"/label/getLabel.htm" ,
+            dataType: "json",
+            async: true,
+            success: function(data){
+                var list = data.data;
+                    for (var i = 0; i < list.length; i++) {
+                        $("#labelBody").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+                }
+            }
+        });
+    function selectLabel(id){
+        window.location.href=ctx+"/label/selectProblemLabel.htm?id="+id;
+    }
     $("#answerSend").click(function () {
         var markupStr = '';
         var content = $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中

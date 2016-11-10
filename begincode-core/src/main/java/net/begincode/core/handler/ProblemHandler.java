@@ -169,14 +169,15 @@ public class ProblemHandler {
      * @param problem
      * @return
      */
-    public String selectOrderByProblemId(Problem problem) {
+    public Answer selectOrderByProblemId(Problem problem) {
         Answer answer = answerService.findOrderByProblemId(problem.getProblemId());
         if (answer == null) {
             return null;
         } else {
-            return answer.getUserName();
+            return answer;
         }
     }
+
 
 
     /**
@@ -230,13 +231,18 @@ public class ProblemHandler {
         List<BizFrontProblem> list = new ArrayList<>();
         for (Problem problem : problemList) {
             BizFrontProblem bizFrontProblem = new BizFrontProblem();
-            bizFrontProblem.setAnswerName(selectOrderByProblemId(problem));
+            Answer answer = selectOrderByProblemId(problem);
+            if(answer != null){
+                bizFrontProblem.setAnswerName(answer.getUserName());
+                bizFrontProblem.setAnswerTime(answer.getCreateTime());
+            }
             bizFrontProblem.setProblem(problem);
             bizFrontProblem.setLabelNameList(problemToLabel(problem));
             list.add(bizFrontProblem);
         }
         return list;
     }
+
 
     /**
      * 查找所有问题
@@ -276,7 +282,6 @@ public class ProblemHandler {
     public List<Label> getLabelByProblemId(Integer problemId) {
         return labelService.selectLabelByProblemId(problemId);
     }
-
     public ProAttention selectProAttById(Integer problemId, Integer userId) {
         return proAttentionService.selectProAttentionById(problemId, userId);
     }

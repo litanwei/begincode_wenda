@@ -305,7 +305,6 @@
                 </div>
                 <div class="panel-body">
 				    <span class="tag-list" id="labelBody">
-
 					</span>
                 </div>
             </div>
@@ -348,7 +347,6 @@
 <script src="${ctx}/js/summernoteAnswer.js"></script>
 <script src="${ctx}/js/answer/answer.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
-<script type="text/javascript" src="${ctx}/js/getLabel.js"></script>
 <script src="${ctx}/js/problem/problemDetail.js"></script>
 </body>
 </html>
