@@ -94,7 +94,7 @@
             </div>
 
             <div class="list-group">
-                <a class='list-group-item disabled'>最活跃用户<label style="float: right;" onclick="getActivers();">【刷新】</label></a>
+                <a class='list-group-item disabled'>最活跃用户</a>
             </div>
         </div>
 

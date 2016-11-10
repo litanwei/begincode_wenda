@@ -50,7 +50,6 @@ public class AnswerController {
         answer.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         answer.setUserName(begincodeUser.getNickname());
         answer = answerHandler.creatAnswer(answer);
-        messageHandler.createMessage(null, answer.getAnswerId(), answer.getContent());
         return answer;
     }
 

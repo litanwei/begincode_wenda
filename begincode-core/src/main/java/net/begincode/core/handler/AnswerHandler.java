@@ -8,9 +8,7 @@ import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.enums.SolveEnum;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
-import net.begincode.core.service.AnsAgreeService;
-import net.begincode.core.service.AnswerService;
-import net.begincode.core.service.ProblemService;
+import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +29,10 @@ public class AnswerHandler {
     private ProblemService problemService;
     @Resource
     private AnsAgreeService ansAgreeService;
+    @Resource
+    private MessageService messageService;
+    @Resource
+    private BegincodeUserService begincodeUserService;
 
 
     /**
@@ -43,10 +45,11 @@ public class AnswerHandler {
         answer.setCreateTime(new Date());
         //截取内容中@的用户名 加上url
         answer.setContent(PatternUtil.nickNameUrl(answer.getContent()));
-        int answerNum = answerService.insertAnswer(answer);
+        Integer answerNum = answerService.insertAnswer(answer);
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
+        messageService.createMessage(answer.getProblemId(),answer.getAnswerId(),begincodeUserService.contentFilter(answer.getContent()));
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
     }
 

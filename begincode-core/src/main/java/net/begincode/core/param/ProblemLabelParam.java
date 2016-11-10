@@ -4,9 +4,10 @@ import net.begincode.bean.Param;
 import net.begincode.core.enums.ProblemResponseEnum;
 import net.begincode.core.model.Label;
 import net.begincode.core.model.Problem;
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 /**
  * Created by Stay on 2016/8/28  21:22.
@@ -14,6 +15,8 @@ import java.util.Set;
 public class ProblemLabelParam extends Param{
     private Problem problem;
     private Label label;
+    private List<Label> labell;
+
 
     public Problem getProblem() {
         return problem;
@@ -31,8 +34,13 @@ public class ProblemLabelParam extends Param{
         this.label = label;
     }
 
+    public List<Label> getLabell() {
+        return labell;
+    }
 
-
+    public void setLabell(List<Label> labell) {
+        this.labell = labell;
+    }
 
     /**
      * @param name 传入的标签名是逗号分隔

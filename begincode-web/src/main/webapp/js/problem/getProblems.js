@@ -47,7 +47,7 @@ function getProblems(page, id) {
             + '</li>'
             + '</ul>'
             + '<span class="keyword-list ">'
-            + '<h2 class="title l"><a href="/problem/'
+            + '<h2 class="title l"><a href="'+ctx+'/problem/'
             + page.data.data[i].problem.problemId + ".htm"
             + '">'
             + page.data.data[i].problem.title
@@ -72,31 +72,31 @@ function problemFormatTime(problemAuthorName, size, answerName, time) {
     var diffTime = (dateNow.getTime() - date.getTime()) / 1000;
     if (size == 0) {
         if (diffTime < 60) {
-            return "<a href='/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + " 刚刚提问";
+            return "<a href='"+ctx+"/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + " 刚刚提问";
         }
         else if (diffTime > 60 && diffTime < 3600) {
-            return "<a href='/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60) + "分钟前提问";
+            return "<a href='"+ctx+"/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60) + "分钟前提问";
         }
         else if (diffTime > 3600 && diffTime < 86400) {
-            return "<a href='/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60 / 60) + "小时前提问";
+            return "<a href='"+ctx+"/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60 / 60) + "小时前提问";
         } else if (diffTime > 86400 && diffTime < 259000) {
-            return "<a href='/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天前提问";
+            return "<a href='"+ctx+"/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + Math.ceil(diffTime / 60 / 60 / 24) + "天前提问";
         } else {
-            return "<a href='/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前提问";
+            return "<a href='"+ctx+"/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前提问";
         }
     } else {
         if (diffTime < 60) {
-            return "<a href='/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + "刚刚回答";
+            return "<a href='"+ctx+"/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + "刚刚回答";
         }
         else if (diffTime > 60 && diffTime < 3600) {
-            return "<a href='/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60) + "分钟前回答";
+            return "<a href='"+ctx+"/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60) + "分钟前回答";
         }
         else if (diffTime > 3600 && diffTime < 86400) {
-            return "<a href='/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60 / 60) + "小时前回答";
+            return "<a href='"+ctx+"/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60 / 60) + "小时前回答";
         } else if (diffTime > 86400 && diffTime < 259000) {
-            return "<a href='/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60 / 60 / 24) + "天前回答";
+            return "<a href='"+ctx+"/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + Math.ceil(diffTime / 60 / 60 / 24) + "天前回答";
         } else {
-            return "<a href='/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
+            return "<a href='"+ctx+"/user/" + answerName + ".htm'>" + answerName + "</a>" + " "  + (date.getMonth() + 1) + "月" + date.getDate() + "日" + "前回答";
         }
     }
 }

@@ -43,7 +43,7 @@ function userPagination(data,url,id,method) {
             if (type == "change") {
                 $.ajax({
                     type: method,
-                    url: "/user"+url+".htm?page="+currentPage,
+                    url: ctx+"/user"+url+".htm?page="+currentPage,
                     dataType: "json",
                     success: function (data) {
                         getProblems(data, id);
@@ -69,7 +69,7 @@ function userAnswerPagination(data,url,id,method) {
             if (type == "change") {
                 $.ajax({
                     type: method,
-                    url: "/user"+url+".htm?page="+currentPage,
+                    url: ctx+"/user"+url+".htm?page="+currentPage,
                     dataType: "json",
                     success: function (data) {
                         answerHtml(id,data.data);
@@ -95,7 +95,7 @@ function messagePagination(data,url,id,method) {
             if (type == "change") {
                 $.ajax({
                     type: method,
-                    url: "/message"+url+".htm?page="+currentPage,
+                    url: ctx+"/message"+url+".htm?page="+currentPage,
                     dataType: "json",
                     success: function (data) {
                         messageHtml(data.data.data,id);

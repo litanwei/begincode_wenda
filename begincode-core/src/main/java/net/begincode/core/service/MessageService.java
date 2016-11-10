@@ -22,6 +22,30 @@ public class MessageService {
     }
 
 
+
+    /**
+     * 新建message
+     *
+     * @param problemId，answerId,content
+     * @return
+     */
+    public void createMessage(Integer problemId, Integer answerId, Integer[] userId) {
+        Message message = new Message();
+        if (userId != null && userId.length == 1) {
+            message.setBegincodeUserId(userId[0]);
+            message.setProId(problemId);
+            message.setAnswerId(answerId);
+           createMessage(message);
+        } else if (userId != null && userId.length > 1) {
+            for (int i = 0; i < userId.length; i++) {
+                message.setBegincodeUserId(userId[i]);
+                message.setProId(problemId);
+                message.setAnswerId(answerId);
+                createMessage(message);
+            }
+        }
+    }
+
     /**
      * 根据用户id查找 未读 消息表集合
      *

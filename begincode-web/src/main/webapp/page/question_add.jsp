@@ -6,8 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%@ include file="commons/meta.jsp"%>
-    <title>Bootstrap 101 Template</title>
+      <meta name="keywords" content="问答系统,BeginCode问答"/>
+      <meta name="description" content="创建问题,开源问答系统,BeginCode问答"/>
+      <%@ include file="commons/meta.jsp"%>
+      <title>创建问题,BeginCode问答</title>
 
     <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">

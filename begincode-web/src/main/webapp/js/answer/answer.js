@@ -219,10 +219,10 @@ function updateAnswer(data,id,ansAgreeFlag) {
         +'</div>'
         +'<div class="col-md-2 col-sm-2 hidden-xs answer__info--author">'
         +'<div class=" answer__info--author-warp">'
-        +'<a'
-        +'href="/u/fishenal>'
+        +'<a '
+        +'href="'+ctx+'/user/'+data.data.userName+'.htm">'
         +data.data.userName
-        +'</a><span class="answer__info--author-rank"></span></div>'
+        +'</a><span class="answer__info--author-rank"> </span></div>'
         +'</div>'
         +'</div>'
         +'</div>'

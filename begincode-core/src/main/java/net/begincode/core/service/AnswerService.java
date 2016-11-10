@@ -5,7 +5,6 @@ import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
-import net.begincode.core.model.ProblemExample;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,9 +81,9 @@ public class AnswerService {
      * 插入回答
      *
      * @param：answer
-     * @return：int
+     * @return：Integer
      */
-    public int insertAnswer(Answer record) {
+    public Integer insertAnswer(Answer record) {
         return answerMapper.insertSelective(record);
     }
 
