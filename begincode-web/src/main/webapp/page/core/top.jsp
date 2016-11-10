@@ -91,7 +91,7 @@
             <ul class="nav navbar-nav">
                 <li class=""><a href="http://www.begincode.net/course/" class="dropdown-toggle">在线教程
                 </a></li>
-                <li class=""><a href="http://www.begincode.net/course/" class="dropdown-toggle">问答
+                <li class=""><a href="http://www.begincode.net/wenda/" class="dropdown-toggle">问答
                 </a></li>
 
 
