@@ -3,6 +3,7 @@ package net.begincode.core.service;
 import net.begincode.core.enums.AdoptEnum;
 import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
+import net.begincode.core.mapper.BizAnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +22,8 @@ public class AnswerService {
     private Logger logger = LoggerFactory.getLogger(AnswerService.class);
     @Resource
     private AnswerMapper answerMapper;
+    @Resource
+    private BizAnswerMapper bizAnswerMapper;
 
 
     /**
@@ -181,6 +184,43 @@ public class AnswerService {
         AnswerExample.Criteria criteria = answerExample.createCriteria();
         criteria.andUserNameEqualTo(nickName);
         return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
+    }
+
+    /**
+     * 根据回复标识增加赞同数量
+     *
+     * @param answerId
+     * @return
+     */
+    public int updateAgreeAddByAnswerId(Integer answerId){
+        return bizAnswerMapper.updateAgreeAddByAnswerId(answerId);
+    }
+    /**
+     * 根据回复标识减少赞同数量
+     *
+     * @param answerId
+     * @return
+     */
+    public int updateAgreeReduceByAnswerId(Integer answerId){
+        return bizAnswerMapper.updateAgreeReduceByAnswerId(answerId);
+    }
+    /**
+     * 根据回复标识增加反对数量
+     *
+     * @param answerId
+     * @return
+     */
+    public int updateOppositionAddByAnswerId(Integer answerId){
+        return bizAnswerMapper.updateOppositionAddByAnswerId(answerId);
+    }
+    /**
+     * 根据回复标识减少反对数量
+     *
+     * @param answerId
+     * @return
+     */
+    public int updateOppositionReduceByAnswerId(Integer answerId){
+        return bizAnswerMapper.updateOppositionReduceByAnswerId(answerId);
     }
 
 

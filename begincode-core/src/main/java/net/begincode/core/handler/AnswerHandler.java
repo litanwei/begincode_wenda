@@ -6,6 +6,7 @@ import net.begincode.core.enums.AdoptEnum;
 import net.begincode.core.enums.AnswerResponseEnum;
 import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.enums.SolveEnum;
+import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.*;
@@ -49,6 +50,7 @@ public class AnswerHandler {
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
+        problemService.updateAnswerAddByProblemId(answer.getProblemId());
         messageService.createMessage(answer.getProblemId(),answer.getAnswerId(),begincodeUserService.contentFilter(answer.getContent()));
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
     }
@@ -114,11 +116,6 @@ public class AnswerHandler {
      */
     public List<Answer> selAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
         return answerList;
     }
 
@@ -131,11 +128,6 @@ public class AnswerHandler {
      */
     public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
         return answerList;
     }
 

@@ -67,6 +67,18 @@
             problem.vote_count = problem.vote_count - 1
         where problem_id = #{problemId,jdbcType=INTEGER}
     </update>
+    <update id="updateAnswerAddByProblemId" parameterType="java.lang.Integer">
+        update problem
+        set
+        problem.answer_count = problem.answer_count + 1
+        where problem_id = #{problemId,jdbcType=INTEGER}
+    </update>
+    <update id="updateAnswerReduceByProblemId" parameterType="java.lang.Integer">
+        update problem
+        set
+        problem.answer_count = problem.answer_count - 1
+        where problem_id = #{problemId,jdbcType=INTEGER}
+    </update>
 
 
 </mapper>

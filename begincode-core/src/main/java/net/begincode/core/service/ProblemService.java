@@ -385,5 +385,15 @@ public class ProblemService {
         return bizProblemMapper.updateVoteReduceByProblemId(problemId);
     }
 
+    /**
+     * 根据问题id增加回复数量
+     *
+     * @param problemId
+     * @return
+     */
+    public Integer updateAnswerAddByProblemId(Integer problemId){
+        return bizProblemMapper.updateAnswerAddByProblemId(problemId);
+    }
+
 
 }

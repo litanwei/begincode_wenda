@@ -49,4 +49,20 @@ public interface BizProblemMapper extends ProblemMapper{
      * @return
      */
     int updateVoteReduceByProblemId(@Param("problemId") Integer problemId);
+
+    /**
+     * 根据问题标识增加回复数量
+     *
+     * @param problemId
+     * @return
+     */
+    int updateAnswerAddByProblemId(@Param("problemId") Integer problemId);
+
+    /**
+     * 根据问题标识减少回复数量
+     *
+     * @param problemId
+     * @return
+     */
+    int updateAnswerReduceByProblemId(@Param("problemId") Integer problemId);
 }
