@@ -1,4 +1,4 @@
-// 回复 绑定回复内容 问题id
+
 $(document).ready(function () {
         $.ajax({
             type: 'POST',
@@ -15,36 +15,43 @@ $(document).ready(function () {
     function selectLabel(id){
         window.location.href=ctx+"/label/selectProblemLabel.htm?id="+id;
     }
+
+    // 回复 绑定回复内容 问题id
     $("#answerSend").click(function () {
-        var markupStr = '';
-        var content = $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
-        $("#answerSend").attr("disabled", "disabled");//按钮不可用
-        $.ajax({
-            data: $("#answerForm").serializeArray(),
-            type: "POST",
-            url: ctx + "/answer/reply.htm",
-            dataType: "json",
-            async: true,
-            success: function (data) {
-                if (data.code == 0) {
-                    updateAnswer(data, "answerUpdate", 2);
-                    showModel(data.msg);
-                    setTimeout(function () {
-                        $("#ajaxModal").modal("hide")
-                    }, 2000);
-                    $(document).scrollTop(0);
-                    $("#answerSend").removeAttr("disabled");//按钮可用
-                    $('#summernote').summernote('code', markupStr);
-                    save();
-                    edit1();
-                } else {
-                    showModel(data.msg);
+        if ($('#summernote').summernote('isEmpty')) {
+            showModel("回复为空,请填写您的回复。");
+        }else {
+            var markupStr = '';
+            var content = $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中
+            $("#answerSend").attr("disabled", "disabled");//按钮不可用
+            $.ajax({
+                data: $("#answerForm").serializeArray(),
+                type: "POST",
+                url: ctx + "/answer/reply.htm",
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    if (data.code == 0) {
+                        updateAnswer(data, "answerUpdate", 2);
+                        showModel(data.msg);
+                        setTimeout(function () {
+                            $("#ajaxModal").modal("hide")
+                        }, 2000);
+                        $(document).scrollTop(0);
+                        $("#answerSend").removeAttr("disabled");//按钮可用
+                        $('#summernote').summernote('code', markupStr);
+                        save();
+                        edit1();
+                    } else {
+                        showModel(data.msg);
+                        $("#answerSend").removeAttr("disabled");//按钮可用
+                    }
                     $("#answerSend").removeAttr("disabled");//按钮可用
                 }
-                $("#answerSend").removeAttr("disabled");//按钮可用
-            }
-        });
+            });
+        }
     })
+
 
 })
 
