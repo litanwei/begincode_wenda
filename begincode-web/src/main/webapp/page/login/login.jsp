@@ -15,7 +15,7 @@
                     <div class="clear">&nbsp;</div>
                     <div class="tr input_wrap loginname_wrap">
                         <i class="login_username_icon"></i>
-                        <input value="" type="text" title="用户名" class="loginname" name="username" id="username" placeholder="用户名-可使用3dm论坛帐号登录"><i class="iconfont mobile_ico"></i>
+                        <input value="" type="text" title="用户名" class="loginname" name="username" id="username" placeholder="用户名"><i class="iconfont mobile_ico"></i>
                         <i class="iconfont email_ico"></i>
                     </div>
                     <div class="tr input_wrap password_wrap">
@@ -30,13 +30,13 @@
                             <input value="" type="checkbox" name="remember" checked="checked" class="common_chk">记住我 
                         </li>
                         <li style="text-align: right;">
-                            <a href="http://yeyou.3dmgame.com/account/findpassword" target="_blank" class="forget">忘记密码?</a>
+                            <a href="javascript:void(0)" target="_blank" class="forget">忘记密码?</a>
                         </li>
                       
                     </ul>
                     <div class="tr submit_wrap">
+                     	<a class="go_reg" onclick="window.parent.view_register()">注册</a>
                         <a class="submit" onclick="window.parent.login_submit(loginForm)">登 录</a>
-                        <a class="go_reg" onclick="window.parent.view_register()">注册</a>
                     </div>
                     <div class="QQ_login" onclick="window.parent.login_submitByQQ()"><i class="QQicon_login"></i><span class="make_lgoin">使用QQ登录</span></div>
                 </form>

@@ -38,12 +38,12 @@ function form_register_submit(form) {
 					parent.layer.close(layerIndex);
 					check_loginStauts();// 检查是否登录
 				} else {
-					img_change($(".vcode_img"));
+					img_change(layer.getChildFrame('body', layerIndex).find(
+							".vcode_img")[0]);
+					handlerError(data.data);
 				}
 			}
 		});
-	} else {
-		img_change($(".vcode_img"));
 	}
 }
 // 可选非法字符
@@ -58,6 +58,7 @@ function validate_form(form) {
 	var pwd = $(form.password);
 	var cpwd = $(form.checkpassword);
 	var email = $(form.email);
+	var vcode = $(form.vcode);
 	if (uname.val() == '') {
 		add_remind(uname, '请输入用户名');
 		return false;
@@ -92,6 +93,12 @@ function validate_form(form) {
 	} else if (!/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(email.val())) {
 		add_remind(email, '邮箱格式不正确')
 		return false;
+	} else if (vcode.val() == '') {
+		add_remind(vcode, '验证码不能为空')
+		return false;
+	} else if (!/^[a-zA-Z0-9]+$/.test(vcode.val())) {
+		add_remind(vcode, '非法验证字符')
+		return false;
 	}
 	return true;
 }
@@ -113,6 +120,9 @@ function img_change(dom) {
 
 // 检查登录状态 true表示成功登录！
 function check_loginStauts() {
+	if (document.cookie.indexOf("check") < 0) {
+		return false;
+	}
 	$.ajax({
 		dataType : "json",
 		url : "/user/check/checkLogin.htm",
@@ -143,6 +153,8 @@ function login_submit(form) {
 			if (data.data == true) {
 				parent.layer.close(layerIndex);
 				check_loginStauts(); // 登录成功检查一次
+			} else {
+				handlerError(data.data);
 			}
 			;
 		}
@@ -185,6 +197,12 @@ function disposeDiv(_html, array) {
 	});
 	$("#simpleLogin").html(_html);
 }
+function handlerError(reData) {
+	var childFrame = layer.getChildFrame('body', layerIndex);
+	for (node in reData) {
+		add_remind(childFrame.find("#" + node + ""), reData[node]);
+	}
+}
 
 // QQ登录页面打开
 function login_submitByQQ() {
@@ -216,5 +234,4 @@ function regUser(nickName, figureurl, gender, province, city, year, openId,
 			location.reload();
 		}
 	});
-
 }

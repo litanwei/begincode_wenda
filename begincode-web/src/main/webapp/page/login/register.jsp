@@ -31,7 +31,7 @@
                     <input title="别忘了邮箱" type="text" name="email" id="email" placeholder="邮箱地址">
                 </div>
                 <div class="tr input_wrap vcode_wrap">
-                    <input title="别忘了验证码" class="vcode" type="text" name="vcode" id="regvcode" placeholder="验证码">
+                    <input title="别忘了验证码" class="vcode" type="text" name="vcode" id="vcode" placeholder="验证码">
                     <img src="/image/vcode.htm" class="vcode_img" title="看不清？点击换一张！" style="visibility: visible;" onclick="window.parent.img_change(this)">
                 </div>
                 <div class="tr rule_wrap">

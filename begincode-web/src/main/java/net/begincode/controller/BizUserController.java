@@ -1,6 +1,8 @@
 package net.begincode.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -127,6 +129,7 @@ public class BizUserController {
 
 	// 处理client注册
 	public Object registerByClient(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> reData=new HashMap<>();
 		String username = request.getParameter("username");
 		String nickname = request.getParameter("nickname");
 		String password = request.getParameter("password");
@@ -134,18 +137,22 @@ public class BizUserController {
 		String vcode = request.getParameter("vcode").toLowerCase();
 		String checkvcode = request.getSession().getAttribute("imageVcode").toString().toLowerCase();
 		if (!vcode.equals(checkvcode)) {
-			return false;
+			reData.put("vcode", "验证码错误");
+			return reData;
 		}
 		if (userHandler.IsExistByRow("login_name", username)) {
-			return false;
+			reData.put("username", "用户名已存在");
+			return reData;
 		}
 		;
 		if (userHandler.IsExistByRow("nickname", nickname)) {
-			return false;
+			reData.put("nickname", "用户昵称已存在");
+			return reData;
 		}
 		;
 		if (userHandler.IsExistByRow("email", email)) {
-			return false;
+			reData.put("email", "邮箱已存在");
+			return reData;
 		}
 		String open_id = "Ro" + RandomStringUtils.randomAlphanumeric(30);
 		String access_token = "Ra" + RandomStringUtils.randomAlphanumeric(30);
@@ -165,11 +172,13 @@ public class BizUserController {
 
 	// 处理client登录
 	public Object loginByClient(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, String> reData=new HashMap<>();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		BegincodeUser user = userHandler.selectByLoginName(username, password);
 		if (user == null) {// 登录失败
-			return false;
+			reData.put("username", "用户名或密码不正确");
+			return reData;
 		}
 		CookieOperation.addCookie(response, user);
 		return true;
@@ -185,4 +194,5 @@ public class BizUserController {
 		}
 		return null;
 	}
+
 }
