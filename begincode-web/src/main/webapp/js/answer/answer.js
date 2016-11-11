@@ -19,7 +19,7 @@ $(document).ready(function () {
     // 回复 绑定回复内容 问题id
     $("#answerSend").click(function () {
         if ($('#summernote').summernote('isEmpty')) {
-            showModel("回复为空,请填写您的回复。");
+            showModel("回复为空，请填写您的回复。");
         }else {
             var markupStr = '';
             var content = $('#content').val($('#summernote').summernote('code')); //使summernote里面的内容放到隐藏的content中

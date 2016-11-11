@@ -1,11 +1,9 @@
 import net.begincode.controller.UserController;
-import net.begincode.core.handler.AnswerHandler;
-import net.begincode.core.handler.DemoHandler;
-import net.begincode.core.handler.MessageHandler;
-import net.begincode.core.handler.UserHandler;
+import net.begincode.core.handler.*;
 import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.*;
+import net.begincode.core.service.AnsAgreeService;
 import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.service.ProblemService;
 import org.junit.Assert;
