@@ -27,7 +27,7 @@
                     
                     <ul class="quick_nav fix">
                         <li class="first">
-                            <input value="" type="checkbox" name="remember" checked="checked" class="common_chk">记住我 
+                            <input value="" type="checkbox" name="remember" checked="checked" class="common_chk">记住登录 
                         </li>
                         <li style="text-align: right;">
                             <a href="javascript:void(0)" target="_blank" class="forget">忘记密码?</a>

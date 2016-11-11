@@ -145,6 +145,7 @@ function login_submit(form) {
 		add_remind(pwd, '请输入密码');
 		return false;
 	}
+	alert($(form).serialize());
 	$.ajax({
 		data : $(form).serialize(),
 		dataType : "json",

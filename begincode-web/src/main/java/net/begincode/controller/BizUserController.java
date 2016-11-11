@@ -106,7 +106,7 @@ public class BizUserController {
 		user.setUserSourceId(1);
 		user.setDeleteFlag("1");
 		user = userHandler.createUserAndFind(user);
-		CookieOperation.addCookie(response, user);
+		CookieOperation.addLongTimeCookie(response, user);//QQ登录默认长时间保持Cookie
 		return true;
 	}
 
@@ -179,6 +179,10 @@ public class BizUserController {
 		if (user == null) {// 登录失败
 			reData.put("username", "用户名或密码不正确");
 			return reData;
+		}
+		if(request.getParameter("remember")!=null){ //长时间Cookie
+			CookieOperation.addLongTimeCookie(response, user);
+			return true;
 		}
 		CookieOperation.addCookie(response, user);
 		return true;

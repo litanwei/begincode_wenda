@@ -112,5 +112,19 @@ public class CookieOperation {
 		}
 
 	}
+	public static void addLongTimeCookie(HttpServletResponse response, BegincodeUser user){
+		Cookie accessToken = new Cookie("accessToken",user.getAccessToken());
+		Cookie openId = new Cookie("openId",user.getOpenId());
+		Cookie check = new Cookie("check",user.getCheckFlag());
+		accessToken.setPath("/");
+		openId.setPath("/");
+		check.setPath("/");
+		accessToken.setMaxAge(1296000);
+		openId.setMaxAge(1296000);
+		check.setMaxAge(1296000);
+		response.addCookie(accessToken);
+		response.addCookie(openId);
+		response.addCookie(check);
+	}
 
 }
