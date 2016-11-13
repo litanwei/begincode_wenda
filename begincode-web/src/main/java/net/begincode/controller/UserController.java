@@ -49,7 +49,6 @@ public class UserController {
     private LabelHandler labelHandler;
 
 
-
     /**
      * summernote @提示获取后台用户
      *
@@ -152,10 +151,7 @@ public class UserController {
     @RequestMapping("activer")
     @ResponseBody
     public Object activeUser() {
-
-        List<BegincodeUser> list = userHandler.selectActiveUser();
-
-        return list;
+        return userHandler.selectActiveUser();
     }
 
     /**

@@ -11,7 +11,7 @@
 		delete_flag,
 		invite_code
 	</sql>
-	<resultMap id="BaseResultMap" type="net.begincode.core.model.BegincodeUser">
+	<resultMap id="BaseResultMap" type="net.begincode.core.model.BizBegincodeUser">
 		
 		<id column="begincode_user_id" property="begincodeUserId" jdbcType="INTEGER" />
 		<result column="login_name" property="loginName" jdbcType="VARCHAR" />
@@ -33,54 +33,19 @@
 			jdbcType="INTEGER" />
 		<result column="delete_flag" property="deleteFlag" jdbcType="CHAR" />
 		<result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
+		<result column="activeCount" property="activeCount" jdbcType="INTEGER" />
 	</resultMap>
 
 
 	<select id="getActiverUser" resultMap="BaseResultMap">
-		SELECT
-		u.begincode_user_id,
-		login_name,
-		pwd,
-		nickname,
-		cdate,
-		sex,
-		tel_phone,
-		email,
-		receive_email,
-		pic,
-		check_flag,
-		gag,
-		course,
-		open_id,
-		access_token,
-		user_source_id,
-		u.delete_flag,
-		invite_code
-		FROM
-		begincode_user AS u
-		INNER
-		JOIN problem AS p ON u.begincode_user_id = p.begincode_user_id
-		INNER
-		JOIN answer AS a ON u.begincode_user_id=a.begincode_user_id
-		WHERE 
-		
-		<if test="dateBefore != null and dateBefore != ''">
-		update_time >= #{dateBefore }
-		</if>
-		
-		AND
-		<if test="dateBefore != null and dateBefore != ''">
-		a.create_time >= #{dateBefore }
-		</if>
-		
-		GROUP BY
-		u.begincode_user_id
-		ORDER BY
-		(
-		COUNT(p.begincode_user_id) +
-		COUNT(a.begincode_user_id)
-		) DESC
-		LIMIT 10
+		select bup.begincode_user_id,bup.nickname,(bup.pcount+count(a.answer_id)) activeCount from (
+		select bu.begincode_user_id,bu.nickname,count(p.problem_id) pcount
+		from begincode_user bu
+		left join problem p on bu.begincode_user_id = p.begincode_user_id and p.create_time > #{dateBefore }  group by bu.begincode_user_id,bu.nickname
+		) bup
+		left join answer a on bup.begincode_user_id = a.begincode_user_id and a.create_time > #{dateBefore }
+		group by bup.begincode_user_id,bup.nickname order by activeCount desc limit 10;
+
 
 	</select>
 </mapper>

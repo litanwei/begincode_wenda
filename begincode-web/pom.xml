@@ -59,7 +59,7 @@
 
 
 	<build>
-		<finalName>wenda</finalName>
+		<finalName>ROOT</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>

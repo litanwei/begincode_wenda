@@ -4,6 +4,7 @@ import net.begincode.core.mapper.BegincodeUserMapper;
 import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
+import net.begincode.core.model.BizBegincodeUser;
 import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,7 @@ public class BegincodeUserService {
      * @return
      */
 
-    public List<BegincodeUser> selectActiveUser() {
+    public List<BizBegincodeUser> selectActiveUser() {
         /** --查询参数，取当前时间的前一个月的时间-- **/
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);

@@ -3,6 +3,7 @@ package net.begincode.core.handler;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.UserResponseEnum;
 import net.begincode.core.model.BegincodeUser;
+import net.begincode.core.model.BizBegincodeUser;
 import net.begincode.core.service.BegincodeUserService;
 
 import org.slf4j.Logger;
@@ -61,7 +62,7 @@ public class UserHandler {
     /**
      * 查询活跃用户
      */
-    public List<BegincodeUser> selectActiveUser() {
+    public List<BizBegincodeUser> selectActiveUser() {
         return begincodeUserService.selectActiveUser();
     }
 

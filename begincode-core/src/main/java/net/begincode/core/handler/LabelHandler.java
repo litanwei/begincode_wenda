@@ -90,4 +90,7 @@ public class LabelHandler {
         return map;
     }
 
+    public Label getLabelById(Integer labelId){
+        return labelService.selectById(labelId);
+    }
 }

@@ -33,7 +33,7 @@
 
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#home"
-				aria-controls="home" role="tab" data-toggle="tab">${label}</a></li>
+				aria-controls="home" role="tab" data-toggle="tab">${label.labelName}</a></li>
 		</ul>
 		<div class="row">
 
@@ -56,16 +56,16 @@
 									</div>
 									<div class="summary">
 										<ul class="author list-inline ">
-											<li><a href="${ctx}/problem/${pl.problem.problemId}.htm">${pl.problem.userName}</a> <span
-												class="split"></span> <a href="#">${pl.problem.updateTime}提问</a>
+											<li><a href="#">${pl.problem.userName}</a> <span
+												class="split"></span> <a href="#"><fmt:formatDate value="${pl.problem.createTime}" pattern="yyyy-MM-dd"/>提问</a>
 											</li>
 										</ul>
 
 										<span class="keyword-list ">
 											<h2 class="title l">
-												<a href="#">${pl.problem.title}</a>
+												<a href="${ctx}/problem/${pl.problem.problemId}.htm">${pl.problem.title}</a>
 											</h2> <c:forEach items="${pl.labell}" var="p" varStatus="varStau">
-												<a href="'/label/selectProblemLabel.htm?id='${p.labelId}"
+												<a href="${ctx}'/label/selectProblemLabel.htm?id='${p.labelId}"
 													target="_blank" class="list-tag">${p.labelName}</a>
 											</c:forEach>
 										</span>
@@ -94,22 +94,16 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 	<script src="${ctx}/js/messages/messageremind.js"></script>
-	<script src="${ctx}/js/commons/getProblems.js"></script>
+	<%--<script src="${ctx}/js/commons/getProblems.js"></script>--%>
 	<script src="${ctx}/js/commons/timeUtil.js"></script>
-	<script src="${ctx}/js/commons/jqpagination.js"></script>
-	<script src="${ctx}/js/problem/problem.js"></script>
+	<%--<script src="${ctx}/js/commons/jqpagination.js"></script>--%>
+	<%--<script src="${ctx}/js/problem/problem.js"></script>--%>
 
 	<!-- 获取热门标签 、查询标签-->
 	<script type="text/javascript" src="${ctx}/js/getLabelList.js"></script>
 	<!-- 页面加载事件 -->
 	<script type="text/javascript" src="${ctx}/js/onLoad.js"></script>
 
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/problem/getProblems.js"></script>
-<script src="${ctx}/js/commons/timeUtil.js"></script>
-<script src="${ctx}/js/commons/jqpagination.js"></script>
-<script src="${ctx}/js/problem/problem.js"></script>
 
 
 </body>

@@ -16,7 +16,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.code == 0) {
                         $("#problemSend").removeAttr("disabled");
-                        window.location.href = "/";
+                        window.location.href = ctx+"/";
                     } else {
                         showModel(data.msg);
                     }

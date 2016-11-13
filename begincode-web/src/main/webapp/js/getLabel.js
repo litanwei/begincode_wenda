@@ -16,7 +16,7 @@ function getLabels(){
 			if(list != null && list != ""){
 				
 				for (var i = 0; i < list.length; i++) {
-					$(".tag-list").append("<a target='_blank' class='list-tag' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
+					$(".tag-list").append("<a target='_blank' class='list-tag ' style='cursor:pointer' onclick='selectLabel("+list[i].labelId+")'>"+list[i].labelName+"</a>");
 				}
 				
 			}

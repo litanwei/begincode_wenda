@@ -93,6 +93,12 @@
                 </a></li>
                 <li class=""><a href="http://www.begincode.net/wenda/" class="dropdown-toggle">问答
                 </a></li>
+                <li class=""><a href="http://www.begincode.net/code/" class="dropdown-toggle">代码分享</a>
+                </li>
+                <li class=""><a href="http://www.begincode.net/blog/" class="dropdown-toggle">博客文章</a>
+                </li>
+                <li class=""><a href="http://www.begincode.net/resource/" class="dropdown-toggle">学习资源</a>
+                </li>
 
 
             </ul>
