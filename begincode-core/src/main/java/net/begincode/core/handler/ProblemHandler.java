@@ -65,6 +65,9 @@ public class ProblemHandler {
         messageService.createMessage(problem.getProblemId(),null,begincodeUserService.contentFilter(problem.getContent()));
         //发送http请求给搜索端
 //        HttpUtil.createIndexHttp(problem.getProblemId());
+        if(label==null && label.getLabelName().trim()==""){
+            throw new BizException(LabelResponseEnum.LABEL_ADD_ERROR);
+        }
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
         operateLabelNameSet(labelNameSet, problem);

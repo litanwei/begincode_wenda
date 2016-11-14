@@ -54,13 +54,14 @@ function checkLabel(label) {
     if (label.trim() == null && label.trim() == "") {
         return false;
     }
-    for (var i = 0; i < labelList.length; i++) {
-        if (labelList[i] == "") {
-            continue;
-            if (!pattern.test(labelList[i])) {
-                return false;
-            }
+    if(labelList.length>0) {
+        for (var i = 0; i < labelList.length; i++) {
+                if (!pattern.test(labelList[i])) {
+                    return false;
+                }
         }
+        return true;
+    }else{
+        return false;
     }
-    return true;
 }

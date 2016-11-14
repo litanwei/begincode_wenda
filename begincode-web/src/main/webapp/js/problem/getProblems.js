@@ -67,7 +67,6 @@ function getProblems(page, id) {
  * @returns {string}   返回的文字
  */
 function problemFormatTime(problemAuthorName, size, answerName, time,answerTime) {
-    console.log(answerTime);
     var date = new Date(time);
     var dateNow = new Date();
     var diffTime = (dateNow.getTime() - date.getTime()) / 1000;

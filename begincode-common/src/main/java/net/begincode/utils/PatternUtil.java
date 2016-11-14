@@ -95,7 +95,7 @@ public class PatternUtil {
             }
         }
         for(int i=0;i<list.size();i++){
-            content = content.trim().replace(list.get(i),"<a href=/user/"+list.get(i).replace("@", "")+".htm"+">"+list.get(i)+"</a>");
+            content = content.trim().replace(list.get(i),"<a href=/wenda/user/"+list.get(i).replace("@", "")+".htm"+">"+list.get(i)+"</a>");
         }
         return content;
     }
