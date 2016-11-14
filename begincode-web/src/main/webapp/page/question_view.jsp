@@ -338,7 +338,7 @@
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
+<script src="${ctx}/js/jquery/jquery.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 

@@ -44,7 +44,7 @@
   <input type="hidden" name="">
   <label><span class="labelinfoblue"></span>问题正文</label>
   <input type="hidden" name="problem.content" id="content" value=""/>
-   <div id="summernote"><p></p></div>
+    <div id="summernote"></div>
   
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container-fluid align-center">
@@ -101,7 +101,7 @@
   </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="${ctx}/js/jquery/jquery-3.1.0.min.js"></script>
+  <script src="${ctx}/js/jquery/jquery.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
   <script src="${ctx}/js/problem/createProblem.js"></script>
