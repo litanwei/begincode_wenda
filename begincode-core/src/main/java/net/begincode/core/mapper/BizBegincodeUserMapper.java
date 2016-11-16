@@ -18,5 +18,5 @@ public interface BizBegincodeUserMapper {
     /**
      * 用于获取列名的所有值
      */
-    public List<String> selectAllByColumn(@Param(value = "columnName")String columnName);
+    public List<String> selectAllByNickName();
 }

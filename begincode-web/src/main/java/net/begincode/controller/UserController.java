@@ -57,7 +57,7 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @ResponseBody
     public Object findUserList() {
-         List<String> nameList =userHandler.selectAllByColumn("nickname");
+         List<String> nameList =userHandler.selectAllByNickName();
         return nameList;
     }
 
@@ -70,12 +70,10 @@ public class UserController {
      */
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     public String indexByNickName(@PathVariable(value = "userId") String userId, Model model) {
-    	System.out.println("我到这了");
         model.addAttribute("problemSize", problemHandler.problemSizeByUserId(Integer.valueOf(userId)));
         model.addAttribute("answerSize", answerHandler.selectAnswerNumByUserId(Integer.valueOf(userId)));
         model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(Integer.valueOf(userId)));
         model.addAttribute("user", userHandler.selectByUserId(Integer.valueOf(userId)));
-        System.out.println("我运行并通过了");
         return "user_index";
     }
 

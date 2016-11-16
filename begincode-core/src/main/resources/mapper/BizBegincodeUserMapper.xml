@@ -48,7 +48,7 @@
 
 
 	</select>
-	<select id="selectAllByColumn" parameterType="java.lang.String" resultType="String" >
-		select ${columnName} from begincode_user 
+	<select id="selectAllByNickName" resultType="String" >
+		select nickname from begincode_user 
 	</select>
 </mapper>

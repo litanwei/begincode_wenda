@@ -167,7 +167,7 @@ public class BegincodeUserService {
     /**
      * 用于获取列名的所有值
      */
-    public List<String> selectAllByColumn(String columnName){
-    	return bizBegincodeUserMapper.selectAllByColumn(columnName);
+    public List<String> selectAllByNickName(){
+    	return bizBegincodeUserMapper.selectAllByNickName();
     }
 }

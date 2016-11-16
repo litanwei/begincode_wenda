@@ -133,9 +133,7 @@ public class UserHandler {
 	/**
 	 * 用于获取列名的所有值
 	 */
-	public List<String> selectAllByColumn(String columnName) {
-		List<String> columns = new ArrayList<>();
-		columns = begincodeUserService.selectAllByColumn(columnName);
-		return columns;
+	public List<String> selectAllByNickName() {
+		return begincodeUserService.selectAllByNickName();
 	}
 }
