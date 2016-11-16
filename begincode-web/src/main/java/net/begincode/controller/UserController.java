@@ -57,11 +57,7 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @ResponseBody
     public Object findUserList() {
-        List<String> nameList = new ArrayList<>();
-        List<BegincodeUser> list = userHandler.selectAll();
-        for (BegincodeUser user : list) {
-            nameList.add(user.getNickname());
-        }
+         List<String> nameList =userHandler.selectAllByColumn("nickname");
         return nameList;
     }
 

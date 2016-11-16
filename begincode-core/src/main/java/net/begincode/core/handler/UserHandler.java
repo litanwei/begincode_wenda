@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -112,5 +114,14 @@ public class UserHandler {
     public BegincodeUser selectByOpenId(String openId)
     {
         return begincodeUserService.findUserByOpenId(openId);
+    }
+    
+    /**
+     * 用于获取列名的所有值
+     */
+    public List<String> selectAllByColumn(String columnName){
+    	List<String> columns=new ArrayList<>();
+    	columns = begincodeUserService.selectAllByColumn(columnName);	
+    	return columns;
     }
 }
