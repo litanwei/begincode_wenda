@@ -44,7 +44,7 @@
                             </c:forEach>
                         </span>
                         <div class="question-author">
-                            <a href="${ctx}/user/${problem.userName}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
+                            <a href="${ctx}/user/${problem.begincodeUserId}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                             <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
                                 <div class=" answer__info--author-warp">
                                     <a  title="${answer.userName}"
-                                        href="${ctx}/user/${answer.userName}.htm">${answer.userName}</a><span
+                                        href="${ctx}/user/${answer.begincodeUserId}.htm">${answer.userName}</a><span
                                         class="answer__info--author-rank"></span></div>
                             </div>
                         </div>
@@ -286,7 +286,7 @@
                             <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
                                 <div class=" answer__info--author-warp">
                                     <a title="${answer.userName}"
-                                       href="${ctx}/user/${answer.userName}.htm">${answer.userName}</a><span
+                                       href="${ctx}/user/${answer.begincodeUserId}.htm">${answer.userName}</a><span
                                         class="answer__info--author-rank"></span></div>
                             </div>
                         </div>

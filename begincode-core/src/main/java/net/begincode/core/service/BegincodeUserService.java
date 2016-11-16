@@ -105,7 +105,22 @@ public class BegincodeUserService {
         return list.size() > 0 ? list.get(0) : null;
 
     }
+  //---------------优化--------------
+    /**
+     * 根据userId查找BegincodeUser
+     *
+     * @param userId
+     * @return 不存在返回空 存在就返回此对象
+     */
+    public BegincodeUser selectByUserId(Integer userId) {
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.size() > 0 ? list.get(0) : null;
 
+    }
+  //---------------优化--------------
     /**
      * openId查找用户
      *

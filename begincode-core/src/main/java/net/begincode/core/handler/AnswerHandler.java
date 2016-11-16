@@ -150,7 +150,17 @@ public class AnswerHandler {
     public Integer selectAnswerNumByNickName(String nickName) {
         return answerService.findAnswerNumByNickName(nickName);
     }
-
+    //--------------------优化----------------------
+    /**
+     * 根据userID返回回答数
+     *
+     * @param userId
+     * @return
+     */
+    public Integer selectAnswerNumByUserId(Integer userId) {
+        return answerService.findAnswerNumByUserId(userId);
+    }
+  //--------------------优化----------------------
     /**
      * 根据nickname 返回回答实体集合
      *

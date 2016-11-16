@@ -13,6 +13,7 @@ public class BizFrontProblem extends PageParam {
     private String answerName;
     private List<String> labelNameList;
     private Date answerTime;
+    private Integer answerUserId;
 
     public Date getAnswerTime() {
         return answerTime;
@@ -45,4 +46,13 @@ public class BizFrontProblem extends PageParam {
     public void setLabelNameList(List<String> labelNameList) {
         this.labelNameList = labelNameList;
     }
+
+	public Integer getAnswerUserId() {
+		return answerUserId;
+	}
+
+	public void setAnswerUserId(Integer answerUserId) {
+		this.answerUserId = answerUserId;
+	}
+    
 }

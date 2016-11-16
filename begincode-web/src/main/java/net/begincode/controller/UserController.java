@@ -64,16 +64,18 @@ public class UserController {
     /**
      * 根据用户名返回用户主界面
      *
-     * @param nickName
+     * @param userId
      * @param model
      * @return
      */
-    @RequestMapping(value = "/{nickName}", method = RequestMethod.GET)
-    public String indexByNickName(@PathVariable(value = "nickName") String nickName, Model model) {
-        model.addAttribute("problemSize", problemHandler.problemSizeByNickName(nickName));
-        model.addAttribute("answerSize", answerHandler.selectAnswerNumByNickName(nickName));
-        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(userHandler.selectByNickName(nickName).getBegincodeUserId()));
-        model.addAttribute("user", userHandler.selectByNickName(nickName));
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public String indexByNickName(@PathVariable(value = "userId") String userId, Model model) {
+    	System.out.println("我到这了");
+        model.addAttribute("problemSize", problemHandler.problemSizeByUserId(Integer.valueOf(userId)));
+        model.addAttribute("answerSize", answerHandler.selectAnswerNumByUserId(Integer.valueOf(userId)));
+        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(Integer.valueOf(userId)));
+        model.addAttribute("user", userHandler.selectByUserId(Integer.valueOf(userId)));
+        System.out.println("我运行并通过了");
         return "user_index";
     }
 

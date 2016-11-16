@@ -166,6 +166,20 @@ public class AnswerService {
         criteria.andUserNameEqualTo(nickName);
         return answerMapper.countByExample(answerExample);
     }
+  //--------------------优化----------------------
+    /**
+     * 根据nickName查找对应的回答数
+     *
+     * @param userId
+     * @return
+     */
+    public Integer findAnswerNumByUserId(Integer userId) {
+        AnswerExample answerExample = new AnswerExample();
+        AnswerExample.Criteria criteria = answerExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        return answerMapper.countByExample(answerExample);
+    }
+  //--------------------优化----------------------
 
     /**
      * 根据nickName返回回答集合
