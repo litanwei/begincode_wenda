@@ -13,7 +13,7 @@ $(document).ready(function () {
                     messageHtml(data.data.data,"message");
                     messagePagination(data.data,"/list","message","POST");
                 }else{
-                    showModel(data.msg);
+                    showModelBack(data.msg);
                 }
             }
         })
@@ -27,7 +27,7 @@ setInterval (function() {
         url:ctx+"/message/count.htm",
         success : function(data) {
             if(data.code == 0){
-                document.getElementById("messageCount").innerHTML = data.data;
+                $("#messageCount").html(data.data);
             }
         }
     });
@@ -39,7 +39,7 @@ function messageCount(){
         url:ctx+"/message/count.htm",
         success : function(data) {
             if(data.code == 0){
-                document.getElementById("messageCount").innerHTML = data.data;
+                $("#messageCount").html(data.data);
             }
         }
     });

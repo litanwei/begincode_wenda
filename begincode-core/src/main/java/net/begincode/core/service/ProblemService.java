@@ -44,6 +44,7 @@ public class ProblemService {
     }
 
 
+
     /**
      * 查找总问题数
      *
@@ -51,6 +52,7 @@ public class ProblemService {
      */
     public Integer findProblemsSize() {
         ProblemExample problemExample = new ProblemExample();
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
         return problemMapper.countByExample(problemExample);
     }
 
@@ -61,6 +63,7 @@ public class ProblemService {
      */
     public List<Problem> findProblemList() {
         ProblemExample problemExample = new ProblemExample();
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
         return problemMapper.selectByExampleWithBLOBs(problemExample);
     }
 
@@ -77,6 +80,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(0);
         criteria.andUserNameEqualTo(userName);
         return problemMapper.selectByExampleWithRowbounds(problemExample,
                 new RowBounds((currentNum - 1) * eachSize, eachSize));
@@ -94,6 +98,7 @@ public class ProblemService {
     public List<Problem> findNewProblem(Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
         return problemMapper.selectByExampleWithRowbounds(problemExample,
                 new RowBounds((currentNum - 1) * eachSize, eachSize));
     }
@@ -110,6 +115,7 @@ public class ProblemService {
         problemExample.setOrderByClause("create_time desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andAnswerCountEqualTo(0);
+        criteria.andDeleteFlagEqualTo(0);
         return problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((currentNum - 1) * eachSize,
                 eachSize));
     }
@@ -127,6 +133,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("view_count desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(0);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         try {
@@ -185,6 +192,7 @@ public class ProblemService {
     public List<Problem> selectProByUserName(String userName) {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
         criteria.andUserNameEqualTo(userName);
         return problemMapper.selectByExample(problemExample);
     }
@@ -198,6 +206,7 @@ public class ProblemService {
     public Integer findHotProSize() {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("view_count desc");
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
@@ -227,7 +236,7 @@ public class ProblemService {
      * @return Problem
      */
     public int updateProblem(Problem record) {
-        return problemMapper.updateByPrimaryKey(record);
+        return problemMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
@@ -239,6 +248,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andAnswerCountEqualTo(0);
+        criteria.andDeleteFlagEqualTo(0);
         return problemMapper.countByExample(problemExample);
     }
 
@@ -252,86 +262,8 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andUserNameEqualTo(userName);
+        criteria.andDeleteFlagEqualTo(0);
         return problemMapper.countByExample(problemExample);
-    }
-
-    /**
-     * 根据问题id 修改收藏 浏览 投票数
-     *
-     * @param problemId
-     * @param view
-     * @param collect
-     * @param vote
-     * @return
-     */
-    public Integer updateVoteCollByProId(Integer problemId, Integer view, Integer collect, Integer vote) {
-        Problem problem = new Problem();
-        ProblemExample problemExample = new ProblemExample();
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        problem.setViewCount(view);
-        problem.setCollectCount(collect);
-        problem.setVoteCount(vote);
-        return problemMapper.updateByExampleSelective(problem, problemExample);
-    }
-
-    /**
-     * 根据问题id 修改浏览次数
-     *
-     * @param problemId
-     * @param view
-     * @return
-     */
-    public Integer updateViewByProId(Integer problemId, Integer view) {
-        Problem problem = new Problem();
-        problem.setViewCount(view);
-        ProblemExample problemExample = new ProblemExample();
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem, problemExample);
-    }
-
-    /**
-     * 根据问题id修改收藏数
-     *
-     * @param problemId
-     * @param collectCount
-     * @return
-     */
-    public Integer updateCollByProId(Integer problemId, Integer collectCount) {
-        Problem problem = new Problem();
-        problem.setCollectCount(collectCount);
-        ProblemExample problemExample = new ProblemExample();
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem, problemExample);
-    }
-
-    /**
-     * 根据问题id修改投票次数
-     *
-     * @param problemId
-     * @param voteCount
-     * @return
-     */
-    public Integer updateVoteByProId(Integer problemId, Integer voteCount) {
-        Problem problem = new Problem();
-        problem.setVoteCount(voteCount);
-        ProblemExample problemExample = new ProblemExample();
-        ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        return problemMapper.updateByExampleSelective(problem, problemExample);
-    }
-
-
-    /**
-     * 通过问题id查找问题
-     *
-     * @param problemId
-     * @return
-     */
-    public Problem findByProblemId(Integer problemId) {
-        return problemMapper.selectByPrimaryKey(problemId);
     }
 
 

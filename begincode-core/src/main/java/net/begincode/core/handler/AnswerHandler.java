@@ -85,7 +85,7 @@ public class AnswerHandler {
         Problem pro = problemService.selProblemById(ans.getProblemId());
         if (pro.getBegincodeUserId() == begincodeUserId && ans.getBegincodeUserId() != begincodeUserId) {
             ans.setAdopt(Integer.parseInt(AdoptEnum.ADOPT.getCode()));
-            if (pro.getSolve() == Integer.parseInt(SolveEnum.SOLVE.getCode())) {
+            if (pro.getSolve() == Integer.parseInt(SolveEnum.NO_SOLVE.getCode())) {
                 pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
@@ -161,6 +161,11 @@ public class AnswerHandler {
         page.setTotalNum(selectAnswerNumByNickName(nickName));
         List<Answer> list = answerService.findAnswerListByNickName(nickName, page.getCurrentNum(), page.getPageEachSize());
         page.setData(list);
+    }
+
+
+    public void updateProblemAdopt(Integer answerId,Integer problemId){
+
     }
 
 

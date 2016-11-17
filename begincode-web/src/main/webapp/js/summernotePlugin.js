@@ -1,5 +1,6 @@
-$(document).ready(function() {
-    $('#summernote').summernote({
+function summerInit(documentId) {
+    $(documentId).summernote({
+        lang: 'zh-CN',
         callbacks: {
             onImageUpload: function (files) { //the onImageUpload API
                 img = sendFile(files[0]);
@@ -24,12 +25,14 @@ $(document).ready(function() {
                     return item.indexOf(keyword) == 0;
                 }));
             },
+            template: function (item) {
+                return '<a id="message'+ item +'">@' + item + '</a>';
+            },
             content: function (item) {
-                return '@' + item;
+                return $("#message"+ item).attr("href",ctx+"/user/"+item+".htm").removeAttr("id")[0];
             }
         }
     });
-    //查询需要@的用户名
     function mentionsinit() {
         var result;
         $.ajax({
@@ -43,7 +46,7 @@ $(document).ready(function() {
         });
         return result;
     }
-});
+}
 
 function sendFile(file) {
     var filename = false;

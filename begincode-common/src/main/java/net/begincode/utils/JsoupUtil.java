@@ -2,7 +2,11 @@ package net.begincode.utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Stay on 2016/10/18  15:32.
@@ -19,4 +23,23 @@ public class JsoupUtil {
         String text = doc.body().text().replace("?","");
         return text;
     }
+
+    /**
+     * 匹配所有的a标签 过滤出a标签@后面的名字  组成一个不重复的set集合
+     *
+     * @param content
+     * @return
+     */
+    public static Set<String> matchMessageName(String content){
+        HashSet<String> hashSet = new HashSet<>();
+        Document doc = Jsoup.parse(content);
+        Elements element = doc.getElementsByTag("a");
+        for(Element e : element){
+            hashSet.add(e.text().replace("@",""));
+        }
+        return hashSet;
+    }
+
+
+
 }

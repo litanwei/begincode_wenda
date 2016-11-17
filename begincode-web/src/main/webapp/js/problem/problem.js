@@ -71,20 +71,13 @@ $(document).ready(function () {
                     getProblems(data, "myProblem");
                     pagination(data.data, "myProblems", "myProblem", "POST");
                 } else {
-                    showModel(data.msg);
+                    showModelBack(data.msg);
                 }
             }
         });
     });
-
-
 });
 
-
-function showModel(msg) {
-    $("#errorMessage").html(msg);
-    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
-}
 
 
 

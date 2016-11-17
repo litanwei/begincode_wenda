@@ -5,6 +5,7 @@ import net.begincode.core.mapper.BizBegincodeUserMapper;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BegincodeUserExample;
 import net.begincode.core.model.BizBegincodeUser;
+import net.begincode.utils.JsoupUtil;
 import net.begincode.utils.PatternUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
+import static net.begincode.utils.JsoupUtil.matchMessageName;
 
 /**
  * @author kangLiang
@@ -131,12 +134,12 @@ public class BegincodeUserService {
      * @return 用户id数组
      */
     public Integer[] contentFilter(String content) {
-        Set<String> stringSet = PatternUtil.filterNickName(content);
+        Set<String> stringSet = JsoupUtil.matchMessageName(content);
         int i = 0;
         Integer[] userId = new Integer[stringSet.size()];
         if (stringSet != null && stringSet.size() > 0) {
             for (String nickName : stringSet) {
-                BegincodeUser begincodeUser = selectByNickName(nickName.replace("@", ""));
+                BegincodeUser begincodeUser = selectByNickName(nickName);
                 if (begincodeUser == null) {
                     continue;
                 } else {

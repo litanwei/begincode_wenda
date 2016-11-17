@@ -55,17 +55,14 @@ public class ProblemHandler {
     public void addProblem(Problem problem, Label label) {
         Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
-        //截取内容中@的用户名 加上url
-        problem.setContent(PatternUtil.nickNameUrl(problem.getContent()));
         //创建问题如果成功返回整数
-        int problemNum = problemService.createProblem(problem);
-        if (problemNum < 0) {
+        if (problemService.createProblem(problem) < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
-        messageService.createMessage(problem.getProblemId(),null,begincodeUserService.contentFilter(problem.getContent()));
+        messageService.createMessage(problem.getProblemId(), null, begincodeUserService.contentFilter(problem.getContent()));
         //发送http请求给搜索端
 //        HttpUtil.createIndexHttp(problem.getProblemId());
-        if(label.getLabelName()==null || label.getLabelName().trim()==""){
+        if (label.getLabelName() == null || label.getLabelName().trim() == "") {
             throw new BizException(LabelResponseEnum.LABEL_ADD_ERROR);
         }
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
@@ -74,25 +71,14 @@ public class ProblemHandler {
     }
 
     /**
-     * 根据nickName查找用户
+     * 传入问题id得到对应的标签名集合
      *
-     * @param nickName
+     * @param problemId
      * @return
      */
-    public BegincodeUser selectByNickName(String nickName) {
-        return begincodeUserService.selectByNickName(nickName);
-    }
-
-
-    /**
-     * 传入问题得到对应的标签名集合
-     *
-     * @param problem
-     * @return
-     */
-    private List problemToLabel(Problem problem) {
+    private List problemToLabel(Integer problemId) {
         List list = new ArrayList<>();
-        List<ProblemLabel> lt = proLabService.findByProblemId(problem.getProblemId());  //通过问题id找到问题标签集合
+        List<ProblemLabel> lt = proLabService.findByProblemId(problemId);  //通过问题id找到问题标签集合
         //通过迭代把labelId存入集合
         for (int i = 0; i < lt.size(); i++) {
             list.add(lt.get(i).getLabelId());
@@ -116,6 +102,7 @@ public class ProblemHandler {
         List<Problem> problemList = problemService.findNewProblem(page.getCurrentNum(), page.getPageEachSize());
         page.setData(operatePage(problemList));
     }
+
 
     /**
      * 查找我的问题列表
@@ -167,13 +154,13 @@ public class ProblemHandler {
 
 
     /**
-     * 根据传入的问题实体 查找是否有回答的人名字
+     * 根据传入的问题id 查找是否有回答的人名字
      *
-     * @param problem
+     * @param problemId
      * @return
      */
-    public Answer selectOrderByProblemId(Problem problem) {
-        Answer answer = answerService.findOrderByProblemId(problem.getProblemId());
+    public Answer selectOrderByProblemId(Integer problemId) {
+        Answer answer = answerService.findOrderByProblemId(problemId);
         if (answer == null) {
             return null;
         } else {
@@ -182,14 +169,13 @@ public class ProblemHandler {
     }
 
 
-
     /**
      * 传入的labelName集合 判断是否有存在
      * 如果存在加入集合
      * 不存在先加入数据库 再加入集合
      *
      * @param labelNameSet
-     * @return 集合标签
+     * @param problem
      */
     private void operateLabelNameSet(Set<String> labelNameSet, Problem problem) {
         Label label = new Label();
@@ -231,16 +217,17 @@ public class ProblemHandler {
      * @return
      */
     private List<BizFrontProblem> operatePage(List<Problem> problemList) {
-        List<BizFrontProblem> list = new ArrayList<>();
-        for (Problem problem : problemList) {
+        List<BizFrontProblem> list = new ArrayList<>(problemList.size());
+        for(int i=0;i<problemList.size();i++){
+            Problem problem = problemList.get(i);
             BizFrontProblem bizFrontProblem = new BizFrontProblem();
-            Answer answer = selectOrderByProblemId(problem);
-            if(answer != null){
+            Answer answer = selectOrderByProblemId(problem.getProblemId());
+            if (answer != null) {
                 bizFrontProblem.setAnswerName(answer.getUserName());
                 bizFrontProblem.setAnswerTime(answer.getCreateTime());
             }
             bizFrontProblem.setProblem(problem);
-            bizFrontProblem.setLabelNameList(problemToLabel(problem));
+            bizFrontProblem.setLabelNameList(problemToLabel(problem.getProblemId()));
             list.add(bizFrontProblem);
         }
         return list;
@@ -285,6 +272,7 @@ public class ProblemHandler {
     public List<Label> getLabelByProblemId(Integer problemId) {
         return labelService.selectLabelByProblemId(problemId);
     }
+
     public ProAttention selectProAttById(Integer problemId, Integer userId) {
         return proAttentionService.selectProAttentionById(problemId, userId);
     }
@@ -465,7 +453,7 @@ public class ProblemHandler {
                 ProAttention proAttention = findOrCreateProAtt(problemId, userId);
                 // 更新收藏状态  要先判断数据库中有无收藏情况 如果有收藏 从problem表中加1 再更改状态
                 if (entry.getValue() == Integer.parseInt(CollectEnum.COLLECT.getCode())) {
-                    if (proAttention!=null && proAttention.getCollect() != Integer.parseInt(CollectEnum.COLLECT.getCode())) {
+                    if (proAttention != null && proAttention.getCollect() != Integer.parseInt(CollectEnum.COLLECT.getCode())) {
                         problemService.updateCollAddByProblemId(problemId);
                     }
                 } else if (entry.getValue() == Integer.parseInt(CollectEnum.NO_COLLECT.getCode())) {

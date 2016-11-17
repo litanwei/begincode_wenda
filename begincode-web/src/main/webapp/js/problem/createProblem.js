@@ -18,7 +18,7 @@ $(document).ready(function () {
                         $("#problemSend").removeAttr("disabled");
                         window.location.href = ctx+"/";
                     } else {
-                        showModel(data.msg);
+                        showModelNoBack(data.msg);
                     }
                 },
             });
@@ -31,18 +31,15 @@ $(document).ready(function () {
  */
 function checkProblemForm() {
     if ($("#title").val().trim() == "" || $("#title").val().trim().length > 100) {
-        showModel("标题为空,或者字数大于100");
+        showModelNoBack("标题为空,或者字数大于100");
         return false;
     } else if (!checkLabel($("#labelName").val())) {
-        showModel("标签为空,或者有非法字符");
+        showModelNoBack("标签为空,或者有非法字符");
         return false;
     }
     return true;
 }
-function showModel(msg) {
-    $("#errorMessage").html(msg);
-    $("#ajaxModal").modal({backdrop: 'static', keyboard: false}).modal("show");   //禁用点击空白地方关闭modal框
-}
+
 /**
  * 检查标签名是否为空 或者有不属于字母 数字 中文 下划线 中划线的字符出现
  * @param label

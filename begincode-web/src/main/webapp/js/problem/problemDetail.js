@@ -9,7 +9,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (data) {
             if (data.code != 0) {
-                showModel(data.msg);
+                showModelNoBack(data.msg);
             }
         }
     });
@@ -32,7 +32,7 @@ $(document).ready(function () {
                         $("#collectionNumber").html((parseInt(collectNum) - 1));
                     }
                 } else {
-                    showModel(data.msg);
+                    showModelNoBack(data.msg);
                 }
             }
         })
@@ -56,7 +56,7 @@ $(document).ready(function () {
                         $("#voteNumber").html((parseInt(voteNum) - 1));
                     }
                 } else {
-                    showModel(data.msg);
+                    showModelNoBack(data.msg);
                 }
             }
         })
@@ -80,7 +80,7 @@ $(document).ready(function () {
                         $("#voteNumber").html((parseInt(voteNum) - 1));
                     }
                 } else {
-                    showModel(data.msg);
+                    showModelNoBack(data.msg);
                 }
             }
         })
