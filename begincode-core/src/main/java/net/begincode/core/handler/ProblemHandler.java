@@ -296,10 +296,7 @@ public class ProblemHandler {
      * @param problemId
      */
     public void updateMessageByProblemId(Integer userId, Integer problemId) {
-        Integer messageNum = messageService.updateMessageByProblemId(userId, problemId);
-        if (messageNum < 0) {
-            throw new BizException(MessageResponseEnum.MESSAGE_UPDATE_ERROR);
-        }
+      messageService.updateMessageByProblemId(userId, problemId);
     }
 
     /**
@@ -309,10 +306,7 @@ public class ProblemHandler {
      * @param answerId
      */
     public void updateMessageByAnswerId(Integer userId, Integer answerId) {
-        Integer messageNum = messageService.updateMessageByAnswerId(userId, answerId);
-        if (messageNum < 0) {
-            throw new BizException(MessageResponseEnum.MESSAGE_UPDATE_ERROR);
-        }
+       messageService.updateMessageByAnswerId(userId, answerId);
     }
 
 

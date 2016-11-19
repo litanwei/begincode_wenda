@@ -29,13 +29,13 @@ public class AnsAgreeController {
 
 
     /**
-     *更改当前用户的问题的agree
+     *更改当前用户点击赞同按钮的问题的agree
      *
      * @param：answerId,agreeFlag，request
      * @return:Object
      * */
     @ResponseBody
-    @RequestMapping(value = "/set", method = RequestMethod.POST)
+    @RequestMapping(value = "/setAgree", method = RequestMethod.POST)
     @AuthPassport
     public Object setAnswerAgreeFlag(int answerId,int agreeFlag,HttpServletRequest request){
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
@@ -43,7 +43,27 @@ public class AnsAgreeController {
         ansAgree.setAnswerId(answerId);
         ansAgree.setAgree(agreeFlag);
         ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
-        ansAgreeHandler.selectAndUpdate(ansAgree);
+        ansAgreeHandler.updateAnswerAgrCountAndAnsAgree(ansAgree);
+        return ansAgree;
+    }
+
+
+    /**
+     *更改当前用户点击反对按钮的问题的agree
+     *
+     * @param：answerId,agreeFlag，request
+     * @return:Object
+     * */
+    @ResponseBody
+    @RequestMapping(value = "/setOpposition", method = RequestMethod.POST)
+    @AuthPassport
+    public Object setAnswerOppositionFlag(int answerId,int agreeFlag,HttpServletRequest request){
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
+        AnsAgree ansAgree = new AnsAgree();
+        ansAgree.setAnswerId(answerId);
+        ansAgree.setAgree(agreeFlag);
+        ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
+        ansAgreeHandler.updateAnswerOppoCountAndAnsAgree(ansAgree);
         return ansAgree;
     }
 }

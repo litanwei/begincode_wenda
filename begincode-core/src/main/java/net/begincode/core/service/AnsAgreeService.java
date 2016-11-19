@@ -7,6 +7,7 @@ import net.begincode.core.model.AnsAgreeExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,31 @@ public class AnsAgreeService {
     @Resource
     private AnsAgreeMapper ansAgreeMapper;
 
+
+
+    /**
+     * 根据用户id，问题回复id判断AnsAgree是否存在 存在修改内容 不存在增加
+     *
+     * @param：ansAgree
+     * @return：
+     */
+    public int selectAndUpdate(AnsAgree ansAgree) {
+        List<Integer> answerIdList = new ArrayList<>();
+        answerIdList.add(ansAgree.getAnswerId());
+        List<AnsAgree> ansAgreeList = selectByExample(ansAgree.getBegincodeUserId(), answerIdList);
+        if(ansAgree.getAgree()==0 && ansAgreeList.get(0).getAgree()==0) {
+            return 0;
+        }
+        if (ansAgreeList.size() != 0 ) {
+            updateByExample(ansAgree);
+            return ansAgreeList.get(0).getAgree();
+        } else {
+            insertSelective(ansAgree);
+            return 0;
+        }
+
+
+    }
 
 
     /**

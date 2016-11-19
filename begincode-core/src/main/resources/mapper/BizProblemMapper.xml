@@ -35,8 +35,9 @@
     <update id="batchUpdateViewAdd" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" separator=";">
             update problem
-            set
-            view_count = view_count + 1
+            <set>
+                view_count = view_count + 1
+            </set>
             where problem_id = #{item.problemId}
         </foreach>
 

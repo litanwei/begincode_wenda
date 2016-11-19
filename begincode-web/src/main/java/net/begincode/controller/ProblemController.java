@@ -205,8 +205,8 @@ public class ProblemController {
         if (begincodeUser != null) {
             model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
-                Integer[] answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
-                Integer[] answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
+                List<Integer> answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
+                List<Integer> answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
                 model.addAttribute("answerAdoptAgreeFlag", answerAdoptAgreeFlag);
                 model.addAttribute("answerNoAdoptAgreeFlag", answerNoAdoptAgreeFlag);
             }

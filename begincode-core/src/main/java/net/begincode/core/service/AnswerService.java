@@ -1,8 +1,10 @@
 package net.begincode.core.service;
 
 import net.begincode.core.enums.AdoptEnum;
+import net.begincode.core.enums.AgreeEnum;
 import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
+import net.begincode.core.mapper.BizAnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
 import org.apache.ibatis.session.RowBounds;
@@ -21,6 +23,8 @@ public class AnswerService {
     private Logger logger = LoggerFactory.getLogger(AnswerService.class);
     @Resource
     private AnswerMapper answerMapper;
+    @Resource
+    private BizAnswerMapper bizAnswerMapper;
 
 
     /**
@@ -181,6 +185,40 @@ public class AnswerService {
         AnswerExample.Criteria criteria = answerExample.createCriteria();
         criteria.andUserNameEqualTo(nickName);
         return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
+    }
+
+
+
+    /**
+     *  根据回复id增加减少赞同人数
+     *
+     * @param answerId
+     * @return
+     */
+    public void updateAgrCountByAnswerId(Integer answerId,Integer agreeFlag){
+        if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.AGREE.getCode())){
+            bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
+            System.out.println("赞同+1");
+        }else{
+            bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
+            System.out.println("赞同-1");
+        }
+    }
+
+    /**
+     *  根据回复id增加减少反对人数
+     *
+     * @param answerId
+     * @return
+     */
+    public void updateOppoCountByAnswerId(Integer answerId,Integer agreeFlag){
+        if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.OPPOSITION.getCode())){
+            bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
+            System.out.println("反对+1");
+        }else{
+            bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
+            System.out.println("反对-1");
+        }
     }
 
 }

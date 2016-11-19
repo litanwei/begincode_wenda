@@ -50,7 +50,6 @@ public class AnswerHandler {
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
-        problemService.updateAnswerAddByProblemId(answer.getProblemId());
         messageService.createMessage(answer.getProblemId(),answer.getAnswerId(),begincodeUserService.contentFilter(answer.getContent()));
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
     }
@@ -85,7 +84,7 @@ public class AnswerHandler {
         Problem pro = problemService.selProblemById(ans.getProblemId());
         if (pro.getBegincodeUserId() == begincodeUserId && ans.getBegincodeUserId() != begincodeUserId) {
             ans.setAdopt(Integer.parseInt(AdoptEnum.ADOPT.getCode()));
-            if (pro.getSolve() == Integer.parseInt(SolveEnum.SOLVE.getCode())) {
+            if (pro.getSolve() == Integer.parseInt(SolveEnum.NO_SOLVE.getCode())) {
                 pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
@@ -116,11 +115,6 @@ public class AnswerHandler {
      */
     public List<Answer> selAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
         return answerList;
     }
 
@@ -133,11 +127,6 @@ public class AnswerHandler {
      */
     public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
         List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
         return answerList;
     }
 
