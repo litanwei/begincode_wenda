@@ -198,10 +198,8 @@ public class AnswerService {
     public void updateAgrCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.AGREE.getCode())){
             bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
-            System.out.println("赞同+1");
         }else{
             bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
-            System.out.println("赞同-1");
         }
     }
 
@@ -214,10 +212,8 @@ public class AnswerService {
     public void updateOppoCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.OPPOSITION.getCode())){
             bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
-            System.out.println("反对+1");
         }else{
             bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
-            System.out.println("反对-1");
         }
     }
 
