@@ -92,8 +92,3 @@ public class AnsAgreeHandler {
 
     }
 }
-//    public List<AnsAgree> selectByExample(int begincodeUserId,List<Integer> answerIdList){
-//        AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
-//        ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(begincodeUserId).andAnswerIdIn(answerIdList);
-//        return ansAgreeMapper.selectByExample(ansAgreeExample);
-//    }
