@@ -7,14 +7,13 @@ function summerInit(documentId) {
             }
         },
         toolbar: [
-            // [groupName, [list of button]]
             ['style', ['style','bold', 'italic', 'underline', 'clear']],
             ['insert', ['picture', 'link', 'table', 'hr']],
             ['fontsize', ['fontsize']],
             ['color', ['color']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
-            ['musc', ['codeview']],
+            // ['musc', ['codeview']],
         ],
         height: 300,
         hint: {
@@ -26,7 +25,7 @@ function summerInit(documentId) {
                 }));
             },
             template: function (item) {
-                return '<a id="message'+ item +'">@' + item + '</a>';
+                return '<a id="message'+ item +'" class="message_">@' + item + '</a>';
             },
             content: function (item) {
                 return $("#message"+ item).attr("href",ctx+"/user/"+item+".htm").removeAttr("id")[0];

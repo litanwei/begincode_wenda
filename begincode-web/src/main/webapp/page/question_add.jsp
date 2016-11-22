@@ -12,6 +12,7 @@
     <title>创建问题,BeginCode问答</title>
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
+    <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
     <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 </head>
@@ -31,7 +32,6 @@
                     <input type="text" id="labelName" class="form-control" name="label.labelName"
                            placeholder="请输入关键字，逗号分隔">
                 </div>
-                <input type="hidden" name="">
                 <label><span class="labelinfoblue"></span>问题正文</label>
                 <input type="hidden" name="problem.content" id="content" value=""/>
                 <div id="summernote"></div>
@@ -44,11 +44,13 @@
         </div>
     </div>
 </div>
+<jsp:include page="/page/core/modal.jsp"/>
 <script src="${ctx}/js/jquery/jquery.js"></script>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 <script src="${ctx}/js/problem/createProblem.js"></script>
-<link href="${ctx}/summernote/summernote.css" rel="stylesheet">
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
+<script src="${ctx}/summernote/lang/summernote-zh-CN.min.js"></script>
+<script src="${ctx}/js/commons/model.js"></script>
 </body>
 </html>

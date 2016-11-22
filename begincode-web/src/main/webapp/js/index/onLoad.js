@@ -7,7 +7,6 @@
 $(document).ready(function () {
     getLabels();
     getActivers();
-    MessageAndMyProblem();
 });
 function getLabels() {
     $.ajax({
@@ -39,28 +38,4 @@ function getActivers() {
         },
         dataType: 'json'
     });
-}
-
-function MessageAndMyProblem(){
-    if(getCookie("openId")=="" && getCookie("accessToken")==""){
-        $("#myProblemId").remove();
-        $("#messageId").remove();
-    }
-}
-
-/**
- * 根据cookieName查找对应的值
- * @param cookieName
- * @returns {*}
- */
-function getCookie(cookieName) {
-    var strCookie = document.cookie;
-    var arrCookie = strCookie.split("; ");
-    for (var i = 0; i < arrCookie.length; i++) {
-        var arr = arrCookie[i].split("=");
-        if (cookieName == arr[0]) {
-            return arr[1];
-        }
-    }
-    return "";
 }

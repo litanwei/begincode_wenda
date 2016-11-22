@@ -14,7 +14,7 @@ function getProblems(page, id) {
     var lbName = "";
     $.each(page.data.data, function (i) {
         for (var j = 0; j < page.data.data[i].labelNameList.length; j++) {
-            lbName = lbName + '<a href="#" target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
+            lbName = lbName + '<a target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
         }
         labelDiv[i] = lbName;
         lbName = "";

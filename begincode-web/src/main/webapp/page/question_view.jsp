@@ -171,7 +171,7 @@
                         <div class="row">
                             <div class="post-opt col-md-8">
                                 <ul class="list-inline mb0">
-                                    <li><a>${newAdoptTime[temp.count-1]}</a></li>
+                                    <li><a>${newAdoptTime[temp.count-1]}回答</a></li>
                                     <li class="edit-btn js__rank-check" data-toggle="tooltip" data-placement="top">
                                         <a onclick="sendFeedback(${answer.answerId})">举报</a>
                                     </li>
@@ -242,7 +242,7 @@
                         <div class="row">
                             <div class="post-opt col-md-8">
                                 <ul class="list-inline mb0">
-                                    <li><a href="javascript:;">${newNoAdoptTime[temp.count-1]}</a></li>
+                                    <li><a href="javascript:;">${newNoAdoptTime[temp.count-1]}回答</a></li>
                                     <li class="edit-btn js__rank-check" data-toggle="tooltip" data-placement="top">
                                         <a href="javascript:;" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
                                     </li>

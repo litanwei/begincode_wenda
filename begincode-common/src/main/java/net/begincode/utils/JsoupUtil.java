@@ -33,7 +33,7 @@ public class JsoupUtil {
     public static Set<String> matchMessageName(String content){
         HashSet<String> hashSet = new HashSet<>();
         Document doc = Jsoup.parse(content);
-        Elements element = doc.getElementsByTag("a");
+        Elements element = doc.getElementsByClass("message_");
         for(Element e : element){
             hashSet.add(e.text().replace("@",""));
         }

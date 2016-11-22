@@ -21,25 +21,25 @@ public class DateUtil {
         long diff = new Date().getTime() - date.getTime();
         long r = 0;
         if (diff > year) {
-            return (date.getMonth()+1)+ "月" + date.getDate() + "日" + "前回答";
+            return (date.getMonth()+1)+ "月" + date.getDate() + "日" + "前";
         }
         if (diff > month) {
             r = (diff / month);
-            return r + " 月前回答";
+            return r + " 月前";
         }
         if (diff > day) {
             r = (diff / day);
-            return r + " 天前回答";
+            return r + " 天前";
         }
         if (diff > hour) {
             r = (diff / hour);
-            return r + " 小时前回答";
+            return r + " 小时前";
         }
         if (diff > minute) {
             r = (diff / minute);
-            return r + " 分钟前回答";
+            return r + " 分钟前";
         }
-        return "刚刚回答";
+        return "刚刚";
     }
     public static int getCurrentMonthDay(){
         Calendar a = Calendar.getInstance();

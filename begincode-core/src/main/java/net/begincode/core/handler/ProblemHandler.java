@@ -53,14 +53,13 @@ public class ProblemHandler {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void addProblem(Problem problem, Label label) {
-        Message message = new Message();
         problem.setTitle(HtmlUtils.htmlEscape(problem.getTitle()));
         //创建问题如果成功返回整数
         if (problemService.createProblem(problem) < 0) {
             throw new BizException(ProblemResponseEnum.PROBLEM_ADD_ERROR);
         }
         messageService.createMessage(problem.getProblemId(), null, begincodeUserService.contentFilter(problem.getContent()));
-        //发送http请求给搜索端
+//        发送http请求给搜索端
 //        HttpUtil.createIndexHttp(problem.getProblemId());
         if (label.getLabelName() == null || label.getLabelName().trim() == "") {
             throw new BizException(LabelResponseEnum.LABEL_ADD_ERROR);
@@ -218,7 +217,7 @@ public class ProblemHandler {
      */
     private List<BizFrontProblem> operatePage(List<Problem> problemList) {
         List<BizFrontProblem> list = new ArrayList<>(problemList.size());
-        for(int i=0;i<problemList.size();i++){
+        for (int i = 0; i < problemList.size(); i++) {
             Problem problem = problemList.get(i);
             BizFrontProblem bizFrontProblem = new BizFrontProblem();
             Answer answer = selectOrderByProblemId(problem.getProblemId());
@@ -278,7 +277,7 @@ public class ProblemHandler {
     }
 
     /**
-     * 问题查看后更改删除标识为1
+     * 问题查看后消息表更改删除标识为1
      *
      * @param userId
      * @param problemId
@@ -291,7 +290,7 @@ public class ProblemHandler {
     }
 
     /**
-     * 回答查找后更改删除标识为1
+     * 回答查找后消息表更改删除标识为1
      *
      * @param userId
      * @param answerId

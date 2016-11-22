@@ -121,15 +121,13 @@ public class ProblemController {
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
     public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
-        Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = problemHandler.getCurrentUser(request);
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
-        Label label = problemLableParam.getLabel();
-        problemHandler.addProblem(problem, label);
-        return map;
+        problemHandler.addProblem(problem, problemLableParam.getLabel());
+        return null;
     }
 
 

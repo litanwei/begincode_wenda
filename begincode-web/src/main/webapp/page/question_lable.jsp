@@ -38,10 +38,20 @@
                                             ${pl.problem.voteCount}
                                         <small>投票</small>
                                     </div>
-                                    <div class="answers answered">
-                                            ${pl.problem.answerCount}
-                                        <small>回答</small>
-                                    </div>
+                                    <c:choose>
+                                        <c:when test="${pl.problem.solve == 1}">
+                                            <div class="answers solved">
+                                                    ${pl.problem.answerCount}
+                                                <small>解决</small>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="answers answered">
+                                                    ${pl.problem.answerCount}
+                                                <small>回答</small>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <div class="views hidden-xs">
                                             ${pl.problem.viewCount}
                                         <small>浏览</small>
@@ -49,9 +59,11 @@
                                 </div>
                                 <div class="summary">
                                     <ul class="author list-inline ">
-                                        <li><a href="${ctx}/user/${pl.problem.userName}.htm">${pl.problem.userName}</a> <span
-                                                class="split"></span> <a style="text-decoration:none;"><fmt:formatDate
-                                                value="${pl.problem.createTime}" pattern="yyyy-MM-dd"/>提问</a>
+                                        <li><a href="${ctx}/user/${pl.problem.userName}.htm">${pl.problem.userName}</a>
+                                            <span
+                                                    class="split"></span> <a
+                                                    style="text-decoration:none;"><fmt:formatDate
+                                                    value="${pl.problem.createTime}" pattern="yyyy-MM-dd"/>提问</a>
                                         </li>
                                     </ul>
                                     <span class="keyword-list ">

@@ -2,6 +2,7 @@
  * Created by Stay on 2016/10/12.
  */
 $(document).ready(function () {
+    summerInit("#summernote");
     //提交问题点击事件
     $("#problemSend").click(function () {
         if (checkProblemForm()) {
@@ -11,12 +12,12 @@ $(document).ready(function () {
             $.ajax({
                 data: $("#problemForm").serializeArray(),
                 type: "POST",
-                url: ctx+"/problem/store.htm",
+                url: ctx + "/problem/store.htm",
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
                         $("#problemSend").removeAttr("disabled");
-                        window.location.href = ctx+"/";
+                        window.location.href = ctx + "/";
                     } else {
                         showModelNoBack(data.msg);
                     }
@@ -51,14 +52,14 @@ function checkLabel(label) {
     if (label.trim() == null && label.trim() == "") {
         return false;
     }
-    if(labelList.length>0) {
+    if (labelList.length > 0) {
         for (var i = 0; i < labelList.length; i++) {
-                if (!pattern.test(labelList[i])) {
-                    return false;
-                }
+            if (!pattern.test(labelList[i])) {
+                return false;
+            }
         }
         return true;
-    }else{
+    } else {
         return false;
     }
 }
