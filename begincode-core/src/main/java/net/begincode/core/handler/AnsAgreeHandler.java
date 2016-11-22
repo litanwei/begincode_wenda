@@ -63,32 +63,4 @@ public class AnsAgreeHandler {
         }
     }
 
-    /**
-     * 根据用户id，问题回复id列表获取AnsAgree列表
-     *
-     * @param：ansAgree
-     * @return：
-     */
-    public List<Integer> selectAnsAgreeList(BegincodeUser begincodeUser, List<Answer> answerList) {
-        List<Integer> answerIdList = new ArrayList<>();
-        if (answerList.size() != 0 && begincodeUser != null) {
-            for (Answer answer : answerList) {
-                answerIdList.add(answer.getAnswerId());
-            }
-            List<AnsAgree> ansAgreeList = ansAgreeService.selectByExample(begincodeUser.getBegincodeUserId(), answerIdList);
-            for (int x = 0; x < answerList.size(); x++) {
-                answerIdList.add(x,0);
-                for (int y = 0; y < ansAgreeList.size(); y++) {
-                    int answerId = answerList.get(x).getAnswerId();
-                    if (answerId == ansAgreeList.get(y).getAnswerId()) {
-                        answerIdList.add(x, ansAgreeList.get(y).getAgree());
-                        continue;
-                    }
-                }
-            }
-
-        }
-        return answerIdList;
-
-    }
 }

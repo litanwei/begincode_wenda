@@ -7,6 +7,7 @@ import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.enums.*;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
+import net.begincode.utils.DateUtil;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -37,6 +38,8 @@ public class ProblemHandler {
     private ProAttentionService proAttentionService;
     @Resource
     private BegincodeUserService begincodeUserService;
+    @Resource
+    private AnsAgreeService ansAgreeService;
 
     private HashMap<String, Integer> voteMap = new HashMap<>();         //投票map
     private HashMap<String, Integer> collectMap = new HashMap<>();    //收藏map
@@ -220,8 +223,24 @@ public class ProblemHandler {
      * @param problemId
      * @return
      */
-    public Problem selectById(int problemId) {
-        return problemService.selProblemById(problemId);
+    public Problem selectProblemAndAnswerdsById(int problemId,List<Label> labels,StringBuffer problemTime,BegincodeUser begincodeUser,
+                                             List<Answer> answerAdoptList,List<Answer> answerNoAdoptList,
+                                             List<String> newAdoptTime,List<String> newNoAdoptTime,
+                                             List<Integer> answerAdoptAgreeFlag,List<Integer> answerNoAdoptAgreeFlag) {
+        answerAdoptList.addAll(answerService.findAdoptByProblemId(problemId));
+        answerNoAdoptList.addAll(answerService.findNotAdoptByProblemId(problemId));
+        for (int a = 0; a < answerAdoptList.size(); a++) {
+            newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
+        }
+        for (int a = 0; a < answerNoAdoptList.size(); a++) {
+            newNoAdoptTime.add(DateUtil.getTimeFormatText(answerNoAdoptList.get(a).getCreateTime()));
+        }
+        answerAdoptAgreeFlag.addAll(ansAgreeService.selectAnsAgreeList(begincodeUser,answerAdoptList));
+        answerNoAdoptAgreeFlag.addAll(ansAgreeService.selectAnsAgreeList(begincodeUser,answerNoAdoptList));
+        Problem problem = problemService.selProblemById(problemId);
+        problemTime.append(DateUtil.getTimeFormatText(problem.getCreateTime()));
+        labels.addAll(getLabelByProblemId(problemId));
+        return problem;
     }
 
     /**
@@ -296,7 +315,7 @@ public class ProblemHandler {
      * @param problemId
      */
     public void updateMessageByProblemId(Integer userId, Integer problemId) {
-      messageService.updateMessageByProblemId(userId, problemId);
+        messageService.updateMessageByProblemId(userId, problemId);
     }
 
     /**
@@ -306,7 +325,7 @@ public class ProblemHandler {
      * @param answerId
      */
     public void updateMessageByAnswerId(Integer userId, Integer answerId) {
-       messageService.updateMessageByAnswerId(userId, answerId);
+        messageService.updateMessageByAnswerId(userId, answerId);
     }
 
 

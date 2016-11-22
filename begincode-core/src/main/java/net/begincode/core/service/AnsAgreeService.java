@@ -4,6 +4,8 @@ import net.begincode.core.enums.AgreeEnum;
 import net.begincode.core.mapper.AnsAgreeMapper;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.AnsAgreeExample;
+import net.begincode.core.model.Answer;
+import net.begincode.core.model.BegincodeUser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -107,4 +109,32 @@ public class AnsAgreeService {
         return ansAgreeMapper.countByExample(ansAgreeExample);
     }
 
+    /**
+     * 根据用户id，问题回复id列表获取AnsAgree列表
+     *
+     * @param：ansAgree
+     * @return：
+     */
+    public List<Integer> selectAnsAgreeList(BegincodeUser begincodeUser, List<Answer> answerList) {
+        List<Integer> answerIdList = new ArrayList<>();
+        if (answerList.size() != 0 && begincodeUser != null) {
+            for (Answer answer : answerList) {
+                answerIdList.add(answer.getAnswerId());
+            }
+            List<AnsAgree> ansAgreeList = selectByExample(begincodeUser.getBegincodeUserId(), answerIdList);
+            for (int x = 0; x < answerList.size(); x++) {
+                answerIdList.add(x,0);
+                for (int y = 0; y < ansAgreeList.size(); y++) {
+                    int answerId = answerList.get(x).getAnswerId();
+                    if (answerId == ansAgreeList.get(y).getAnswerId()) {
+                        answerIdList.add(x, ansAgreeList.get(y).getAgree());
+                        continue;
+                    }
+                }
+            }
+
+        }
+        return answerIdList;
+
+    }
 }
