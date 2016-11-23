@@ -97,17 +97,8 @@ public class AnsAgreeService {
         ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.AGREE.getCode()));
         return ansAgreeMapper.countByExample(ansAgreeExample);
     }
-    /**
-     *根据回复id获取反对数量
-     *
-     * @param：answerId
-     * @return: int
-     */
-    public int selOppositionCountById(int answerId){
-        AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
-        ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.OPPOSITION.getCode()));
-        return ansAgreeMapper.countByExample(ansAgreeExample);
-    }
+
+
 
     /**
      * 根据用户id，问题回复id列表获取AnsAgree列表

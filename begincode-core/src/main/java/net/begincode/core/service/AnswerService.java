@@ -37,18 +37,6 @@ public class AnswerService {
         return answerMapper.selectByPrimaryKey(answerId);
     }
 
-    /**
-     * 传入问题id 返回对应的回答数
-     *
-     * @param problemId
-     * @return
-     */
-    public Integer findByProblemIdNum(Integer problemId) {
-        AnswerExample answerExample = new AnswerExample();
-        AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
-        return answerMapper.countByExample(answerExample);
-    }
 
     /**
      * 根据problemId查找回答集合

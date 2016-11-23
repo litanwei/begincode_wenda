@@ -2,10 +2,7 @@ package net.begincode.core.handler;
 
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
-import net.begincode.core.enums.AdoptEnum;
-import net.begincode.core.enums.AnswerResponseEnum;
-import net.begincode.core.enums.FeedbackEnum;
-import net.begincode.core.enums.SolveEnum;
+import net.begincode.core.enums.*;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
@@ -88,6 +85,11 @@ public class AnswerHandler {
                 pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
+            AnsAgree ansAgree = new AnsAgree();
+            ansAgree.setAnswerId(answerId);
+            ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
+            ansAgree.setBegincodeUserId(begincodeUserId);
+            ansAgreeService.selectAndUpdate(ansAgree);
             ans.setAgreeCount(ansAgreeService.selAgreeCountById(answerId));
             answerService.updateAnswer(ans);
             return ans;
@@ -106,29 +108,6 @@ public class AnswerHandler {
         return answerService.selectAllAnswer(answer);
     }
 
-//    /**
-//     * 获取问题所对应的采纳回答
-//     * 并按时间降序排序
-//     *
-//     * @param problemId
-//     * @return List<Answer>
-//     */
-//    public List<Answer> selAdoptAnswerByProblemId(int problemId) {
-//        List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
-//        return answerList;
-//    }
-//
-//    /**
-//     * 获取问题所对应的未采纳回答
-//     * 并按时间降序排序
-//     *
-//     * @param problemId
-//     * @return List<Answer>
-//     */
-//    public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-//        List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
-//        return answerList;
-//    }
 
     /**
      * 根据nickName返回回答数
