@@ -1,5 +1,8 @@
 package net.begincode.utils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,6 +50,12 @@ public class DateUtil {
         a.roll(Calendar.DATE, -1);
         int maxDate = a.get(Calendar.DATE);
         return maxDate;
+    }
+    public static Date parseDateFromTime(Date dateTime) throws ParseException{
+    	Date reDate=new Date();
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	reDate=dateFormat.parse(dateFormat.format(dateTime));
+    	return reDate;
     }
 }
 

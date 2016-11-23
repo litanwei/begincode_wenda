@@ -159,7 +159,7 @@ public class ProblemHandler {
 	 */
 	public void selectCollProblemsById(Integer userId, Page<BizFrontProblem> page) {
 		page.setTotalNum(proAttentionService.selectCollectNumByUserId(userId));
-		List<Problem> list = problemService.selCollProlemsById(userId, page.getCurrentNum(), page.getPageEachSize());
+		List<Problem> list = problemService.selCollProlemsByPorUserId(userId, page.getCurrentNum(), page.getPageEachSize());
 		page.setData(operatePage(list));
 	}
 

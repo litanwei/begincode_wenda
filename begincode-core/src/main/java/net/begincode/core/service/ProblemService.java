@@ -1,25 +1,23 @@
 package net.begincode.core.service;
 
+import java.util.Calendar;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Service;
+
+import net.begincode.bean.PageParam;
 import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.enums.FindProResponseEnum;
 import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.mapper.ProblemMapper;
-import net.begincode.core.model.ProAttention;
-import net.begincode.core.model.ProAttentionExample;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import net.begincode.utils.DateUtil;
 
 /**
  * Created by Stay on 2016/8/26 20:18.
@@ -33,6 +31,7 @@ public class ProblemService {
 	private ProAttentionMapper proAttentionMapper;
 	@Resource
 	private BizProblemMapper bizProblemMapper;
+	private PageParam pageParam=new PageParam();
 
 	/**
 	 * 创建新问题
@@ -77,7 +76,7 @@ public class ProblemService {
 		ProblemExample.Criteria criteria = problemExample.createCriteria();
 		criteria.andUserNameEqualTo(userName);
 		return problemMapper.selectByExampleWithRowbounds(problemExample,
-				new RowBounds((currentNum - 1) * eachSize, eachSize));
+				new RowBounds(pageParam.getStart(), eachSize));
 
 	}
 
@@ -92,7 +91,7 @@ public class ProblemService {
 		ProblemExample problemExample = new ProblemExample();
 		problemExample.setOrderByClause("create_time desc");
 		return problemMapper.selectByExampleWithRowbounds(problemExample,
-				new RowBounds((currentNum - 1) * eachSize, eachSize));
+				new RowBounds(pageParam.getStart(), eachSize));
 	}
 
 	/**
@@ -108,7 +107,7 @@ public class ProblemService {
 		ProblemExample.Criteria criteria = problemExample.createCriteria();
 		criteria.andAnswerCountEqualTo(0);
 		return problemMapper.selectByExampleWithRowbounds(problemExample,
-				new RowBounds((currentNum - 1) * eachSize, eachSize));
+				new RowBounds(pageParam.getStart(), eachSize));
 	}
 
 	/**
@@ -122,53 +121,69 @@ public class ProblemService {
 		ProblemExample problemExample = new ProblemExample();
 		problemExample.setOrderByClause("view_count desc");
 		ProblemExample.Criteria criteria = problemExample.createCriteria();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calendar = Calendar.getInstance();
 		try {
 			calendar.add(Calendar.MONTH, BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH);
-			criteria.andCreateTimeGreaterThanOrEqualTo(dateFormat.parse(dateFormat.format(calendar.getTime()))); // 查找大于或等于这个日期的问题集合
+			criteria.andCreateTimeGreaterThanOrEqualTo(DateUtil.parseDateFromTime(calendar.getTime())); // 查找大于或等于这个日期的问题集合
 			List<Problem> list = problemMapper.selectByExampleWithRowbounds(problemExample,
-					new RowBounds((currentNum - 1) * eachSize, eachSize));
+					new RowBounds(pageParam.getStart(), eachSize));
 			return list;
 		} catch (Exception e) {
 			throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
 		}
 	}
 
+	// -------------------优化代码-------------
+	// /**
+	// * 查找id对应的收藏问题集合
+	// *
+	// * @param userId
+	// * @param currentNum
+	// * @param eachSize
+	// * @return
+	// */
+	// public List<Problem> selCollProlemsById(Integer userId, Integer
+	// currentNum, Integer eachSize) {
+	// List<ProAttention> list = selCollProAttById(userId, currentNum,
+	// eachSize);
+	// ArrayList<Problem> arrayList = new ArrayList<>(list.size());
+	// for (int i = 0; i < list.size(); i++) {
+	// Problem problem =
+	// problemMapper.selectByPrimaryKey(list.get(i).getProblemId());
+	// arrayList.add(problem);
+	// }
+	// return arrayList;
+	// }
+	//
+	// /**
+	// * 查找id对应的ProAttention集合
+	// *
+	// * @param userId
+	// * @param currentNum
+	// * @param eachSize
+	// * @return
+	// */
+	// public List<ProAttention> selCollProAttById(Integer userId, Integer
+	// currentNum, Integer eachSize) {
+	// ProAttentionExample proAttentionExample = new ProAttentionExample();
+	// proAttentionExample.setOrderByClause("problem_id desc");
+	// ProAttentionExample.Criteria criteria =
+	// proAttentionExample.createCriteria();
+	// criteria.andBegincodeUserIdEqualTo(userId);
+	// criteria.andCollectEqualTo(1);
+	// return
+	// proAttentionMapper.selectByExampleWithRowbounds(proAttentionExample,
+	// new RowBounds((currentNum - 1) * eachSize, eachSize));
+	// }
+	// -------------------优化代码 下面(关联SQL一次查询)-------------
 	/**
-	 * 查找id对应的收藏问题集合
-	 *
-	 * @param userId
-	 * @param currentNum
-	 * @param eachSize
+	 * 通过pro_attention中的UserId获取对应的问题列表
+	 * 
+	 * @param pUserId
 	 * @return
 	 */
-	public List<Problem> selCollProlemsById(Integer userId, Integer currentNum, Integer eachSize) {
-		List<ProAttention> list = selCollProAttById(userId, currentNum, eachSize);
-		ArrayList<Problem> arrayList = new ArrayList<>(list.size());
-		for (int i = 0; i < list.size(); i++) {
-			Problem problem = problemMapper.selectByPrimaryKey(list.get(i).getProblemId());
-			arrayList.add(problem);
-		}
-		return arrayList;
-	}
-
-	/**
-	 * 查找id对应的ProAttention集合
-	 *
-	 * @param userId
-	 * @param currentNum
-	 * @param eachSize
-	 * @return
-	 */
-	public List<ProAttention> selCollProAttById(Integer userId, Integer currentNum, Integer eachSize) {
-		ProAttentionExample proAttentionExample = new ProAttentionExample();
-		proAttentionExample.setOrderByClause("problem_id desc");
-		ProAttentionExample.Criteria criteria = proAttentionExample.createCriteria();
-		criteria.andBegincodeUserIdEqualTo(userId);
-		criteria.andCollectEqualTo(1);
-		return proAttentionMapper.selectByExampleWithRowbounds(proAttentionExample,
-				new RowBounds((currentNum - 1) * eachSize, eachSize));
+	public List<Problem> selCollProlemsByPorUserId(Integer pUserId, Integer currentNum, Integer eachSize) {
+		return bizProblemMapper.selCollProlemsByPorUserId(pUserId, new RowBounds(pageParam.getStart(), eachSize));
 	}
 
 	/**
@@ -193,11 +208,10 @@ public class ProblemService {
 		ProblemExample problemExample = new ProblemExample();
 		problemExample.setOrderByClause("view_count desc");
 		ProblemExample.Criteria criteria = problemExample.createCriteria();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calendar = Calendar.getInstance();
 		try {
 			calendar.add(Calendar.MONTH, BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH);
-			criteria.andCreateTimeGreaterThanOrEqualTo(dateFormat.parse(dateFormat.format(calendar.getTime()))); // 查找大于或等于这个日期的问题集合
+			criteria.andCreateTimeGreaterThanOrEqualTo(DateUtil.parseDateFromTime(calendar.getTime())); // 查找大于或等于这个日期的问题集合
 			return problemMapper.countByExample(problemExample);
 		} catch (Exception e) {
 			throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
@@ -402,4 +416,13 @@ public class ProblemService {
 		return bizProblemMapper.updateAnswerAddByProblemId(problemId);
 	}
 
+	/**
+	 * 通过关联表查询problem
+	 * 
+	 * @param labelId
+	 * @return
+	 */
+	public List<Problem> selectByProblemLabel(Integer labelId) {
+		return bizProblemMapper.selectByProblemLabel(labelId);
+	}
 }

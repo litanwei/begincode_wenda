@@ -1,10 +1,10 @@
 package net.begincode.bean;
 
 
+import java.text.MessageFormat;
+
 import net.begincode.enums.CommonResponseEnum;
 import net.begincode.enums.ResponseEnum;
-
-import java.text.MessageFormat;
 
 /**
  * Created by yangsj on 2016/1/26.
@@ -73,4 +73,5 @@ public class Response {
     public void set_time(long _time) {
         this._time = _time;
     }
+
 }

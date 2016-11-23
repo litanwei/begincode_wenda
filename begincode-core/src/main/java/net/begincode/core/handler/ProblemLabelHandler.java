@@ -26,22 +26,35 @@ public class ProblemLabelHandler {
 	@Resource
 	private ProblemService problemService;
 	
+//	public List<ProblemLabelParam> getLabelByLabelId(Integer labelId){
+//
+//		//通过labelId查proLabel的所有对应关系
+//		List<ProblemLabel> proLabel = problemLabelService.getPrlblemLabelByLabelId(labelId);
+//		//通过proLabel的关联查所有的problem数组
+//		List<ProblemLabelParam> pro = new ArrayList<ProblemLabelParam>();
+//		if(proLabel != null){
+//			for (ProblemLabel problemLabel : proLabel) {
+//				Problem problem = problemService.selProblemById(problemLabel.getProblemId());
+//				if(null != problem){
+//					ProblemLabelParam problemLabelParam = new ProblemLabelParam();
+//					problemLabelParam.setProblem(problem);
+//					problemLabelParam.setLabell(labelService.selectLabelByProblemId(problem.getProblemId()));
+//					pro.add(problemLabelParam);
+//				}
+//			}
+//		}
+//		return pro;
+//	}
+	//---------------------------优化(减少一次查询数据库)-----------------------
 	public List<ProblemLabelParam> getLabelByLabelId(Integer labelId){
-
-		//通过labelId查proLabel的所有对应关系
-		List<ProblemLabel> proLabel = problemLabelService.getPrlblemLabelByLabelId(labelId);
 		//通过proLabel的关联查所有的problem数组
 		List<ProblemLabelParam> pro = new ArrayList<ProblemLabelParam>();
-		if(proLabel != null){
-			for (ProblemLabel problemLabel : proLabel) {
-				Problem problem = problemService.selProblemById(problemLabel.getProblemId());
-				if(null != problem){
-					ProblemLabelParam problemLabelParam = new ProblemLabelParam();
-					problemLabelParam.setProblem(problem);
-					problemLabelParam.setLabell(labelService.selectLabelByProblemId(problem.getProblemId()));
-					pro.add(problemLabelParam);
-				}
-			}
+		List<Problem> problems=problemService.selectByProblemLabel(labelId);
+		for(Problem problem:problems){
+			ProblemLabelParam problemLabelParam=new ProblemLabelParam();
+			problemLabelParam.setProblem(problem);
+			problemLabelParam.setLabell(labelService.selectLabelByProblemId(problem.getProblemId()));
+			pro.add(problemLabelParam);
 		}
 		return pro;
 	}
