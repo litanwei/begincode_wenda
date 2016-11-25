@@ -50,6 +50,7 @@
         <ikanalyzer.version>2012_u6</ikanalyzer.version>
         <httpclient.version>4.5</httpclient.version>
         <jsoup.version>1.8.3</jsoup.version>
+        <qiuniu-java-sdk.version>7.2.0</qiuniu-java-sdk.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -265,6 +266,11 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiuniu-java-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

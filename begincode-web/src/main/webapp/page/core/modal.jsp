@@ -15,7 +15,7 @@
                 <div id="tipMessage"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="history.back(-1);">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href = ctx + '/';">关闭</button>
             </div>
         </div>
     </div>
@@ -39,3 +39,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function showModelNoBack(msg) {
+        $("#errorMessage").html(msg);
+        $("#ajaxModal").modal("show");
+    }
+    function showModelBack(msg) {
+        $("#tipMessage").html(msg);
+        $("#myModal").modal({backdrop: 'static', keyboard: false}).modal("show"); //禁用点击空白地方关闭modal框
+    }
+</script>

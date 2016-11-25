@@ -68,79 +68,79 @@ public class UserController {
     /**
      * 根据用户名返回用户主界面
      *
-     * @param nickName
+     * @param userId
      * @param model
      * @return
      */
-    @RequestMapping(value = "/{nickName}", method = RequestMethod.GET)
-    public String indexByNickName(@PathVariable(value = "nickName") String nickName, Model model) {
-        model.addAttribute("problemSize", problemHandler.problemSizeByNickName(nickName));
-        model.addAttribute("answerSize", answerHandler.selectAnswerNumByNickName(nickName));
-        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(userHandler.selectByNickName(nickName).getBegincodeUserId()));
-        model.addAttribute("user", userHandler.selectByNickName(nickName));
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    public String indexByNickName(@PathVariable(value = "userId") Integer userId, Model model) {
+        model.addAttribute("problemSize", problemHandler.problemSizeByNickName(userId));
+        model.addAttribute("answerSize", answerHandler.selectAnswerNumByUserId(userId));
+        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(userHandler.selectByUserId(userId).getBegincodeUserId()));
+        model.addAttribute("user", userHandler.selectById(userId));
         return "user_index";
     }
 
     /**
      * 用户对应的问题集合
      *
-     * @param nickName
+     * @param userId
      * @param bizFrontProblem
      * @return
      */
-    @RequestMapping(value = "/problem/{nickName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/problem/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findProblemByNickName(@PathVariable(value = "nickName") String nickName, BizFrontProblem bizFrontProblem) {
+    public Object findProblemByNickName(@PathVariable(value = "userId") Integer userId, BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectMyProblems(nickName, page);
+        problemHandler.selectMyProblems(userId, page);
         return page;
     }
 
     /**
      * 用户对应的回答数列表
      *
-     * @param nickName
+     * @param userId
      * @param answer
      * @return
      */
-    @RequestMapping(value = "/answer/{nickName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/answer/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findAnswerByNickName(@PathVariable(value = "nickName") String nickName, Answer answer) {
+    public Object findAnswerByNickName(@PathVariable(value = "userId") Integer userId, Answer answer) {
         Page<Answer> page = new Page<Answer>();
         page.setCurrentNum(answer.getPage());
-        answerHandler.selectAnswerByNickName(nickName, page);
+        answerHandler.selectAnswerByUserId(userId, page);
         return page;
     }
 
     /**
      * 用户收藏的问题列表
      *
-     * @param nickName
+     * @param userId
      * @param bizFrontProblem
      * @return
      */
-    @RequestMapping(value = "/collect/{nickName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/collect/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findCollProByNickName(@PathVariable(value = "nickName") String nickName, BizFrontProblem bizFrontProblem) {
+    public Object findCollProByNickName(@PathVariable(value = "userId") Integer userId, BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectCollProblemsById(userHandler.selectByNickName(nickName).getBegincodeUserId(), page);
+        problemHandler.selectCollProblemsById(userHandler.selectById(userId).getBegincodeUserId(), page);
         return page;
     }
 
     /**
      * 图表异步加载使用
      *
-     * @param nickName
+     * @param userId
      * @return
      */
-    @RequestMapping(value = "/echarts/{nickName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/echarts/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public Object echartsCreate(@PathVariable(value = "nickName") String nickName) {
+    public Object echartsCreate(@PathVariable(value = "userId") Integer userId) {
         Map map = new HashMap<>();
-        map.put("label", labelHandler.selLabelNameListByNickName(nickName));
-        map.put("seriesData", labelHandler.selLabelUseNumByNickName(nickName));
+        map.put("label", labelHandler.selLabelNameListByUserId(userId));
+        map.put("seriesData", labelHandler.selLabelUseNumByUserId(userId));
         return map;
     }
 

@@ -144,29 +144,25 @@ public class AnswerHandler {
     /**
      * 根据nickName返回回答数
      *
-     * @param nickName
+     * @param userId
      * @return
      */
-    public Integer selectAnswerNumByNickName(String nickName) {
-        return answerService.findAnswerNumByNickName(nickName);
+    public Integer selectAnswerNumByUserId(Integer userId) {
+        return answerService.findAnswerNumByUserId(userId);
     }
 
     /**
-     * 根据nickname 返回回答实体集合
+     * 根据userId 返回回答实体集合
      *
-     * @param nickName
+     * @param userId
      * @param page
      */
-    public void selectAnswerByNickName(String nickName, Page<Answer> page) {
-        page.setTotalNum(selectAnswerNumByNickName(nickName));
-        List<Answer> list = answerService.findAnswerListByNickName(nickName, page.getCurrentNum(), page.getPageEachSize());
+    public void selectAnswerByUserId(Integer userId, Page<Answer> page) {
+        page.setTotalNum(selectAnswerNumByUserId(userId));
+        List<Answer> list = answerService.findAnswerListByUserId(userId, page.getCurrentNum(), page.getPageEachSize());
         page.setData(list);
     }
 
-
-    public void updateProblemAdopt(Integer answerId,Integer problemId){
-
-    }
 
 
 }

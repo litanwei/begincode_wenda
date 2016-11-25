@@ -103,7 +103,7 @@ public class ProblemController {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         BegincodeUser user = problemHandler.getCurrentUser(request);
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectMyProblems(user.getNickname(), page);
+        problemHandler.selectMyProblems(user.getBegincodeUserId(), page);
         return page;
     }
 

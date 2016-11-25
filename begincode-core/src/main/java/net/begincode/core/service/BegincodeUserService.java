@@ -107,6 +107,8 @@ public class BegincodeUserService {
 
     }
 
+
+
     /**
      * openId查找用户
      *

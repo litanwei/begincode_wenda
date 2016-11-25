@@ -2,12 +2,12 @@
  * Created by Stay on 2016/10/17.
  */
 $(document).ready(function () {
-    //用户名获取
-    var name = $("#nickName").html();
+    //用户id获取
+    var begincodeUserId = $("#begincodeUserId").val();
     var myChart = echarts.init(document.getElementById('echart'));
     $.ajax({
         type: "GET",
-        url: ctx+"/user/echarts/" + name + ".htm",
+        url: ctx+"/user/echarts/" + begincodeUserId + ".htm",
         dataType: "json",
         success: function (data) {
             myChart.showLoading();

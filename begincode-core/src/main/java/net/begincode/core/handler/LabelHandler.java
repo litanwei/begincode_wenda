@@ -71,6 +71,16 @@ public class LabelHandler {
         return selectLabelByLabelId(problemService.selectProByUserName(nickName));
     }
 
+    /**
+     * 传进userId返回十个label集合
+     *
+     * @param userId
+     * @return
+     */
+    public List<Label> selLabelNameListByUserId(Integer userId) {
+        return selectLabelByLabelId(problemService.selectProByUserId(userId));
+    }
+
 
     /**
      * 传入nickName 返回此用户标签使用次数
@@ -82,6 +92,24 @@ public class LabelHandler {
     public Map<String, Integer> selLabelUseNumByNickName(String nickName) {
         Map<String, Integer> map = new HashMap<>();
         List<Label> list = selLabelNameListByNickName(nickName);
+        for (int i = 0; i < list.size(); i++) {
+            Integer useNum = proLabService.findNumByLabelId(list.get(i).getLabelId());
+            String labelName = list.get(i).getLabelName();
+            map.put(labelName, useNum);
+        }
+        return map;
+    }
+
+    /**
+     * 传入userId 返回此用户标签使用次数
+     * map的key为标签名 value 为使用次数
+     *
+     * @param userId
+     * @return
+     */
+    public Map<String, Integer> selLabelUseNumByUserId(Integer userId) {
+        Map<String, Integer> map = new HashMap<>();
+        List<Label> list = selLabelNameListByUserId(userId);
         for (int i = 0; i < list.size(); i++) {
             Integer useNum = proLabService.findNumByLabelId(list.get(i).getLabelId());
             String labelName = list.get(i).getLabelName();

@@ -32,12 +32,13 @@
                             <img src="${user.pic}">
                         </a>
                     </div>
-                    <h3 id="nickName">${user.nickname}</h3>
-                    <h6><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/><br/>加入BeginCode </h6>
+                    <h4>${user.nickname}</h4>
+                    <h6><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/>加入BeginCode </h6>
                     <div id="echart" style="width: 200px;height:450px;"></div>
                 </div>
             </div>
         </div>
+       <input id="begincodeUserId" type="hidden" value="${user.begincodeUserId}"/>
         <div class="col-md-10 column">
             <div class="tabbable" id="tabs-657849">
                 <ul class="nav nav-tabs">
@@ -76,7 +77,6 @@
 </div>
 <jsp:include page="/page/core/foot.jsp"/>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/problem/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>
 <script src="${ctx}/js/echarts/echarts.js"></script>

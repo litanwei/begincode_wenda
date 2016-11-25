@@ -96,12 +96,12 @@ public class UserHandler {
 
 
     /**
-     * 根据nickName查找用户
-     * @param nickName
+     * 根据userId查找用户
+     * @param userId
      * @return
      */
-    public BegincodeUser selectByNickName(String nickName) {
-        return begincodeUserService.selectByNickName(nickName);
+    public BegincodeUser selectByUserId(Integer userId) {
+        return begincodeUserService.selectById(userId);
     }
 
     /**

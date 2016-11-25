@@ -71,17 +71,17 @@ public class ProblemService {
     /**
      * 我的问题分页
      *
-     * @param userName
+     * @param userId
      * @param currentNum
      * @param eachSize
      * @return
      */
-    public List<Problem> findMyProblem(String userName, Integer currentNum, Integer eachSize) {
+    public List<Problem> findMyProblem(Integer userId, Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andDeleteFlagEqualTo(0);
-        criteria.andUserNameEqualTo(userName);
+        criteria.andBegincodeUserIdEqualTo(userId);
         return problemMapper.selectByExampleWithRowbounds(problemExample,
                 new RowBounds((currentNum - 1) * eachSize, eachSize));
 
@@ -197,6 +197,20 @@ public class ProblemService {
         return problemMapper.selectByExample(problemExample);
     }
 
+    /**
+     * 根据Id查找对应的用户集合
+     *
+     * @param userId
+     * @return
+     */
+    public List<Problem> selectProByUserId(Integer userId) {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        problemExample.createCriteria().andDeleteFlagEqualTo(0);
+        criteria.andBegincodeUserIdEqualTo(userId);
+        return problemMapper.selectByExample(problemExample);
+    }
+
 
     /**
      * 查找热门问题总数
@@ -253,7 +267,21 @@ public class ProblemService {
     }
 
     /**
-     * 根据userName返回问题大小
+     * 根据用户id返回问题大小
+     *
+     * @param userId
+     * @return
+     */
+    public Integer findByUserIdProblemSize(Integer userId) {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andDeleteFlagEqualTo(0);
+        return problemMapper.countByExample(problemExample);
+    }
+
+    /**
+     * 根据用户名返回问题的多少
      *
      * @param userName
      * @return
@@ -265,6 +293,7 @@ public class ProblemService {
         criteria.andDeleteFlagEqualTo(0);
         return problemMapper.countByExample(problemExample);
     }
+
 
 
     /**

@@ -5,6 +5,7 @@ import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.enums.*;
+import net.begincode.core.mapper.BizProblemLabelMapper;
 import net.begincode.core.model.*;
 import net.begincode.core.service.*;
 import net.begincode.utils.PatternUtil;
@@ -37,6 +38,8 @@ public class ProblemHandler {
     private ProAttentionService proAttentionService;
     @Resource
     private BegincodeUserService begincodeUserService;
+    @Resource
+    private ProblemLabelService problemLabelService;
 
     private HashMap<String, Integer> voteMap = new HashMap<>();         //投票map
     private HashMap<String, Integer> collectMap = new HashMap<>();    //收藏map
@@ -66,7 +69,7 @@ public class ProblemHandler {
         }
         Set<String> labelNameSet = PatternUtil.splitName(label.getLabelName());
         //拆解标签集合,并把对应的参数传入相关表中
-        operateLabelNameSet(labelNameSet, problem);
+        operateLabelNameSet(labelNameSet, problem.getProblemId());
     }
 
     /**
@@ -106,12 +109,12 @@ public class ProblemHandler {
     /**
      * 查找我的问题列表
      *
-     * @param userName
+     * @param userId
      * @param page
      */
-    public void selectMyProblems(String userName, Page<BizFrontProblem> page) {
-        page.setTotalNum(problemService.findByNickNameProblemSize(userName));    //问题总数
-        List<Problem> list = problemService.findMyProblem(userName, page.getCurrentNum(), page.getPageEachSize());
+    public void selectMyProblems(Integer userId, Page<BizFrontProblem> page) {
+        page.setTotalNum(problemService.findByUserIdProblemSize(userId));    //问题总数
+        List<Problem> list = problemService.findMyProblem(userId, page.getCurrentNum(), page.getPageEachSize());
         page.setData(operatePage(list));
     }
 
@@ -174,29 +177,31 @@ public class ProblemHandler {
      * 不存在先加入数据库 再加入集合
      *
      * @param labelNameSet
-     * @param problem
+     * @param problemId
      */
-    private void operateLabelNameSet(Set<String> labelNameSet, Problem problem) {
+    private void operateLabelNameSet(Set<String> labelNameSet, Integer problemId) {
         Label label = new Label();
-        ProblemLabel problemLabel = new ProblemLabel();
+        ArrayList<ProblemLabel> list = new ArrayList<>();
         if (labelNameSet != null && labelNameSet.size() > 0) {
             for (String labelName : labelNameSet) {
+                ProblemLabel problemLabel = new ProblemLabel();
                 labelName = HtmlUtils.htmlEscape(labelName);
                 Label seleLabel = labelService.selectByName(labelName);
                 if (seleLabel != null) {
                     problemLabel.setLabelId(seleLabel.getLabelId());
-                    problemLabel.setProblemId(problem.getProblemId());
-                    proLabService.createProLab(problemLabel);
+                    problemLabel.setProblemId(problemId);
                 } else {
                     label.setLabelName(HtmlUtils.htmlEscape(labelName));
                     label.setLabelName(labelName);
                     labelService.createLabel(label);
                     problemLabel.setLabelId(label.getLabelId());
-                    problemLabel.setProblemId(problem.getProblemId());
-                    proLabService.createProLab(problemLabel);
+                    problemLabel.setProblemId(problemId);
                 }
+                list.add(problemLabel);
             }
+            problemLabelService.batchInsertProLab(list);
         }
+
     }
 
     /**
@@ -224,6 +229,7 @@ public class ProblemHandler {
             if (answer != null) {
                 bizFrontProblem.setAnswerName(answer.getUserName());
                 bizFrontProblem.setAnswerTime(answer.getCreateTime());
+                bizFrontProblem.setAnswerUserId(answer.getBegincodeUserId());
             }
             bizFrontProblem.setProblem(problem);
             bizFrontProblem.setLabelNameList(problemToLabel(problem.getProblemId()));
@@ -244,13 +250,13 @@ public class ProblemHandler {
 
 
     /**
-     * 通过nickName查找对应的问题总数
+     * 通过userId查找对应的问题总数
      *
-     * @param nickName
+     * @param userId
      * @return
      */
-    public Integer problemSizeByNickName(String nickName) {
-        return problemService.findByNickNameProblemSize(nickName);
+    public Integer problemSizeByNickName(Integer userId) {
+        return problemService.findByUserIdProblemSize(userId);
     }
 
     public BegincodeUser getCurrentUser(HttpServletRequest request) {

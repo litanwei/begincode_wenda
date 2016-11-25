@@ -1,5 +1,7 @@
 package net.begincode.core.service;
 
+import net.begincode.core.mapper.BizProblemLabelMapper;
+import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProblemLabelMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
@@ -20,6 +22,9 @@ public class ProblemLabelService {
 	private ProblemLabelMapper problemLabelMapper;
 
 	@Resource
+	private BizProblemLabelMapper bizProblemLabelMapper;
+
+	@Resource
 	private ProblemMapper problemMapper;
 
 
@@ -30,6 +35,17 @@ public class ProblemLabelService {
 		//通过labelId查proLabel的所有对应关系
 		List<ProblemLabel> proLabel = problemLabelMapper.selectByExample(example );
 		return proLabel;
+	}
+
+	/**
+	 *  批量增加问题标签对应
+	 *
+	 * @param problemId   问题id
+	 * @param list    标签号
+	 * @return
+	 */
+	public Integer batchInsertProLab(List<ProblemLabel> list){
+		return bizProblemLabelMapper.batchInsertProLab(list);
 	}
 
 

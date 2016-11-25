@@ -1,9 +1,11 @@
+var docId ;
 function summerInit(documentId) {
+    docId = documentId;
     $(documentId).summernote({
         lang: 'zh-CN',
         callbacks: {
-            onImageUpload: function (files) { //the onImageUpload API
-                img = sendFile(files[0]);
+            onImageUpload: function (files,editor,$editable) { //the onImageUpload API
+                sendFile(files[0],editor,$editable);
             }
         },
         toolbar: [
@@ -47,39 +49,23 @@ function summerInit(documentId) {
     }
 }
 
-function sendFile(file) {
-    var filename = false;
-    try{
-        filename = file['name'];
-    } catch(e){
-        filename = false;
-    }
-    if(!filename){
-        $(".note-alarm").remove();
-    }
-    //以上防止在图片在编辑器内拖拽引发第二次上传导致的提示错误
-    var ext = filename.substr(filename.lastIndexOf("."));
-    ext = ext.toUpperCase();
-    //name是文件名，自己随意定义，aid是我自己增加的属性用于区分文件用户
+function sendFile(file,editor,welEditable) {
     data = new FormData();
     data.append("file", file);
-    data.append("token","22liIyhpQX6QXv-tFS6HpWGWnAD6J4M8bRKOaDMKv:zjGSlI9tXPxicotT15kPp79N99o=:eyJzY29wZSI6InlhbmdzaiIsImRlYWRsaW5lIjozMjE2MzMyMzUwfQ==");
-//	    url = ctx+"/image";
-    url="http://upload.qiniu.com/"
     $.ajax({
         data: data,
         type: "POST",
-        url: url,
+        url: ctx +"/summernote/imgUpload.htm",
         cache: false,
         contentType: false,
         processData: false,
-        success: function (url) {
-            if(url != ""){
-                $('#summernote').summernote('insertImage', "http://7xjcjk.com1.z0.glb.clouddn.com/"+url.key);
-            }else{
-                alert("图片上传失败");
+        dataType:"json",
+        success: function(data) {
+            if (data.code == 0) {
+                $(docId).summernote('insertImage', "http://o7kl8ob0l.bkt.clouddn.com/"+data.data.key);
+            } else {
+                showModelNoBack(data.msg);
             }
-
         }
     });
 }

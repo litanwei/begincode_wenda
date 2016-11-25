@@ -51,6 +51,5 @@
 <script src="${ctx}/summernote/summernote.js"></script>
 <script src="${ctx}/js/summernotePlugin.js"></script>
 <script src="${ctx}/summernote/lang/summernote-zh-CN.min.js"></script>
-<script src="${ctx}/js/commons/model.js"></script>
 </body>
 </html>

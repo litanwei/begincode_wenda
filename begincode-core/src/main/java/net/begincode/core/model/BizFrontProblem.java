@@ -11,6 +11,7 @@ import java.util.List;
 public class BizFrontProblem extends PageParam {
     private Problem problem;
     private String answerName;
+    private Integer answerUserId;
     private List<String> labelNameList;
     private Date answerTime;
 
@@ -44,5 +45,13 @@ public class BizFrontProblem extends PageParam {
 
     public void setLabelNameList(List<String> labelNameList) {
         this.labelNameList = labelNameList;
+    }
+
+    public Integer getAnswerUserId() {
+        return answerUserId;
+    }
+
+    public void setAnswerUserId(Integer answerUserId) {
+        this.answerUserId = answerUserId;
     }
 }

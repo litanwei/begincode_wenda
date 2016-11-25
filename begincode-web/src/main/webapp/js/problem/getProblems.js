@@ -42,7 +42,7 @@ function getProblems(page, id) {
             + '<ul class="author list-inline ">'
             + '<li>'
             + '<a style="text-decoration:none;">'
-            + problemFormatTime(page.data.data[i].problem.userName, page.data.data[i].problem.answerCount, page.data.data[i].answerName, page.data.data[i].problem.createTime, page.data.data[i].answerTime)
+            + problemFormatTime(page.data.data[i].answerUserId,page.data.data[i].problem.begincodeUserId,page.data.data[i].problem.userName, page.data.data[i].problem.answerCount, page.data.data[i].answerName, page.data.data[i].problem.createTime, page.data.data[i].answerTime)
             + '</a>'
             + '</li>'
             + '</ul>'
@@ -60,17 +60,19 @@ function getProblems(page, id) {
 
 /**
  *
- * @param problemAuthorName  问题作者
- * @param size  回答数
- * @param answerName 回答者名字
- * @param time 问题创建时间
- * @param answerTime 回答时间
+ * @param answerUserId   回答用户id
+ * @param problemAuthorNameId  提问作者id
+ * @param problemAuthorName  作者名
+ * @param size   提问数
+ * @param answerName  回答人的名字
+ * @param time   提问时间
+ * @param answerTime  回答时间
  * @returns {string}
  */
-function problemFormatTime(problemAuthorName, size, answerName, time, answerTime) {
+function problemFormatTime(answerUserId,problemAuthorNameId,problemAuthorName, size, answerName, time, answerTime) {
     if (size == 0) {
-        return "<a href='" + ctx + "/user/" + problemAuthorName + ".htm'>" + problemAuthorName + "</a>" + " " + formatTime(time);
+        return "<a href='" + ctx + "/user/" + problemAuthorNameId + ".htm'>" + problemAuthorName + "</a>" + " " + formatTime(time) + "提问";
     } else {
-        return "<a href=" + ctx + "'/user/" + answerName + ".htm'>" + answerName + "</a>" + " " + formatTime(answerTime);
+        return "<a href=" + ctx + "'/user/" + answerUserId + ".htm'>" + answerName + "</a>" + " " + formatTime(answerTime) + "回答";
     }
 }

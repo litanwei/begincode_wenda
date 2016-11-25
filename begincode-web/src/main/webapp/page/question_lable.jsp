@@ -95,8 +95,6 @@
     </div>
 </div>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/messages/messageremind.js"></script>
-<script src="${ctx}/js/commons/timeUtil.js"></script>
 <script type="text/javascript" src="${ctx}/js/index/onLoad.js"></script>
 </body>
 </html>

@@ -157,13 +157,13 @@ public class AnswerService {
     /**
      * 根据nickName查找对应的回答数
      *
-     * @param nickName
+     * @param userId
      * @return
      */
-    public Integer findAnswerNumByNickName(String nickName) {
+    public Integer findAnswerNumByUserId(Integer userId) {
         AnswerExample answerExample = new AnswerExample();
         AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andUserNameEqualTo(nickName);
+        criteria.andBegincodeUserIdEqualTo(userId);
         return answerMapper.countByExample(answerExample);
     }
 
@@ -180,6 +180,22 @@ public class AnswerService {
         answerExample.setOrderByClause("answer_id");
         AnswerExample.Criteria criteria = answerExample.createCriteria();
         criteria.andUserNameEqualTo(nickName);
+        return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
+    }
+
+    /**
+     * 根据userId返回回答集合
+     *
+     * @param userId
+     * @param currentNum
+     * @param eachSize
+     * @return
+     */
+    public List<Answer> findAnswerListByUserId(Integer userId, Integer currentNum, Integer eachSize) {
+        AnswerExample answerExample = new AnswerExample();
+        answerExample.setOrderByClause("answer_id");
+        AnswerExample.Criteria criteria = answerExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
         return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
     }
 

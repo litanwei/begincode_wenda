@@ -20,7 +20,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9">
-            <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist" id="myTab">
                 <li role="presentation" class="active"><a id="newProblemId" href="#home" aria-controls="home" role="tab"
                                                           data-toggle="tab">最新的</a></li>
@@ -31,10 +30,8 @@
                 <li role="presentation"><a id="noAnswerProblemId" href="#noAnswerProblems" aria-controls="messages"
                                            role="tab"
                                            data-toggle="tab">未回答的</a></li>
-                <li role="presentation"><a id="myProblemId" href="#myProblems" aria-controls="messages" role="tab"
-                                           data-toggle="tab">我的问题</a></li>
-                <li role="presentation"><a id="messageId" href="#messages" aria-controls="messages" role="tab"
-                                           data-toggle="tab">@我的 <span class="badge" id="messageCount"></span></a></li>
+                <li role="presentation" id="myProblemId"></li>
+                <li role="presentation" id="messageId"></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="home">
@@ -93,12 +90,10 @@
 <jsp:include page="/page/core/modal.jsp"/>
 <jsp:include page="/page/core/foot.jsp"/>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
-<script src="${ctx}/js/problem/getProblems.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>
+<script src="${ctx}/js/problem/getProblems.js"></script>
 <script src="${ctx}/js/problem/problem.js"></script>
-<script src="${ctx}/js/message/message.js"></script>
 <script src="${ctx}/js/index/onLoad.js"></script>
-<script src="${ctx}/js/commons/model.js"></script>
 </body>
 </html>
