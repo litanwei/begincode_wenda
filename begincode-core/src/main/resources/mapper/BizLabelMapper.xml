@@ -1,40 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.begincode.core.mapper.BizLabelMapper">
-    <resultMap id="BaseResultMap" type="net.begincode.core.model.Label">
+	<resultMap id="BaseResultMap" type="net.begincode.core.model.Label">
 
-        <id column="label_id" property="labelId" jdbcType="INTEGER"/>
-        <result column="label_name" property="labelName" jdbcType="VARCHAR"/>
-        <result column="level" property="level" jdbcType="TINYINT"/>
-        <result column="parent_id" property="parentId" jdbcType="TINYINT"/>
-        <result column="delete_flag" property="deleteFlag" jdbcType="TINYINT"/>
-    </resultMap>
+		<id column="label_id" property="labelId" jdbcType="INTEGER" />
+		<result column="label_name" property="labelName" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="TINYINT" />
+		<result column="parent_id" property="parentId" jdbcType="TINYINT" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="TINYINT" />
+	</resultMap>
+	<resultMap id="problemIdResultMap" type="net.begincode.core.param.LabelAndProblemId">
+		<id column="label_id" property="labelId" jdbcType="INTEGER" />
+		<result column="label_name" property="labelName" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="TINYINT" />
+		<result column="parent_id" property="parentId" jdbcType="TINYINT" />
+		<result column="delete_flag" property="deleteFlag" jdbcType="TINYINT" />
+		<result column="problem_id" property="problemId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		label.label_id,
+		label.label_name,
+		label.LEVEL,
+		label.parent_id,
+		label.delete_flag
+	</sql>
 
 
-    <sql id="Base_Column_List">
-    label.label_id,
-	label.label_name,
-	label.LEVEL,
-	label.parent_id,
-	label.delete_flag
-  </sql>
+	<select id="selectHotLabel" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		label
+		INNER JOIN problem_label ON label.label_id =
+		problem_label.label_id
+		GROUP BY
+		label.label_id
+		ORDER BY
+		COUNT(label.label_id) DESC
+	</select>
 
-
-    <select id="selectHotLabel" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM
-        label
-        INNER JOIN problem_label ON label.label_id = problem_label.label_id
-        GROUP BY
-        label.label_id
-        ORDER BY
-        COUNT(label.label_id) DESC
-    </select>
-
-    <select id="selectLabelByProblemId" resultMap="BaseResultMap">
-	  select * from label where label_id in (
-		select label_id from problem_label where problem_id = #{problemId}
-	 ) AND delete_flag = 0
+	<select id="selectLabelByProblemId" resultMap="BaseResultMap">
+		select * from
+		label where label_id in (
+		select label_id from problem_label
+		where
+		problem_id = #{problemId}
+		) AND delete_flag = 0
+	</select>
+	<select id="selectLabelAndProblemIdByProblemId" resultMap="problemIdResultMap"
+		parameterType="java.util.ArrayList">
+		SELECT l.*, pl.problem_id FROM label l RIGHT JOIN(SELECT
+		* FROM
+		problem_label p
+		<if test="_parameter != null">
+			<where>
+				p.problem_id IN(
+				<foreach collection="list" item="pId" index="index"
+					separator=",">
+					#{pId}
+				</foreach>
+				)
+			</where>
+		</if>
+		) pl ON
+		pl.label_id=l.label_id
 	</select>
 </mapper>

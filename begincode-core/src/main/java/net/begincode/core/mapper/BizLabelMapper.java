@@ -3,6 +3,8 @@ package net.begincode.core.mapper;
 import java.util.List;
 
 import net.begincode.core.model.Label;
+import net.begincode.core.param.LabelAndProblemId;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface BizLabelMapper {
@@ -19,4 +21,11 @@ public interface BizLabelMapper {
 	 * @return
 	 */
 	List<Label> selectLabelByProblemId(@Param("problemId") Integer problemId);
+	
+	/**
+	 *  如果为Null 返回所有P_L表的数据
+	 * @param 一组problemId
+	 * @return	返回problemId和对应lable的类列表
+	 */
+	List<LabelAndProblemId> selectLabelAndProblemIdByProblemId(List<Integer> problemIds);
 }
