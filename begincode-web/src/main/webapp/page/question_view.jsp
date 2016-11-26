@@ -34,18 +34,23 @@
                 <div class="col-md-9 col-sm-8 col-xs-12">
 
                     <div class="post-topheader__info">
-                        <h1 class="h3 post-topheader__info--title" id="questionTitle" data-id="1010000006602336">
-                            <a>${problem.title}</a>
-                        </h1>
-
+                        <div style="float:left;width:100%">
+                            <div style=" width:32px; height:32px; background-color:#DC143C; border-radius:25px;float:left">
+                                <span style="height:32px; line-height:32px;display:block; color:#FFF; font-weight:700; text-align:center;font-size:12px">提问</span>
+                            </div>
+                            <h1 class="h3 post-topheader__info--title"  id="questionTitle" data-id="1010000006602336">
+                                &nbsp;&nbsp;<a>${problem.title}</a>
+                            </h1>
+                     
                         <span class="keyword-list ">
                             <c:forEach items="${labels}" var="label">
                                 <a href="" target="_blank" class="list-tag">${label.labelName}</a>
                             </c:forEach>
                         </span>
-                        <div class="question-author">
-                            <a href="${ctx}/user/${problem.begincodeUserId}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
-                            ${problemTime}提问 </span>
+                            <div class="question-author">
+                                <a href="${ctx}/user/${problem.begincodeUserId}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
+                                ${problemTime}提问 </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,12 +115,12 @@
 
     <div class="row">
         <div class="col-md-9">
-            ${problem.content}
-
-            <center>
-                <button id="clickVote" type="button" class="btn btn-primary">点击投票</button>
-            </center>
-
+            <div class="info-mod alert-info alert">     ${problem.content}
+            </div>
+            <!--       <center>
+                       <button id="clickVote" type="button" class="btn btn-primary">点击投票</button>
+                   </center>
+           -->
             <form id="answerForm" method="post">
                 <p>
                 <hr>

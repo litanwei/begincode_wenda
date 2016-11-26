@@ -17,7 +17,8 @@
                         <h4>加入我们</h4>
                         <ul class="list-unstyled">
 
-                            <li> QQ交流群： <font color="red"  ><b>15995674</b></font><a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=8fd253e8388cb8bb214d62e9376d7fcd15954d3948739a71c358bf63907ff9b1"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="BeginCode和他的小伙伴们" title="BeginCode和他的小伙伴们"></a></li>
+                            <li> QQ交流群： <font color="red"  ><b>5369686</b></font>
+                                </li>
                         </ul>
                     </div>
                     <div class="col-xs-6">
@@ -28,7 +29,7 @@
                         </ul>
                         <h6>链接</h6>
                         <ul class="list-unstyled">
-                            <p><a href="http://pan.liuguofa.com" target="_blank" >网盘搜索</a>  <a href="http://www.javajh.com" target="_blank" >java江湖</a>   <a href="http://www.javamemory.com" target="_blank" >小伟搜</a>  </p>                </ul>
+                                         </ul>
                     </div>
 
                 </div>
