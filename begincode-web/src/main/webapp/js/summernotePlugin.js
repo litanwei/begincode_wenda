@@ -27,10 +27,10 @@ function summerInit(documentId) {
                 }));
             },
             template: function (item) {
-                return '<a id="message'+ item +'" class="message_">@' + item + '</a>';
+                return '<a id="message'+ item.split(",")[0] +'" class="message_">@' + item.split(",")[1] + '</a>';
             },
             content: function (item) {
-                return $("#message"+ item).attr("href",ctx+"/user/"+item+".htm").removeAttr("id")[0];
+                return $("#message"+ item.split(",")[0]).attr("href",ctx+"/user/"+item.split(",")[0]+".htm").removeAttr("id")[0];
             }
         }
     });
