@@ -47,6 +47,7 @@ public class AnswerHandler {
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
+        problemService.updateAnswerAddByProblemId(answer.getProblemId());
         messageService.createMessage(answer.getProblemId(),answer.getAnswerId(),begincodeUserService.contentFilter(answer.getContent()));
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
     }
@@ -59,12 +60,13 @@ public class AnswerHandler {
      * @param answerId
      * @return
      */
-    public void feedbackAnswer(int answerId) {
+    public Answer feedbackAnswer(int answerId) {
         Answer ans = answerService.selAnswerByAnswerId(answerId);
         if (ans.getFeedback() == 0) {
             ans.setFeedback(Integer.parseInt(FeedbackEnum.IS_FEED_BACK.getCode()));
             answerService.updateAnswer(ans);
         }
+        return ans;
     }
 
     /**

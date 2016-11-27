@@ -63,8 +63,8 @@ public class AnswerController {
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
     @ResponseBody
     public Object feedback(int answerId) {
-        answerHandler.feedbackAnswer(answerId);
-        return null;
+        Answer answer = answerHandler.feedbackAnswer(answerId);
+        return answer;
     }
 
     /**

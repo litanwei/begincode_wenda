@@ -291,7 +291,7 @@ public class ProblemHandler {
 	/**
 	 * 通过UserID查找对应的问题总数
 	 *
-	 * @param begincodeUserId
+	 * @param userId
 	 * @return
 	 */
 	public Integer problemSizeByUserId(Integer userId) {

@@ -178,7 +178,6 @@ public class UserController {
      * qq注销用户
      */
     @RequestMapping(value = "loginClean", method = RequestMethod.POST)
-    @ResponseBody
     public void cleanUser(HttpServletResponse response) {
         CookieOperation.delCookie(response);
     }
