@@ -66,15 +66,21 @@ $(":button").click(function () {
         } else {
             agreeFlag = 1;
         }
+        thisClick.attr("disabled", "disabled");
+        thisClick.next().attr("disabled", "disabled");
+        ansAgree(answerId,agreeFlag,thisClick)
     }else {
         if (thisClick.hasClass("pressed")) {
             agreeFlag = 0;
         } else {
             agreeFlag = 2;
         }
+        thisClick.attr("disabled", "disabled");
+        thisClick.prev().attr("disabled", "disabled");
+        ansOpposition(answerId,agreeFlag,thisClick);
     }
-    ansAgree(answerId,agreeFlag,thisClick);
 })
+
 
 
 // 回复反馈
@@ -93,6 +99,7 @@ function sendFeedback(answerId) {
             setTimeout(function () {
                 $("#ajaxModal").modal("hide")
             }, 2000);
+
         }
     })
 }
@@ -124,7 +131,7 @@ function sendAdoptAnswer(answerId) {
     })
 }
 
-//赞同反对 后台交互
+//赞同 后台交互
 function ansAgree(answerId,agreeFlag,thisClick) {
     var ansAgree = new FormData();
     ansAgree.append("agreeFlag",agreeFlag);
@@ -132,7 +139,7 @@ function ansAgree(answerId,agreeFlag,thisClick) {
     $.ajax({
         data: ansAgree,
         type: "POST",
-        url: ctx + "/ansAgree/set.htm",
+        url: ctx + "/ansAgree/setAgree.htm",
         dataType: "json",
         contentType: false,
         processData: false,
@@ -142,6 +149,32 @@ function ansAgree(answerId,agreeFlag,thisClick) {
             }else {
                 showModel(data.msg);
             }
+            thisClick.next().removeAttr("disabled");
+            thisClick.removeAttr("disabled");
+        }
+    })
+}
+
+//反对 后台交互
+function ansOpposition(answerId,agreeFlag,thisClick) {
+    var ansAgree = new FormData();
+    ansAgree.append("agreeFlag",agreeFlag);
+    ansAgree.append("answerId",answerId);
+    $.ajax({
+        data: ansAgree,
+        type: "POST",
+        url: ctx + "/ansAgree/setOpposition.htm",
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.code == 0) {
+                agreeClick(thisClick);
+            }else {
+                showModel(data.msg);
+            }
+            thisClick.removeAttr("disabled");
+            thisClick.prev().removeAttr("disabled");
         }
     })
 }

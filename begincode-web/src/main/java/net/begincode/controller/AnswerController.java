@@ -82,7 +82,6 @@ public class AnswerController {
         ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
         ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         ansAgree.setAnswerId(answerId);
-        ansAgreeHandler.selectAndUpdate(ansAgree);
         return answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }

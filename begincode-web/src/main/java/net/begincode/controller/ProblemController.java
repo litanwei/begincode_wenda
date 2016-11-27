@@ -3,7 +3,10 @@ package net.begincode.controller;
 import net.begincode.bean.Page;
 import net.begincode.core.enums.CollectEnum;
 import net.begincode.core.enums.VoteEnum;
-import net.begincode.core.handler.*;
+import net.begincode.core.handler.AccountContext;
+import net.begincode.core.handler.AnsAgreeHandler;
+import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
@@ -37,6 +40,8 @@ public class ProblemController {
     private AnsAgreeHandler ansAgreeHandler;
     @Resource
     private AnswerHandler answerHandler;
+    @Resource
+    private AccountContext accountContext;
 
 
     @AuthPassport
@@ -101,7 +106,7 @@ public class ProblemController {
     @ResponseBody
     public Object findMyProblem(BizFrontProblem bizFrontProblem, HttpServletRequest request) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
-        BegincodeUser user = problemHandler.getCurrentUser(request);
+        BegincodeUser user = accountContext.getCurrentUser(request);
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectMyProblems(user.getNickname(), page);
         return page;
@@ -123,7 +128,7 @@ public class ProblemController {
     public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Map map = new HashMap();
         Problem problem = problemLableParam.getProblem();
-        BegincodeUser user = problemHandler.getCurrentUser(request);
+        BegincodeUser user = accountContext.getCurrentUser(request);
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
@@ -144,7 +149,7 @@ public class ProblemController {
      */
     @RequestMapping(value = "/{problemId}", method = RequestMethod.GET)
     public String selectAllAnswer(Model model, @PathVariable("problemId") int problemId, HttpServletRequest request) {
-        BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
         fillProblem(model, problemId, begincodeUser);
         return "question_view";
     }
@@ -159,7 +164,7 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/message/{problemId}", method = RequestMethod.GET)
     public String messageProblem(Model model, @PathVariable("problemId") int problemId, HttpServletRequest request) {
-        BegincodeUser begincodeUser = problemHandler.getCurrentUser(request);
+        BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
         fillProblem(model, problemId, begincodeUser);
         problemHandler.updateMessageByProblemId(begincodeUser.getBegincodeUserId(), problemId);
         return "question_view";
@@ -191,28 +196,26 @@ public class ProblemController {
      * @param begincodeUser
      */
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
-        List<Answer> answerAdoptList = answerHandler.selAdoptAnswerByProblemId(problemId);
-        List<Answer> answerNoAdoptList = answerHandler.selNoAdoptAnswerByProblemId(problemId);
+        List<Answer> answerAdoptList = new ArrayList<>();
+        List<Answer> answerNoAdoptList = new ArrayList<>();
         List<String> newAdoptTime = new ArrayList<>();
-        for (int a = 0; a < answerAdoptList.size(); a++) {
-            newAdoptTime.add(DateUtil.getTimeFormatText(answerAdoptList.get(a).getCreateTime()));
-        }
         List<String> newNoAdoptTime = new ArrayList<>();
-        for (int a = 0; a < answerNoAdoptList.size(); a++) {
-            newNoAdoptTime.add(DateUtil.getTimeFormatText(answerNoAdoptList.get(a).getCreateTime()));
-        }
-        Problem problem = problemHandler.selectById(problemId);
+        List<Integer> answerAdoptAgreeFlag = new ArrayList<>();
+        List<Integer> answerNoAdoptAgreeFlag = new ArrayList<>();
+        List<Label> labels = new ArrayList<>();
+        //如果是用户进来 则判断用户所是否有收藏或投票此问题
+        StringBuffer problemTime = new StringBuffer();
+       Problem problem = problemHandler.selectProblemAndAnswerdsById(problemId,labels,problemTime,begincodeUser,
+                answerAdoptList,answerNoAdoptList,
+                newAdoptTime,newNoAdoptTime,
+                answerAdoptAgreeFlag,answerNoAdoptAgreeFlag);
         if (begincodeUser != null) {
             model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
-                Integer[] answerAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerAdoptList);
-                Integer[] answerNoAdoptAgreeFlag = ansAgreeHandler.selectAnsAgreeList(begincodeUser, answerNoAdoptList);
                 model.addAttribute("answerAdoptAgreeFlag", answerAdoptAgreeFlag);
                 model.addAttribute("answerNoAdoptAgreeFlag", answerNoAdoptAgreeFlag);
             }
         }
-        //如果是用户进来 则判断用户所是否有收藏或投票此问题
-        String problemTime = DateUtil.getTimeFormatText(problem.getCreateTime());
         //采纳回复
         model.addAttribute("answerAdoptList", answerAdoptList);
         model.addAttribute("newAdoptTime", newAdoptTime);
@@ -221,7 +224,7 @@ public class ProblemController {
         model.addAttribute("newNoAdoptTime", newNoAdoptTime);
         //问题 标签
         model.addAttribute("problem", problem);
-        model.addAttribute("labels", problemHandler.getLabelByProblemId(problemId));
+        model.addAttribute("labels", labels);
         model.addAttribute("problemTime", problemTime);
     }
 

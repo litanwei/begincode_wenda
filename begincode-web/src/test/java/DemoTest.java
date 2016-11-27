@@ -49,6 +49,31 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
     // 执行测试方法之前初始化模拟request,response
 
 
+    @Resource
+    private AnsAgreeHandler ansAgreeHandler;
+    @Test
+    public void sela(){
+        AnsAgree ansAgree = new AnsAgree();
+        ansAgree.setAgree(0);
+       // ansAgree.setAgree(0);
+        ansAgree.setAnswerId(136);
+        ansAgree.setBegincodeUserId(11);
+        ansAgreeHandler.updateAnswerAgrCountAndAnsAgree(ansAgree);
+    }
+
+    @Test
+    public void selb(){
+        AnsAgree ansAgree = new AnsAgree();
+        ansAgree.setAgree(2);
+        // ansAgree.setAgree(0);
+        ansAgree.setAnswerId(136);
+        ansAgree.setBegincodeUserId(11);
+        ansAgreeHandler.updateAnswerOppoCountAndAnsAgree(ansAgree);
+    }
+
+
+
+
     @Test
     public void selAnswer(){
         Answer answer = new Answer();
