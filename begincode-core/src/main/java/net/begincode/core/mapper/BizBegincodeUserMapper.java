@@ -14,4 +14,9 @@ public interface BizBegincodeUserMapper {
      * 获取活跃用户，一个月内提问和回复的总数，排序，取前10
      */
     public List<BizBegincodeUser> getActiverUser(@Param(value = "dateBefore") Date dateBefore);
+    
+    /**
+     * 用于获取列名的所有值
+     */
+    public List<String> selectAllByNickName();
 }

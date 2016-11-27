@@ -20,6 +20,7 @@
                 display : "pc"//应用场景，可选
             }, function(reqData, opts){//登录成功
                 reqd = reqData;
+
                 //根据返回数据，更换按钮显示状态方法
                 var dom = document.getElementById(opts['btnId']),
                         _logoutTemplate = [

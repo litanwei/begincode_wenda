@@ -2,10 +2,7 @@ package net.begincode.core.handler;
 
 import net.begincode.bean.Page;
 import net.begincode.common.BizException;
-import net.begincode.core.enums.AdoptEnum;
-import net.begincode.core.enums.AnswerResponseEnum;
-import net.begincode.core.enums.FeedbackEnum;
-import net.begincode.core.enums.SolveEnum;
+import net.begincode.core.enums.*;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
@@ -63,12 +60,13 @@ public class AnswerHandler {
      * @param answerId
      * @return
      */
-    public void feedbackAnswer(int answerId) {
+    public Answer feedbackAnswer(int answerId) {
         Answer ans = answerService.selAnswerByAnswerId(answerId);
         if (ans.getFeedback() == 0) {
             ans.setFeedback(Integer.parseInt(FeedbackEnum.IS_FEED_BACK.getCode()));
             answerService.updateAnswer(ans);
         }
+        return ans;
     }
 
     /**
@@ -89,6 +87,11 @@ public class AnswerHandler {
                 pro.setSolve(Integer.parseInt(SolveEnum.SOLVE.getCode()));
                 problemService.updateProblem(pro);
             }
+            AnsAgree ansAgree = new AnsAgree();
+            ansAgree.setAnswerId(answerId);
+            ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
+            ansAgree.setBegincodeUserId(begincodeUserId);
+            ansAgreeService.selectAndUpdate(ansAgree);
             ans.setAgreeCount(ansAgreeService.selAgreeCountById(answerId));
             answerService.updateAnswer(ans);
             return ans;
@@ -107,39 +110,6 @@ public class AnswerHandler {
         return answerService.selectAllAnswer(answer);
     }
 
-    /**
-     * 获取问题所对应的采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selAdoptAnswerByProblemId(int problemId) {
-        List<Answer> answerList = answerService.findAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
-        return answerList;
-    }
-
-    /**
-     * 获取问题所对应的未采纳回答
-     * 并按时间降序排序
-     *
-     * @param problemId
-     * @return List<Answer>
-     */
-    public List<Answer> selNoAdoptAnswerByProblemId(int problemId) {
-        List<Answer> answerList = answerService.findNotAdoptByProblemId(problemId);
-        for(Answer answer:answerList){
-            answer.setAgreeCount(ansAgreeService.selAgreeCountById(answer.getAnswerId()));
-            answer.setOppositionCount(ansAgreeService.selOppositionCountById(answer.getAnswerId()));
-            answerService.updateAnswer(answer);
-        }
-        return answerList;
-    }
 
     /**
      * 根据nickName返回回答数
@@ -150,7 +120,17 @@ public class AnswerHandler {
     public Integer selectAnswerNumByUserId(Integer userId) {
         return answerService.findAnswerNumByUserId(userId);
     }
-
+    //--------------------优化----------------------
+    /**
+     * 根据userID返回回答数
+     *
+     * @param userId
+     * @return
+     */
+    public Integer selectAnswerNumByUserId(Integer userId) {
+        return answerService.findAnswerNumByUserId(userId);
+    }
+  //--------------------优化----------------------
     /**
      * 根据userId 返回回答实体集合
      *

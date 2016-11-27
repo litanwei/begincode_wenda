@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import static net.begincode.utils.JsoupUtil.matchMessageName;
 
 /**
  * @author kangLiang
@@ -106,8 +106,18 @@ public class BegincodeUserService {
         return list.size() > 0 ? list.get(0) : null;
 
     }
-
-
+    /**
+     * 根据userId查找BegincodeUser
+     *
+     * @param userId
+     * @return 不存在返回空 存在就返回此对象
+     */
+    public BegincodeUser selectByUserId(Integer userId) {
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andBegincodeUserIdEqualTo(userId);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.size() > 0 ? list.get(0) : null;
 
     /**
      * openId查找用户
@@ -152,5 +162,10 @@ public class BegincodeUserService {
         }
         return userId;
     }
-
+    /**
+     * 用于获取列名的所有值
+     */
+    public List<String> selectAllByNickName(){
+    	return bizBegincodeUserMapper.selectAllByNickName();
+    }
 }

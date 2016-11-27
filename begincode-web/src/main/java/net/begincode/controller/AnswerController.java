@@ -63,8 +63,8 @@ public class AnswerController {
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
     @ResponseBody
     public Object feedback(int answerId) {
-        answerHandler.feedbackAnswer(answerId);
-        return null;
+        Answer answer = answerHandler.feedbackAnswer(answerId);
+        return answer;
     }
 
     /**
@@ -82,7 +82,6 @@ public class AnswerController {
         ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
         ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         ansAgree.setAnswerId(answerId);
-        ansAgreeHandler.selectAndUpdate(ansAgree);
         return answerHandler.adoptAnswer(answerId, begincodeUser.getBegincodeUserId());
     }
 }

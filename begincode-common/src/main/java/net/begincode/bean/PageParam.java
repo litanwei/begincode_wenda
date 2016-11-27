@@ -30,4 +30,7 @@ public class PageParam extends Param {
     public void setPageEachSize(int pageEachSize) {
         this.pageEachSize = pageEachSize;
     }
+    public Integer getStart(){
+    	return (page - 1 * pageEachSize);
+    }
 }

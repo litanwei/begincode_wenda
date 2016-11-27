@@ -1,5 +1,6 @@
 package net.begincode.core.service;
 
+import net.begincode.core.enums.DeleteFlagEnum;
 import net.begincode.core.mapper.MessageMapper;
 import net.begincode.core.model.Message;
 import net.begincode.core.model.MessageExample;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class MessageService {
+
     @Resource
     private MessageMapper messageMapper;
 
@@ -60,7 +62,7 @@ public class MessageService {
         MessageExample messageExample = new MessageExample();
         messageExample.setOrderByClause("message_id desc");
         MessageExample.Criteria criteria = messageExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(0);
+        criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         criteria.andBegincodeUserIdEqualTo(userId);
         return messageMapper.selectByExampleWithRowbounds(messageExample, new RowBounds((currentNum - 1) * eachSize,
                 eachSize));
@@ -75,7 +77,7 @@ public class MessageService {
     public Integer findMessSize(Integer userId) {
         MessageExample messageExample = new MessageExample();
         MessageExample.Criteria criteria = messageExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(0);
+        criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         criteria.andBegincodeUserIdEqualTo(userId);
         return messageMapper.countByExample(messageExample);
     }
@@ -89,7 +91,7 @@ public class MessageService {
      */
     public Integer updateMessageByProblemId(Integer userId, Integer problemId) {
         Message message = new Message();
-        message.setDeleteFlag(1);
+        message.setDeleteFlag(Integer.parseInt(DeleteFlagEnum.DEL_FLAG.getCode()));
         MessageExample messageExample = new MessageExample();
         MessageExample.Criteria criteria = messageExample.createCriteria();
         criteria.andBegincodeUserIdEqualTo(userId);
@@ -106,7 +108,7 @@ public class MessageService {
      */
     public Integer updateMessageByAnswerId(Integer userId, Integer answerId) {
         Message message = new Message();
-        message.setDeleteFlag(1);
+        message.setDeleteFlag(Integer.parseInt(DeleteFlagEnum.DEL_FLAG.getCode()));
         MessageExample messageExample = new MessageExample();
         MessageExample.Criteria criteria = messageExample.createCriteria();
         criteria.andBegincodeUserIdEqualTo(userId);

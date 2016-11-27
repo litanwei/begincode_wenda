@@ -10,32 +10,41 @@
     <meta name="description" content="${problem.title},开源问答系统,BeginCode问答"/>
     <%@ include file="commons/meta.jsp" %>
     <title>${problem.title},BeginCode问答</title>
+
+    <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
     <link href="${ctx}/css/answer.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
     <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
 <jsp:include page="/page/core/top.jsp"/>
-<jsp:include page="/page/core/modal.jsp"/>
+
 <div class="continer">
     <div class="post-topheader">
         <div class="container">
             <div class="row">
                 <div class="col-md-9 col-sm-8 col-xs-12">
+
                     <div class="post-topheader__info">
                         <h1 class="h3 post-topheader__info--title" id="questionTitle" data-id="1010000006602336">
                             <a>${problem.title}</a>
                         </h1>
+
                         <span class="keyword-list ">
                             <c:forEach items="${labels}" var="label">
-                                <a href="${ctx}/label/selectProblemLabel.htm?id=${label.labelId}" target="_blank" class="list-tag">${label.labelName}</a>
+                                <a href="" target="_blank" class="list-tag">${label.labelName}</a>
                             </c:forEach>
                         </span>
                         <div class="question-author">
-                            <a href="${ctx}/user/${problem.begincodeUserId}.htm" class="mr5"
-                               id="problemUser"><strong>${problem.userName}</strong></a>
+                            <a href="${ctx}/user/${problem.userName}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
                         </div>
                     </div>
@@ -98,12 +107,11 @@
     </div>
 </div>
 <div class="container">
+
     <div class="row">
         <div class="col-md-9">
-            ${problem.content}
-            <center>
-                <button id="clickVote" type="button" class="btn btn-primary">点击投票</button>
-            </center>
+            <div class="info-mod alert-info alert">     ${problem.content}
+            </div>
             <form id="answerForm" method="post">
                 <p>
                 <hr>
@@ -114,9 +122,10 @@
                 <input type="hidden" name="answer.content" id="content" value=""/>
                 </p>
                 <div class="container-fluid align-center">
-                    <button type="button" class="btn btn-primary" id="answerSend">发布回答</button>
+                    <button type="button" class="btn btn-primary" id="answerSend" >发布回答</button>
                 </div>
             </form>
+
             <div id="answerAdopt"></div>
             <c:forEach items="${answerAdoptList}" var="answer" varStatus="temp">
                 <article class="widget-question__item">
@@ -138,8 +147,7 @@
                                     <i class="vote-arrow"></i>
                                     <span class="count">${answer.agreeCount}</span>
                                 </button>
-                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true"
-                                        title="取消反对">
+                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true" title="取消反对">
                                     <i class="vote-arrow"></i>
                                 </button>
                             </c:when>
@@ -163,20 +171,23 @@
                                 <a class="rcmd-label">推荐</a>
                             </c:when>
                         </c:choose>
+
                     </div>
                     <div class="post-offset">
-                        <div class="answer-fmt" data-id="1010000007316290">
+
+                        <div class="answer-fmt" data-id="1010000007316290" >
                             <p> ${answer.content}</p>
                         </div>
                         <div class="row">
                             <div class="post-opt col-md-8">
                                 <ul class="list-inline mb0">
-                                    <li><a>${newAdoptTime[temp.count-1]}回答</a></li>
-                                    <li class="edit-btn js__rank-check" data-toggle="tooltip" data-placement="top">
-                                        <a onclick="sendFeedback(${answer.answerId})">举报</a>
+                                    <li><a href="javascript:;">${newAdoptTime[temp.count-1]}</a></li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
                                     </li>
 
-                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题">
+                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"
+                                        data-id="1010000007316290">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
                                            data-toggle="dropdown">更多<b class="caret"></b></a>
                                         <ul class="dropdown-menu dropdown-menu-left">
@@ -188,16 +199,19 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
+                            </div>
                             <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
                                 <div class=" answer__info--author-warp">
-                                    <a title="${answer.userName}"
-                                       href="${ctx}/user/${answer.begincodeUserId}.htm">${answer.userName}</a><span
+                                    <a  title="${answer.userName}"
+                                        href="${ctx}/user/${answer.begincodeUserId}.htm">${answer.userName}</a><span
                                         class="answer__info--author-rank"></span></div>
                             </div>
                         </div>
                     </div>
                 </article>
             </c:forEach>
+
             <div id="answerUpdate"></div>
             <c:forEach items="${answerNoAdoptList}" var="answer" varStatus="temp">
                 <article class="widget-question__item" id="answer${answer.answerId}">
@@ -219,8 +233,7 @@
                                     <i class="vote-arrow"></i>
                                     <span class="count">${answer.agreeCount}</span>
                                 </button>
-                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true"
-                                        title="取消反对">
+                                <button id="click-dislike" class="click-dislike down  pressed" aria-pressed="true" title="取消反对">
                                     <i class="vote-arrow"></i>
                                 </button>
                             </c:when>
@@ -236,21 +249,22 @@
                         </c:choose>
                     </div>
                     <div class="post-offset">
-                        <div class="answer-fmt" data-id="1010000007316290">
+                        <div class="answer-fmt" data-id="1010000007316290" >
                             <p> ${answer.content}</p>
                         </div>
                         <div class="row">
                             <div class="post-opt col-md-8">
                                 <ul class="list-inline mb0">
-                                    <li><a href="javascript:;">${newNoAdoptTime[temp.count-1]}回答</a></li>
-                                    <li class="edit-btn js__rank-check" data-toggle="tooltip" data-placement="top">
+                                    <li><a href="javascript:;">${newNoAdoptTime[temp.count-1]}</a></li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
                                         <a href="javascript:;" onclick="sendAdoptAnswer(${answer.answerId})">采纳</a>
                                     </li>
-                                    <li class="edit-btn js__rank-check" data-toggle="tooltip" data-placement="top">
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
                                         <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
                                     </li>
 
-                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题">
+                                    <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"
+                                        data-id="1010000007316290">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
                                            data-toggle="dropdown">更多<b class="caret"></b></a>
                                         <ul class="dropdown-menu dropdown-menu-left">
@@ -261,6 +275,8 @@
                                         </ul>
                                     </li>
                                 </ul>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2 answer__info--author-avatar">
                             </div>
                             <div class="col-md-2 col-sm-2 hidden-xs answer__info--author">
                                 <div class=" answer__info--author-warp">

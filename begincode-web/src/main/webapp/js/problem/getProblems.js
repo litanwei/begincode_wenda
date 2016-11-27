@@ -13,8 +13,8 @@ function getProblems(page, id) {
     var labelDiv = new Array();
     var lbName = "";
     $.each(page.data.data, function (i) {
-        for (var j = 0; j < page.data.data[i].labelNameList.length; j++) {
-            lbName = lbName + '<a target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
+        for(var j=0;j<page.data.data[i].labelNameList.length;j++){
+        lbName = lbName + '<a href="#" target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
         }
         labelDiv[i] = lbName;
         lbName = "";
@@ -22,9 +22,9 @@ function getProblems(page, id) {
     $.each(page.data.data, function (i) {
         var solve = "";
         if (page.data.data[i].problem.solve == 0) {
-            solve = '<div class="answers answered">' + numFormat(page.data.data[i].problem.answerCount) + '<small>回答</small></div>';
+            solve = '<div class="answers answered">' +  numFormat(page.data.data[i].problem.answerCount) + '<small>回答</small></div>';
         } else {
-            solve = '<div class="answers solved">' + numFormat(page.data.data[i].problem.answerCount) + '<small>解决</small></div>';
+            solve = '<div class="answers solved">' +  numFormat(page.data.data[i].problem.answerCount) + '<small>解决</small></div>';
         }
         var problemList = '<section class="stream-list__item">'
             + '<div class="qa-rank">'
@@ -42,12 +42,12 @@ function getProblems(page, id) {
             + '<ul class="author list-inline ">'
             + '<li>'
             + '<a style="text-decoration:none;">'
-            + problemFormatTime(page.data.data[i].answerUserId,page.data.data[i].problem.begincodeUserId,page.data.data[i].problem.userName, page.data.data[i].problem.answerCount, page.data.data[i].answerName, page.data.data[i].problem.createTime, page.data.data[i].answerTime)
+            + problemFormatTime(page.data.data[i].problem.userName, page.data.data[i].problem.answerCount, page.data.data[i].answerName,page.data.data[i].problem.createTime,page.data.data[i].answerTime)
             + '</a>'
             + '</li>'
             + '</ul>'
             + '<span class="keyword-list ">'
-            + '<h2 class="title l"><a href="' + ctx + '/problem/'
+            + '<h2 class="title l"><a href="'+ctx+'/problem/'
             + page.data.data[i].problem.problemId + ".htm"
             + '">'
             + page.data.data[i].problem.title
