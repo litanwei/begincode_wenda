@@ -53,11 +53,11 @@ public class ProblemController {
      */
     @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
     @ResponseBody
-    public void findNewProblem(BizFrontProblem bizFrontProblem) {
+    public Object findNewProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNewProblems(page);
-//        return page;
+        return page;
     }
 
     /**
@@ -120,13 +120,14 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
+    public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         problemHandler.addProblem(problem, problemLableParam.getLabel());
+        return 1;
     }
 
 
