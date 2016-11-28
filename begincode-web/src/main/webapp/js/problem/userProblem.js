@@ -26,7 +26,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.code == 0) {
                     getProblems(data, "hisProblems");
-                    userPagination(data.data, "/problem/" + name, "hisProblems", "GET");
+                    userPagination(data.data, "/problem/" + begincodeUserId, "hisProblems", "GET");
                 } else {
                     showModel(data.msg);
                 }
@@ -42,7 +42,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.code == 0) {
                     answerHtml("hisAnswers", data.data);
-                    userAnswerPagination(data.data, "/answer/" + name, "hisAnswers", "GET");
+                    userAnswerPagination(data.data, "/answer/" + begincodeUserId, "hisAnswers", "GET");
                 }
             }
         });
@@ -56,7 +56,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.code == 0) {
                     getProblems(data,"hisCollections");
-                    userPagination(data.data,"/collect/"+name,"hisCollections","GET");
+                    userPagination(data.data,"/collect/"+begincodeUserId,"hisCollections","GET");
                 }
             }
         })
@@ -134,7 +134,7 @@ function getProblems(page, id) {
     var lbName = "";
     $.each(page.data.data, function (i) {
         for (var j = 0; j < page.data.data[i].labelNameList.length; j++) {
-            lbName = lbName + '<a target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
+            lbName = lbName + '<a href="" style="text-decoration:none;" target="_blank" class="list-tag">' + page.data.data[i].labelNameList[j] + '</a>';
         }
         labelDiv[i] = lbName;
         lbName = "";

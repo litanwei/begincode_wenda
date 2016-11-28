@@ -4,13 +4,10 @@ import net.begincode.bean.Page;
 import net.begincode.core.enums.CollectEnum;
 import net.begincode.core.enums.VoteEnum;
 import net.begincode.core.handler.AccountContext;
-import net.begincode.core.handler.AnsAgreeHandler;
-import net.begincode.core.handler.AnswerHandler;
 import net.begincode.core.handler.ProblemHandler;
 import net.begincode.core.model.*;
 import net.begincode.core.param.ProblemLabelParam;
 import net.begincode.core.support.AuthPassport;
-import net.begincode.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -36,10 +35,6 @@ public class ProblemController {
 
     @Resource
     private ProblemHandler problemHandler;
-    @Resource
-    private AnsAgreeHandler ansAgreeHandler;
-    @Resource
-    private AnswerHandler answerHandler;
     @Resource
     private AccountContext accountContext;
 
@@ -58,11 +53,11 @@ public class ProblemController {
      */
     @RequestMapping(value = "/newProblems", method = RequestMethod.GET)
     @ResponseBody
-    public Object findNewProblem(BizFrontProblem bizFrontProblem) {
+    public void findNewProblem(BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
         problemHandler.selectNewProblems(page);
-        return page;
+//        return page;
     }
 
     /**
@@ -125,16 +120,14 @@ public class ProblemController {
     @AuthPassport
     @RequestMapping(value = "/store", method = RequestMethod.POST)
     @ResponseBody
-    public Object addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
+    public void addProblem(ProblemLabelParam problemLableParam, HttpServletRequest request) {
         Problem problem = problemLableParam.getProblem();
         BegincodeUser user = accountContext.getCurrentUser(request);
         problem.setUserName(user.getNickname());
         problem.setBegincodeUserId(user.getBegincodeUserId());
         problem.setCreateTime(new Date());
         problemHandler.addProblem(problem, problemLableParam.getLabel());
-        return null;
     }
-
 
 
     /**
@@ -203,10 +196,10 @@ public class ProblemController {
         List<Label> labels = new ArrayList<>();
         //如果是用户进来 则判断用户所是否有收藏或投票此问题
         StringBuffer problemTime = new StringBuffer();
-       Problem problem = problemHandler.selectProblemAndAnswerdsById(problemId,labels,problemTime,begincodeUser,
-                answerAdoptList,answerNoAdoptList,
-                newAdoptTime,newNoAdoptTime,
-                answerAdoptAgreeFlag,answerNoAdoptAgreeFlag);
+        Problem problem = problemHandler.selectProblemAndAnswerdsById(problemId, labels, problemTime, begincodeUser,
+                answerAdoptList, answerNoAdoptList,
+                newAdoptTime, newNoAdoptTime,
+                answerAdoptAgreeFlag, answerNoAdoptAgreeFlag);
         if (begincodeUser != null) {
             model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {

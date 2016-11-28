@@ -15,6 +15,7 @@ $(document).ready(function () {
                 url: ctx + "/problem/store.htm",
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     if (data.code == 0) {
                         $("#problemSend").removeAttr("disabled");
                         window.location.href = ctx + "/";

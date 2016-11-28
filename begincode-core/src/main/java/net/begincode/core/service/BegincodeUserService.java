@@ -106,6 +106,7 @@ public class BegincodeUserService {
         return list.size() > 0 ? list.get(0) : null;
 
     }
+
     /**
      * 根据userId查找BegincodeUser
      *
@@ -118,6 +119,7 @@ public class BegincodeUserService {
         criteria.andBegincodeUserIdEqualTo(userId);
         List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
         return list.size() > 0 ? list.get(0) : null;
+    }
 
     /**
      * openId查找用户
@@ -162,10 +164,11 @@ public class BegincodeUserService {
         }
         return userId;
     }
+
     /**
      * 用于获取列名的所有值
      */
-    public List<String> selectAllByNickName(){
-    	return bizBegincodeUserMapper.selectAllByNickName();
+    public List<String> selectAllByNickName() {
+        return bizBegincodeUserMapper.selectAllByNickName();
     }
 }

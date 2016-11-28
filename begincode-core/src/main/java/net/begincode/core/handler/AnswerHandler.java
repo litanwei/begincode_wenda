@@ -7,6 +7,7 @@ import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.Problem;
 import net.begincode.core.service.*;
+import net.begincode.utils.JsoupUtil;
 import net.begincode.utils.PatternUtil;
 import org.springframework.stereotype.Component;
 
@@ -41,14 +42,12 @@ public class AnswerHandler {
      */
     public Answer creatAnswer(Answer answer) {
         answer.setCreateTime(new Date());
-        //截取内容中@的用户名 加上url
-        answer.setContent(PatternUtil.nickNameUrl(answer.getContent()));
         Integer answerNum = answerService.insertAnswer(answer);
         if (answerNum < 0) {
             throw new BizException(AnswerResponseEnum.ANSWER_ADD_ERROR);
         }
         problemService.updateAnswerAddByProblemId(answer.getProblemId());
-        messageService.createMessage(answer.getProblemId(),answer.getAnswerId(),begincodeUserService.contentFilter(answer.getContent()));
+        messageService.createMessage(answer.getProblemId(),answer.getAnswerId(), JsoupUtil.matchMessageUserId(answer.getContent()));
         return answerService.selAnswerByAnswerId(answer.getAnswerId());
     }
 
@@ -110,17 +109,6 @@ public class AnswerHandler {
         return answerService.selectAllAnswer(answer);
     }
 
-
-    /**
-     * 根据nickName返回回答数
-     *
-     * @param userId
-     * @return
-     */
-    public Integer selectAnswerNumByUserId(Integer userId) {
-        return answerService.findAnswerNumByUserId(userId);
-    }
-    //--------------------优化----------------------
     /**
      * 根据userID返回回答数
      *
@@ -130,7 +118,7 @@ public class AnswerHandler {
     public Integer selectAnswerNumByUserId(Integer userId) {
         return answerService.findAnswerNumByUserId(userId);
     }
-  //--------------------优化----------------------
+
     /**
      * 根据userId 返回回答实体集合
      *

@@ -56,11 +56,11 @@ public class RequestAspect {
         }
         if(flag){
             //是ResponseBody
-        	if(returnObject==null){
-            	ObjectMapper mapper = new ObjectMapper();  
-            	mapper.writeValue(response.getOutputStream(),new Response(CommonResponseEnum.SUCCESS.getCode(), CommonResponseEnum.SUCCESS.getMessage(), "success") );
-        	}
-            return Response.success(returnObject);
+        	if(joinPointObject.getReturnType() == java.lang.Void.TYPE){
+                return Response.success();
+        	}else{
+                return Response.success(returnObject);
+            }
         }else{
             //非ResponseBody
             return returnObject;

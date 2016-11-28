@@ -2,6 +2,7 @@ package net.begincode.controller;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class UserController {
      */
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @ResponseBody
-    public Object findUserList() {
+    public Object findUserList(){
         List<BegincodeUser> list = userHandler.selectAll();
         List<String> nameList = new ArrayList<>(list.size());
         for (BegincodeUser user : list) {
@@ -137,7 +138,7 @@ public class UserController {
     public Object findCollProByNickName(@PathVariable(value = "userId") Integer userId, BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectCollProblemsById(userHandler.selectById(userId).getBegincodeUserId(), page);
+        problemHandler.selectCollProblemsById(userId, page);
         return page;
     }
 

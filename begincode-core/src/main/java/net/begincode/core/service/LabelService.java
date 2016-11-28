@@ -1,5 +1,6 @@
 package net.begincode.core.service;
 
+import net.begincode.core.enums.DeleteFlagEnum;
 import net.begincode.core.mapper.BizLabelMapper;
 import net.begincode.core.mapper.LabelMapper;
 import net.begincode.core.model.Label;
@@ -53,7 +54,7 @@ public class LabelService {
     public List<Label> selectInById(List<Integer> listId){
         LabelExample labelExample = new LabelExample();
         LabelExample.Criteria criteria = labelExample.createCriteria();
-        criteria.andLabelIdIn(listId);
+        criteria.andLabelIdIn(listId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return labelMapper.selectByExample(labelExample);
     }
 

@@ -154,7 +154,7 @@ $(":button").click(function () {
             agreeFlag = 2;
         }
     }
-    ansAgree(answerId, agreeFlag, thisClick);
+    ansOpposition(answerId, agreeFlag, thisClick);
 })
 
 
@@ -205,24 +205,50 @@ function sendAdoptAnswer(answerId) {
     })
 }
 
-//赞同反对 后台交互
-function ansAgree(answerId, agreeFlag, thisClick) {
+//赞同 后台交互
+function ansAgree(answerId,agreeFlag,thisClick) {
     var ansAgree = new FormData();
-    ansAgree.append("agreeFlag", agreeFlag);
-    ansAgree.append("answerId", answerId);
+    ansAgree.append("agreeFlag",agreeFlag);
+    ansAgree.append("answerId",answerId);
     $.ajax({
         data: ansAgree,
         type: "POST",
-        url: ctx + "/ansAgree/set.htm",
+        url: ctx + "/ansAgree/setAgree.htm",
         dataType: "json",
         contentType: false,
         processData: false,
         success: function (data) {
             if (data.code == 0) {
                 agreeClick(thisClick);
-            } else {
-                showModelNoBack(data.msg);
+            }else {
+                showModel(data.msg);
             }
+            thisClick.next().removeAttr("disabled");
+            thisClick.removeAttr("disabled");
+        }
+    })
+}
+
+//反对 后台交互
+function ansOpposition(answerId,agreeFlag,thisClick) {
+    var ansAgree = new FormData();
+    ansAgree.append("agreeFlag",agreeFlag);
+    ansAgree.append("answerId",answerId);
+    $.ajax({
+        data: ansAgree,
+        type: "POST",
+        url: ctx + "/ansAgree/setOpposition.htm",
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        success: function (data) {
+            if (data.code == 0) {
+                agreeClick(thisClick);
+            }else {
+                showModel(data.msg);
+            }
+            thisClick.removeAttr("disabled");
+            thisClick.prev().removeAttr("disabled");
         }
     })
 }

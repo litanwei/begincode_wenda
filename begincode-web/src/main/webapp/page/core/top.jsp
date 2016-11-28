@@ -52,15 +52,11 @@
             url: ctx+"/user/login.htm",
             data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
             dataType: "json",
-            success:  function(codes){
-                alert(codes);
-            }
         });
-        //利用sessionStorage存储标识 登录成功刷新界面
         if (sessionStorage.getItem('refreshed') != 'true') {
             window.location.reload();
+            sessionStorage.setItem('refreshed', 'true')
         }
-        sessionStorage.setItem('refreshed', 'true')
     }
     function delUser(nickName) {
         jQuery.ajax({
@@ -68,9 +64,6 @@
             url: ctx+"/user/loginClean.htm",
             data: "nickname=" + nickName,
             dataType: "json",
-            success: function (codes) {
-                alert(codes);
-            }
         });
     }
 

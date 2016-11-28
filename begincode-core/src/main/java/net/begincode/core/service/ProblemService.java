@@ -1,10 +1,13 @@
 package net.begincode.core.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import net.begincode.core.enums.DeleteFlagEnum;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
@@ -42,17 +45,6 @@ public class ProblemService {
 		return problemMapper.insertSelective(problem);
 	}
 
-	/**
-	 * 查找总问题数
-	 *
-	 * @return
-	 */
-	public Integer findProblemsSize() {
-		ProblemExample problemExample = new ProblemExample();
-		return problemMapper.countByExample(problemExample);
-	}
-
-
     /**
      * 查找总问题数
      *
@@ -60,19 +52,10 @@ public class ProblemService {
      */
     public Integer findProblemsSize() {
         ProblemExample problemExample = new ProblemExample();
-        problemExample.createCriteria().andDeleteFlagEqualTo(0);
+        problemExample.createCriteria().andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return problemMapper.countByExample(problemExample);
     }
 
-	/**
-	 * 查找所有问题
-	 *
-	 * @return
-	 */
-	public List<Problem> findProblemList() {
-		ProblemExample problemExample = new ProblemExample();
-		return problemMapper.selectByExampleWithBLOBs(problemExample);
-	}
     /**
      * 查找所有问题
      *
@@ -80,7 +63,7 @@ public class ProblemService {
      */
     public List<Problem> findProblemList() {
         ProblemExample problemExample = new ProblemExample();
-        problemExample.createCriteria().andDeleteFlagEqualTo(0);
+        problemExample.createCriteria().andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return problemMapper.selectByExampleWithBLOBs(problemExample);
     }
 
@@ -97,7 +80,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("problem_id desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(0);
+        criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         criteria.andBegincodeUserIdEqualTo(userId);
         return problemMapper.selectByExampleWithRowbounds(problemExample,
                 new RowBounds((currentNum - 1) * eachSize, eachSize));
@@ -115,7 +98,7 @@ public class ProblemService {
     public List<Problem> findNewProblem(Integer currentNum, Integer eachSize) {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("create_time desc");
-        problemExample.createCriteria().andDeleteFlagEqualTo(0);
+        problemExample.createCriteria().andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return problemMapper.selectByExampleWithRowbounds(problemExample,
                 new RowBounds((currentNum - 1) * eachSize, eachSize));
     }
@@ -132,7 +115,7 @@ public class ProblemService {
         problemExample.setOrderByClause("create_time desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
         criteria.andAnswerCountEqualTo(0);
-        criteria.andDeleteFlagEqualTo(0);
+        criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return problemMapper.selectByExampleWithRowbounds(problemExample, new RowBounds((currentNum - 1) * eachSize,
                 eachSize));
     }
@@ -150,7 +133,7 @@ public class ProblemService {
         ProblemExample problemExample = new ProblemExample();
         problemExample.setOrderByClause("view_count desc");
         ProblemExample.Criteria criteria = problemExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(0);
+        criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         try {
@@ -164,48 +147,6 @@ public class ProblemService {
         }
     }
 
-	// -------------------优化代码-------------
-	// /**
-	// * 查找id对应的收藏问题集合
-	// *
-	// * @param userId
-	// * @param currentNum
-	// * @param eachSize
-	// * @return
-	// */
-	// public List<Problem> selCollProlemsById(Integer userId, Integer
-	// currentNum, Integer eachSize) {
-	// List<ProAttention> list = selCollProAttById(userId, currentNum,
-	// eachSize);
-	// ArrayList<Problem> arrayList = new ArrayList<>(list.size());
-	// for (int i = 0; i < list.size(); i++) {
-	// Problem problem =
-	// problemMapper.selectByPrimaryKey(list.get(i).getProblemId());
-	// arrayList.add(problem);
-	// }
-	// return arrayList;
-	// }
-	//
-	// /**
-	// * 查找id对应的ProAttention集合
-	// *
-	// * @param userId
-	// * @param currentNum
-	// * @param eachSize
-	// * @return
-	// */
-	// public List<ProAttention> selCollProAttById(Integer userId, Integer
-	// currentNum, Integer eachSize) {
-	// ProAttentionExample proAttentionExample = new ProAttentionExample();
-	// proAttentionExample.setOrderByClause("problem_id desc");
-	// ProAttentionExample.Criteria criteria =
-	// proAttentionExample.createCriteria();
-	// criteria.andBegincodeUserIdEqualTo(userId);
-	// criteria.andCollectEqualTo(1);
-	// return
-	// proAttentionMapper.selectByExampleWithRowbounds(proAttentionExample,
-	// new RowBounds((currentNum - 1) * eachSize, eachSize));
-	// }
 	// -------------------优化代码 下面(关联SQL一次查询)-------------
 	/**
 	 * 通过pro_attention中的UserId获取对应的问题列表
@@ -218,6 +159,20 @@ public class ProblemService {
 	}
 
     /**
+     * 根据Id查找对应的用户集合
+     *
+     * @param userId
+     * @return
+     */
+    public List<Problem> selectProByUserId(Integer userId) {
+        ProblemExample problemExample = new ProblemExample();
+        ProblemExample.Criteria criteria = problemExample.createCriteria();
+        problemExample.createCriteria().andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
+        criteria.andBegincodeUserIdEqualTo(userId);
+        return problemMapper.selectByExample(problemExample);
+    }
+
+    /**
      * 根据用户名查找对应的用户集合
      *
      * @param userName
@@ -226,7 +181,7 @@ public class ProblemService {
     public List<Problem> selectProByUserName(String userName) {
         ProblemExample problemExample = new ProblemExample();
         ProblemExample.Criteria criteria = problemExample.createCriteria();
-        problemExample.createCriteria().andDeleteFlagEqualTo(0);
+        problemExample.createCriteria().andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         criteria.andUserNameEqualTo(userName);
         return problemMapper.selectByExample(problemExample);
     }
@@ -246,6 +201,7 @@ public class ProblemService {
         try {
             calendar.add(Calendar.MONTH, BeginCodeConstant.HOTPROBLEM_SUBTRACT_MONTH);
             criteria.andCreateTimeGreaterThanOrEqualTo(dateFormat.parse(dateFormat.format(calendar.getTime())));   //查找大于或等于这个日期的问题集合
+            criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
             return problemMapper.countByExample(problemExample);
         } catch (Exception e) {
             throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
@@ -298,7 +254,7 @@ public class ProblemService {
     }
 
 	/**
-	 * 根据userName返回问题大小
+	 * 根据userId返回问题大小
 	 *
 	 * @param userId
 	 * @return
@@ -306,7 +262,7 @@ public class ProblemService {
 	public Integer findByUserIdProblemSize(Integer userId) {
 		ProblemExample problemExample = new ProblemExample();
 		ProblemExample.Criteria criteria = problemExample.createCriteria();
-		criteria.andBegincodeUserIdEqualTo(userId);
+		criteria.andBegincodeUserIdEqualTo(userId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
 		return problemMapper.countByExample(problemExample);
 	}
 

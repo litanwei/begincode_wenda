@@ -41,5 +41,22 @@ public class JsoupUtil {
     }
 
 
+    /**
+     * 查找summernote 里面@人的href链接  返回用户id  set集合
+     *
+     * @param content
+     * @return
+     */
+    public static Set<Integer> matchMessageUserId(String content){
+        HashSet<Integer> hashSet = new HashSet<>();
+        Document doc = Jsoup.parse(content);
+        Elements element = doc.getElementsByClass("message_").select("a");
+        for(Element e : element){
+            hashSet.add(Integer.parseInt(e.attr("href").replace(".", "/").split("/")[2]));
+        }
+        return hashSet;
+    }
+
+
 
 }

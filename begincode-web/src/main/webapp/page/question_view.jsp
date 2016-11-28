@@ -10,22 +10,15 @@
     <meta name="description" content="${problem.title},开源问答系统,BeginCode问答"/>
     <%@ include file="commons/meta.jsp" %>
     <title>${problem.title},BeginCode问答</title>
-
-    <!-- Bootstrap -->
     <link href="${ctx}/css/bootstrap.css" rel="stylesheet">
     <link href="${ctx}/css/qu.css" rel="stylesheet">
     <link href="${ctx}/css/answer.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
     <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body>
-<jsp:include page="/page/core/top.jsp"/>
+<jsp:include page="${ctx}/page/core/top.jsp"/>
 
 <div class="continer">
     <div class="post-topheader">
@@ -303,8 +296,8 @@
     </div>
 </div>
 <input type="hidden" value="${problem.problemId}" id="problem_id"/>
-<hr>
-<jsp:include page="/page/core/foot.jsp"/>
+<jsp:include page="${ctx}/page/core/modal.jsp"/>
+<jsp:include page="${ctx}/page/core/foot.jsp"/>
 <script src="${ctx}/js/jquery/jquery.js"></script>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Stay on 2016/8/30  22:57.
@@ -29,23 +30,16 @@ public class MessageService {
      *
      * @param problemId
      * @param answerId
-     * @param userId
+     * @param set
      */
-    public void createMessage(Integer problemId, Integer answerId, Integer[] userId) {
-        Message message = new Message();
-        if (userId != null) {
-            if (userId.length == 1) {
-                message.setBegincodeUserId(userId[0]);
+    public void createMessage(Integer problemId, Integer answerId, Set<Integer> set) {
+        if (set.size() > 0) {
+            for (Integer userId : set) {
+                Message message = new Message();
+                message.setBegincodeUserId(userId);
                 message.setProId(problemId);
                 message.setAnswerId(answerId);
                 createMessage(message);
-            } else if (userId.length > 1) {
-                for (int i = 0; i < userId.length; i++) {
-                    message.setBegincodeUserId(userId[i]);
-                    message.setProId(problemId);
-                    message.setAnswerId(answerId);
-                    createMessage(message);
-                }
             }
         }
     }

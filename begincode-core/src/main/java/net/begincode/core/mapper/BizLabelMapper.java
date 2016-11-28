@@ -24,7 +24,7 @@ public interface BizLabelMapper {
 	
 	/**
 	 *  如果为Null 返回所有P_L表的数据
-	 * @param 一组problemId
+	 * @param problemIds 一组problemId
 	 * @return	返回problemId和对应lable的类列表
 	 */
 	List<LabelAndProblemId> selectLabelAndProblemIdByProblemId(List<Integer> problemIds);

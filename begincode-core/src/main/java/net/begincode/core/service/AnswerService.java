@@ -2,6 +2,7 @@ package net.begincode.core.service;
 
 import net.begincode.core.enums.AdoptEnum;
 import net.begincode.core.enums.AgreeEnum;
+import net.begincode.core.enums.DeleteFlagEnum;
 import net.begincode.core.enums.FeedbackEnum;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.mapper.BizAnswerMapper;
@@ -46,7 +47,7 @@ public class AnswerService {
     public Integer findByProblemIdNum(Integer problemId) {
         AnswerExample answerExample = new AnswerExample();
         AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
+        criteria.andProblemIdEqualTo(problemId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.countByExample(answerExample);
     }
 
@@ -59,7 +60,7 @@ public class AnswerService {
     public List<Answer> findByProblemId(Integer problemId) {
         AnswerExample answerExample = new AnswerExample();
         AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andProblemIdEqualTo(problemId);
+        criteria.andProblemIdEqualTo(problemId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.selectByExample(answerExample);
     }
 
@@ -74,7 +75,7 @@ public class AnswerService {
             AnswerExample answerExample = new AnswerExample();
             answerExample.setOrderByClause("create_time desc limit 1");
             AnswerExample.Criteria criteria = answerExample.createCriteria();
-            criteria.andProblemIdEqualTo(problemId);
+            criteria.andProblemIdEqualTo(problemId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
             return answerMapper.selectByExample(answerExample).get(0);
         } else {
             return null;
@@ -101,7 +102,7 @@ public class AnswerService {
         AnswerExample answerExample = new AnswerExample();
         answerExample.createCriteria()
                 .andProblemIdEqualTo(answer.getProblemId())
-                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode())).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 
@@ -137,7 +138,7 @@ public class AnswerService {
         answerExample.setOrderByClause("create_time desc");
         answerExample.createCriteria()
                 .andProblemIdEqualTo(problemId).andAdoptEqualTo(0)
-                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode())).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 
@@ -153,13 +154,13 @@ public class AnswerService {
         answerExample.setOrderByClause("create_time desc");
         answerExample.createCriteria()
                 .andProblemIdEqualTo(problemId).andAdoptEqualTo(Integer.parseInt(AdoptEnum.ADOPT.getCode()))
-                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode()));
+                .andFeedbackNotEqualTo(Integer.parseInt(FeedbackEnum.FEED_BACK.getCode())).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.selectByExampleWithBLOBs(answerExample);
     }
 
 
     /**
-     * 根据nickName查找对应的回答数
+     * 根据userId查找对应的回答数
      *
      * @param userId
      * @return
@@ -167,7 +168,7 @@ public class AnswerService {
     public Integer findAnswerNumByUserId(Integer userId) {
         AnswerExample answerExample = new AnswerExample();
         AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andBegincodeUserIdEqualTo(userId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.countByExample(answerExample);
     }
 
@@ -199,7 +200,7 @@ public class AnswerService {
         AnswerExample answerExample = new AnswerExample();
         answerExample.setOrderByClause("answer_id");
         AnswerExample.Criteria criteria = answerExample.createCriteria();
-        criteria.andBegincodeUserIdEqualTo(userId);
+        criteria.andBegincodeUserIdEqualTo(userId).andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
         return answerMapper.selectByExampleWithBLOBsWithRowbounds(answerExample, new RowBounds((currentNum - 1) * eachSize, eachSize));
     }
 

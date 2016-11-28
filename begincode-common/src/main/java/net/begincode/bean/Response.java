@@ -21,9 +21,15 @@ public class Response {
         this.data = data;
         this._time = System.currentTimeMillis();
     }
+    public Response(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+        this._time = System.currentTimeMillis();
+    }
+
 
     public static Response success() {
-        return new Response(CommonResponseEnum.SUCCESS.getCode(), CommonResponseEnum.SUCCESS.getMessage(), null);
+        return new Response(CommonResponseEnum.SUCCESS.getCode(), CommonResponseEnum.SUCCESS.getMessage());
     }
 
     public static Response success(Object data) {
