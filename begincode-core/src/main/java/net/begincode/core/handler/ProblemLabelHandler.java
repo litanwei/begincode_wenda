@@ -56,15 +56,16 @@ public class ProblemLabelHandler {
 		List<ProblemLabelParam> pro = new ArrayList<ProblemLabelParam>();
 		List<Problem> problems=problemService.selectByProblemLabel(labelId);
 		List<Integer> problemIds=new ArrayList<>();
+		Map<Integer,List<Label>> map=new HashMap<>();
 		for(Problem p:problems){
 			problemIds.add(p.getProblemId());
 		}
 		List<LabelAndProblemId> labelAndProblemId=labelService.selectLabelAndProblemIdByProblemId(problemIds);
-		Map<Integer,List<Label>> map=new HashMap<>();
 		for(LabelAndProblemId lp:labelAndProblemId){
-			if(map.containsKey(lp.getProblemId())){
-				map.get(lp.getProblemId()).add((Label)lp);
-			}
+			if (!map.containsKey(lp.getProblemId())) {
+			     map.put(lp.getProblemId(),new ArrayList<Label>());
+			       } 
+			map.get(lp.getProblemId()).add((Label) lp);
     	}
 		for(Problem problem:problems){
 			ProblemLabelParam problemLabelParam=new ProblemLabelParam();
