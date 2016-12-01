@@ -32,8 +32,8 @@
                             <img src="${user.pic}">
                         </a>
                     </div>
-                    <h4>${user.nickname}</h4>
-                    <h6><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/>加入BeginCode </h6>
+                    <h4>${user.nickname}</h4><br/>
+                    <h5><fmt:formatDate value="${user.cdate}" type="date" dateStyle="long"/>&nbsp;&nbsp;加入BeginCode </h5>
                     <div id="echart" style="width: 200px;height:450px;"></div>
                 </div>
             </div>
