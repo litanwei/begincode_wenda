@@ -103,7 +103,7 @@
 
     <div class="row">
         <div class="col-md-9">
-            <div class="info-mod alert-info alert">     ${problem.content}
+            <div class="info-mod alert-info alert">${problem.content}
             </div>
             <form id="answerForm" method="post">
                 <p>
@@ -254,6 +254,9 @@
                                     </li>
                                     <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
                                         <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
+                                    </li>
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="insertNameToContent('${answer.begincodeUserId}','${answer.userName}')">回复</a>
                                     </li>
 
                                     <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"

@@ -76,6 +76,7 @@
 </div>
 </div>
 <jsp:include page="/page/core/foot.jsp"/>
+<jsp:include page="/page/core/modal.jsp"/>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 <script src="${ctx}/js/commons/timeUtil.js"></script>
 <script src="${ctx}/js/commons/jqpagination.js"></script>

@@ -327,7 +327,7 @@ function updateAnswer(data, id, ansAgreeFlag) {
         + '<div class="col-md-2 col-sm-2 hidden-xs answer__info--author">'
         + '<div class=" answer__info--author-warp">'
         + '<a '
-        + 'href="' + ctx + '/user/' + data.data.userName + '.htm">'
+        + 'href="' + ctx + '/user/' + data.data.begincodeUserId + '.htm">'
         + data.data.userName
         + '</a><span class="answer__info--author-rank"> </span></div>'
         + '</div>'

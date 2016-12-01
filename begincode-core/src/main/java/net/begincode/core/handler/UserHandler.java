@@ -1,6 +1,7 @@
 package net.begincode.core.handler;
 
 import net.begincode.common.BizException;
+import net.begincode.core.enums.FindUserResponseEnum;
 import net.begincode.core.enums.UserResponseEnum;
 import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.model.BizBegincodeUser;
@@ -101,7 +102,11 @@ public class UserHandler {
      * @return
      */
     public BegincodeUser selectByUserId(Integer userId) {
-        return begincodeUserService.selectById(userId);
+        BegincodeUser begincodeUser = begincodeUserService.selectById(userId);
+        if(begincodeUser == null){
+            throw new BizException(FindUserResponseEnum.USER_FIND_ERROR);
+        }
+        return begincodeUser;
     }
 
     /**

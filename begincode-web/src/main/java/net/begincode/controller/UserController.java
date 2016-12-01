@@ -81,79 +81,115 @@ public class UserController {
     /**
      * 根据用户名返回用户主界面
      *
-     * @param userId
+     * @param user
      * @param model
      * @return
      */
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public String indexByNickName(@PathVariable(value = "userId") String userId, Model model) {
-        model.addAttribute("problemSize", problemHandler.problemSizeByUserId(Integer.valueOf(userId)));
-        model.addAttribute("answerSize", answerHandler.selectAnswerNumByUserId(Integer.valueOf(userId)));
-        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(Integer.valueOf(userId)));
-        model.addAttribute("user", userHandler.selectByUserId(Integer.valueOf(userId)));
+    @RequestMapping(value = "/{user}", method = RequestMethod.GET)
+    public String indexByNickName(@PathVariable(value = "user") String user, Model model) {
+        BegincodeUser begincodeUser = problemHandler.selectByNickName(user);
+        if(begincodeUser == null){
+            fillUserView(model,Integer.parseInt(user));
+        }else{
+            fillUserView(model,begincodeUser.getBegincodeUserId());
+        }
         return "user_index";
+    }
+
+    /**
+     * 填充用户界面
+     *
+     * @param model
+     * @param userId
+     */
+    private void fillUserView(Model model,Integer userId){
+        model.addAttribute("problemSize", problemHandler.problemSizeByUserId(userId));
+        model.addAttribute("answerSize", answerHandler.selectAnswerNumByUserId(userId));
+        model.addAttribute("collectSize", proAttentionHandler.selectCollectNumByUserId(userId));
+        model.addAttribute("user", userHandler.selectByUserId(userId));
     }
 
     /**
      * 用户对应的问题集合
      *
-     * @param userId
+     * @param user
      * @param bizFrontProblem
      * @return
      */
-    @RequestMapping(value = "/problem/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/problem/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findProblemByNickName(@PathVariable(value = "userId") Integer userId, BizFrontProblem bizFrontProblem) {
+    public Object findProblemByNickName(@PathVariable(value = "user") String user, BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectMyProblems(userId, page);
+        BegincodeUser begincodeUser = problemHandler.selectByNickName(user);
+        if(begincodeUser == null){
+            problemHandler.selectMyProblems(Integer.parseInt(user), page);
+        }else{
+            problemHandler.selectMyProblems(begincodeUser.getBegincodeUserId(), page);
+        }
         return page;
     }
 
     /**
      * 用户对应的回答数列表
      *
-     * @param userId
+     * @param user
      * @param answer
      * @return
      */
-    @RequestMapping(value = "/answer/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/answer/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findAnswerByNickName(@PathVariable(value = "userId") Integer userId, Answer answer) {
+    public Object findAnswerByNickName(@PathVariable(value = "user") String user, Answer answer) {
         Page<Answer> page = new Page<Answer>();
         page.setCurrentNum(answer.getPage());
-        answerHandler.selectAnswerByUserId(userId, page);
+        BegincodeUser begincodeUser = problemHandler.selectByNickName(user);
+        if(begincodeUser == null){
+            answerHandler.selectAnswerByUserId(Integer.parseInt(user), page);
+        }else{
+            answerHandler.selectAnswerByUserId(begincodeUser.getBegincodeUserId(), page);
+        }
         return page;
     }
 
     /**
      * 用户收藏的问题列表
      *
-     * @param userId
+     * @param user
      * @param bizFrontProblem
      * @return
      */
-    @RequestMapping(value = "/collect/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/collect/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public Object findCollProByNickName(@PathVariable(value = "userId") Integer userId, BizFrontProblem bizFrontProblem) {
+    public Object findCollProByNickName(@PathVariable(value = "user") String user, BizFrontProblem bizFrontProblem) {
         Page<BizFrontProblem> page = new Page<BizFrontProblem>();
         page.setCurrentNum(bizFrontProblem.getPage());
-        problemHandler.selectCollProblemsById(userId, page);
+        BegincodeUser begincodeUser = problemHandler.selectByNickName(user);
+        if(begincodeUser == null){
+            problemHandler.selectCollProblemsById(Integer.parseInt(user), page);
+        }else{
+            problemHandler.selectCollProblemsById(begincodeUser.getBegincodeUserId(), page);
+        }
         return page;
     }
 
     /**
      * 图表异步加载使用
      *
-     * @param userId
+     * @param user
      * @return
      */
-    @RequestMapping(value = "/echarts/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/echarts/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public Object echartsCreate(@PathVariable(value = "userId") Integer userId) {
+    public Object echartsCreate(@PathVariable(value = "user") String user) {
         Map map = new HashMap<>();
-        map.put("label", labelHandler.selLabelNameListByUserId(userId));
-        map.put("seriesData", labelHandler.selLabelUseNumByUserId(userId));
+        BegincodeUser begincodeUser = problemHandler.selectByNickName(user);
+        if(begincodeUser == null){
+            map.put("label", labelHandler.selLabelNameListByUserId(Integer.parseInt(user)));
+            map.put("seriesData", labelHandler.selLabelUseNumByUserId(Integer.parseInt(user)));
+        }else{
+            map.put("label", labelHandler.selLabelNameListByUserId(begincodeUser.getBegincodeUserId()));
+            map.put("seriesData", labelHandler.selLabelUseNumByUserId(begincodeUser.getBegincodeUserId()));
+        }
         return map;
     }
 
