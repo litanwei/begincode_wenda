@@ -37,21 +37,24 @@ public class ProblemLabelHandler {
     //---------------------------优化(减少一次查询数据库)-----------------------
     public List<ProblemLabelParam> getLabelByLabelId(Integer labelId) {
         //通过proLabel的关联查所有的problem数组
+
+
         List<ProblemLabelParam> pro = new ArrayList<ProblemLabelParam>();
-        List<Problem> problems = problemService.selectByProblemLabel(labelId);
-        List<Integer> problemIds = new ArrayList<>();
-        for (Problem p : problems) {
+        List<Problem> problems=problemService.selectByProblemLabel(labelId);
+        List<Integer> problemIds=new ArrayList<>();
+        Map<Integer,List<Label>> map=new HashMap<>();
+        for(Problem p:problems){
             problemIds.add(p.getProblemId());
         }
-        List<LabelAndProblemId> labelAndProblemId = labelService.selectLabelAndProblemIdByProblemId(problemIds);
-        Map<Integer, List<Label>> map = new HashMap<>();
-        for (LabelAndProblemId lp : labelAndProblemId) {
-            if (map.containsKey(lp.getProblemId())) {
-                map.get(lp.getProblemId()).add((Label) lp);
+        List<LabelAndProblemId> labelAndProblemId=labelService.selectLabelAndProblemIdByProblemId(problemIds);
+        for(LabelAndProblemId lp:labelAndProblemId){
+            if (!map.containsKey(lp.getProblemId())) {
+                map.put(lp.getProblemId(),new ArrayList<Label>());
             }
+            map.get(lp.getProblemId()).add((Label) lp);
         }
-        for (Problem problem : problems) {
-            ProblemLabelParam problemLabelParam = new ProblemLabelParam();
+        for(Problem problem:problems){
+            ProblemLabelParam problemLabelParam=new ProblemLabelParam();
             problemLabelParam.setProblem(problem);
             problemLabelParam.setLabell(map.get(problem.getProblemId()));
             pro.add(problemLabelParam);
