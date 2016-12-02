@@ -178,7 +178,9 @@
                                     <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
                                         <a href="javascript:;" onclick="sendFeedback(${answer.answerId})">举报</a>
                                     </li>
-
+                                    <li class="edit-btn js__rank-check" data-toggle="tooltip"  data-placement="top" >
+                                        <a href="javascript:;" onclick="insertNameToContent('${answer.begincodeUserId}','${answer.userName}')">回复</a>
+                                    </li>
                                     <li class="dropdown js__content-ops" data-module="question" data-typetext="问题"
                                         data-id="1010000007316290">
                                         <a href="javascript:void(0);" class="dropdown-toggle"

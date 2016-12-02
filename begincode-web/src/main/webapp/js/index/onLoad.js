@@ -4,12 +4,14 @@
  * 2016年8月29日
  */
 
-$(document).ready(function () {
+$(function () {
     getLabels();
     getActivers();
-    MessageAndMyProblem();
     messageClick();
 });
+$(document).ready(function () {
+    MessageAndMyProblem();
+})
 function getLabels() {
     $.ajax({
         type: 'POST',

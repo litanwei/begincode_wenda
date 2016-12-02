@@ -43,7 +43,6 @@
                 alert('QQ登录 注销成功');
                 window.location.reload();
                 delUser(reqd.nickname);
-                sessionStorage.clear();
             }
     );
     function regUser(nickName, figureurl, gender, province, city, year, openId, accessToken) {
@@ -52,11 +51,12 @@
             url: ctx+"/user/login.htm",
             data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
             dataType: "json",
+            success:function (data) {
+                if(data.code == 0){
+                    MessageAndMyProblem();
+                }
+            }
         });
-        if (sessionStorage.getItem('refreshed') != 'true') {
-            window.location.reload();
-            sessionStorage.setItem('refreshed', 'true')
-        }
     }
     function delUser(nickName) {
         jQuery.ajax({

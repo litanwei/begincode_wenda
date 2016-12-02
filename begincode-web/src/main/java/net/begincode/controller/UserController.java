@@ -208,11 +208,12 @@ public class UserController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public void findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
+    public Object findOrCreateUser(HttpServletResponse response, BegincodeUser user) {
         user.setUserSourceId(1);
         user.setDeleteFlag("1");
         user = userHandler.createUserAndFind(user);
         CookieOperation.addCookie(response, user);
+        return 1;
     }
 
     /**
