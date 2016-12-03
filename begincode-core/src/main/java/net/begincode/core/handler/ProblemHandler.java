@@ -12,6 +12,8 @@ import net.begincode.utils.DateUtil;
 import net.begincode.utils.JsoupUtil;
 import net.begincode.utils.PatternUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -27,6 +30,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 @Component
 public class ProblemHandler {
+    private Logger logger = LoggerFactory.getLogger(ProblemHandler.class);
+
     @Resource
     private ProblemService problemService;
     @Resource

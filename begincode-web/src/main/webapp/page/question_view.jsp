@@ -37,7 +37,7 @@
                             </c:forEach>
                         </span>
                         <div class="question-author">
-                            <a href="${ctx}/user/${problem.userName}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
+                            <a href="${ctx}/user/${problem.begincodeUserId}.htm" class="mr5" id="problemUser"><strong>${problem.userName}</strong></a>
                             ${problemTime}提问 </span>
                         </div>
                     </div>

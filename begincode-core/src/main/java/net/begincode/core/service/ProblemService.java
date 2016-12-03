@@ -1,32 +1,32 @@
 package net.begincode.core.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import net.begincode.core.enums.DeleteFlagEnum;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.stereotype.Service;
-
 import net.begincode.bean.PageParam;
 import net.begincode.common.BeginCodeConstant;
 import net.begincode.common.BizException;
+import net.begincode.core.enums.DeleteFlagEnum;
 import net.begincode.core.enums.FindProResponseEnum;
 import net.begincode.core.mapper.BizProblemMapper;
 import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.mapper.ProblemMapper;
 import net.begincode.core.model.Problem;
 import net.begincode.core.model.ProblemExample;
-import net.begincode.utils.DateUtil;
+import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Stay on 2016/8/26  20:18.
  */
 @Service
 public class ProblemService {
+    private Logger logger = LoggerFactory.getLogger(ProblemService.class);
 	@Resource
 	private ProblemMapper problemMapper;
 
@@ -143,6 +143,7 @@ public class ProblemService {
                     new RowBounds((currentNum - 1) * eachSize, eachSize));
             return list;
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }
@@ -204,6 +205,7 @@ public class ProblemService {
             criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
             return problemMapper.countByExample(problemExample);
         } catch (Exception e) {
+            logger.error(e.getMessage());
             throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }

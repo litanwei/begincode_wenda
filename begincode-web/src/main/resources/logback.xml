@@ -39,40 +39,6 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
     </appender>
-    <appender name="a" class="ch.qos.logback.core.rolling.RollingFileAppender">
-       <File>./log/mylog_a_info.log</File>
-       <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-         <FileNamePattern>./log/mylog_a_info.%i.log</FileNamePattern>    
-         <MinIndex>1</MinIndex>    
-         <MaxIndex>5</MaxIndex>    
-       </rollingPolicy>  
-       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">  
-         <MaxFileSize>5MB</MaxFileSize>    
-       </triggeringPolicy>  
-       <layout class="ch.qos.logback.classic.PatternLayout">  
-        <Pattern>%date [%thread] %-5level %logger{80} - %msg%n</Pattern>    
-       </layout>  
-    </appender>
-    <!-- <appender name="mail" class="ch.qos.logback.classic.net.SMTPAppender">
-        <bufferSize>512</bufferSize>
-        <SMTPHost>mta1.corp.qunar.com</SMTPHost>
-        <username>asp_monitor_system</username>
-        <password>tzmm.987</password>
-        <From>asp_monitor_system@qunar.com</From>
-        <To>asp_public_alert@qunar.com</To>
-        <subject>[${log.env}-CRM]%logger{20} - %m</subject>
-        <layout class="ch.qos.logback.classic.html.HTMLLayout">
-            <pattern>%d%p%thread%logger%X{sys}%X{env}%X{caller}%X{trackId}%msg</pattern>
-        </layout>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-    </appender> -->
-	<logger name="net.begincode.web.test.controller">
-		<appender-ref ref="a" />
-	</logger>
 
     <root level="INFO">
         <appender-ref ref="console"/>

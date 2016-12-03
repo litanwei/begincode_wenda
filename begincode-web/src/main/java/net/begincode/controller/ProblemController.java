@@ -195,7 +195,6 @@ public class ProblemController {
         List<Integer> answerAdoptAgreeFlag = new ArrayList<>();
         List<Integer> answerNoAdoptAgreeFlag = new ArrayList<>();
         List<Label> labels = new ArrayList<>();
-        //如果是用户进来 则判断用户所是否有收藏或投票此问题
         StringBuffer problemTime = new StringBuffer();
         Problem problem = problemHandler.selectProblemAndAnswerdsById(problemId, labels, problemTime, begincodeUser,
                 answerAdoptList, answerNoAdoptList,
