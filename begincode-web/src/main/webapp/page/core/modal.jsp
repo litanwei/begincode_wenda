@@ -12,7 +12,7 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <div id="tipMessage"></div>
+                <div id="tipMessage">${msg}</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="window.location.href = ctx + '/';">关闭</button>
