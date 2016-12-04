@@ -221,7 +221,7 @@ function ansAgree(answerId,agreeFlag,thisClick) {
             if (data.code == 0) {
                 agreeClick(thisClick);
             }else {
-                showModel(data.msg);
+                showModelNoBack(data.msg);
             }
             thisClick.next().removeAttr("disabled");
             thisClick.removeAttr("disabled");
@@ -245,7 +245,7 @@ function ansOpposition(answerId,agreeFlag,thisClick) {
             if (data.code == 0) {
                 agreeClick(thisClick);
             }else {
-                showModel(data.msg);
+                showModelNoBack(data.msg);
             }
             thisClick.removeAttr("disabled");
             thisClick.prev().removeAttr("disabled");
