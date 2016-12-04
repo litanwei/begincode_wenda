@@ -3,17 +3,17 @@ package net.begincode.aspect;
 import net.begincode.bean.Param;
 import net.begincode.bean.Response;
 import net.begincode.common.BizException;
-import net.begincode.enums.CommonResponseEnum;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Method;
 
@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @Aspect
 @Component
 public class RequestAspect {
+    Logger logger = LoggerFactory.getLogger(RequestAspect.class);
     @Pointcut("execution(* net.begincode.controller.*.*(..))")
     public void pointCut_() {
     }
@@ -52,6 +53,8 @@ public class RequestAspect {
         try {
             returnObject = proceedingJoinPoint.proceed();
         }catch (BizException e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
             return Response.failed(e.getStatus());
         }
         if(flag){
