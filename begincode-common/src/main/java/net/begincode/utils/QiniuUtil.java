@@ -21,10 +21,10 @@ public class QiniuUtil {
     private static Logger logger = LoggerFactory.getLogger(QiniuUtil.class);
 
     //设置好账号的ACCESS_KEY和SECRET_KEY
-    private static final String ACCESS_KEY = "GF6n5972vDfx_inYrClPaexiLip-QjtwAtOVs665";
-    private static final String SECRET_KEY = "w-Dhy7ZVt2OdV7sqeze1cloJvHx3SHZxENpmlcvf";
+    private static final String ACCESS_KEY = "2liIyhpQX6QXv-tFS6HpWGWnAD6J4M8bRKOaDMKv";
+    private static final String SECRET_KEY = "AvTcIsqLYm_zZomEFqkRul3vgrwUiZyKWmk1-lG3";
     //要上传的空间
-    private static final String bucketname = "thenmoret";
+    private static final String bucketname = "begincode";
     //密钥配置
     private static final Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
     private static final Zone z = Zone.autoZone();
