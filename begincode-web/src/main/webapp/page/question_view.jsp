@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<jsp:include page="${ctx}/page/core/top.jsp"/>
+<jsp:include page="/page/core/top.jsp"/>
 
 <div class="continer">
     <div class="post-topheader">
@@ -306,8 +306,8 @@
     </div>
 </div>
 <input type="hidden" value="${problem.problemId}" id="problem_id"/>
-<jsp:include page="${ctx}/page/core/modal.jsp"/>
-<jsp:include page="${ctx}/page/core/foot.jsp"/>
+<jsp:include page="/page/core/modal.jsp"/>
+<jsp:include page="/page/core/foot.jsp"/>
 <script src="${ctx}/js/jquery/jquery.js"></script>
 <script src="${ctx}/js/bootstrap/bootstrap.js"></script>
 <link href="${ctx}/summernote/summernote.css" rel="stylesheet">
