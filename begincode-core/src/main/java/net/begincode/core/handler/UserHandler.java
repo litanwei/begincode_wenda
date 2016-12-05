@@ -104,7 +104,6 @@ public class UserHandler {
     public BegincodeUser selectByUserId(Integer userId) {
         BegincodeUser begincodeUser = begincodeUserService.selectById(userId);
         if(begincodeUser == null){
-            logger.error(FindUserResponseEnum.USER_FIND_ERROR.getMessage());
             throw new BizException(FindUserResponseEnum.USER_FIND_ERROR);
         }
         return begincodeUser;

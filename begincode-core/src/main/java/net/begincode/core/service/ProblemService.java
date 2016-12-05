@@ -31,8 +31,6 @@ public class ProblemService {
 	private ProblemMapper problemMapper;
 
 	@Resource
-	private ProAttentionMapper proAttentionMapper;
-	@Resource
 	private BizProblemMapper bizProblemMapper;
 	private PageParam pageParam=new PageParam();
 
@@ -143,7 +141,7 @@ public class ProblemService {
                     new RowBounds((currentNum - 1) * eachSize, eachSize));
             return list;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
             throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }
@@ -205,7 +203,7 @@ public class ProblemService {
             criteria.andDeleteFlagEqualTo(Integer.parseInt(DeleteFlagEnum.NO_DEL_FLAG.getCode()));
             return problemMapper.countByExample(problemExample);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
             throw new BizException(FindProResponseEnum.PROBLEM_FIND_ERROR);
         }
     }

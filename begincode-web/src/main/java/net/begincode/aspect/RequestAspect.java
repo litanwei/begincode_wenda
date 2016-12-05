@@ -53,8 +53,7 @@ public class RequestAspect {
         try {
             returnObject = proceedingJoinPoint.proceed();
         }catch (BizException e){
-            e.printStackTrace();
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(),e);
             return Response.failed(e.getStatus());
         }
         if(flag){

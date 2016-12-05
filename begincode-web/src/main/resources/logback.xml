@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property resource="config.properties"/>
+    <!--<property resource="config.properties"/>-->
     <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n"/>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -15,7 +15,7 @@
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
@@ -31,7 +31,7 @@
             <maxHistory>10</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>${pattern}</pattern>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
@@ -44,5 +44,6 @@
         <appender-ref ref="console"/>
         <appender-ref ref="info"/>
         <appender-ref ref="error"/>
+        <appender-ref ref="file" />
     </root>
 </configuration>

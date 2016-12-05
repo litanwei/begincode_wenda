@@ -107,12 +107,13 @@ public class LabelService {
 	public String selectLabelById(Integer labelId) {
 		return labelMapper.selectByPrimaryKey(labelId).getLabelName();
 	}
-	
-	/**
-	 * 如果为Null 返回所有P_L表的数据
-	 * @param 一组problemId
-	 * @return	返回problemId和对应lable的类列表 
-	 */
+
+    /**
+     * 如果为Null 返回所有P_L表的数据
+     *
+     * @param problemIds
+     * @return
+     */
 	public List<LabelAndProblemId> selectLabelAndProblemIdByProblemId(List<Integer> problemIds){
 		return bizLabelMapper.selectLabelAndProblemIdByProblemId(problemIds);
 	}

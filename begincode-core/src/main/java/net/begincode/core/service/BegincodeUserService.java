@@ -83,7 +83,6 @@ public class BegincodeUserService {
      *
      * @return
      */
-
     public List<BizBegincodeUser> selectActiveUser() {
         /** --查询参数，取当前时间的前一个月的时间-- **/
         Calendar calendar = Calendar.getInstance();

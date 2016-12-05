@@ -5,6 +5,8 @@ import net.begincode.core.mapper.ProAttentionMapper;
 import net.begincode.core.model.ProAttention;
 import net.begincode.core.model.ProAttentionExample;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Service
 public class ProAttentionService {
+    private Logger logger = LoggerFactory.getLogger(ProAttentionService.class);
+
     @Resource
     private Biz_ProAttentionMapper biz_ProAttentionMapper;
     @Resource

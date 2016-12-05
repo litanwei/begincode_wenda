@@ -55,7 +55,7 @@ public class QiniuUtil {
         } catch (QiniuException e) {
             Response r = e.response;
             // 请求失败时打印的异常的信息
-            logger.error(r.toString());
+            logger.error(r.toString(),e);
             throw new BizException(CommonResponseEnum.EXCEPTION);
         }
     }
