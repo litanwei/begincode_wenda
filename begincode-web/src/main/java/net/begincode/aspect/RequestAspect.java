@@ -1,9 +1,8 @@
 package net.begincode.aspect;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.begincode.bean.Param;
 import net.begincode.bean.Response;
-import net.begincode.common.BizException;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,8 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class RequestAspect {
     Logger logger = LoggerFactory.getLogger(RequestAspect.class);
+
     @Pointcut("execution(* net.begincode.controller.*.*(..))")
     public void pointCut_() {
     }
@@ -34,39 +38,35 @@ public class RequestAspect {
     @Around("pointCut_()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object[] objects = proceedingJoinPoint.getArgs();
-        HttpServletResponse response=null;
         for (int i = 0; i < objects.length; i++) {
             if (objects[i] instanceof Param) {
                 Param param = (Param) objects[i];
                 param.check();
             }
-            if(objects[i] instanceof HttpServletResponse){
-            	response=(HttpServletResponse)objects[i];
-            	response.setContentType("text/html");
-            	response.setCharacterEncoding("UTF-8");
-            }
         }
         MethodSignature joinPointObject = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = joinPointObject.getMethod();
-        boolean flag = method.isAnnotationPresent(ResponseBody.class) ;
-        Object returnObject ;
-        try {
-            returnObject = proceedingJoinPoint.proceed();
-        }catch (BizException e){
-            logger.error(e.getMessage(),e);
-            return Response.failed(e.getStatus());
+        boolean flag = method.isAnnotationPresent(ResponseBody.class);
+        Object returnObject = proceedingJoinPoint.proceed();
+        if (flag && method.getReturnType().equals(Void.TYPE)) {
+            voidResponse();
         }
-        if(flag){
-            //是ResponseBody
+        if (flag && !method.getReturnType().equals(Void.TYPE)) {
             return Response.success(returnObject);
-        	/*if(joinPointObject.getReturnType() == java.lang.Void.TYPE){
-                return Response.success();
-        	}else{
-                return Response.success(returnObject);
-            }*/
-        }else{
-            //非ResponseBody
+        } else {
             return returnObject;
+        }
+
+    }
+
+    private void voidResponse() {
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(response.getOutputStream(), Response.success());
+        } catch (IOException e) {
+            logger.error("Response error", e);
+
         }
     }
 }
