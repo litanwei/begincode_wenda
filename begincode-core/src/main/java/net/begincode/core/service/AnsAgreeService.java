@@ -1,12 +1,17 @@
 package net.begincode.core.service;
 
 import net.begincode.core.enums.AgreeEnum;
+import net.begincode.core.enums.UpdateAnsAgreeResponseEnum;
 import net.begincode.core.mapper.AnsAgreeMapper;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.AnsAgreeExample;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
+import net.begincode.utils.ExceptionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -20,9 +25,9 @@ import java.util.List;
 @Service
 public class AnsAgreeService {
 
+    private Logger logger = LoggerFactory.getLogger(AnsAgreeService.class);
     @Resource
     private AnsAgreeMapper ansAgreeMapper;
-
 
 
     /**
@@ -31,73 +36,92 @@ public class AnsAgreeService {
      * @param：ansAgree
      * @return：
      */
-    public int selectAndUpdate(AnsAgree ansAgree) {
-        List<Integer> answerIdList = new ArrayList<>();
-        answerIdList.add(ansAgree.getAnswerId());
-        List<AnsAgree> ansAgreeList = selectByExample(ansAgree.getBegincodeUserId(), answerIdList);
-        if(ansAgree.getAgree()==0 && ansAgreeList.get(0).getAgree()==0) {
+    public int selAndUpdateAnsAgree(AnsAgree ansAgree) {
+        AnsAgree ans = selAnsAgreeByAnsId(ansAgree.getBegincodeUserId(), ansAgree.getAnswerId());
+        if (ansAgree.getAgree() == 0 && ans.getAgree() == 0) {
             return 0;
         }
-        if (ansAgreeList.size() != 0 ) {
-            updateByExample(ansAgree);
-            return ansAgreeList.get(0).getAgree();
+        if (ans != null) {
+            updateAnsAgree(ansAgree);
+            return ans.getAgree();
         } else {
             insertSelective(ansAgree);
             return 0;
         }
-
-
     }
 
 
     /**
-     *插入用户和回复 赞同/反对
+     * 插入用户和回复 赞同/反对
      *
      * @param：ansAgree
      * @return: int
      */
-    public int insertSelective(AnsAgree ansAgree){
+    public int insertSelective(AnsAgree ansAgree) {
+        Integer ansAgreeInt = ansAgreeMapper.insertSelective(ansAgree);
+        ExceptionUtil.ThrowUpdateBizException(ansAgreeInt, logger, UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
         return ansAgreeMapper.insertSelective(ansAgree);
     }
 
 
     /**
-     *根据用户id，问题id列表获取数据
+     * 根据用户id，问题id列表获取数据
      *
-     * @param：begincodeUserId，answerIdList
-     * @return: List<AnsAgree>
+     * @param begincodeUserId
+     * @param answerId
+     * @return
      */
-    public List<AnsAgree> selectByExample(int begincodeUserId,List<Integer> answerIdList){
+    public AnsAgree selAnsAgreeByAnsId(int begincodeUserId, Integer answerId) {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
-        ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(begincodeUserId).andAnswerIdIn(answerIdList);
+        ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(begincodeUserId).andAnswerIdEqualTo(answerId);
+        List<AnsAgree> list = ansAgreeMapper.selectByExample(ansAgreeExample);
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * 根据用户id，回答列表集合获取数据
+     *
+     * @param begincodeUserId
+     * @param answerList
+     * @return
+     */
+    public List<AnsAgree> selAnsAgreeByAnsList(int begincodeUserId, List<Integer> answerList) {
+        AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
+        ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(begincodeUserId).andAnswerIdIn(answerList);
         return ansAgreeMapper.selectByExample(ansAgreeExample);
     }
 
 
     /**
-     *根据ansAgree的用户id和问题id更新数据
+     * 根据ansAgree的用户id和问题id更新数据
      *
      * @param：ansAgree
      * @return: int
      */
-    public int updateByExample(AnsAgree ansAgree){
+    public int updateAnsAgree(AnsAgree ansAgree) {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
         ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(ansAgree.getBegincodeUserId()).andAnswerIdEqualTo(ansAgree.getAnswerId());
-        return ansAgreeMapper.updateByExampleSelective(ansAgree,ansAgreeExample);
+        Integer updateInt = ansAgreeMapper.updateByExampleSelective(ansAgree, ansAgreeExample);
+        ExceptionUtil.ThrowUpdateBizException(updateInt, logger, UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+        return updateInt;
+
     }
 
     /**
-     *根据回复id获取赞同数量
+     * 根据回复id获取赞同数量
      *
      * @param：answerId
      * @return: int
      */
-    public int selAgreeCountById(int answerId){
+    public int selAgreeCountById(int answerId) {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
         ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.AGREE.getCode()));
         return ansAgreeMapper.countByExample(ansAgreeExample);
     }
-
 
 
     /**
@@ -112,9 +136,9 @@ public class AnsAgreeService {
             for (Answer answer : answerList) {
                 answerIdList.add(answer.getAnswerId());
             }
-            List<AnsAgree> ansAgreeList = selectByExample(begincodeUser.getBegincodeUserId(), answerIdList);
+            List<AnsAgree> ansAgreeList = selAnsAgreeByAnsList(begincodeUser.getBegincodeUserId(), answerIdList);
             for (int x = 0; x < answerList.size(); x++) {
-                answerIdList.add(x,0);
+                answerIdList.add(x, 0);
                 for (int y = 0; y < ansAgreeList.size(); y++) {
                     int answerId = answerList.get(x).getAnswerId();
                     if (answerId == ansAgreeList.get(y).getAnswerId()) {
@@ -128,13 +152,14 @@ public class AnsAgreeService {
         return answerIdList;
 
     }
+
     /**
-     *根据回复id获取反对数量
+     * 根据回复id获取反对数量
      *
      * @param：answerId
      * @return: int
      */
-    public int selOppositionCountById(int answerId){
+    public int selOppositionCountById(int answerId) {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
         ansAgreeExample.createCriteria().andAnswerIdEqualTo(answerId).andAgreeEqualTo(Integer.parseInt(AgreeEnum.OPPOSITION.getCode()));
         return ansAgreeMapper.countByExample(ansAgreeExample);

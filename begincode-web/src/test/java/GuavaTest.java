@@ -1,6 +1,5 @@
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;

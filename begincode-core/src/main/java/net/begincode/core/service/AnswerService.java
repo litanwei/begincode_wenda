@@ -1,13 +1,11 @@
 package net.begincode.core.service;
 
-import net.begincode.core.enums.AdoptEnum;
-import net.begincode.core.enums.AgreeEnum;
-import net.begincode.core.enums.DeleteFlagEnum;
-import net.begincode.core.enums.FeedbackEnum;
+import net.begincode.core.enums.*;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.mapper.BizAnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
+import net.begincode.utils.ExceptionUtil;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -214,9 +212,11 @@ public class AnswerService {
      */
     public void updateAgrCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.AGREE.getCode())){
-            bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
+            Integer updateInt = bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
+            ExceptionUtil.ThrowUpdateBizException(updateInt,logger,UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
         }else{
-            bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
+            Integer updateInt = bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
+            ExceptionUtil.ThrowUpdateBizException(updateInt,logger,UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
         }
     }
 
@@ -228,9 +228,11 @@ public class AnswerService {
      */
     public void updateOppoCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.OPPOSITION.getCode())){
-            bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
+            Integer updateInt = bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
+            ExceptionUtil.ThrowUpdateBizException(updateInt,logger, AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
         }else{
-            bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
+            Integer updateInt = bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
+            ExceptionUtil.ThrowUpdateBizException(updateInt,logger, AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
         }
     }
 

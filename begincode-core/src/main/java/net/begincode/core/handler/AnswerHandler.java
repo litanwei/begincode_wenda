@@ -90,7 +90,7 @@ public class AnswerHandler {
             ansAgree.setAnswerId(answerId);
             ansAgree.setAgree(Integer.parseInt(AgreeEnum.AGREE.getCode()));
             ansAgree.setBegincodeUserId(begincodeUserId);
-            ansAgreeService.selectAndUpdate(ansAgree);
+            ansAgreeService.selAndUpdateAnsAgree(ansAgree);
             ans.setAgreeCount(ansAgreeService.selAgreeCountById(answerId));
             answerService.updateAnswer(ans);
             return ans;

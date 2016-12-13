@@ -52,7 +52,7 @@
             data: "nickname=" + nickName + "&pic=" + figureurl + "&sex=" + gender + "&openId=" + openId + "&accessToken=" + accessToken,
             dataType: "json",
             success:function (data) {
-                if(data.code == 0){
+                if(data.code == 0 && $("#newProblemId").val() != null){
                     MessageAndMyProblem();
                 }
             }

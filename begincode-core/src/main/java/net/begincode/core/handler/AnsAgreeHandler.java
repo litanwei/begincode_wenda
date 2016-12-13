@@ -1,15 +1,11 @@
 package net.begincode.core.handler;
 
 import net.begincode.core.model.AnsAgree;
-import net.begincode.core.model.Answer;
-import net.begincode.core.model.BegincodeUser;
 import net.begincode.core.service.AnsAgreeService;
 import net.begincode.core.service.AnswerService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by saber on 2016/11/4.
@@ -30,7 +26,7 @@ public class AnsAgreeHandler {
      * @return：
      */
     public  void  updateAnswerAgrCountAndAnsAgree(AnsAgree ansAgree) {
-        int ansAgreeNum = ansAgreeService.selectAndUpdate(ansAgree);
+        int ansAgreeNum = ansAgreeService.selAndUpdateAnsAgree(ansAgree);
         if (ansAgreeNum != ansAgree.getAgree() && ansAgree.getAgree()!= 2) {
             if (ansAgreeNum == 2) {
                 //反对数减一
@@ -50,7 +46,7 @@ public class AnsAgreeHandler {
      * @return：
      */
     public void updateAnswerOppoCountAndAnsAgree(AnsAgree ansAgree) {
-        int ansAgreeNum = ansAgreeService.selectAndUpdate(ansAgree);
+        int ansAgreeNum = ansAgreeService.selAndUpdateAnsAgree(ansAgree);
         if (ansAgreeNum != ansAgree.getAgree() && ansAgree.getAgree()!= 1) {
             if (ansAgreeNum == 1) {
                 //赞同数减一
@@ -62,36 +58,4 @@ public class AnsAgreeHandler {
             }
         }
     }
-
-    /**
-     * 根据用户id，问题回复id列表获取AnsAgree列表
-     *
-     * @param：ansAgree
-     * @return：
-     */
-    public Integer[] selectAnsAgreeList(BegincodeUser begincodeUser, List<Answer> answerList) {
-        Integer[] agreeFlag = new Integer[answerList.size()];
-        for (int i = 0; i < agreeFlag.length; i++) {
-            agreeFlag[i]=0;
-        }
-        if (answerList.size() != 0 && begincodeUser != null) {
-            List<Integer> answerIdList = new ArrayList<>();
-            for (Answer answer : answerList) {
-                answerIdList.add(answer.getAnswerId());
-            }
-            List<AnsAgree> ansAgreeList = ansAgreeService.selectByExample(begincodeUser.getBegincodeUserId(), answerIdList);
-            for (int x = 0;x < answerList.size(); x++) {
-                for (int y = 0; y < ansAgreeList.size(); y++) {
-                    int a = answerList.get(x).getAnswerId();
-                    int b = ansAgreeList.get(y).getAnswerId();
-                    if (a == b) {
-                        agreeFlag[x] = ansAgreeList.get(y).getAgree();
-                        continue;
-                    }
-                }
-            }
-        }
-        return agreeFlag;
-    }
-
 }

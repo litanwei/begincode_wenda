@@ -231,26 +231,27 @@ function ansAgree(answerId,agreeFlag,thisClick) {
 
 //反对 后台交互
 function ansOpposition(answerId,agreeFlag,thisClick) {
-    var ansAgree = new FormData();
-    ansAgree.append("agreeFlag",agreeFlag);
-    ansAgree.append("answerId",answerId);
-    $.ajax({
-        data: ansAgree,
-        type: "POST",
-        url: ctx + "/ansAgree/setOpposition.htm",
-        dataType: "json",
-        contentType: false,
-        processData: false,
-        success: function (data) {
-            if (data.code == 0) {
-                agreeClick(thisClick);
-            }else {
-                showModelNoBack(data.msg);
+        var ansAgree = new FormData();
+        ansAgree.append("agreeFlag", agreeFlag);
+        ansAgree.append("answerId", answerId);
+        $.ajax({
+            data: ansAgree,
+            type: "POST",
+            url: ctx + "/ansAgree/setOpposition.htm",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.code == 0) {
+                    agreeClick(thisClick);
+                } else {
+                    showModelNoBack(data.msg);
+                }
+                thisClick.removeAttr("disabled");
+                thisClick.prev().removeAttr("disabled");
             }
-            thisClick.removeAttr("disabled");
-            thisClick.prev().removeAttr("disabled");
-        }
-    })
+        })
+
 }
 
 //动态添加回复

@@ -10,7 +10,9 @@ $(function () {
     messageClick();
 });
 $(document).ready(function () {
-    MessageAndMyProblem();
+    if ($("#newProblemId").val() != null) {
+        MessageAndMyProblem();
+    }
 })
 function getLabels() {
     $.ajax({
@@ -20,7 +22,7 @@ function getLabels() {
             var list = data.data;
             if (list != null && list != "") {
                 for (var i = 0; i < list.length; i++) {
-                    $(".tag-list").append("<a target='_blank' class='list-tag ' style='cursor:pointer' href='"+ctx +"/label/selectProblemLabel.htm?id="+ list[i].labelId +"'>" + list[i].labelName + "</a>");
+                    $(".tag-list").append("<a target='_blank' class='list-tag ' style='cursor:pointer' href='" + ctx + "/label/selectProblemLabel.htm?id=" + list[i].labelId + "'>" + list[i].labelName + "</a>");
                 }
             }
         },
@@ -36,29 +38,29 @@ function getActivers() {
             var list = data.data;
             if (list != null && list != "") {
                 for (var i = 0; i < list.length; i++) {
-                    $(".list-group").append("<a class='list-group-item' href='"+ctx+"/user/"+list[i].begincodeUserId+".htm'>" + list[i].nickname + "");
+                    $(".list-group").append("<a class='list-group-item' href='" + ctx + "/user/" + list[i].begincodeUserId + ".htm'>" + list[i].nickname + "");
                 }
             }
         },
         dataType: 'json'
     });
 }
-function MessageAndMyProblem(){
-    if(getCookie("openId")!="" && getCookie("accessToken")!=""){
+function MessageAndMyProblem() {
+    if (getCookie("openId") != "" && getCookie("accessToken") != "") {
         $("#myProblemId").html('<a id="myProblemId" href="#myProblems" aria-controls="messages" role="tab" data-toggle="tab">我的问题</a>');
         $("#messageId").html(' <a id="messageId" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">@我的 <span class="badge" id="messageCount"></span></a>');
-        setInterval (function() {
+        setInterval(function () {
             $.ajax({
                 type: "POST",
-                dataType:"JSON",
-                url:ctx+"/message/count.htm",
-                success : function(data) {
-                    if(data.code == 0){
+                dataType: "JSON",
+                url: ctx + "/message/count.htm",
+                success: function (data) {
+                    if (data.code == 0) {
                         $("#messageCount").html(data.data);
                     }
                 }
             });
-        },5000);
+        }, 5000);
     }
 }
 
@@ -68,13 +70,13 @@ function messageClick() {
         messageCount();
         $.ajax({
             type: "POST",
-            url: ctx+"/message/list.htm?page=1",
+            url: ctx + "/message/list.htm?page=1",
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
-                    messageHtml(data.data.data,"message");
-                    messagePagination(data.data,"/list","message","POST");
-                }else{
+                if (data.code == 0) {
+                    messageHtml(data.data.data, "message");
+                    messagePagination(data.data, "/list", "message", "POST");
+                } else {
                     showModelBack(data.msg);
                 }
             }
@@ -82,44 +84,44 @@ function messageClick() {
     })
 };
 
-function messageCount(){
+function messageCount() {
     $.ajax({
         type: "POST",
-        dataType:"JSON",
-        url:ctx+"/message/count.htm",
-        success : function(data) {
-            if(data.code == 0){
+        dataType: "JSON",
+        url: ctx + "/message/count.htm",
+        success: function (data) {
+            if (data.code == 0) {
                 $("#messageCount").html(data.data);
             }
         }
     });
 };
 
-function messageHtml(data,id) {
-    $("#"+id).empty();
-    $.each(data,function (i) {
-        if(data[i].title!=null){
+function messageHtml(data, id) {
+    $("#" + id).empty();
+    $.each(data, function (i) {
+        if (data[i].title != null) {
             var solve = "";
             if (data[i].solve == 0) {
-                solve = '<div class="answers answered">' +  numFormat(data[i].answerCount) + '<small>回答</small></div>';
+                solve = '<div class="answers answered">' + numFormat(data[i].answerCount) + '<small>回答</small></div>';
             } else {
-                solve = '<div class="answers solved">' +  numFormat(data[i].answerCount) + '<small>解决</small></div>';
+                solve = '<div class="answers solved">' + numFormat(data[i].answerCount) + '<small>解决</small></div>';
             }
             var titleSub = "";
-            if(data[i].title.length>30){
-                titleSub = '<h2 class="title l"><a href="'+ctx+'/problem/message/'
+            if (data[i].title.length > 30) {
+                titleSub = '<h2 class="title l"><a href="' + ctx + '/problem/message/'
                     + data[i].problemId + ".htm"
                     + '"data-toggle="tooltip" data-placement="top" title='
                     + data[i].title
                     + '>'
-                    + data[i].title.substring(0,30);
-                + '</a></h2>';
-            }else{
-                titleSub = '<h2 class="title l"><a href="'+ctx+'/problem/message/'
+                    + data[i].title.substring(0, 30);
+                +'</a></h2>';
+            } else {
+                titleSub = '<h2 class="title l"><a href="' + ctx + '/problem/message/'
                     + data[i].problemId + '.htm'
                     + '" data-toggle="tooltip" data-placement="top">'
                     + data[i].title;
-                + '</a></h2>';
+                +'</a></h2>';
             }
 
             var problemList = '<section class="stream-list__item">'
@@ -137,7 +139,7 @@ function messageHtml(data,id) {
                 + '<div class="summary">'
                 + '<ul class="author list-inline ">'
                 + '<li>'
-                + '<a style="text-decoration:none;">'+ data[i].userName +'  '
+                + '<a style="text-decoration:none;">' + data[i].userName + '  '
                 + formatTime(data[i].createTime)
                 + '</a>'
                 + '</li>'
@@ -145,28 +147,28 @@ function messageHtml(data,id) {
                 + '<span class="keyword-list ">'
                 + titleSub
                 + '</span></div></section>';
-            $("#" +id).append(problemList);
-        }else{
-            var contentSub="";
+            $("#" + id).append(problemList);
+        } else {
+            var contentSub = "";
             if (data[i].adopt == 0) {
                 adoptDiv = '<div class="answers">0<small>未采纳</small></div>';
             } else {
                 adoptDiv = '<div class="answers solved">1<small>被采纳</small></div>';
             }
-            if(data[i].content.length>30){
-                contentSub='<h2 class="title l">'
-                    + '<a href="'+ctx+'/problem/answer/'
-                    + data[i].answerId+"/"+data[i].problemId
+            if (data[i].content.length > 30) {
+                contentSub = '<h2 class="title l">'
+                    + '<a href="' + ctx + '/problem/answer/'
+                    + data[i].answerId + "/" + data[i].problemId
                     + '.htm'
                     + '"data-toggle="tooltip" data-placement="top" title="'
                     + data[i].content
                     + '">'
-                    + data[i].content.substring(0,30)
+                    + data[i].content.substring(0, 30)
                     + '</a></h2>';
-            }else{
+            } else {
                 contentSub = '<h2 class="title l">'
-                    + '<a href="'+ctx+'/problem/answer/'
-                    + data[i].answerId+"/"+data[i].problemId
+                    + '<a href="' + ctx + '/problem/answer/'
+                    + data[i].answerId + "/" + data[i].problemId
                     + '.htm'
                     + '"data-toggle="tooltip" data-placement="top">'
                     + data[i].content
@@ -187,7 +189,7 @@ function messageHtml(data,id) {
                 + '<div class="summary">'
                 + '<ul class="author list-inline">'
                 + '<li>'
-                + '<a style="text-decoration:none;">'+ data[i].userName + '  '
+                + '<a style="text-decoration:none;">' + data[i].userName + '  '
                 + formatTime(data[i].createTime)
                 + '</a>'
                 + '</li>'
