@@ -1,13 +1,13 @@
 package net.begincode.core.service;
 
+import net.begincode.common.BizException;
 import net.begincode.core.enums.AgreeEnum;
-import net.begincode.core.enums.UpdateAnsAgreeResponseEnum;
+import net.begincode.core.enums.AnsAgreeResponseEnum;
 import net.begincode.core.mapper.AnsAgreeMapper;
 import net.begincode.core.model.AnsAgree;
 import net.begincode.core.model.AnsAgreeExample;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.BegincodeUser;
-import net.begincode.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,8 +58,6 @@ public class AnsAgreeService {
      * @return: int
      */
     public int insertSelective(AnsAgree ansAgree) {
-        Integer ansAgreeInt = ansAgreeMapper.insertSelective(ansAgree);
-        ExceptionUtil.ThrowUpdateBizException(ansAgreeInt, logger, UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
         return ansAgreeMapper.insertSelective(ansAgree);
     }
 
@@ -105,10 +103,12 @@ public class AnsAgreeService {
     public int updateAnsAgree(AnsAgree ansAgree) {
         AnsAgreeExample ansAgreeExample = new AnsAgreeExample();
         ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(ansAgree.getBegincodeUserId()).andAnswerIdEqualTo(ansAgree.getAnswerId());
-        Integer updateInt = ansAgreeMapper.updateByExampleSelective(ansAgree, ansAgreeExample);
-        ExceptionUtil.ThrowUpdateBizException(updateInt, logger, UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
-        return updateInt;
-
+        try {
+            return ansAgreeMapper.updateByExampleSelective(ansAgree, ansAgreeExample);
+        }catch (BizException bizException){
+            logger.error(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR.getMessage());
+            throw new BizException(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+        }
     }
 
     /**

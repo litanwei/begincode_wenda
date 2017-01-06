@@ -1,9 +1,9 @@
 import net.begincode.controller.UserController;
-import net.begincode.core.handler.*;
-import net.begincode.core.mapper.BizProblemMapper;
-import net.begincode.core.mapper.ProblemMapper;
-import net.begincode.core.model.*;
-import net.begincode.core.service.AnsAgreeService;
+import net.begincode.core.handler.AnsAgreeHandler;
+import net.begincode.core.handler.AnswerHandler;
+import net.begincode.core.handler.DemoHandler;
+import net.begincode.core.handler.UserHandler;
+import net.begincode.core.model.Demo;
 import net.begincode.core.service.BegincodeUserService;
 import net.begincode.core.service.ProblemService;
 import org.junit.Assert;
@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,39 +50,6 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
 
     @Resource
     private AnsAgreeHandler ansAgreeHandler;
-    @Test
-    public void sela(){
-        AnsAgree ansAgree = new AnsAgree();
-        ansAgree.setAgree(0);
-       // ansAgree.setAgree(0);
-        ansAgree.setAnswerId(136);
-        ansAgree.setBegincodeUserId(11);
-        ansAgreeHandler.updateAnswerAgrCountAndAnsAgree(ansAgree);
-    }
-
-    @Test
-    public void selb(){
-        AnsAgree ansAgree = new AnsAgree();
-        ansAgree.setAgree(2);
-        // ansAgree.setAgree(0);
-        ansAgree.setAnswerId(136);
-        ansAgree.setBegincodeUserId(11);
-        ansAgreeHandler.updateAnswerOppoCountAndAnsAgree(ansAgree);
-    }
-
-
-
-
-    @Test
-    public void selAnswer(){
-        Answer answer = new Answer();
-        answer.setProblemId(1);
-        List<Answer> answers = answerHandler.selAllAnswerByExample(answer);
-        for(Answer answer1:answers){
-            System.out.println(answer1.getUserName());
-        }
-    }
-
 
     @Test
     public void addDemoTest(){
@@ -100,41 +66,6 @@ public class DemoTest  extends AbstractJUnit4SpringContextTests {
 
     }
 
-    /**
-     *
-     * @Title：testFindOrCreateUser
-     * @Description: 测试用户登录
-     */
-    @Test
-    public void testLogin() {
-        response = new MockHttpServletResponse();
-        BegincodeUser user;
-        try {
-            user = new BegincodeUser();
-            user.setAccessToken("3");
-            user.setOpenId("3");
-            user.setCheckFlag("3");
-            user.setBegincodeUserId(3);
-            user.setNickname("3");
-            userController.findOrCreateUser(response,user);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-     @Resource
-    private MessageHandler messageHandler;
 
-    @Test
-    public void testaa(){
-        List<Problem> list = new ArrayList<>();
-        Problem p = new Problem();
-        p.setProblemId(6);
-        list.add(p);
-        Problem pa = new Problem();
-        pa.setProblemId(6);
-        list.add(pa);
-        System.out.print(list.size());
-        problemService.batchUpdateView(list);
-    }
 
 }

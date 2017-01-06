@@ -1,11 +1,11 @@
 package net.begincode.core.service;
 
+import net.begincode.common.BizException;
 import net.begincode.core.enums.*;
 import net.begincode.core.mapper.AnswerMapper;
 import net.begincode.core.mapper.BizAnswerMapper;
 import net.begincode.core.model.Answer;
 import net.begincode.core.model.AnswerExample;
-import net.begincode.utils.ExceptionUtil;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,11 +212,19 @@ public class AnswerService {
      */
     public void updateAgrCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.AGREE.getCode())){
-            Integer updateInt = bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
-            ExceptionUtil.ThrowUpdateBizException(updateInt,logger,UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+            try {
+                bizAnswerMapper.updateAgrCountAddByAnswerId(answerId);
+            }catch (BizException bizException){
+                logger.error(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR.getMessage());
+                throw new BizException(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+            }
         }else{
-            Integer updateInt = bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
-            ExceptionUtil.ThrowUpdateBizException(updateInt,logger,UpdateAnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+            try {
+                bizAnswerMapper.updateAgrCountReduceByProblemId(answerId);
+            }catch (BizException bizException){
+                logger.error(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR.getMessage());
+                throw new BizException(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
+            }
         }
     }
 
@@ -228,11 +236,19 @@ public class AnswerService {
      */
     public void updateOppoCountByAnswerId(Integer answerId,Integer agreeFlag){
         if(agreeFlag.intValue() == Integer.parseInt(AgreeEnum.OPPOSITION.getCode())){
-            Integer updateInt = bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
-            ExceptionUtil.ThrowUpdateBizException(updateInt,logger, AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
+            try {
+                bizAnswerMapper.updateOppoCountAddByProblemId(answerId);
+            }catch (BizException bizException){
+                logger.error(AnsSetResponseEnum.ANSWER_OPERATION_ERROR.getMessage());
+                throw new BizException(AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
+            }
         }else{
-            Integer updateInt = bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
-            ExceptionUtil.ThrowUpdateBizException(updateInt,logger, AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
+            try {
+                bizAnswerMapper.updateOppoCountReduceByProblemId(answerId);
+            }catch (BizException bizException){
+                logger.error(AnsSetResponseEnum.ANSWER_OPERATION_ERROR.getMessage());
+                throw new BizException(AnsSetResponseEnum.ANSWER_OPERATION_ERROR);
+            }
         }
     }
 
