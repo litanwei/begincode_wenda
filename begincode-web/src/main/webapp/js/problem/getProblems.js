@@ -73,6 +73,6 @@ function problemFormatTime(answerUserId,problemAuthorNameId,problemAuthorName, s
     if (size == 0) {
         return "<a href='" + ctx + "/user/" + problemAuthorNameId + ".htm'>" + problemAuthorName + "</a>" + " " + formatTime(time) + "提问";
     } else {
-        return "<a href=" + ctx + "'/user/" + answerUserId + ".htm'>" + answerName + "</a>" + " " + formatTime(answerTime) + "回答";
+        return "<a href='" + ctx + "/user/" + answerUserId + ".htm'>" + answerName + "</a>" + " " + formatTime(answerTime) + "回答";
     }
 }

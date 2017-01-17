@@ -31,7 +31,6 @@
     <mvc:interceptors>
         <!-- 如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
         <bean class="net.begincode.core.support.AuthInterceptor"></bean>
-        <bean class="net.begincode.maiev.interceptor.MaievInterceptor"></bean>
     </mvc:interceptors>
 
 
