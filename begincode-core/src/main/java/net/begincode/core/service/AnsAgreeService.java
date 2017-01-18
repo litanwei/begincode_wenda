@@ -126,7 +126,6 @@ public class AnsAgreeService {
 
         }
         return answerIdList;
-
     }
     /**
      *根据回复id获取反对数量

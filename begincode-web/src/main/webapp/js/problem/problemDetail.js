@@ -138,7 +138,8 @@ $(document).ready(function () {
 
 //赞同按钮处理
 var agreeFlag = 0;
-$(":button").click(function () {
+$("#votebar :button").click(function () {
+    alert("触发测试");
     var answerId = $(this).parent().prev("input").val();
     var thisClick = $(this);
     if (thisClick.hasClass("click-like")) {
