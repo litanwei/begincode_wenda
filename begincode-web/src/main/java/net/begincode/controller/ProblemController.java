@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -194,36 +195,29 @@ public class ProblemController {
      * @param begincodeUser
      */
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
+
+        Map problemList = problemHandler.selectProblemAndAnswerdsById(problemId,begincodeUser);
         List<Answer> answerAdoptList = new ArrayList<>();
+        answerAdoptList = (List<Answer>) problemList.get("answerAdoptList");
         List<Answer> answerNoAdoptList = new ArrayList<>();
-        List<String> newAdoptTime = new ArrayList<>();
-        List<String> newNoAdoptTime = new ArrayList<>();
-        List<Integer> answerAdoptAgreeFlag = new ArrayList<>();
-        List<Integer> answerNoAdoptAgreeFlag = new ArrayList<>();
-        List<Label> labels = new ArrayList<>();
-        //如果是用户进来 则判断用户所是否有收藏或投票此问题
-        StringBuffer problemTime = new StringBuffer();
-        Problem problem = problemHandler.selectProblemAndAnswerdsById(problemId, labels, problemTime, begincodeUser,
-                answerAdoptList, answerNoAdoptList,
-                newAdoptTime, newNoAdoptTime,
-                answerAdoptAgreeFlag, answerNoAdoptAgreeFlag);
+        answerNoAdoptList = (List<Answer>) problemList.get("answerNoAdoptList");
         if (begincodeUser != null) {
-            model.addAttribute("proAttention", fillProAttention(begincodeUser, problem));
+            model.addAttribute("proAttention", fillProAttention(begincodeUser, (Problem) problemList.get("problem")));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
-                model.addAttribute("answerAdoptAgreeFlag", answerAdoptAgreeFlag);
-                model.addAttribute("answerNoAdoptAgreeFlag", answerNoAdoptAgreeFlag);
+                model.addAttribute("answerAdoptAgreeFlag", problemList.get("answerAdoptAgreeFlag"));
+                model.addAttribute("answerNoAdoptAgreeFlag", problemList.get("answerNoAdoptAgreeFlag"));
             }
         }
         //采纳回复
         model.addAttribute("answerAdoptList", answerAdoptList);
-        model.addAttribute("newAdoptTime", newAdoptTime);
+        model.addAttribute("newAdoptTime",  problemList.get("newAdoptTime"));
         //未采纳回复
         model.addAttribute("answerNoAdoptList", answerNoAdoptList);
-        model.addAttribute("newNoAdoptTime", newNoAdoptTime);
+        model.addAttribute("newNoAdoptTime", problemList.get("newNoAdoptTime"));
         //问题 标签
-        model.addAttribute("problem", problem);
-        model.addAttribute("labels", labels);
-        model.addAttribute("problemTime", problemTime);
+        model.addAttribute("problem", problemList.get("problem"));
+        model.addAttribute("labels", problemList.get("labels"));
+        model.addAttribute("problemTime", problemList.get("problemTime"));
     }
 
 

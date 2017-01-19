@@ -256,6 +256,50 @@ public class ProblemHandler {
         return problem;
     }
 
+
+    /**
+     * 问题详情页
+     *
+     * @param problemId
+     * @param begincodeUser
+     * @return 存放问题详情页所需要的数据
+     */
+    public Map selectProblemAndAnswerdsById(Integer problemId,BegincodeUser begincodeUser) {
+        HashMap problemList = new HashMap();
+        List<String> adoptTimeList = new ArrayList<>();
+        List<String> noAdoptTimeList = new ArrayList<>();
+
+        //采纳的回复
+        List<Answer> answeList = answerService.findAdoptByProblemId(problemId);
+        problemList.put("answerAdoptList",answeList);
+        List<Integer> answerAdoptAgreeFlag = ansAgreeService.selectAnsAgreeList(begincodeUser, answeList);
+        problemList.put("answerAdoptAgreeFlag",answerAdoptAgreeFlag);
+        for (int a = 0; a < answeList.size(); a++) {
+            adoptTimeList.add(DateUtil.getTimeFormatText(answeList.get(a).getCreateTime()));
+        }
+        problemList.put("adoptTimeList",adoptTimeList);
+
+        //未采纳的回复
+        answeList = answerService.findNotAdoptByProblemId(problemId);
+        problemList.put("answerNoAdoptList",answeList);
+        answerAdoptAgreeFlag = ansAgreeService.selectAnsAgreeList(begincodeUser, answeList);
+        problemList.put("answerNoAdoptAgreeFlag",answerAdoptAgreeFlag);
+        for (int a = 0; a < answeList.size(); a++) {
+            noAdoptTimeList.add(DateUtil.getTimeFormatText(answeList.get(a).getCreateTime()));
+        }
+        problemList.put("noAdoptTimeList",noAdoptTimeList);
+        //标签
+        List<Label> labels = getLabelByProblemId(problemId);
+        problemList.put("labels",labels);
+        //问题
+        Problem problem = problemService.selProblemById(problemId);
+        problemList.put("problem",problem);
+        problemList.put("problemTime",DateUtil.getTimeFormatText(problem.getCreateTime()));
+
+
+        return problemList;
+    }
+
     /**
      * 传入一个问题列表返回一个分页 List 数据包
      *

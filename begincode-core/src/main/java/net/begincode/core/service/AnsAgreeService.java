@@ -150,7 +150,6 @@ public class AnsAgreeService {
 
         }
         return answerIdList;
-
     }
 
     /**
