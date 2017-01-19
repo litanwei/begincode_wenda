@@ -21,8 +21,8 @@ public class QiniuUtil {
     private static Logger logger = LoggerFactory.getLogger(QiniuUtil.class);
 
     //设置好账号的ACCESS_KEY和SECRET_KEY
-    private static final String ACCESS_KEY = "2liIyhpQX6QXv-tFS6HpWGWnAD6J4M8bRKOaDMKv";
-    private static final String SECRET_KEY = "AvTcIsqLYm_zZomEFqkRul3vgrwUiZyKWmk1-lG3";
+    private static final String ACCESS_KEY = "32liIyhpQX6QXv-tFS6HpWGWnAD6J4M8bRKOaDMKv";
+    private static final String SECRET_KEY = "3AvTcIsqLYm_zZomEFqkRul3vgrwUiZyKWmk1-lG3";
     //要上传的空间
     private static final String bucketname = "begincode";
     //密钥配置

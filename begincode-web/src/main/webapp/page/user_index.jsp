@@ -19,7 +19,7 @@
 <jsp:include page="/page/core/top.jsp"/>
 <div class="container-fluid">
     <div class="row clearfix">
-        <div class="col-md-2 column">
+        <div class="col-md-3 column">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -39,7 +39,7 @@
             </div>
         </div>
        <input id="begincodeUserId" type="hidden" value="${user.begincodeUserId}"/>
-        <div class="col-md-10 column">
+        <div class="col-md-9 column">
             <div class="tabbable" id="tabs-657849">
                 <ul class="nav nav-tabs">
                     <li class="active">
