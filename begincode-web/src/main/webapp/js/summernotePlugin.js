@@ -62,7 +62,7 @@ function sendFile(file,editor,welEditable) {
         dataType:"json",
         success: function(data) {
             if (data.code == 0) {
-                $(docId).summernote('insertImage', "http://o7kl8ob0l.bkt.clouddn.com/"+data.data.key);
+                $(docId).summernote('insertImage', "http://ohjuerr0t.bkt.clouddn.com/"+data.data.key);
             } else {
                 showModelNoBack(data.msg);
             }
