@@ -197,10 +197,8 @@ public class ProblemController {
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
 
         Map problemList = problemHandler.selectProblemAndAnswerdsById(problemId,begincodeUser);
-        List<Answer> answerAdoptList = new ArrayList<>();
-        answerAdoptList = (List<Answer>) problemList.get("answerAdoptList");
-        List<Answer> answerNoAdoptList = new ArrayList<>();
-        answerNoAdoptList = (List<Answer>) problemList.get("answerNoAdoptList");
+        List<Answer> answerAdoptList = (List<Answer>) problemList.get("answerAdoptList");
+        List<Answer> answerNoAdoptList = (List<Answer>) problemList.get("answerNoAdoptList");
         if (begincodeUser != null) {
             model.addAttribute("proAttention", fillProAttention(begincodeUser, (Problem) problemList.get("problem")));
             if (answerAdoptList.size() != 0 || answerNoAdoptList.size() != 0) {
@@ -210,10 +208,10 @@ public class ProblemController {
         }
         //采纳回复
         model.addAttribute("answerAdoptList", answerAdoptList);
-        model.addAttribute("newAdoptTime",  problemList.get("newAdoptTime"));
+        model.addAttribute("newAdoptTime", problemList.get("adoptTimeList"));
         //未采纳回复
         model.addAttribute("answerNoAdoptList", answerNoAdoptList);
-        model.addAttribute("newNoAdoptTime", problemList.get("newNoAdoptTime"));
+        model.addAttribute("newNoAdoptTime", problemList.get("noAdoptTimeList"));
         //问题 标签
         model.addAttribute("problem", problemList.get("problem"));
         model.addAttribute("labels", problemList.get("labels"));

@@ -288,6 +288,7 @@ public class ProblemHandler {
             noAdoptTimeList.add(DateUtil.getTimeFormatText(answeList.get(a).getCreateTime()));
         }
         problemList.put("noAdoptTimeList",noAdoptTimeList);
+
         //标签
         List<Label> labels = getLabelByProblemId(problemId);
         problemList.put("labels",labels);

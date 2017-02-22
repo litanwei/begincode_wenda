@@ -47,14 +47,6 @@ public class DateUtil {
         return "刚刚";
     }
 
-    public static List<String> getTimeFormatTextList(List<Date> dates) {
-            List<String> timeList = new ArrayList<>();
-        for (Date date: dates) {
-            timeList.add(getTimeFormatText(date));
-        }
-        return timeList;
-    }
-
     public static int getCurrentMonthDay() {
         Calendar a = Calendar.getInstance();
         a.set(Calendar.DATE, 1);
@@ -63,11 +55,6 @@ public class DateUtil {
         return maxDate;
     }
 
-    public static Date parseDateFromTime(Date dateTime) throws ParseException {
-        Date reDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        reDate = dateFormat.parse(dateFormat.format(dateTime));
-        return reDate;
-    }
+
 }
 
