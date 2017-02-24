@@ -6,7 +6,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.iterator;
 
 /**
  * Created by Stay on 2016/10/18  15:32.
@@ -51,12 +54,12 @@ public class JsoupUtil {
         HashSet<Integer> hashSet = new HashSet<>();
         Document doc = Jsoup.parse(content);
         Elements element = doc.getElementsByClass("message_").select("a");
+        String[] attrChar = null;
         for(Element e : element){
-            hashSet.add(Integer.parseInt(e.attr("href").replace(".", "/").split("/")[2]));
+            attrChar = e.attr("href").replace(".","/").split("/");
+            hashSet.add(Integer.parseInt(attrChar[attrChar.length-2]));
         }
         return hashSet;
     }
-
-
 
 }

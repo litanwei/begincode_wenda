@@ -196,7 +196,7 @@ public class ProblemController {
      */
     private void fillProblem(Model model, int problemId, BegincodeUser begincodeUser) {
 
-        Map problemList = problemHandler.selectProblemAndAnswerdsById(problemId,begincodeUser);
+        Map problemList = problemHandler.selectProblemAndAnswerdsById(problemId, begincodeUser);
         List<Answer> answerAdoptList = (List<Answer>) problemList.get("answerAdoptList");
         List<Answer> answerNoAdoptList = (List<Answer>) problemList.get("answerNoAdoptList");
         if (begincodeUser != null) {
