@@ -36,7 +36,7 @@ public class RequestAspect {
 
 
     @Around("pointCut_()")
-    public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint proceedingJoinPoint) {
         Object[] objects = proceedingJoinPoint.getArgs();
         for (int i = 0; i < objects.length; i++) {
             if (objects[i] instanceof Param) {
@@ -47,7 +47,12 @@ public class RequestAspect {
         MethodSignature joinPointObject = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = joinPointObject.getMethod();
         boolean flag = method.isAnnotationPresent(ResponseBody.class);
-        Object returnObject = proceedingJoinPoint.proceed();
+        Object returnObject = null;
+        try {
+            returnObject = proceedingJoinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         if (flag && method.getReturnType().equals(Void.TYPE)) {
             voidResponse();
         }

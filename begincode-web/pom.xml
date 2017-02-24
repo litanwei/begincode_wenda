@@ -73,6 +73,10 @@
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.begincode</groupId>
+			<artifactId>maiev-client</artifactId>
+		</dependency>
 	</dependencies>
 
 
