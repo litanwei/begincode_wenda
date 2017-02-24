@@ -6,10 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.iterator;
 
 /**
  * Created by Stay on 2016/10/18  15:32.
