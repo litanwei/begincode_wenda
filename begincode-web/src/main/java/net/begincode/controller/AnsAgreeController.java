@@ -37,13 +37,14 @@ public class AnsAgreeController {
     @ResponseBody
     @RequestMapping(value = "/setAgree", method = RequestMethod.POST)
     @AuthPassport
-    public void setAnswerAgreeFlag(int answerId,int agreeFlag,HttpServletRequest request){
+    public Object setAnswerAgreeFlag(int answerId,int agreeFlag,HttpServletRequest request){
         BegincodeUser begincodeUser = accountContext.getCurrentUser(request);
         AnsAgree ansAgree = new AnsAgree();
         ansAgree.setAnswerId(answerId);
         ansAgree.setAgree(agreeFlag);
         ansAgree.setBegincodeUserId(begincodeUser.getBegincodeUserId());
         ansAgreeHandler.updateAnswerAgrCountAndAnsAgree(ansAgree);
+        return ansAgree;
     }
 
 

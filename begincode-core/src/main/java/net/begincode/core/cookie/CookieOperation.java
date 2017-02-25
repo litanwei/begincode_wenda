@@ -66,7 +66,7 @@ public class CookieOperation {
 	 */
 	public static BegincodeUser getUser(HttpServletRequest request){
 		Map<String,String> map = getCookie(request);
-		if(map != null && !map.get("openId").equals("")){
+		if(map != null){
 			BegincodeUser user = new BegincodeUser();
 			user.setOpenId(map.get("openId"));
 			return user;

@@ -32,10 +32,7 @@ public class AnsAgreeHandler {
                 //反对数减一
                 answerService.updateOppoCountByAnswerId(ansAgree.getAnswerId(), ansAgree.getAgree());
             }
-            //赞同由service处理 对应service处理机制 ansAgree.getAgree()为0，赞同数减1；为1，赞同数加1。
-            if(ansAgree.getAgree() != 0 || ansAgreeNum == 1) {
                 answerService.updateAgrCountByAnswerId(ansAgree.getAnswerId(), ansAgree.getAgree());
-            }
         }
     }
 
@@ -52,10 +49,7 @@ public class AnsAgreeHandler {
                 //赞同数减一
                 answerService.updateAgrCountByAnswerId(ansAgree.getAnswerId(), ansAgree.getAgree());
             }
-            if(ansAgree.getAgree() != 0 || ansAgreeNum == 2) {
-                //赞同由service处理 对应service处理机制 ansAgree.getAgree()为0，反对数减1；为2，反对数加1。
                 answerService.updateOppoCountByAnswerId(ansAgree.getAnswerId(), ansAgree.getAgree());
-            }
         }
     }
 }

@@ -38,9 +38,6 @@ public class AnsAgreeService {
      */
     public int selAndUpdateAnsAgree(AnsAgree ansAgree) {
         AnsAgree ans = selAnsAgreeByAnsId(ansAgree.getBegincodeUserId(), ansAgree.getAnswerId());
-        if (ansAgree.getAgree() == 0 && ans.getAgree() == 0) {
-            return 0;
-        }
         if (ans != null) {
             updateAnsAgree(ansAgree);
             return ans.getAgree();
@@ -105,7 +102,7 @@ public class AnsAgreeService {
         ansAgreeExample.createCriteria().andBegincodeUserIdEqualTo(ansAgree.getBegincodeUserId()).andAnswerIdEqualTo(ansAgree.getAnswerId());
         try {
             return ansAgreeMapper.updateByExampleSelective(ansAgree, ansAgreeExample);
-        }catch (BizException bizException){
+        } catch (BizException bizException) {
             logger.error(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR.getMessage());
             throw new BizException(AnsAgreeResponseEnum.ANSAGREE_UPDATE_ERROR);
         }

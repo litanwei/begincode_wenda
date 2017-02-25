@@ -137,26 +137,30 @@ $(document).ready(function () {
 });
 
 //赞同按钮处理
-var agreeFlag = 0;
-$("#votebar :button").click(function () {
-    alert("触发测试");
+//var agreeFlag = 0;
+$(".votebar :button").click(function () {
     var answerId = $(this).parent().prev("input").val();
     var thisClick = $(this);
     if (thisClick.hasClass("click-like")) {
         if (thisClick.hasClass("pressed")) {
-            agreeFlag = 0;
+            //agreeFlag = 0;
+            ansAgree(answerId,'0',thisClick);
         } else {
-            agreeFlag = 1;
+            //agreeFlag = 1;
+            ansAgree(answerId,'1',thisClick);
         }
     } else {
         if (thisClick.hasClass("pressed")) {
-            agreeFlag = 0;
+            //agreeFlag = 0;
+            ansOpposition(answerId, '0', thisClick);
         } else {
-            agreeFlag = 2;
+            //agreeFlag = 2;
+            ansOpposition(answerId, '2', thisClick);
         }
     }
-    ansOpposition(answerId, agreeFlag, thisClick);
+    //ansOpposition(answerId, agreeFlag, thisClick);
 })
+
 
 
 // 回复反馈
@@ -339,24 +343,31 @@ function updateAnswer(data, id, ansAgreeFlag) {
     $("#" + id).after(answerUpdate);
 
     $(".votebar").on("click", "button", function () {
-        var agreeFlag = 0;
+        //var agreeFlag = 0;
         var thisClick = $(this);
+        var answerId = $(this).parent().prev("input").val();
         if (thisClick.hasClass("click-like")) {
             if (thisClick.hasClass("pressed")) {
-                agreeFlag = 0;
+                //agreeFlag = 0;
+                ansAgree(answerId, '0', thisClick);
             } else {
-                agreeFlag = 1;
+                //agreeFlag = 1;
+                ansAgree(answerId, '1', thisClick);
             }
         } else {
             if (thisClick.hasClass("pressed")) {
-                agreeFlag = 0;
+                //agreeFlag = 0;
+                ansOpposition(answerId, '0', thisClick);
+                //ansAgree(answerId, 0, thisClick)
             } else {
-                agreeFlag = 2;
+                //agreeFlag = 2;
+                ansOpposition(answerId, '2', thisClick);
+                //ansAgree(answerId, 2, thisClick)
             }
         }
-        var answerId = $(this).parent().prev("input").val();
 
-        ansAgree(answerId, agreeFlag, thisClick)
+
+        //ansAgree(answerId, agreeFlag, thisClick)
     })
 
 }
