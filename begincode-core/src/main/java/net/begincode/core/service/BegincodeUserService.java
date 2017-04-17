@@ -121,6 +121,20 @@ public class BegincodeUserService {
     }
 
     /**
+     * 根据openId查找BegincodeUser
+     *
+     * @param openId
+     * @return 不存在返回空 存在就返回此对象
+     */
+    public BegincodeUser selectByOpenId(String openId) {
+        BegincodeUserExample begincodeUserExample = new BegincodeUserExample();
+        BegincodeUserExample.Criteria criteria = begincodeUserExample.createCriteria();
+        criteria.andOpenIdEqualTo(openId);
+        List<BegincodeUser> list = begincodeUserMapper.selectByExample(begincodeUserExample);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    /**
      * openId查找用户
      *
      * @return BegincodeUser

@@ -2,9 +2,11 @@ package net.begincode.core.support;
 
 import net.begincode.core.cookie.CookieOperation;
 import net.begincode.core.model.BegincodeUser;
+import net.begincode.core.service.BegincodeUserService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /**
@@ -18,6 +20,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public static final String NOLOGIN_JSON = "{\"msg\":\"未登录或已登出，请重新登录\"}";
     public static final String NOLOGIN_MSG = "检测到您的操作处于未登录或登录时间超时状态，请重新登录。";
 
+    @Resource
+    private BegincodeUserService begincodeUserService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -30,7 +34,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             //cookie验证账户权限
             BegincodeUser begincodeUser = CookieOperation.getUser(request);
             if (begincodeUser != null){
-                return true;
+                begincodeUser = begincodeUserService.selectByOpenId(begincodeUser.getOpenId());
+                if(begincodeUser.getBegincodeUserId()!=null){
+                    return true;
+                }
             }
             //跳转到首页
             String requestType = request.getHeader("X-Requested-With");
